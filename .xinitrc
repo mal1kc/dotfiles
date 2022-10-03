@@ -1,4 +1,4 @@
-kcminit kcm_touchpad &
+setxkbmap -layout tr &
 xrdb .Xresources &
 keepassxc &
 /usr/lib/kdeconnectd &
