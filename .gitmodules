@@ -1,0 +1,9 @@
+[submodule "git-clones/dwm"]
+	path = git-clones/dwm
+	url = git://git.suckless.org/dwm
+[submodule "git-clones/slstatus"]
+	path = git-clones/slstatus
+	url = git://git.suckless.org/slstatus
+[submodule "git-clones/yay"]
+	path = git-clones/yay
+	url = https://aur.archlinux.org/yay

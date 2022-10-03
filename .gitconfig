@@ -1,0 +1,14 @@
+[credential]
+	helper = store
+[user]
+	email = 59576495+mal1kc@users.noreply.github.com
+	name = mal1kc
+[core]
+	editor = nvim
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[init]
+	defaultBranch = main
