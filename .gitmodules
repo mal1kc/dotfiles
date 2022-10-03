@@ -10,3 +10,6 @@
 [submodule "scripts/dwm-bar"]
 	path = scripts/dwm-bar
 	url = https://github.com/joestranding/dwm-bar
+[submodule "git-clones/ly"]
+	path = git-clones/ly
+	url = https://aur.archlinux.org/ly
