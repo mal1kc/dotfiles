@@ -7,3 +7,6 @@
 [submodule "git-clones/yay"]
 	path = git-clones/yay
 	url = https://aur.archlinux.org/yay
+[submodule "scripts/dwm-bar"]
+	path = scripts/dwm-bar
+	url = https://github.com/joestranding/dwm-bar
