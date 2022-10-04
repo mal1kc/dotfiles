@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 061ad66..a379eb1 100644
+index 061ad66..5aba5f9 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,115 +1,151 @@
+@@ -1,115 +1,154 @@
  /* See LICENSE file for copyright and license details. */
 -
  /* appearance */
@@ -177,9 +177,12 @@ index 061ad66..a379eb1 100644
 +    {0, XF86XK_AudioRaiseVolume, spawn, {.v = upvol}},
 +    {0, XF86XK_AudioLowerVolume, spawn, {.v = downvol}},
 +    {0, XF86XK_AudioMute, spawn, {.v = togglevol}},
++    {0, XF86XK_AudioNext, spawn, {.v = playernext}},
++    {0, XF86XK_AudioPrev, spawn, {.v = playerprevious}},
++    {0, XF86XK_AudioPlay, spawn, {.v = playerplaytoggle}},
 +    {MODKEY, XF86XK_AudioRaiseVolume, spawn, {.v = playernext}},
-+    {MODKEY, XF86XK_AudioLowerVolume, spawn, {.v = playerprevious}},
-+    {MODKEY, XF86XK_AudioMute, spawn, {.v = playerplaytoggle}},
++    {MODKEY, XF86XK_AudioMute, spawn, {.v = playerprevious}},
++    {MODKEY, XF86XK_AudioLowerVolume, spawn, {.v = playerplaytoggle}},
 +    {MODKEY, XK_p, spawn, {.v = roficmd}},
 +    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
 +    {MODKEY, XK_b, togglebar, {0}},
