@@ -1,5 +1,5 @@
 kcminit kcm_touchpad &
-xrdb .Xresources &
+xrdb -merge .Xresources &
 keepassxc &
 /usr/lib/kdeconnectd &
 slstatus &
