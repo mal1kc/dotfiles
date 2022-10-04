@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 93a875a..7b78189 100644
+index 93a875a..35a6b0e 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -65,5 +65,11 @@ static const char unknown_str[] = "n/a";
@@ -7,11 +7,11 @@ index 93a875a..7b78189 100644
  static const struct arg args[] = {
  	/* function format          argument */
 -	{ datetime, "%s",           "%F %T" },
-+	{ datetime,   "%s",           			"%F %T" },
++	{ datetime,   "%s ",           			"%F %T" },
 +	{ uptime,      	"| %s ",        			NULL},
-+	{ ram_used,    	"| ram %s ",        			NULL},
-+	{ cpu_perc,    	"| cpu %s ",   			NULL},
-+	{ netspeed_rx, 	"| \uf6d9 %s - ", 		"enp7s0"},
-+	{ netspeed_tx, 	"  \ufa51 %s ", 			"enp7s0"},
++	{ ram_used,    	"|  %s ",        			NULL},
++	{ cpu_perc,    	"|  %s ",   			NULL},
++	{ netspeed_rx, 	"| \uf6d9%s ", 		"enp7s0"},
++	{ netspeed_tx, 	" \ufa51%s ", 			"enp7s0"},
 +	{ run_command, 	"| %s ", 							"wpctl get-volume @DEFAULT_AUDIO_SINK@"},
  };
