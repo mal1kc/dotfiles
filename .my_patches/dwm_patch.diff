@@ -1,8 +1,8 @@
 diff --git a/config.def.h b/config.def.h
-index 061ad66..af9db9a 100644
+index 061ad66..a379eb1 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,115 +1,133 @@
+@@ -1,115 +1,151 @@
  /* See LICENSE file for copyright and license details. */
 -
  /* appearance */
@@ -21,6 +21,9 @@ index 061ad66..af9db9a 100644
 -	/*               fg         bg         border   */
 -	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 -	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
++
++#include <X11/XF86keysym.h> /* for x11 keys */
++
 +static const unsigned int borderpx = 3; /* border pixel of windows */
 +static const Gap default_gap = {.isgap = 1, .realgap = 10, .gappx = 10};
 +
@@ -124,6 +127,15 @@ index 061ad66..af9db9a 100644
 -
 +// static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb",
 +// col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
++static const char *upvol[] = {"wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@",
++                              "5%+", NULL};
++static const char *downvol[] = {"wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@",
++                                "5%-", NULL};
++static const char *togglevol[] = {"wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@",
++                                  "toggle", NULL};
++static const char *playernext[] = {"playerctl", "next", NULL};
++static const char *playerprevious[] = {"playerctl", "previous", NULL};
++static const char *playerplaytoggle[] = {"playerctl", "play-pause", NULL};
 +static const char *termcmd[] = {"kitty", NULL};
 +static const char *roficmd[] = {"rofi", "-show", "drun", "-show-emojis", NULL};
  static const Key keys[] = {
@@ -162,6 +174,12 @@ index 061ad66..af9db9a 100644
 -	TAGKEYS(                        XK_9,                      8)
 -	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 +    /* modifier                     key        function        argument */
++    {0, XF86XK_AudioRaiseVolume, spawn, {.v = upvol}},
++    {0, XF86XK_AudioLowerVolume, spawn, {.v = downvol}},
++    {0, XF86XK_AudioMute, spawn, {.v = togglevol}},
++    {MODKEY, XF86XK_AudioRaiseVolume, spawn, {.v = playernext}},
++    {MODKEY, XF86XK_AudioLowerVolume, spawn, {.v = playerprevious}},
++    {MODKEY, XF86XK_AudioMute, spawn, {.v = playerplaytoggle}},
 +    {MODKEY, XK_p, spawn, {.v = roficmd}},
 +    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
 +    {MODKEY, XK_b, togglebar, {0}},
