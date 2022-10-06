@@ -1,11 +1,11 @@
 #!/bin/bash
 setxkbmap -layout tr &
 xrdb .Xresources &
-keepassxc &
-/usr/lib/kdeconnectd &
 slstatus &
 dunst &
 xcompmgr -c &
+keepassxc &
+kdeconnect-indicator &
 mpv --no-video ~/.config/my_extra_configs/sounds/new_bell.ogg &
 sh ~/.config/my_extra_configs/mount_parts.sh &
 sh ~/.config/my_extra_configs/change_wallpaper.sh &
