@@ -5,7 +5,8 @@ keepassxc &
 slstatus &
 dunst &
 mpv --no-video ~/.config/my_extra_configs/sounds/new_bell.ogg &
-sh ~/mount_parts.sh &
+sh ~/.config/my_extra_configs/mount_parts.sh &
+sh ~/.config/my_extra_configs/change_wallpaper.sh &
 while true; do
     # Log stderror to a file 
     dwm 2> ~/.dwm.log
