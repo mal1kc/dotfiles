@@ -12,12 +12,25 @@ export FZF_DEFAULT_OPTS="--color=bg+:\#302D41,bg:\#1E1E2E,spinner:\#F8BD96,hl:\#
 
 export NNN_PLUG='f:finder;o:fzopen;p:preview-tui;b:!bat $nnn;m:cmusq;d:diffs;t:nmount;v:imgview;'
 
+function git_tree -d "git log oneline graph"
+    command git log --graph --all --pretty=oneline --abbrev-commit
+end
+
 function fish_title
     # `prompt_pwd` shortens the title. This helps prevent tabs from becoming very wide.
     echo $argv[1] (prompt_pwd)
     pwd
 end
 
+function notify
+    set -l job (jobs -l -g)
+    or begin; echo "There are no jobs" >&2; return 1; end
+
+    function _notify_job_$job --on-job-exit $job --inherit-variable job
+        echo -n \a # beep
+        functions -e _notify_job_$job
+    end
+end
 
 # function fish_prompt -d "Write out the prompt"
 #     # $USER and $hostname are set by fish, so you can just use them
