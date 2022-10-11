@@ -150,4 +150,5 @@ configuration {
   }
 }
 
-@import "theme"
+// @import "theme"
+@import "~/.cache/wal/colors-rofi-dark.rasi"

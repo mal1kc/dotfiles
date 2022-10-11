@@ -8,8 +8,9 @@ if test "$TERM" = "xterm-kitty"
 alias ssh="kitty +kitten ssh"
 end
 
-export FZF_DEFAULT_OPTS="--color=bg+:\#302D41,bg:\#1E1E2E,spinner:\#F8BD96,hl:\#F28FAD --color=fg:\#D9E0EE,header:\#F28FAD,info:\#DDB6F2,pointer:\#F8BD96 --color=marker:\#F8BD96,fg+:\#F2CDCD,prompt:\#DDB6F2,hl+:\#F28FAD --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 
+export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+# export FZF_DEFAULT_OPTS="--black --color=spinner:\#F8BD96,hl:\#F28FAD --color=fg:\#D9E0EE,header:\#F28FAD,info:\#DDB6F2,pointer:\#F8BD96 --color=marker:\#F8BD96,fg+:\#F2CDCD,prompt:\#DDB6F2,hl+:\#F28FAD --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 export NNN_PLUG='f:finder;o:fzopen;p:preview-tui;b:!bat $nnn;m:cmusq;d:diffs;t:nmount;v:imgview;'
 
 function git_tree -d "git log oneline graph"
@@ -30,6 +31,22 @@ function notify
         echo -n \a # beep
         functions -e _notify_job_$job
     end
+end
+
+function change_wallpaper
+    set walpapers ~/Pictures/wallpapers/"mobil pc karışık resim"/
+    
+    #set file (printf "%s" "${wallpapers[RANDOM % ${#wallpapers[@]}]}")
+    set file (random choice $walpapers/*)
+    set -U wallpaper $file
+    echo $file
+    set target ~/.config/c_wallpaper.jpg
+    echo $target
+    cp -Hf "$file" "$target"
+    xwallpaper --maximize "$target"
+    wal -c
+    wal -i "$target" -ne -a 82
+    xrdb -merge ~/.cache/wal/colors.Xresources
 end
 
 # function fish_prompt -d "Write out the prompt"
