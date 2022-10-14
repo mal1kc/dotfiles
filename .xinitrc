@@ -1,5 +1,4 @@
 #!/bin/bash
-kcminit kcm_touchpad &
 xrdb -merge .Xresources &
 slstatus &
 keepassxc &
