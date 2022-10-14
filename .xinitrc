@@ -6,7 +6,7 @@ dunst &
 xcompmgr -c &
 keepassxc &
 kdeconnect-indicator &
-/usr/bin/emacs --deamon &
+/usr/bin/emacs --daemon &
 mpv --no-video ~/.config/my_extra_configs/sounds/new_bell.ogg &
 sh ~/.config/my_extra_configs/mount_parts.sh &
 sh ~/.config/my_extra_configs/change_wallpaper.sh &
