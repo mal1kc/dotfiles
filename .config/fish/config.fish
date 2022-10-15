@@ -73,4 +73,6 @@ function fish_greeting
     echo the time is (set_color yellow; date +%T; set_color normal)
 end
 
-zoxide init fish | source
+if command -q zoxide
+    zoxide init fish | source
+end
