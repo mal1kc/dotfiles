@@ -39,19 +39,18 @@
 *.color14: nord7
 *.color15: nord6
 !! URxvt Appearance
-URxvt.letterSpace: 0
 URxvt.lineSpace: 0
 ! URxvt.geometry: 92x24
-URxvt.internalBorder: 3
+URxvt.internalBorder: 1
 URxvt.cursorBlink: true
-URxvt.cursorUnderline: false
+URxvt.cursorUnderline: true
 ! URxvt.saveline: 2048
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.urgentOnBell: true
 ! URxvt.iso14755: false
-URxvt.font: xft:Bit*N*F:style=Bold
-
-URxvt.depth: 24
+URxvt.font: xft:Bit*Vera*Mono*:size=12
+URxvt.letterSpace: -1
+URxvt.depth: 32
 
 ! URxvt ------------------------
