@@ -3,9 +3,11 @@ setxkbmap -layout tr &
 xrdb .Xresources &
 slstatus &
 dunst &
-xcompmgr -c &
+#xcompmgr -c &
+picom &
 keepassxc &
 kdeconnect-indicator &
+blueman-applet &
 /usr/bin/emacs --daemon &
 mpv --no-video ~/.config/my_extra_configs/sounds/new_bell.ogg &
 sh ~/.config/my_extra_configs/mount_parts.sh &
