@@ -76,3 +76,16 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+;;
+(setq +format-on-save-enabled-modes
+      '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
+                sql-mode         ; sqlformat is currently broken
+                tex-mode         ; latexindent is broken
+                latex-mode))
+
+;;(add-hook 'python-mode-hook #'format-all-mode)
+;;(add-hook 'js2-mode-hook #'format-all-mode)
+
+;;(add-hook 'c++-mode-hook #'format-all-mode)
+;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
+;; (setq +python-jupyter-repl-args '("--simple-prompt"))
