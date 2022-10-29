@@ -1,4 +1,4 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -34,7 +34,7 @@
 ;; `load-theme' function. This is the default:
 
 (setq doom-theme 'doom-one)
-(setq doom-font (font-spec :family "Hack NF":size 18))
+(setq doom-font (font-spec :family "Hack":size 18))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -76,3 +76,17 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+;;
+(setq +format-on-save-enabled-modes
+      '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
+                sql-mode         ; sqlformat is currently broken
+                tex-mode         ; latexindent is broken
+                latex-mode))
+
+;;(add-hook 'python-mode-hook #'format-all-mode)
+;;(add-hook 'js2-mode-hook #'format-all-mode)
+
+;;(add-hook 'c++-mode-hook #'format-all-mode)
+;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
+;; (setq +python-jupyter-repl-args '("--simple-prompt"))
+
