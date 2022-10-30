@@ -82,7 +82,6 @@
                 sql-mode         ; sqlformat is currently broken
                 tex-mode         ; latexindent is broken
                 latex-mode))
-
 (add-hook 'python-mode-hook #'format-all-mode)
 (add-hook 'js2-mode-hook #'format-all-mode)
 
