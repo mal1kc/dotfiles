@@ -2,12 +2,15 @@ alias py=python
 
 alias create_ghub_repo="python ~/scripts/create-github-repo.py"
 alias show_sys_info="python ~/scripts/system_hardware_info.py"
-alias ls='lsd -a'
-alias ll='lsd -lha'
+alias ls='lsd -a --color=never'
+alias ll='lsd -lha --color=never'
 if test "$TERM" = "xterm-kitty"
 alias ssh="kitty +kitten ssh"
 end
 
+export EDITOR='/sbin/nvim'
+export SUDO_EDITOR=$EDITOR
+export PATH="$HOME/.local/bin:$PATH"
 
 export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 # export FZF_DEFAULT_OPTS="--black --color=spinner:\#F8BD96,hl:\#F28FAD --color=fg:\#D9E0EE,header:\#F28FAD,info:\#DDB6F2,pointer:\#F8BD96 --color=marker:\#F8BD96,fg+:\#F2CDCD,prompt:\#DDB6F2,hl+:\#F28FAD --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
@@ -53,11 +56,8 @@ end
 #     # $USER and $hostname are set by fish, so you can just use them
 #     # instead of using `whoami` and `hostname`
 #     set -l last_status $status
-
 #     prompt_login
-
 #     echo -n ':'
-
 #     # PWD
 #     set_color $fish_color_cwd
 #     echo -n (prompt_pwd)
@@ -76,3 +76,23 @@ end
 if command -q zoxide
     zoxide init fish | source
 end
+
+# Add pyenv executable to PATH by running
+# the following interactively:
+
+set -Ux PYENV_ROOT $HOME/.pyenv
+set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
+
+# Load pyenv automatically by appending
+# the following to ~/.config/fish/config.fish:
+
+pyenv init - | source
+
+# Restart your shell for the changes to take effect.
+
+if set -q VIRTUAL_ENV
+    echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
+end
+
+
+

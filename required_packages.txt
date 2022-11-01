@@ -75,3 +75,4 @@ ttf-hack
   # librewolf                 # more piracy firendly,much faster firefox
   # ly                        # tui login manager
 
+pyenv

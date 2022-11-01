@@ -42,7 +42,11 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(after! org
+  (setq org-directory "~/org/"
+        org-agenda-files "~/org/agenda.org"
+        )
+)
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -83,9 +87,9 @@
                 tex-mode         ; latexindent is broken
                 latex-mode))
 
-;;(add-hook 'python-mode-hook #'format-all-mode)
-;;(add-hook 'js2-mode-hook #'format-all-mode)
+(add-hook 'python-mode-hook #'format-all-mode)
+(add-hook 'js2-mode-hook #'format-all-mode)
+(add-hook 'c++-mode-hook #'format-all-mode)
 
-;;(add-hook 'c++-mode-hook #'format-all-mode)
 ;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
 ;; (setq +python-jupyter-repl-args '("--simple-prompt"))
