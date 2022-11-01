@@ -16,7 +16,7 @@ export NNN_PLUG='f:finder;o:fzopen;p:preview-tui;b:!bat $nnn;m:cmusq;d:diffs;t:n
 
 export EDITOR='/sbin/nvim'
 export SUDO_EDITOR=$EDITOR
-export PATH="~/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 function git_tree -d "git log oneline graph"
     command git log --graph --all --pretty=oneline --abbrev-commit
