@@ -13,6 +13,10 @@
 ;;
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
+;; (setenv "PATH"
+;;         (concat
+;;          "~/.local/bin" path-separator
+;;          (getenv "PATH")))
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh

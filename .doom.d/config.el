@@ -91,5 +91,13 @@
 (add-hook 'js2-mode-hook #'format-all-mode)
 (add-hook 'c++-mode-hook #'format-all-mode)
 
+
+;; (setenv "PATH"
+;;         (concat
+;;          "~/.local/bin" path-separator
+;;          (getenv "PATH")))
+
+
+
 ;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
 ;; (setq +python-jupyter-repl-args '("--simple-prompt"))
