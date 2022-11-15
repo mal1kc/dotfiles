@@ -1,4 +1,5 @@
 #!/bin/bash
+/usr/bin/prime-offload
 xrdb -merge .Xresources &
 slstatus &
 keepassxc &
@@ -12,3 +13,4 @@ sh ~/.config/my_extra_configs/change_wallpaper.sh &
     # No error logging
     #dwm >/dev/null 2>&1
 #done
+sudo /usr/bin/prime-switch
