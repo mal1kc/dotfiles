@@ -50,6 +50,7 @@ function change_wallpaper
     wal -c
     wal -i "$target" -ne -a 82
     xrdb -merge ~/.cache/wal/colors.Xresources
+    xdotool key Super_L+F5
 end
 
 # functions -e fish_greeting
