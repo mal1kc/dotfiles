@@ -1,11 +1,11 @@
 #!/bin/bash
-/usr/bin/prime-offload
+/usr/bin/prime-offload &
+xcompmgr -c &
 xrdb -merge .Xresources &
 slstatus &
 keepassxc &
 kdeconnect-indicator &
 dunst &
-xcompmgr -c &
 sh ~/.config/my_extra_configs/change_wallpaper.sh &
 #while true; do
     # Log stderror to a file 
