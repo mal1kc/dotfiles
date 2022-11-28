@@ -51,6 +51,6 @@ URxvt.urgentOnBell: true
 ! URxvt.iso14755: false
 URxvt.font: xft:Bit*Vera*Mono*:size=12
 URxvt.letterSpace: -1
-URxvt.depth: 32
+URxvt.depth: 12
 
 ! URxvt ------------------------

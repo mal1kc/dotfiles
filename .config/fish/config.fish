@@ -54,9 +54,10 @@ function change_wallpaper
     echo $target
     cp -Hf "$file" "$target"
     xwallpaper --maximize "$target"
-    # wal -c
-    # wal -i "$target" -ne -a 82
-    # xrdb -merge ~/.cache/wal/colors.Xresources
+    wal -c
+    wal -i "$target" -n -e -a 82
+    xrdb -merge ~/.cache/wal/colors.Xresources
+    xdotool key Super_L+F5
 end
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)
