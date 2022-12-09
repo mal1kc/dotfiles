@@ -65,3 +65,4 @@ function fish_greeting
 end
 
 zoxide init fish | source
+pyenv init - | source
