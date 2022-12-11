@@ -99,5 +99,10 @@
 
 (setq scroll-margin 10)
 
+(defun org-mode-src (lang)
+  "create src area in org-mode with specified LANG."
+  (interactive "swhat language source you write to ?:  ")
+       (insert (format "#+begin_src %s\n\n#+end_src" lang)))
+
 ;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
 ;; (setq +python-jupyter-repl-args '("--simple-prompt"))

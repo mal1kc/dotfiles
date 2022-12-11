@@ -14,8 +14,11 @@ export PATH="$HOME/.local/bin:$PATH"
 
 export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 # export FZF_DEFAULT_OPTS="--black --color=spinner:\#F8BD96,hl:\#F28FAD --color=fg:\#D9E0EE,header:\#F28FAD,info:\#DDB6F2,pointer:\#F8BD96 --color=marker:\#F8BD96,fg+:\#F2CDCD,prompt:\#DDB6F2,hl+:\#F28FAD --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
-export NNN_FIFO=/tmp/nnn.fifo
+
 export NNN_PLUG='z:autojump;f:finder;o:fzopen;p:preview-tui;b:!bat -p $nnn*;m:cmusq;d:diffs;v:imgview;'
+export NNN_TMPFILE='/tmp/.lastd'
+export NNN_TRASH=1 # n=1: trash-cli, n=2: gio trash
+export NNN_FIFO='/tmp/nnn.fifo'
 
 function git_tree -d "git log oneline graph"
     command git log --graph --all --pretty=oneline --abbrev-commit
