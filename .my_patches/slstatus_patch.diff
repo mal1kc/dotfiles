@@ -1,18 +1,41 @@
 diff --git a/config.def.h b/config.def.h
-index 93a875a..3b247d7 100644
+index 93a875a..0d9f6ad 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -65,5 +65,12 @@ static const char unknown_str[] = "n/a";
+@@ -23,7 +23,7 @@ static const char unknown_str[] = "n/a";
+  * datetime            date and time                   format string (%F %T)
+  * disk_free           free disk space in GB           mountpoint path (/)
+  * disk_perc           disk usage in percent           mountpoint path (/)
+- * disk_total          total disk space in GB          mountpoint path (/")
++ * disk_total          total disk space in GB          mountpoint path (/)
+  * disk_used           used disk space in GB           mountpoint path (/)
+  * entropy             available entropy               NULL
+  * gid                 GID of current user             NULL
+@@ -64,6 +64,25 @@ static const char unknown_str[] = "n/a";
+  * wifi_essid          WiFi ESSID                      interface name (wlan0)
   */
  static const struct arg args[] = {
- 	/* function format          argument */
+-	/* function format          argument */
 -	{ datetime, "%s",           "%F %T" },
-+	{ datetime,  		"%s",            	"%a,%m %d - %T " },
-+	{ battery_perc, "| \uf578 %s ", 		"BAT0"},
-+	{ uptime,      	"| %s ",        	NULL},
-+	{ ram_used,    	"|  %s ",        NULL},
-+	{ cpu_perc,    	"|  %s ",   			NULL},
-+	{ wifi_essid, 	"| %s -", 				"wlo1"},
-+	{ wifi_perc, 		" %s ", 						"wlo1"},
-+	{ run_command, 	"| %s ", 					"wpctl get-volume @DEFAULT_AUDIO_SINK@"},
++    /* function format          argument */
++    {datetime, "%s", "%a,%m,%d - %T"},
++    //{battery_perc, "| \uf578 %s ", "BAT0"},
++    {uptime, "|%s", NULL},
++    {run_command, "|%s", "/home/mal1kc/.local/bin/dwm_cmus.sh"},
++    {ram_used, "| %s%%", NULL},
++    {cpu_perc, "|🧠%s%%", NULL},
++    {disk_perc, "| %s%%", "/"},
++    {run_command, "|%s", "/home/mal1kc/.local/bin/dwm_backlight.sh"},
++    {run_command, "|%s", "/home/mal1kc/.local/bin/dwm_pipewire.sh"},
++    {run_command, "|%s", "/home/mal1kc/.local/bin/dwm_battery.sh"},
++    {ipv4, "|🌐%s", "eno1"},
++    {wifi_essid, "| %s", "wlan0"},
++    {ipv4, "-%s", "wlan0"},
++    {wifi_perc, "-%s%%", "wlan0"},
++
++    /* result will be
++     * Sun,11 - 16:08:06 | ram 1.5Gi/14Gi | cpu 0.0% | disk_usg 116G/952G: 13% |
++     backlight
++     * vol_icon 0.50%][battery 48%][ net Gazepler 192.168.0.111/24 .. other_net]
++     */
  };

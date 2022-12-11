@@ -88,6 +88,9 @@
 
 (add-hook 'c++-mode-hook #'format-all-mode)
 
+(setq scroll-margin 10)
+
+
 (defun org-mode-src (lang)
   "create src area in org-mode with specified LANG."
   (interactive "swhat language source you write to ?:  ")
