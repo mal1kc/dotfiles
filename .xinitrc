@@ -14,7 +14,6 @@ sh ~/.config/my_extra_configs/mount_parts.sh &
 sh ~/.config/my_extra_configs/change_wallpaper.sh &
 start_redshift &
 slstatus &
-redshift-gtk -l "40.92:29.92" &
 while true; do
 	# Log stderror to a file
 	dwm 2>~/.dwm.log
