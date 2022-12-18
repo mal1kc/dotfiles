@@ -49,7 +49,7 @@ URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.urgentOnBell: true
 ! URxvt.iso14755: false
-URxvt.font: xft:Bit*Vera*Mono*:size=12
+URxvt.font: xft:Fira*Code*:size=12
 URxvt.letterSpace: -1
 URxvt.depth: 12
 
