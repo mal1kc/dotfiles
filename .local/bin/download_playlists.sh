@@ -14,13 +14,16 @@ dnri="https://music.youtube.com/playlist?list=PLUqHRQQiRBMKBGl9IhmtS7umsKcn3jagx
 anksiyete_mixtape="https://music.youtube.com/playlist?list=PLUqHRQQiRBMIvaGgUbwu0wPoVGwRiPb8V"
 chilly_low_vol="https://music.youtube.com/playlist?list=PLUqHRQQiRBMIUvstb9ql5Ene4SlMo9F0O"
 
+echo "download stated - " $(date '+%a %d %m - %T') >> $MUSIC_DIR/status.txt
 
 download_music_pl(){
   if ! [ -z $2 ]
   then
     yt-dlp -f "bestaudio" --continue --no-overwrites --ignore-errors -x --audio-format mp3 -o "$MUSIC_DIR/$2/%(channel)s - %(title)s.%(ext)s" $1
+    echo "downloaded $2,$1" >> $MUSIC_DIR/status.txt
   else
     yt-dlp -f "bestaudio" --continue --no-overwrites --ignore-errors -x --audio-format mp3 -o "$MUSIC_DIR/%(playlist_title)s/%(channel)s - %(title)s.%(ext)s" $1
+    echo "downloaded $1" >> $MUSIC_DIR/status.txt
   fi
 }
 
