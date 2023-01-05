@@ -5,6 +5,7 @@ alias create_ghub_repo="python ~/scripts/create-github-repo.py"
 alias show_sys_info="python ~/scripts/system_hardware_info.py"
 alias ls='lsd -a'
 alias ll='lsd -lha'
+alias list_biggest_files="fd . -t f --print0 |du --files0-from=- | sort -nr | head -n 20"
 if test "$TERM" = "xterm-kitty"
 alias ssh="kitty +kitten ssh"
 end
