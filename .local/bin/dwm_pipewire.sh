@@ -1,6 +1,6 @@
 #!/bin/env sh
 
-# Dependencies: wireplumber
+# Dependencies: wireplumber,bc,ripgrep
 
 dwm_pipewire () {
     VOL=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | rg -o "[0-9].[0-9]+" )

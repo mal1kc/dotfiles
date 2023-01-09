@@ -2,7 +2,7 @@
 Comment=
 Exec=cmus
 GenericName=c music player
-Icon=/home/mal1kc/Downloads/cmus.png
+Icon=media-playback-start
 Name=cmus
 NoDisplay=false
 Path=
@@ -10,5 +10,3 @@ StartupNotify=true
 Terminal=true
 TerminalOptions=
 Type=Application
-X-KDE-SubstituteUID=false
-X-KDE-Username=
