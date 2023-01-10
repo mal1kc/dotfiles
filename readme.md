@@ -5,7 +5,8 @@
 - [dwm](https://dwm.suckless.org/)
 - [slstatus](https://tools.suckless.org/slstatus/)
 - [wireplumber](https://archlinux.org/packages/?name=wireplumber)
-- [ly](https://github.com/fairyglade/ly)
+- [st](https://tools.suckless.org/st)
+<!-- - [ly](https://github.com/fairyglade/ly) -->
 - [yay](https://github.com/Jguer/yay)
 
 - kitty,ripgrep,lsd

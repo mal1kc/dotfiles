@@ -1,10 +1,10 @@
-;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
+
 ;; clients, file templates and snippets. It is optional.
 ;;(setq user-full-name "John Doe"
 ;;     user-mail-address "john@doe.com")
@@ -34,7 +34,7 @@
 ;; `load-theme' function. This is the default:
 
 (setq doom-theme 'doom-one)
-(setq doom-font (font-spec :family "Hack":size 18))
+(setq doom-font (font-spec :family "Hack NF":size 14))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -42,7 +42,11 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(after! org
+  (setq org-directory "~/org/"
+        org-agenda-files "~/org/agenda.org"
+        )
+)
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -85,13 +89,21 @@
 
 (add-hook 'python-mode-hook #'format-all-mode)
 (add-hook 'js2-mode-hook #'format-all-mode)
-
 (add-hook 'c++-mode-hook #'format-all-mode)
 
-(setq scroll-margin 10)
 
+;; (setenv "PATH"
+;;         (concat
+;;          "~/.local/bin" path-separator
+;;          (getenv "PATH")))
+
+(setq scroll-margin 10)
 
 (defun org-mode-src (lang)
   "create src area in org-mode with specified LANG."
   (interactive "swhat language source you write to ?:  ")
        (insert (format "#+begin_src %s\n\n#+end_src" lang)))
+
+
+;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
+;; (setq +python-jupyter-repl-args '("--simple-prompt"))
