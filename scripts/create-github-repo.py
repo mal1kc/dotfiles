@@ -47,6 +47,6 @@ if __name__ == '__main__':
                       json=data, auth=(parsed_args.username, token))
     if r.status_code == 201:
         print(
-            f'operation successfully completed repo adress -> {r.json()["html_url"]}')
+            f'operation successfully completed repo adress ->\n {r.json()["html_url"]} \n {r.json()["html_url"].replace("https://","git@").replace(".com/",".com:") + ".git"}')
     else:
         print(f'operation status code : {r.status_code}')

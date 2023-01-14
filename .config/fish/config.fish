@@ -14,6 +14,7 @@ alias fuzzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview
 
 if test "$TERM" = "xterm-kitty"
 alias ssh="kitty +kitten ssh"
+alias d="kitty +kitten diff"
 end
 
 export EDITOR='/sbin/nvim'
