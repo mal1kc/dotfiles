@@ -3,8 +3,10 @@
 # Dependencies: wireplumber,bc,ripgrep
 
 dwm_pipewire () {
-    VOL=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | rg -o "[0-9].[0-9]+" )
-    STATE=$( wpctl get-volume @DEFAULT_AUDIO_SINK@ | rg -o "MUTED")
+    VOL=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+    #echo $VOL
+    STATE=$( echo $VOL | rg -o "MUTED")
+    VOL=$( echo $VOL | rg -o "[0-9].[0-9]+" )
 
     if [ "$STATE" = "MUTED" ] || [ $(echo "$VOL == 0.0 " | bc -l) -eq 1 ]; then
       printf "🔇"

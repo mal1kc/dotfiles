@@ -1,17 +1,17 @@
 #!/bin/dash
-/usr/bin/prime-offload &
+#/usr/bin/prime-offload &
+echo "--- $(date \"+%m/%d-%T\" )---"
 xcompmgr -c &
 keepassxc &
 kdeconnect-indicator &
 dunst &
 ~/.local/bin/ch_wallpaper &
 slstatus &
-xrdb -merge ~/.Xresources &
-echo "--- $(date \"+%m/%d-%T\" )---" >> ~/.dwm.log &
+xrdb >> ~/.dwm.log &
 # while true; do
 #     # Log stderror to a file 
 #     dwm 2>> ~/.dwm.log
 #     # No error logging
 #     #dwm >/dev/null 2>&1
 # done
-sudo /usr/bin/prime-switch
+#sudo /usr/bin/prime-switch

@@ -38,19 +38,3 @@
 *.color13: nord15
 *.color14: nord7
 *.color15: nord6
-!! URxvt Appearance
-URxvt.lineSpace: 0
-! URxvt.geometry: 92x24
-URxvt.internalBorder: 1
-URxvt.cursorBlink: true
-URxvt.cursorUnderline: true
-! URxvt.saveline: 2048
-URxvt.scrollBar: false
-URxvt.scrollBar_right: false
-URxvt.urgentOnBell: true
-! URxvt.iso14755: false
-URxvt.font: xft:Fira*Code*:size=12
-URxvt.letterSpace: -1
-URxvt.depth: 12
-
-! URxvt ------------------------

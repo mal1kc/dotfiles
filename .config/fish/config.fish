@@ -6,12 +6,21 @@ alias show_sys_info="python ~/scripts/system_hardware_info.py"
 alias ls='lsd -a'
 alias ll='lsd -lha'
 alias list_biggest_files="fd . -t f --print0 |du --files0-from=- | sort -nr | head -n 20"
+
+alias fuzzy_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | lolcat"
+alias fuzzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | lolcat"
+
+# laptop specific
+alias bat_status="upower -i (upower -e | rg 'BAT')"
+
+
 if test "$TERM" = "xterm-kitty"
 alias ssh="kitty +kitten ssh"
 end
 
 
-export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}' --height 90%"
+# export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 export NNN_PLUG='f:finder;o:fzopen;p:preview-tui;b:!bat $nnn;m:cmusq;d:diffs;v:imgview;'
 export NNN_TMPFILE='/tmp/.lastd'
 export NNN_TRASH=1 # n=1: trash-cli, n=2: gio trash
@@ -114,10 +123,10 @@ function fish_prompt --description 'Write out the prompt'
     end
     
     # virtualfish
-    if set -q VIRTUAL_ENV
-        echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
-    end
-
+    # if set -q VIRTUAL_ENV
+    #     echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
+    # end
+    #
 
     # PWD
     set_color $color_cwd

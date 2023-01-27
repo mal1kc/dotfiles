@@ -1,6 +1,6 @@
 #!/bin/dash
 
-MUSIC_DIR=~/Music
+MUSIC_DIR=~/music
 
 # define urls for playlist vars
 
@@ -10,7 +10,7 @@ kafa_dinle="https://music.youtube.com/playlist?list=PLUqHRQQiRBML1XCUwJFDVRVOJ7t
 gaming_codin="https://music.youtube.com/playlist?list=PLUqHRQQiRBMKU4CulD3QMRIyLrPPlobVO"
 bir_pesimistin_goz_ys="https://music.youtube.com/playlist?list=OLAK5uy_njGXl-8uKZuChOkdHVhjzDozEkv8PykBw"
 
-dnri="https://music.youtube.com/playlist?list=PLUqHRQQiRBMKBGl9IhmtS7umsKcn3jagx"
+dnri="https://music.youtube.com/playlist?list=PLUqHRQQiRBMLo58YN9P8bJ7nAREEaP_ym"
 anksiyete_mixtape="https://music.youtube.com/playlist?list=PLUqHRQQiRBMIvaGgUbwu0wPoVGwRiPb8V"
 chilly_low_vol="https://music.youtube.com/playlist?list=PLUqHRQQiRBMIUvstb9ql5Ene4SlMo9F0O"
 
