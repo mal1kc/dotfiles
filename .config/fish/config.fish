@@ -17,6 +17,15 @@ alias ssh="kitty +kitten ssh"
 alias d="kitty +kitten diff"
 end
 
+# hyperland
+export HYPRLAND_LOG_WLR=1
+
+# Tell XWayland to use a cursor theme
+export XCURSOR_THEME=Bibata-Modern-Classic
+
+# Set a cursor size
+export XCURSOR_SIZE=24
+
 export EDITOR='/sbin/nvim'
 export SUDO_EDITOR=$EDITOR
 export PATH="$HOME/.local/bin:$PATH"
@@ -59,15 +68,18 @@ function change_wallpaper
     set target ~/.config/c_wallpaper.jpg
     echo $target
     cp -Hf "$file" "$target"
-    xwallpaper --maximize "$target"
     wal -c
     wal -i "$target" -ne -a 82
     xrdb -merge ~/.cache/wal/colors.Xresources
-    xdotool key Super_L+F5
+
+    if pgrep Xorg
+        xwallpaper --maximize "$target"
+        xdotool key Super_L+F5
+    end
 end
 
 # functions -e fish_greeting
-
+
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)
     echo the time is (set_color yellow; date +%T; set_color normal)
