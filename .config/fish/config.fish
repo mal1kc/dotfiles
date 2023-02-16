@@ -13,6 +13,9 @@ alias fuzzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview
 # laptop specific
 alias bat_status="upower -i (upower -e | rg 'BAT')"
 
+# nix-env shortcuts for non nix-OS
+alias nix_search="nix-env -f '<nixpkgs>' -qaP -A "
+alias nix_install="nix-env -f '<nixpkgs>' -iA "
 
 if test "$TERM" = "xterm-kitty"
 alias ssh="kitty +kitten ssh"
@@ -28,7 +31,8 @@ export NNN_FIFO='/tmp/nnn.fifo'
 
 export EDITOR='/sbin/nvim'
 export SUDO_EDITOR=$EDITOR
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH:$HOME/.nix-profile/bin"
+export XDG_DATA_DIRS="$XDG_DATA_DIRS:$HOME/.nix-profile/share"
 
 function git_tree -d "git log oneline graph"
     command git log --graph --all --pretty=oneline --abbrev-commit

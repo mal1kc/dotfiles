@@ -1,6 +1,6 @@
 configuration {
 /*	modes: "window,drun,run,ssh";*/
-	font: "Hack 12";
+	font: "Fira Code 12";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
@@ -149,7 +149,6 @@ configuration {
       sorting-method:    "name";
   }
 }
-
 
 // @import "theme"
 @import "~/.cache/wal/colors-rofi-dark.rasi"
