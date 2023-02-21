@@ -191,7 +191,6 @@
     "jupyter.askForKernelRestart": false,
     "terminal.external.linuxExec": "kitty",
     "window.menuBarVisibility": "toggle",
-    "window.zoomLevel": 1,
     "vscode-neovim.logOutputToConsole": true,
     "vscode-neovim.neovimInitVimPaths.linux": "/home/mal1kc/.config/nvim-code/init.lua",
     "editor.lineNumbers": "relative",

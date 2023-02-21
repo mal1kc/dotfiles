@@ -91,6 +91,8 @@
 (add-hook 'js2-mode-hook #'format-all-mode)
 (add-hook 'c++-mode-hook #'format-all-mode)
 
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
 
 ;; (setenv "PATH"
 ;;         (concat
@@ -101,9 +103,18 @@
 
 (defun org-mode-src (lang)
   "create src area in org-mode with specified LANG."
-  (interactive "swhat language source you write to ?:  ")
+  (interactive "what language source you write to ?:  ")
        (insert (format "#+begin_src %s\n\n#+end_src" lang)))
 
 
 ;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
 ;; (setq +python-jupyter-repl-args '("--simple-prompt"))
+
+;; (require 'platformio-mode)
+
+;; Enable ccls for all c++ files, and platformio-mode only
+;; when needed (platformio.ini present in project root).
+
+(add-hook 'c++-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (platformio-conditionally-enable)))

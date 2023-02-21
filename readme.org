@@ -1,0 +1,134 @@
+#+title: mal1kc's dotfiles
+#+author: mal1kc
+
+* about this config
+
+this config is my main setup config with archlinux
+(if u have recommendations/questions for me please say it)
+
+* packages i use
+** desktop apps
+
+#+begin_src bash :tangle required_packages.txt
+
+ark
+dunst                     # lightweight notification deamon
+kitty
+pcmanfm
+kdeconnect
+xorg-xev                  # for learn key names
+virt-manager              # qemu virtual machine manager
+xorg-xinit
+xorg-xsetroot
+rofi                      # dmenu like app launcher
+mpv                       # hackable video player
+keepassxc                 # password manager
+zathura                   # minimalist document viewer
+zathura-pdf-poppler       # pdf plugin
+
+#+end_src
+
+** editors
+
+#+begin_src bash :tangle required_packages.txt
+neovim                    # astronvim
+emacs                     # doomemacs
+#+end_src
+
+** cli utils
+
+#+begin_src bash :tangle required_packages.txt
+bat                       # cat with syntax highlighting + pager
+btop                      # process,system usage viewer
+dash                      # POSIX compliant shell that aims to be as small as possible
+# dust                      # du alternative
+# duf                       # df alternative
+# curlie                    # curl + httpie
+fd                        # faster find
+fish                      # user friendly command shell
+fzf                       # command-line fuzzy finder
+the_silver_searcher       # faster ack , ag
+playerctl                 # mpris nedia player controller
+gitui                     # tui git
+glow                      # markdown renderer
+jq                        # json processor
+lsd                       # more powerful ls
+# light                     # backlight controller manager for laptops etc.
+ncdu                      # disk usage analyzer
+nvtop                     # nvidia gpu usage viewer
+picocom                   # serial comminication terminal
+# podman                    # rootless docker alternative
+powertop                  # power usage viewer
+pyenv                     # easily switch between multiple versions of
+python
+python-pywal              # Generate and change colorschemes on the fly
+ripgrep                   # faster grep
+# testdisk                  # disk recovery repair tool
+zoxide                    # folder jumper, z
+axel                      # wget but can parallel download
+aria2                     # multi-protocol download utily
+
+
+#+end_src
+
+** system
+
+#+begin_src bash :tangle required_packages.txt
+amd-ucode                 # for amd processor
+make                      
+patch                     # for applying git diffs as patches to code
+wireplumber               # pipewire session manager
+pipewire-pulse            # pipewire pulseaudio replacement
+cups                      # printer support
+udisks2                   # mounting disks with udev rules
+
+#+end_src
+** fonts
+
+#+begin_src bash :tangle required_packages.txt
+noto-fonts-emoji
+gnu-free-fonts
+ttf-hack
+ttf-firacode-nerd
+
+#+end_src
+
+** aur
+
+#+begin_src bash :tangle required_packages.txt
+# webapp-manager            # add extra browser profiles manage easily
+# nsxiv                     # neo sxiv
+# librewolf                 # more piracy firendly,much faster firefox
+# ly                        # tui login manager
+# picom-git                 # X compositor (fork of compton)(git-version)
+#+end_src
+** build from source
+
+#+begin_src bash :tangle required_packages.txt
+#dwm
+#st
+#nnn                       # file manager build from source or nerd icons
+
+#+end_src
+** extras
+
+i am currently (not too actively)trying hyprland (wl-roots based wayland compositor)
+#+begin_src bash :tangle required_packages.txt
+
+# hyprland
+
+#+end_src
+
+* other installations
+** fish plugins
+[[https://github.com/jorgebucaran/fisher][fisher - a plugin manager for Fishshell]]
+
+[[https://github.com/meaningful-ooo/sponge][sponge - 🧽 Clean fish history from typos automatically]]
+
+[[https://github.com/acomagu/fish-async-prompt][fish-async-prompt - Make your prompt asynchronous to improve the reactivity.]]
+[[https://github.com/PatrickF1/fzf.fish][fzf.fish - 🔍 🐟 Fzf plugin for Fish]]
+** neovim - astronvim config
+[[https://astronvim.com/][astronvim]]
+** emacs - doomemacs config
+[[doomemacs.org][doom emacs]]
+* Files list
