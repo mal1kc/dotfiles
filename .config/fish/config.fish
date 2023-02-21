@@ -14,11 +14,17 @@ alias fuzzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview
 
 if test "$TERM" = "xterm-kitty"
 alias ssh="kitty +kitten ssh"
+alias d="kitty +kitten diff"
 end
+
+# Set a cursor size
+export XCURSOR_SIZE=24
 
 export EDITOR='/sbin/nvim'
 export SUDO_EDITOR=$EDITOR
+# export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export XDG_DATA_DIRS="/usr/share:$XDG_DATA_DIRS"
 
 export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}' --height 90%"
 # export FZF_DEFAULT_OPTS="--black --color=spinner:\#F8BD96,hl:\#F28FAD --color=fg:\#D9E0EE,header:\#F28FAD,info:\#DDB6F2,pointer:\#F8BD96 --color=marker:\#F8BD96,fg+:\#F2CDCD,prompt:\#DDB6F2,hl+:\#F28FAD --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
@@ -54,19 +60,26 @@ function change_wallpaper
     #set file (printf "%s" "${wallpapers[RANDOM % ${#wallpapers[@]}]}")
     set file (random choice $walpapers/*)
     set -U wallpaper $file
-    echo $file
-    set target ~/.config/c_wallpaper.jpg
-    echo $target
-    cp -Hf "$file" "$target"
-    xwallpaper --maximize "$target"
-    wal -c
-    wal -i "$target" -ne -a 82
-    xrdb -merge ~/.cache/wal/colors.Xresources
-    xdotool key Super_L+F5
+    set file_ext ( echo $wallpaper | rg -o '(png|jpeg|jpg|webp)')
+    printf "wall_file :%s\nwall_file_ext:%s\n" $file $file_ext
+    if set -q "file_ext"
+       set target ~/.config/c_wallpaper.$file_ext
+       touch $target
+       cp -Hf "$file" "$target"
+       printf "file copied to %s\n" $target
+       wal -c
+       wal -i "$target" -ne -a 82
+       xrdb -merge ~/.cache/wal/colors.Xresources
+
+       if pgrep Xorg
+           xwallpaper --maximize "$target"
+           xdotool key Super_L+F5
+        end
+    end
 end
 
 # functions -e fish_greeting
-
+
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)
     echo the time is (set_color yellow; date +%T; set_color normal)
@@ -156,4 +169,3 @@ function fish_prompt --description 'Write out the prompt'
 
     echo -n "$suffix "
 end
-

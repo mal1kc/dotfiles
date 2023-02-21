@@ -3,25 +3,27 @@
 # ripgrep - rg -> https://github.com/BurntSushi/ripgrep
 # awk, wireplumber (wpctl), pactl (libpulse)
 
-if ! command -v rg >/dev/null; then
+if ! command -v rg > /dev/null; then
 	echo "rg not found in PATH exiting ..."
 	exit 1
 fi
 
-if ! command -v fd >/dev/null; then
+if ! command -v fd > /dev/null; then
 	echo "fd not found in PATH exiting ..."
 	exit 1
 fi
 
-is_interactive_mode() {
-	if [[ -n $PS1 ]]; then
-		# "interactive"
-		return 0
-	else
-		# "not interactive"
-		return 1
-	fi
+
+is_interactive_mode(){
+if [[ -n $PS1 ]]; then
+	# "interactive"
+	return 0
+else
+	# "not interactive"
+	return 1
+fi
 }
+
 
 get_icon_theme_name() {
 	rg "gtk-icon-theme-name" ~/.config/gtk-3.0/settings.ini | cut -d "=" -f 2
@@ -39,7 +41,7 @@ get_volume() {
 
 get_volume_icon() {
 	ICON_THEME=$(get_icon_theme_name)
-	base_icon_path=$(dirname "$(fd audio-volume-muted.svg /usr/share/icons/"$ICON_THEME"/ | grep 22)")
+	base_icon_path=$(dirname "$(fd audio-volume-muted.svg /usr/share/icons/"$ICON_THEME"/ | grep 22)" )
 	if [[ 0 == "$1" ]]; then
 		echo "$base_icon_path/audio-volume-muted.svg"
 	elif [[ 1 -le $1 && $1 -le 33 ]]; then
@@ -73,7 +75,7 @@ toggle_mute_volume() {
 switch_audio_sink() {
 	declare -A SINKS
 	SINK_NAMES=$(pactl list sinks | rg "Description" | sed "s/\s*Description: //")
-	SINK_INFO=$(pactl list sinks | rg "Description|object.id" | sed "s/\s*Description: \(.*\)\|\s*object.id = \"\(.*\)\"/\1\2/")
+	SINK_INFO=$(pactl list sinks | rg  "Description|object.id" | sed "s/\s*Description: \(.*\)\|\s*object.id = \"\(.*\)\"/\1\2/")
 	while
 		read -r sink_name
 		read -r sink_id
