@@ -91,6 +91,9 @@
 (add-hook 'js2-mode-hook #'format-all-mode)
 (add-hook 'c++-mode-hook #'format-all-mode)
 
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
+
 
 ;; (setenv "PATH"
 ;;         (concat
@@ -107,3 +110,16 @@
 
 ;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
 ;; (setq +python-jupyter-repl-args '("--simple-prompt"))
+
+;; (add-to-list 'auto-mode-alist '("\\.ino\\" . platformio-mode))
+
+
+
+(after! c++
+;; Enable ccls for all c++ files, and platformio-mode only
+;; when needed (platformio.ini present in project root).
+(add-hook 'c++-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (platformio-conditionally-enable)))
+)
+
