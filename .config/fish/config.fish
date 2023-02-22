@@ -71,10 +71,24 @@ function change_wallpaper
        wal -i "$target" -ne -a 82
        xrdb -merge ~/.cache/wal/colors.Xresources
 
-       if pgrep Xorg
-           xwallpaper --maximize "$target"
-           xdotool key Super_L+F5
-        end
+       if pgrep swww-daemon > /dev/null
+          swww img "$wallpaper" --transition-type random --no-resize
+       end
+
+       if pgrep hyprpaper > /dev/null
+           set hypr_mons (hyprctl monitors -j | jq -r '.[].name')
+           echo $hypr_mons
+           hyprctl hyprpaper unload all
+           hyprctl hyprpaper preload $target
+           for mon in $hypr_mons
+               hyprctl hyprpaper wallpaper $mon,$target
+               hyprctl hyprpaper wallpaper $mon,$target
+            end
+       end
+       # if pgrep Xorg
+       #     xwallpaper --maximize "$target"
+       #     xdotool key Super_L+F5
+       # end
     end
 end
 
