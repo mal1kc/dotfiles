@@ -8,6 +8,7 @@
     min-height: 0;
 }
 
+
 window#waybar {
     background: @base;
     color: white;
@@ -32,7 +33,7 @@ window#waybar {
 	background-color: #5e81ac;
 }
 
-#disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #pulseaudio, #network {
+#disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network {
 	background-color: @mantle;
 	padding: 0px 10px;
 	margin: 5px 0px;
@@ -96,7 +97,7 @@ window#waybar {
 	color: #d08770;
 }
 
-#pulseaudio {
+#audio, #wireplumber {
 	color: #ebcb8b;
 	border-radius: 0px 0px 0px 0px;
 }
@@ -110,7 +111,7 @@ window#waybar {
 /* #temperature, */
 /* #backlight, */
 /* #network, */
-/* #pulseaudio, */
+/* #audio, #wireplumber, */
 /* #wireplumber, */
 /* #custom-media, */
 /* #tray, */
@@ -201,24 +202,16 @@ label:focus {
     background-color: #f53c3c;
 }
 
-#pulseaudio {
+#audio, #wireplumber {
     background-color: #f1c40f;
     color: #000000;
 }
 
-#pulseaudio.muted {
+#audio.muted, #wireplumber.muted {
     background-color: #90b1b1;
     color: #2a5c45;
 }
 
-#wireplumber {
-    background-color: #fff0f5;
-    color: #000000;
-}
-
-#wireplumber.muted {
-    background-color: #f53c3c;
-}
 
 #custom-media {
     background-color: #66cc99;

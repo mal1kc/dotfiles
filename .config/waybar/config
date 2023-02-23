@@ -11,7 +11,7 @@
     "modules-left":["cpu","memory","disk","hyprland/window"],
     "modules-center": ["wlr/workspaces","tray"],
     //"modules-right":["mpris","bluetooth","pulseaudio","cpu","memory","temperature","disk","clock","tray"],
-    "modules-right":["mpd","bluetooth","pulseaudio","clock"],
+    "modules-right":["mpd","bluetooth","wireplumber","clock"],
     // "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "wlr/language", "battery", "battery//bat2", "clock", "tray"],
     // Modules configuration
     "wlr/workspaces": {
@@ -124,7 +124,7 @@
     },
     "disk":{
         "interval":30,
-        "format":"{used} => {precentage_used}%",
+        "format":"{used} => {percentage_used}% - {path}",
         "path":"/",
     },
     "network": {
@@ -136,24 +136,13 @@
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
-    "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
+    "wireplumber": {
+        "format": "{volume}% {icon} {node_name}",
+        "format-muted": " {node_name}",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol-qt"
+        "on-click": "qpwgraph"
     },
     "mpris":{
         "player":"playerctld",
@@ -163,7 +152,7 @@
         "player-icons":{
             "default":"奈",
             "MPV": "󰐌",
-            "firefox": "",
+            "librewolf": "",
         },
         "status-icons":{
             "paused":"󰏤",
