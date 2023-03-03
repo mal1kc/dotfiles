@@ -91,8 +91,8 @@
 (add-hook 'js2-mode-hook #'format-all-mode)
 (add-hook 'c++-mode-hook #'format-all-mode)
 
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
 
 
 ;; (setenv "PATH"
@@ -104,7 +104,7 @@
 
 (defun org-mode-src (lang)
   "create src area in org-mode with specified LANG."
-  (interactive "swhat language source you write to ?:  ")
+  (interactive "what language source you write to ?:  ")
        (insert (format "#+begin_src %s\n\n#+end_src" lang)))
 
 
@@ -115,11 +115,7 @@
 
 
 
-(after! c++
-;; Enable ccls for all c++ files, and platformio-mode only
-;; when needed (platformio.ini present in project root).
+
 (add-hook 'c++-mode-hook (lambda ()
                            (lsp-deferred)
                            (platformio-conditionally-enable)))
-)
-
