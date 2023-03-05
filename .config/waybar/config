@@ -11,7 +11,7 @@
     "modules-left":["cpu","memory","disk","hyprland/window"],
     "modules-center": ["wlr/workspaces","tray"],
     //"modules-right":["mpris","bluetooth","pulseaudio","cpu","memory","temperature","disk","clock","tray"],
-    "modules-right":["mpd","bluetooth","wireplumber","clock"],
+    "modules-right":["mpd","bluetooth","wireplumber","clock","gamemode"],
     // "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "wlr/language", "battery", "battery//bat2", "clock", "tray"],
     // Modules configuration
     "wlr/workspaces": {
