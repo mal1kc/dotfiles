@@ -68,6 +68,8 @@ zoxide                    # folder jumper, z
 axel                      # wget but can parallel download
 aria2                     # multi-protocol download utily
 
+sddm
+refind
 
 #+end_src
 
@@ -96,26 +98,23 @@ ttf-firacode-nerd
 ** aur
 
 #+begin_src bash :tangle required_packages.txt
-# webapp-manager            # add extra browser profiles manage easily
 # nsxiv                     # neo sxiv
 # librewolf                 # more piracy firendly,much faster firefox
-# ly                        # tui login manager
-# picom-git                 # X compositor (fork of compton)(git-version)
+# sww
 #+end_src
 ** build from source
 
 #+begin_src bash :tangle required_packages.txt
-#dwm
 #st
 #nnn                       # file manager build from source or nerd icons
 
 #+end_src
 ** extras
 
-i am currently (not too actively)trying hyprland (wl-roots based wayland compositor)
+i am currently using hyprland (wl-roots based wayland compositor)
 #+begin_src bash :tangle required_packages.txt
 
-# hyprland
+# hyprland-nvidia-git
 
 #+end_src
 

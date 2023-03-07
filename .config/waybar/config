@@ -8,10 +8,10 @@
 
     //"modules-left": ["wlr/workspaces", "wlr/mode", "sway/scratchpad", "custom/media"],
     // "modules-left": ["wlr/workspaces"],
-    "modules-left":["cpu","memory","disk"],
-    "modules-center": ["hyprland/window","wlr/workspaces","tray"],
+    "modules-left":["cpu","memory","disk","hyprland/window"],
+    "modules-center": ["wlr/workspaces","tray"],
     //"modules-right":["mpris","bluetooth","pulseaudio","cpu","memory","temperature","disk","clock","tray"],
-    "modules-right":["bluetooth","pulseaudio","clock"],
+    "modules-right":["mpd","bluetooth","wireplumber","clock","gamemode"],
     // "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "wlr/language", "battery", "battery//bat2", "clock", "tray"],
     // Modules configuration
     "wlr/workspaces": {
@@ -51,32 +51,32 @@
     //         "unlocked": ""
     //     }
     // },
-    // "mpd": {
-    //     "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-    //     "format-disconnected": "Disconnected ",
-    //     "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-    //     "unknown-tag": "N/A",
-    //     "interval": 2,
-    //     "consume-icons": {
-    //         "on": " "
-    //     },
-    //     "random-icons": {
-    //         "off": "<span color=\"#f53c3c\"></span> ",
-    //         "on": " "
-    //     },
-    //     "repeat-icons": {
-    //         "on": " "
-    //     },
-    //     "single-icons": {
-    //         "on": "1 "
-    //     },
-    //     "state-icons": {
-    //         "paused": "",
-    //         "playing": ""
-    //     },
-    //     "tooltip-format": "MPD (connected)",
-    //     "tooltip-format-disconnected": "MPD (disconnected)"
-    // },
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "unknown-tag": "N/A",
+        "interval": 2,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
@@ -90,6 +90,7 @@
     },
     "clock": {
         // "timezone": "America/New_York",
+        "format": "{:%H:%M}",
         "format-alt": "{:%Y-%m-%d}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "calendar": {
@@ -124,7 +125,7 @@
     },
     "disk":{
         "interval":30,
-        "format":"{used} => {precentage_used}%",
+        "format":"{used} => {percentage_used}% - {path}",
         "path":"/",
     },
     "network": {
@@ -136,24 +137,13 @@
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
-    "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
+    "wireplumber": {
+        "format": "{volume}% {icon} {node_name}",
+        "format-muted": " {node_name}",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol-qt"
+        "on-click": "~/.local/bin/rofi_audio.sh"
     },
     "mpris":{
         "player":"playerctld",
@@ -163,7 +153,7 @@
         "player-icons":{
             "default":"奈",
             "MPV": "󰐌",
-            "firefox": "",
+            "librewolf": "",
         },
         "status-icons":{
             "paused":"󰏤",
