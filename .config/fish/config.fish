@@ -72,7 +72,7 @@ function change_wallpaper
        xrdb -merge ~/.cache/wal/colors.Xresources
 
        if pgrep swww-daemon > /dev/null
-          swww img "$wallpaper" --transition-type random --no-resize
+          swww img "$wallpaper" --transition-type random --no-resize --sync
        end
 
        if pgrep hyprpaper > /dev/null
@@ -81,8 +81,8 @@ function change_wallpaper
            hyprctl hyprpaper unload all
            hyprctl hyprpaper preload $target
            for mon in $hypr_mons
-               hyprctl hyprpaper wallpaper $mon,$target
-               hyprctl hyprpaper wallpaper $mon,$target
+                hyprctl hyprpaper wallpaper $mon,$target
+                hyprctl hyprpaper wallpaper $mon,$target
             end
        end
        # if pgrep Xorg
@@ -109,10 +109,6 @@ end
 set -Ux PYENV_ROOT $HOME/.pyenv
 set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
 
-# Load pyenv automatically by appending
-# the following to ~/.config/fish/config.fish:
-
-pyenv init - | source
 
 # Restart your shell for the changes to take effect.
 
@@ -183,3 +179,6 @@ function fish_prompt --description 'Write out the prompt'
 
     echo -n "$suffix "
 end
+
+pyenv init - | source
+
