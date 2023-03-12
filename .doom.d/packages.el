@@ -52,3 +52,4 @@
 ;(unpin! t)
 
 (package! platformio-mode)
+(package! color-theme-sanityinc-tomorrow)
