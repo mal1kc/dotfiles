@@ -50,4 +50,7 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(package! platformio-mode)
+
+(package! platformio-mode)                      ;; https://melpa.org/#/platformio-mode
+(package! color-theme-sanityinc-tomorrow)       ;; https://melpa.org/#/color-theme-sanityinc-tomorrow
+(package! resize-window)                        ;; https://melpa.org/#/resize-window

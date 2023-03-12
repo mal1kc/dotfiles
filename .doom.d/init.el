@@ -24,19 +24,19 @@
        company           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       ivy               ; a search engine for love and life
-       vertico           ; the search engine of the future
+       (ivy +fuzzy +icons)         ; a search engine for love and life
+       (vertico +icons )           ; the search engine of the future
 
        :ui
-       ;;deft              ; notational velocity for Emacs
+       deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
        ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       ;;hydra
+       hydra
        indent-guides     ; highlighted indent columns
-       ;;ligatures         ; ligatures and symbols to make your code pretty again
+       ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
@@ -69,8 +69,8 @@
        :emacs
        dired             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       ibuffer         ; interactive buffer management
-       undo              ; persistent, smarter undo for your inevitable mistakes
+       ibuffer           ; interactive buffer management
+       (undo +tree)      ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
@@ -89,7 +89,7 @@
        ;;biblio            ; Writes a PhD for you (citation needed)
        (debugger +lsp)     ; FIXME stepping through code, to help you add bugs
        ;;direnv
-       ;;docker
+       docker
        editorconfig      ; let someone else argue about tabs vs spaces
        ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
@@ -117,7 +117,7 @@
        ;;beancount         ; mind the GAAP
        (cc +lsp)         ; C > C++ == 1
        ;;clojure           ; java with a lisp
-       common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans
@@ -184,7 +184,7 @@
        :app
        ;;calendar
        ;;emms
-       ;;everywhere        ; *leave* Emacs!? You must be joking
+       everywhere          ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought

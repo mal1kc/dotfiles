@@ -33,8 +33,10 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq doom-theme 'doom-one)
-(setq doom-font (font-spec :family "Fira Code Nerd Font":size 16))
+(setq doom-theme 'sanityinc-tomorrow-night)
+(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 16 :weight 'light)
+      doom-big-font (font-spec :family "Hack Nerd Font" :size 24)
+     )
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -102,10 +104,11 @@
 
 (setq scroll-margin 10)
 
-(defun org-mode-src (lang)
-  "create src area in org-mode with specified LANG."
-  (interactive "what language source you write to ?:  ")
-       (insert (format "#+begin_src %s\n\n#+end_src" lang)))
+;; exaple function i wrote
+;; (defun org-mode-src (lang)
+;;   "create src area in org-mode with specified LANG."
+;;   (interactive "what language source you write to ?:  ")
+;;        (insert (format "#+begin_src %s\n\n#+end_src" lang)))
 
 
 ;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))

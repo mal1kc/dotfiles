@@ -3,6 +3,7 @@
 echo "--- $(date \"+%m/%d-%T\" )---"
 xcompmgr -c &
 keepassxc &
+emacs --daemon > ~/.emacsD.log &
 kdeconnect-indicator &
 dunst &
 ~/.local/bin/ch_wallpaper &
