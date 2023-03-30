@@ -126,3 +126,8 @@
     (interactive)
     (shell-command (concat "git add -f "
                (shell-quote-argument buffer-file-name))))
+
+;; activate flyspell mode when loading some text modes
+(dolist (hook '(text-mode-hook org-mode-hook markdown-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))
+  ))

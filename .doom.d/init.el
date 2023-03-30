@@ -25,7 +25,7 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       company           ; the ultimate code completion backend
+       (company +childframe)           ; the ultimate code completion backend
        ;;helm            ; the *other* search engine for love and life
        ;;ido             ; the other *other* search engine...
        (ivy +fuzzy +icons +childframe)      ; a search engine for love and life
@@ -85,10 +85,10 @@
        vterm             ; the best terminal emulation in Emacs
 
        :checkers
-       syntax              ; tasing you for every semicolon you forget
-       (spell +enchant) ; tasing you for misspelling mispelling
-       ;;(spell +flyspell) ; tasing you for misspelling mispelling
-       ;;grammar           ; tasing grammar mistake every you make
+       syntax             ; tasing you for every semicolon you forget
+       ;;(spell +enchant) ; tasing you for misspelling mispelling
+       (spell +everywhere +flyspell) ; tasing you for misspelling mispelling
+       grammar           ; tasing grammar mistake every you make
 
        :tools
        ;;ansible
@@ -159,7 +159,7 @@
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       org               ; organize your plain life in plain text
+       (org +pretty +gnuplot +draganddrop)               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        purescript          ; javascript, but functional
