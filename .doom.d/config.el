@@ -122,3 +122,8 @@
 (add-hook 'c++-mode-hook (lambda ()
                            (lsp-deferred)
                            (platformio-conditionally-enable)))
+
+(after! docker
+(setq docker-command "podman")
+(message docker-command)
+ )

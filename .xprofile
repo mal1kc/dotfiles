@@ -9,6 +9,7 @@ dunst &
 ~/.local/bin/ch_wallpaper &
 slstatus &
 xrdb >> ~/.dwm.log &
+xautolock &
 # while true; do
 #     # Log stderror to a file 
 #     dwm 2>> ~/.dwm.log

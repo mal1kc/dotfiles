@@ -5,6 +5,7 @@
 	name = mal1kc
 [core]
 	editor = nvim
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
@@ -13,13 +14,17 @@
 [init]
 	defaultBranch = main
 
-[diff]
-	tool = kitty
-	guitool = kitty.gui
 [difftool]
 	prompt = false
 	trustExitCode = true
-[difftool "kitty"]
-	cmd = "kitty +kitten diff $LOCAL $REMOTE"
-[difftool "kitty.gui"]
-	cmd = kitty kitty +kitten diff $LOCAL $REMOTE
+
+[interactive]
+	diffFilter = diff-so-fancy --patch
+
+; [diff]
+; 	tool = kitty
+; 	guitool = kitty.gui
+; [difftool "kitty"]
+; 	cmd = "kitty +kitten diff $LOCAL $REMOTE"
+; [difftool "kitty.gui"]
+; 	cmd = kitty kitty +kitten diff $LOCAL $REMOTE

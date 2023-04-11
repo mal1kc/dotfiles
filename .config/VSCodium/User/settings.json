@@ -187,7 +187,7 @@
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
-    "editor.fontFamily": "Victor Mono Medium",
+    "editor.fontFamily": "VictorMono Nerd Font, FiraCode Nerd Font, TerminessTTF",
     "jupyter.askForKernelRestart": false,
     "terminal.external.linuxExec": "kitty",
     "window.menuBarVisibility": "toggle",
@@ -197,5 +197,7 @@
     "editor.cursorSurroundingLines": 10,
     "clangd.fallbackFlags": [
         "-I${workspaceFolder}/include"
-        ]
+        ],
+        "terminal.integrated.fontFamily": "FiraCode Nerd Font, monospace",
+        "window.zoomLevel": 2
 }

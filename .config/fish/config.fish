@@ -17,9 +17,10 @@ alias bat_status="upower -i (upower -e | rg 'BAT')"
 alias nix_search="nix-env -f '<nixpkgs>' -qaP -A "
 alias nix_install="nix-env -f '<nixpkgs>' -iA "
 
-if test "$TERM" = "xterm-kitty"
-alias ssh="kitty +kitten ssh"
-end
+# if test "$TERM" = "xterm-kitty"
+# alias ssh="kitty +kitten ssh"
+# end
+# dont work with windows-servers
 
 
 export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}' --height 90%"
@@ -126,12 +127,6 @@ function fish_prompt --description 'Write out the prompt'
         set suffix '$'
     end
     
-    # virtualfish
-    # if set -q VIRTUAL_ENV
-    #     echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
-    # end
-    #
-
     # PWD
     set_color $color_cwd
     echo -n (prompt_pwd)
