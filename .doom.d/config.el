@@ -88,11 +88,6 @@
                 sql-mode         ; sqlformat is currently broken
                 tex-mode         ; latexindent is broken
                 latex-mode))
-
-(add-hook 'python-mode-hook #'format-all-mode)
-(add-hook 'js2-mode-hook #'format-all-mode)
-(add-hook 'c++-mode-hook #'format-all-mode)
-
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
 
@@ -118,12 +113,21 @@
 
 
 
+(add-hook 'python-mode-hook #'format-all-mode)
+(add-hook 'js2-mode-hook #'format-all-mode)
+(add-hook 'c++-mode-hook #'format-all-mode)
 
 (add-hook 'c++-mode-hook (lambda ()
                            (lsp-deferred)
                            (platformio-conditionally-enable)))
 
+
+;; generates compile-commands.json for clangd
+;; every time load cpp file with platformio mode
+(add-hook 'platformio-mode-hook (lambda ()
+                                  (platformio--run "-t compiledb")
+                                  ))
+
 (after! docker
 (setq docker-command "podman")
-(message docker-command)
  )
