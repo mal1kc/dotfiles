@@ -1,5 +1,5 @@
 
-export PATH="$HOME/.nix-profile/bin:$PATH"
+export PATH="$PATH:$HOME/.nix-profile/bin"
 export XDG_DATA_DIRS="$XDG_DATA_DIRS:$HOME/.nix-profile/share:"
 
 
@@ -10,5 +10,6 @@ function list_nix_size
          end
 end
 
-alias nix_search="nix-env -f '<nixpkgs>' -qaP -A "
+alias nix_search="nix-env -f '<nixpkgs>' -qaP --description -A"
+alias nix_json="nix-env -f '<nixpkgs>' -qaP --json -A"
 alias nix_install="nix-env -f '<nixpkgs>' -iA "

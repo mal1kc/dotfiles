@@ -1,3 +1,51 @@
+[alias]
+	# mostly from https://github.com/paulirish/dotfiles/blob/main/.gitconfig
+	c = commit -am
+	fpush = push --force
+	sts = status --short
+	st = status
+	sclone = clone --depth=1
+	amend = commit --amend --all --no-edit
+	undocommit = reset HEAD~
+	hreset = reset --hard
+	co = checkout
+	df = diff --color-words --abbrev
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
+	cp = cherry-pick
+
+	git = !exec git
+
+
+	mergeorigin = !"git merge origin/$(git mainormaster)"
+
+	# Essentially GitHub's compare view: show all 'ahead' changes (incl working tree) vs the merge-base
+	diffbranch = !"git diff $(git diffbase)"
+	# Diff of branch that's not checked out. Doesn't include working tree (but obv doesnt need to)
+	diffbranch-that = !"git diff origin/$(git mainormaster)...\"$1\" #"
+	# Show commit log of unique commits of this branch (not on main)
+	diffcommitsfrommain = !"git log --no-merges origin/$(git mainormaster).."
+	#                                                                      ^^ also, 2 vs 3 dots: so important. https://stackoverflow.com/a/48681527
+
+	# Squash a branch to one commit against a branch with many non-main commits.
+	# This can't be an alias, but here's the hack.
+	#    # be on the new feature branch, be okay with rewriting it's history.
+	#    git reset --soft (git merge-base Other_Branch_Name HEAD)
+
+
+	# Two utils:
+	#   What's the ancestor commit this branch shares with main?
+	diffbase = !"git merge-base origin/$(git mainormaster) HEAD"
+	#   Is it a `main` or a `master` repo?
+	mainormaster = !"git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1"
+
+	# fyi to change a git checkout from master to main.. (gh's suggested commands:)
+	#    git branch -m master main; git fetch origin; git branch -u origin/main main; git remote set-head origin -a
+
+	# commit (past) WIP changes with a message stating when they happened. (Cuz I sometimes leave changes uncommitted for a while, but want the dates for reference)
+	# todo: maybe use `git commit --date=X` to set a past date. would need to pick one, tho.
+	commitwip = !"git commit -am \"WIP changes from a while ago. Last modified on:\n$(( git diff --name-only --cached; git ls-files --modified ) | uniq | xargs gstat -c '- %.19y %N')\""
+
+
 [credential]
 	helper = store
 [user]

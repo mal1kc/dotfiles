@@ -181,7 +181,6 @@
     "workbench.editor.splitInGroupLayout": "vertical",
     "arduino.path": "C:\\Users\\malik kokcan\\scoop\\apps\\arduino\\current",
     "files.simpleDialog.enable": true,
-    "workbench.activityBar.visible": false,
     "cSpell.language": "en,tr",
     "python.envFile": "${workspaceFolder}/.env",
     "[json]": {
@@ -190,9 +189,10 @@
     "editor.fontFamily": "Victor Mono Medium",
     "jupyter.askForKernelRestart": false,
     "terminal.external.linuxExec": "kitty",
-    "window.menuBarVisibility": "toggle",
     "vscode-neovim.logOutputToConsole": true,
     "vscode-neovim.neovimInitVimPaths.linux": "/home/mal1kc/.config/nvim-code/init.lua",
     "editor.lineNumbers": "relative",
-    "editor.cursorSurroundingLines": 10
+    "editor.cursorSurroundingLines": 10,
+    "window.zoomLevel": 1,
+    "window.menuBarVisibility": "toggle"
 }
