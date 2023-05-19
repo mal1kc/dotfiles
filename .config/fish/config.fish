@@ -19,12 +19,12 @@ function notify
 end
 
 function change_wallpaper
-    set walpapers ~/Pictures/wallpapers
+    set walpapers ~/pictures/wallpapers
     
     #set file (printf "%s" "${wallpapers[RANDOM % ${#wallpapers[@]}]}")
     set file (random choice $walpapers/*)
     set -U wallpaper $file
-    set file_ext ( echo $wallpaper | rg -o '(png|jpeg|jpg|webp)')
+    set file_ext ( echo $wallpaper | rg -o '(png|jpeg|jpg|webp|gif)')
     printf "wall_file :%s\nwall_file_ext:%s\n" $file $file_ext
     if set -q "file_ext"
        set target ~/.config/c_wallpaper.$file_ext
@@ -49,10 +49,9 @@ function change_wallpaper
                 hyprctl hyprpaper wallpaper $mon,$target
             end
        end
-       # if pgrep Xorg
-       #     xwallpaper --maximize "$target"
-       #     xdotool key Super_L+F5
-       # end
+       if pgrep Xorg
+           xwallpaper --maximize "$target"
+       end
     end
 end
 
@@ -112,11 +111,6 @@ function fish_prompt --description 'Write out the prompt'
         set suffix '$'
     end
     
-    # virtualfish
-    # if set -q VIRTUAL_ENV
-    #     echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
-    # end
-
     # PWD
     set_color $color_cwd
     echo -n (prompt_pwd)

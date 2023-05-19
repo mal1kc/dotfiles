@@ -123,6 +123,7 @@ window#waybar {
 /*     color: #ffffff; */
 /* } */
 
+
 #window,
 #workspaces {
     margin: 0 4px;
@@ -185,8 +186,12 @@ label:focus {
     background-color: @lavender;
 }
 
-#disk {
+#disk.root {
     background-color: @red;
+    border-radius: 0px;
+}
+#disk.home {
+    background-color: @mauve;
     border-radius: 0px 5px 5px 0px;
 }
 
@@ -304,4 +309,14 @@ label:focus {
 
 #scratchpad.empty {
 	background-color: transparent;
+}
+
+#custom-media {
+	background-color: @mantle;
+
+    background: #1f1f1f;
+    color: #bebebe;
+	padding: 0px 10px;
+    border-radius: 5px;
+	margin: 5px 0px;
 }
