@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Downloads the embedded video on any web page straight to the specified DIR.
+# default dir is ~/videos/ if not exists it creates
+# youtube-dlp, which is awesome:
+#   https://github.com/yt-dlp/yt-dlp
+#
+VID_DOWN_DIR=$2
+
+if [ -z "$VID_DOWN_DIR" ]; then
+	VID_DOWN_DIR=~/videos
+fi
+
+if [ ! -d "$VID_DOWN_DIR" ]; then
+	mkdir -p "$VID_DOWN_DIR"
+fi
+
+cd "$2" && yt-dlp -S "ext" "$1"

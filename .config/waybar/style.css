@@ -2,10 +2,10 @@
 
 * {
     border: none;
-    border-radius: 0;
-    font-family:Victor Mono;
+    border-radius: 0px;
+    font-family: Victor Mono;
+    font-weight: normal;
     font-size: 12px;
-    min-height: 0;
 }
 
 
@@ -15,12 +15,11 @@ window#waybar {
 }
 
 #workspaces {
-	background-color: @mantle;
-	margin: 5px;
-	margin-left: 10px;
+	margin: 5px 5px;
 }
 #workspaces button {
-    padding: 0 10px;
+    padding: 2px 8px 2px 8px;
+    margin: 0px 8px 0px 8px;
     color: #eceff4;
 }
 
@@ -35,8 +34,8 @@ window#waybar {
 
 #disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network {
 	background-color: @mantle;
-	padding: 0px 10px;
-	margin: 5px 0px;
+	padding: 0px 8px;
+	margin: 8px 0px;
 }
 
 #custom-date {
@@ -47,11 +46,11 @@ window#waybar {
 	color: @overlay1;
 	background-color: #bf616a;
 	border-radius: 5px;
-	margin-right: 10px;
+	margin-right: 8px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	margin-left: 0px;
-	padding: 0px 10px;
+	padding: 0px 5px;
 }
 
 #bluetooth {
@@ -65,7 +64,7 @@ window#waybar {
 #clock {
     color: @maroon;
     border-radius: 0px 5px 5px 0px;
-    margin-right: 10px;
+    margin-right: 8px;
 }
 
 #battery {
@@ -123,19 +122,21 @@ window#waybar {
 /*     color: #ffffff; */
 /* } */
 
+
 #window,
 #workspaces {
-    margin: 0 4px;
+    margin: 0px 4px;
+
 }
 
 /* If workspaces is the leftmost module, omit left margin */
 .modules-left > widget:first-child > #workspaces {
-    margin-left: 0;
+    margin-left: 0px;
 }
 
 /* If workspaces is the rightmost module, omit right margin */
 .modules-right > widget:last-child > #workspaces {
-    margin-right: 0;
+    margin-right: 0px;
 }
 
 #clock {
@@ -177,7 +178,7 @@ label:focus {
     background-color: #2ecc71;
     color: #000000;
     border-radius: 5px 0px 0px 5px;
-    margin-left: 10px ;
+    margin-left: 8px ;
 
 }
 
@@ -185,8 +186,12 @@ label:focus {
     background-color: @lavender;
 }
 
-#disk {
+#disk.root {
     background-color: @red;
+    border-radius: 0px;
+}
+#disk.home {
+    background-color: @mauve;
     border-radius: 0px 5px 5px 0px;
 }
 
@@ -237,6 +242,9 @@ label:focus {
 
 #tray {
     background-color: #2980b9;
+    margin: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #tray > .passive {
@@ -259,7 +267,7 @@ label:focus {
 
 #mpd {
     background-color: @crust;
-    margin: 5px 20px 5px 5px;
+    margin: 5px 8px 5px 5px;
 }
 
 #mpd.disconnected {
@@ -277,21 +285,21 @@ label:focus {
 #language {
     background: #00b093;
     color: #740864;
-    padding: 0 5px;
-    margin: 0 5px;
-    min-width: 16px;
+    padding: 0px 5px;
+    margin: 0px 5px;
+    min-width: 8px;
 }
 
 #keyboard-state {
     background: #97e1ad;
     color: #000000;
-    padding: 0 0px;
-    margin: 0 5px;
+    padding: 0px 0px;
+    margin: 0px 5px;
     min-width: 16px;
 }
 
 #keyboard-state > label {
-    padding: 0 5px;
+    padding: 0px 5px;
 }
 
 #keyboard-state > label.locked {
@@ -304,4 +312,14 @@ label:focus {
 
 #scratchpad.empty {
 	background-color: transparent;
+}
+
+#custom-media {
+	background-color: @mantle;
+
+    background: #1f1f1f;
+    color: #bebebe;
+	padding: 0px 5px;
+    border-radius: 5px;
+	margin: 5px 0px;
 }
