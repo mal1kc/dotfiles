@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Quick search in a directory for a string ($@).
+#
+set -e
+
+# fd
+# -i ignore case
+# -I not respect .gitignore etc
+# -H hidden
+# -L follow links
+#
+# find
+# -iname ignore case in filename
+# -I 
+# -L follow links
+#
+#
+
+if [ -x /usr/bin/fd ]; then
+	/usr/bin/fd -iIHL "$@"
+elif [ -x /usr/bin/fdfind ]; then
+	/usr/bin/fdfind -iIHL "$@"
+elif [ -x /usr/bin/find ]; then
+	/usr/bin/find . -iname -L -type f -name "$@"
+else
+	printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
+	printf "you dont installed fd find"
+	printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
+	echo ''
+	exit
+fi
