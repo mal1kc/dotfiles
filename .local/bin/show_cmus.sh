@@ -1,12 +1,11 @@
 #!/bin/env sh
 
-# A dwm_bar function that shows the current artist, track, position, duration, and status from cmus
-# Joe Standring <git@joestandring.com>
+# A bar function that shows the current artist, track, position, duration, and status from cmus
 # GNU GPLv3
 
 # Dependencies: cmus
 
-dwm_cmus () {
+show_cmus_status () {
     if ps -C cmus > /dev/null; then
         CMUSDATA=$(cmus-remote -Q)
         #ARTIST=$(echo "$CMUSDATA" | grep -w '^tag artist' | awk '{gsub("tag artist ", "");print}')
@@ -38,4 +37,4 @@ dwm_cmus () {
     fi
 }
 
-dwm_cmus
+show_cmus_status

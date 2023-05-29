@@ -1,15 +1,14 @@
 #!/bin/dash
 #/usr/bin/prime-offload &
-echo "--- $(date \"+%m/%d-%T\" )---"
-xcompmgr -c &
+picom &
 keepassxc &
 emacs --daemon > ~/.emacsD.log &
 kdeconnect-indicator &
 dunst &
 ~/.local/bin/ch_wallpaper &
-slstatus &
 xrdb >> ~/.dwm.log &
-xautolock &
+/usr/lib/polkit-kde-authentication-agent-1 &
+dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY &
 # while true; do
 #     # Log stderror to a file 
 #     dwm 2>> ~/.dwm.log

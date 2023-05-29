@@ -1,8 +1,9 @@
 #!/bin/env sh
 
+# GNU GPLv3
 # Dependencies: wireplumber,bc,ripgrep
 
-dwm_pipewire () {
+show_pipewire () {
     VOL=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
     #echo $VOL
     STATE=$( echo $VOL | rg -o "MUTED")
@@ -19,4 +20,4 @@ dwm_pipewire () {
     fi
     }
 
-dwm_pipewire
+show_pipewire
