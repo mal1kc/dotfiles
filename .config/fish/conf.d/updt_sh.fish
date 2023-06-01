@@ -4,7 +4,8 @@ alias sys_updt="yay -Syu --noconfirm"
 alias nix_updt="nix-channel --update -v;nix-env -uv;nix-store --gc"
 alias fish_updt="fisher update"
 # nvim error hangs because of 'restart question'
-alias nvim_updt="nvim --headless +AstroUpdate +qall" 
+#alias nvim_updt="nvim --headless +AstroUpdate +qall" 
+alias nvim_updt="echo 'ignoring astronvim because ask restart question cannot be answerable'" 
 alias dmacs_updt="~/.emacs.d/bin/doom upgrade;~/.emacs.d/bin/doom sync"
 alias pip_updt="python -m pip install --upgrade --user pip"
 # sys_updt is in end because it neets sudo rights

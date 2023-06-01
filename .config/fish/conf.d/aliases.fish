@@ -10,8 +10,14 @@ if command -v fd >/dev/null
   alias ldir="fd . -t d -d 1"
 end
 
+
+
 # mv, rm, cp
-alias rm="rm -i -v"
+if command -v trash >/dev/null
+  alias rm="trash"
+else
+  alias rm="rm -i -v"
+end
 alias mv="mv -v"
 alias cp="cp -v"
 
