@@ -1,3 +1,9 @@
+#!/bin/env sh
+
+# created by mal1kc
+
+# network manager toggle wifi radio
+
 if [ ""$(echo $(nmcli radio wifi)
 ) = 'enabled' ]; then
     nmcli radio wifi off

@@ -36,6 +36,7 @@ alias vim="nvim"
 
 alias show_cpu_freq="cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
 
+alias docker="podman"
 
 # prints all info about package with fuzzy search in local pacman and remote pacman search installed "Q" and non-installed "S" database
 

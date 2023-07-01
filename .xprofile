@@ -1,8 +1,8 @@
 #!/bin/dash
 #/usr/bin/prime-offload &
 picom &
-keepassxc &
-emacs --daemon > ~/.emacsD.log &
+# keepassxc &
+# emacs --daemon > ~/.emacsD.log &
 kdeconnect-indicator &
 dunst &
 ~/.local/bin/ch_wallpaper &
