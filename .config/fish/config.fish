@@ -36,7 +36,7 @@ function change_wallpaper
        xrdb -merge ~/.cache/wal/colors.Xresources
 
        if pgrep swww-daemon > /dev/null
-          swww img "$wallpaper" --transition-type random --no-resize --sync
+          swww img "$wallpaper" --transition-type random --no-resize
        end
 
        if pgrep hyprpaper > /dev/null

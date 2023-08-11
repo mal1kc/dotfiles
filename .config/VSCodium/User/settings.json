@@ -175,7 +175,7 @@
     "editor.unicodeHighlight.ambiguousCharacters": false,
     "telemetry.telemetryLevel": "crash",
     "editor.inlineSuggest.enabled": true,
-    "workbench.colorTheme": "Catppuccin Frappé",
+    "workbench.colorTheme": "Night Wolf (black)",
     "terminal.external.windowsExec": "wt.exe",
     "files.autoSave": "onFocusChange",
     "workbench.editor.splitInGroupLayout": "vertical",
@@ -186,13 +186,17 @@
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
-    "editor.fontFamily": "Victor Mono Medium",
+    "editor.fontFamily": "FiraCode Nerd Font, TerminessTTF",
     "jupyter.askForKernelRestart": false,
     "terminal.external.linuxExec": "kitty",
+    "window.menuBarVisibility": "toggle",
     "vscode-neovim.logOutputToConsole": true,
     "vscode-neovim.neovimInitVimPaths.linux": "/home/mal1kc/.config/nvim-code/init.lua",
     "editor.lineNumbers": "relative",
     "editor.cursorSurroundingLines": 10,
-    "window.zoomLevel": 1,
-    "window.menuBarVisibility": "toggle"
+    "clangd.fallbackFlags": [
+        "-I${workspaceFolder}/include"
+        ],
+        "terminal.integrated.fontFamily": "FiraCode Nerd Font, monospace",
+        "git.ignoreMissingGitWarning": true
 }
