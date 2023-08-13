@@ -54,3 +54,5 @@
 (package! platformio-mode)                      ;; https://melpa.org/#/platformio-mode
 (package! color-theme-sanityinc-tomorrow)       ;; https://melpa.org/#/color-theme-sanityinc-tomorrow
 (package! resize-window)                        ;; https://melpa.org/#/resize-window
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))

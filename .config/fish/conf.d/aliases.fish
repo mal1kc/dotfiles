@@ -11,13 +11,17 @@ if command -v fd >/dev/null
 end
 
 # mv, rm, cp
-alias rm="rm -i -v"
+if command -v trash > /dev/null
+	alias rm="trash"
+else 
+	alias rm="rm -i -v"
+end
 alias mv="mv -v"
 alias cp="cp -v"
 
 alias whr="whereis"
 
-alias wget="curl -O"
+alias wget="curl -OL"
 
 alias diskspace_rp="df -PkHl"
 
@@ -37,3 +41,9 @@ alias vim="nvim"
 # prints all info about package fuzzy yay search installed "Q" and non-installed "S" database
 alias fzy_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | lolcat"
 alias fzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | lolcat"
+
+alias docker="podman"
+
+if command -v handlr >/dev/null
+   alias xdg-open="handlr"
+end
