@@ -45,5 +45,5 @@ alias fzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-w
 alias docker="podman"
 
 if command -v handlr >/dev/null
-   alias xdg-open="handlr"
+   alias xdg-open="handlr open"
 end

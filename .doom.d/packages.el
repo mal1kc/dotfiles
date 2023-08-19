@@ -56,3 +56,9 @@
 (package! resize-window)                        ;; https://melpa.org/#/resize-window
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+(package! org-auto-tangle)
+(package! dired-open)
+(package! dired-subtree)
+(package! beacon)
+(package! rainbow-mode)
+(package! peep-dired)

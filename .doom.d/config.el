@@ -47,47 +47,115 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
+(setq scroll-margin 10)
+
+(beacon-mode 1)
+
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+
+(map! :leader
+   (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump)
+      (:after dired
+       (:map dired-mode-map
+        :desc "Peep-dired image previews" "d p" #'peep-dired
+        :desc "Dired view file" "d v" #'dired-view-file)))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-up-directory
+  (kbd "% l") 'dired-downcase
+  (kbd "% u") 'dired-upcase
+ )
+;;Get file icons in dired
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;;With dired-open plugin, you can launch external programs for certain extensions
+;;For example, I set all .png files to open in 'nsxiv' and all .mp4 files to open in 'mpv'
+(setq dired-open-extensions '(("gif" . "nsxiv")
+                              ("jpg" . "nsxiv")
+                              ("png" . "nsxiv")
+                              ("mkv" . "mpv")
+                              ("mp4" . "mpv")))
+
+(evil-define-key 'normal peep-dired-mode-map
+  (kbd "j") 'peep-dired-next-file
+  (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+
+(setq delete-by-moving-to-trash t
+      trash-directory "~/.local/share/Trash/files/")
+
+(map! :leader
+      (:prefix ("e". "evaluate")
+       :desc "Evaluate elisp in buffer" "b" #'eval-buffer
+       :desc "Evaluate defun" "d" #'eval-defun
+       :desc "Evaluate elisp expression" "e" #'eval-expression
+       :desc "Evaluate last sexpression" "l" #'eval-last-sexp
+       :desc "Evaluate elisp in region" "r" #'eval-region))
+
+(xterm-mouse-mode 1)
+
+(map! :leader
+      :desc "Org babel tange" "m B" #'org-babel-tangle)
 (after! org
   (setq org-directory "~/org/"
-        org-agenda-files "~/org/agenda.org"
-        )
-)
+        org-agenda-files '("~/org/agenda.org")
+        org-default-notes-file (expand-file-name "notes.org" org-directory)
+        org-ellipsis " ▼ "
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
+        org-superstar-itembullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
+        org-log-done 'time
+        org-hide-emphasis-markers t
+                ;; ex. of org-link-abbrev-alist in action
+        ;; [[arch-wiki:Name_of_Page][Description]]
+        org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+          '(("google" . "http://www.google.com/search?q=")
+            ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
+            ("ddg" . "https://duckduckgo.com/?q=")
+            ("pydoc" . "https://docs.python.org/3/search.html?q=")
+            ("wiki" . "https://en.wikipedia.org/wiki/"))
+        org-table-convert-region-max-lines 20000
+        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+          '((sequence
+             "TODO(t)"           ; A task that is ready to be tackled
+             "BLOG(b)"           ; Blog writing assignments
+             "PROJ(p)"           ; A project that contains other tasks
+             "WAIT(w)"           ; Something is holding up this task
+             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+             "DONE(d)"           ; Task has been completed
+             "CANCELLED(c)" )))) ; Task has been cancelled
 
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
 
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-;;
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+  (lambda () (rainbow-mode 1)))
+(global-rainbow-mode 1 )
+
+(map! :leader
+      (:prefix ("w" . "window")
+       :desc "Winner redo" "<right>" #'winner-redo
+       :desc "Winner undo" "<left>" #'winner-undo))
 
 (setq +format-on-save-enabled-modes
       '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
@@ -99,24 +167,21 @@
 (add-hook 'js2-mode-hook #'format-all-mode)
 (add-hook 'c++-mode-hook #'format-all-mode)
 
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
-
-;; (setenv "PATH"
-;;         (concat
-;;          "~/.local/bin" path-separator
-;;          (getenv "PATH")))
-
-(setq scroll-margin 10)
-
-;; (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
-;; (setq +python-jupyter-repl-args '("--simple-prompt"))
-
-;; (require 'platformio-mode)
-
 ;; Enable ccls for all c++ files, and platformio-mode only
 ;; when needed (platformio.ini present in project root).
 
+
+                (add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
+
+(add-hook 'c++-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (platformio-conditionally-enable)))
+;; generates compile-commands.json for clangd
+;; every time load cpp file with platformio mode
+(add-hook 'platformio-mode-hook (lambda ()
+                                  (platformio--run "-t compiledb")
+                                  ))
 (add-hook 'c++-mode-hook (lambda ()
                            (lsp-deferred)
                            (platformio-conditionally-enable)))
@@ -127,11 +192,11 @@
     (shell-command (concat "git add -f "
                (shell-quote-argument buffer-file-name))))
 
-;; activate flyspell mode when loading some text modes
 (dolist (hook '(text-mode-hook org-mode-hook markdown-mode-hook))
   (add-hook hook (lambda () (flyspell-mode 1))
   ))
 
+;; accept completion from copilot and fallback to company
 (use-package! copilot
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
