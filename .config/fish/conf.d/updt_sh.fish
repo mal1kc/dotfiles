@@ -1,7 +1,7 @@
 # update shortcuts
 alias flpak_updt="flatpak update -y;flatpak uninstall --unused -y"
 alias sys_updt="yay -Syu --noconfirm"
-alias nix_updt="nix-channel --update -v;nix-env -uv;nix-store --gc"
+alias nix_updt="nix-channel --update -v;nix profile upgrade -f '<nixpkgs>' '.*';nix-store --gc"
 alias fish_updt="fisher update"
 # nvim error hangs because of 'restart question'
 #alias nvim_updt="nvim --headless +AstroUpdate +qall" 

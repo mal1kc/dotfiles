@@ -25,7 +25,11 @@ end
 # end
 
 # functions -e fish_greeting
-
+set -l nix_shell_info (
+  if test -n "$IN_NIX_SHELL"
+    echo -n "<nix-shell> "
+  end
+)
 
 function change_wallpaper
     set walpapers ~/pictures/wallpapers/
@@ -41,7 +45,7 @@ function change_wallpaper
     wal -c
     wal -i "$target" -n -e -a 82
     xrdb -merge ~/.cache/wal/colors.Xresources
-    xdotool key Super_L+F5
+    # xdotool key Super_L+F5
 end
 
 function fish_greeting

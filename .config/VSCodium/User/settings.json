@@ -175,19 +175,18 @@
     "editor.unicodeHighlight.ambiguousCharacters": false,
     "telemetry.telemetryLevel": "crash",
     "editor.inlineSuggest.enabled": true,
-    "workbench.colorTheme": "Catppuccin Frappé",
+    "workbench.colorTheme": "Night Wolf (black)",
     "terminal.external.windowsExec": "wt.exe",
     "files.autoSave": "onFocusChange",
     "workbench.editor.splitInGroupLayout": "vertical",
     "arduino.path": "C:\\Users\\malik kokcan\\scoop\\apps\\arduino\\current",
     "files.simpleDialog.enable": true,
-    "workbench.activityBar.visible": false,
     "cSpell.language": "en,tr",
     "python.envFile": "${workspaceFolder}/.env",
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
-    "editor.fontFamily": "VictorMono Nerd Font, FiraCode Nerd Font, TerminessTTF",
+    "editor.fontFamily": "FiraCode Nerd Font, TerminessTTF",
     "jupyter.askForKernelRestart": false,
     "terminal.external.linuxExec": "kitty",
     "window.menuBarVisibility": "toggle",
@@ -199,5 +198,9 @@
         "-I${workspaceFolder}/include"
         ],
         "terminal.integrated.fontFamily": "FiraCode Nerd Font, monospace",
-        "window.zoomLevel": 2
+        "git.ignoreMissingGitWarning": true,
+        "diffEditor.renderSideBySide": false,
+        "[javascript]": {
+            "editor.defaultFormatter": "vscode.typescript-language-features"
+        }
 }
