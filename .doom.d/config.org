@@ -1,0 +1,399 @@
+#+TITLE: mal1kc's doom emacs config
+#+AUTHOR: mal1c
+#+DESCRIPTION: mal1kc's personal doom emacs config.
+#+STARTUP: showeverything
+#+property: header-args :results output :tangle yes
+#+auto_tangle: t
+#+Toc: listings
+
+* about this config
+
+this is my personal doom emacs config. [[https://github.com/doomemacs/][doomemacs]] is a distrubution of emacs .
+
+* doom theme and font
+
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; Place your private configuration here! Remember, you do not need to run 'doom
+;; sync' after modifying this file!
+
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+
+;; clients, file templates and snippets. It is optional.
+;;(setq user-full-name "John Doe"
+;;     user-mail-address "john@doe.com")
+
+(setq user-full-name "malik kökçan")
+
+(setq doom-theme 'sanityinc-tomorrow-night)
+(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 16 :weight 'light)
+      doom-big-font (font-spec :family "Hack Nerd Font" :size 24)
+     )
+
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
+(setq display-line-numbers-type 'relative)
+(setq scroll-margin 10)
+
+#+end_src
+
+#+RESULTS:
+| doom--customize-themes-h-229 | doom--customize-themes-h-230 |
+
+* beacon
+when we scroll, our cursor will shine! this is a global minor-mode. Turn it on everywhere with:
+
+#+begin_src emacs-lisp
+(beacon-mode 1)
+#+end_src
+
+#+RESULTS:
+
+** global auto revert
+
+a buffer can get out of sync  with respect to its visited fie on disk that file is changed by another program. To keep it up to date, you can enable Auto Revert mode by typing M-x auto-revert-mode, or you can set it to be turned on globally with 'global-auto-revert-mode'. I have also turned on Global Auto Revert on non-file buffers, which is especially useful for 'dired' buffers.
+
+#+begin_src emacs-lisp
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+#+end_src
+
+#+RESULTS:
+: t
+
+
+* dired
+
+dired is the file manager within emacs. below, i setup keybindings for image previous (peep-dired).Doom Emacs does not use 'SPC d' for any of its keybindings, so I've chosen the format of 'SPC d' plus 'key'.
+
+** keybindings to open dired
+
+| COMMAND    | DESCRIPTION                        | KEYBINDING |
+|------------+------------------------------------+------------|
+| dired      | /Open dired file manager/            | SPC d d    |
+| dired-jump | /Jump to current directory in dired/ | SPC d j    |
+
+** Keybindings Within Dired
+*** Basic dired commands
+
+| COMMAND                 | DESCRIPTION                                 | KEYBINDING |
+|-------------------------+---------------------------------------------+------------|
+| dired-view-file         | /View file in dired/                          | SPC d v    |
+| dired-up-directory      | /Go up in directory tree/                     | h          |
+| dired-find-file         | /Go down in directory tree (or open if file)/ | l          |
+| dired-next-line         | Move down to next line                      | j          |
+| dired-previous-line     | Move up to previous line                    | k          |
+| dired-mark              | Mark file at point                          | m          |
+| dired-unmark            | Unmark file at point                        | u          |
+| dired-do-copy           | Copy current file or marked files           | C          |
+| dired-do-rename         | Rename current file or marked files         | R          |
+| dired-hide-details      | Toggle detailed listings on/off             | (          |
+| dired-git-info-mode     | Toggle git information on/off               | )          |
+| dired-create-directory  | Create new empty directory                  | +          |
+| dired-diff              | Compare file at point with another          | =          |
+| dired-subtree-toggle    | Toggle viewing subtree at point             | TAB        |
+
+*** Dired commands using regex
+
+| COMMAND                 | DESCRIPTION                | KEYBINDING |
+|-------------------------+----------------------------+------------|
+| dired-mark-files-regexp | Mark files using regex     | % m        |
+| dired-do-copy-regexp    | Copy files using regex     | % C        |
+| dired-do-rename-regexp  | Rename files using regex   | % R        |
+| dired-mark-files-regexp | Mark all files using regex | * %        |
+
+*** File permissions and ownership
+
+| COMMAND         | DESCRIPTION                      | KEYBINDING |
+|-----------------+----------------------------------+------------|
+| dired-do-chgrp  | Change the group of marked files | g G        |
+| dired-do-chmod  | Change the mode of marked files  | M          |
+| dired-do-chown  | Change the owner of marked files | O          |
+| dired-do-rename | Rename file or all marked files  | R          |
+
+#+begin_src emacs-lisp
+(map! :leader
+   (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump)
+      (:after dired
+       (:map dired-mode-map
+        :desc "Peep-dired image previews" "d p" #'peep-dired
+        :desc "Dired view file" "d v" #'dired-view-file)))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-up-directory
+  (kbd "% l") 'dired-downcase
+  (kbd "% u") 'dired-upcase
+ )
+;;Get file icons in dired
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;;With dired-open plugin, you can launch external programs for certain extensions
+;;For example, I set all .png files to open in 'nsxiv' and all .mp4 files to open in 'mpv'
+(setq dired-open-extensions '(("gif" . "nsxiv")
+                              ("jpg" . "nsxiv")
+                              ("png" . "nsxiv")
+                              ("mkv" . "mpv")
+                              ("mp4" . "mpv")))
+#+end_src
+
+#+RESULTS:
+: ((gif . nsxiv) (jpg . nsxiv) (png . nsxiv) (mkv . mpv) (mp4 . mpv))
+
+** Keybindings Within Dired With Peep-Dired-Mode Enabled
+if peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
+
+| COMMAND              | DESCRIPTION                              | KEYBINDING |
+|----------------------+------------------------------------------+------------|
+| peep-dired           | /Toggle previews within dired/             | SPC d p    |
+| peep-dired-next-file | /Move to next file in peep-dired-mode/     | j          |
+| peep-dired-prev-file | /Move to previous file in peep-dired-mode/ | k          |
+
+#+BEGIN_SRC emacs-lisp
+(evil-define-key 'normal peep-dired-mode-map
+  (kbd "j") 'peep-dired-next-file
+  (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+#+END_SRC
+
+#+RESULTS:
+| evil-normalize-keymaps |
+
+** Making deleted files go to trash can
+#+begin_src emacs-lisp
+(setq delete-by-moving-to-trash t
+      trash-directory "~/.local/share/Trash/files/")
+#+end_src
+
+#+RESULTS:
+: ~/.local/share/Trash/files/
+
+
+* EVALUATE ELISP EXPRESSIONS
+
+| COMMAND         | DESCRIPTION                                  | KEYBINDING |
+|-----------------+----------------------------------------------+------------|
+| eval-buffer     | /Evaluate elisp in buffer/                     | SPC e b    |
+| eval-defun      | /Evaluate the defun containing or after point/ | SPC e d    |
+| eval-expression | /Evaluate an elisp expression/                 | SPC e e    |
+| eval-last-sexp  | /Evaluate elisp expression before point/       | SPC e l    |
+| eval-region     | /Evaluate elisp in region/                     | SPC e r    |
+
+#+Begin_src emacs-lisp
+(map! :leader
+      (:prefix ("e". "evaluate")
+       :desc "Evaluate elisp in buffer" "b" #'eval-buffer
+       :desc "Evaluate defun" "d" #'eval-defun
+       :desc "Evaluate elisp expression" "e" #'eval-expression
+       :desc "Evaluate last sexpression" "l" #'eval-last-sexp
+       :desc "Evaluate elisp in region" "r" #'eval-region))
+#+END_SRC
+
+#+RESULTS:
+: eval-region
+
+* mouse support
+
+#+begin_src emacs-lisp
+(xterm-mouse-mode 1)
+#+end_src
+
+#+RESULTS:
+: t
+
+* word-checking
+
+#+begin_src emacs-lisp
+(dolist (hook '(text-mode-hook org-mode-hook markdown-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))
+  ))
+#+end_src
+
+* org mode
+#+begin_src emacs-lisp
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(map! :leader
+      :desc "Org babel tange" "m B" #'org-babel-tangle)
+(after! org
+  (setq org-directory "~/org/"
+        org-agenda-files '("~/org/agenda.org")
+        org-default-notes-file (expand-file-name "notes.org" org-directory)
+        org-ellipsis " ▼ "
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
+        org-superstar-itembullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
+        org-log-done 'time
+        org-hide-emphasis-markers t
+                ;; ex. of org-link-abbrev-alist in action
+        ;; [[arch-wiki:Name_of_Page][Description]]
+        org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+          '(("google" . "http://www.google.com/search?q=")
+            ("arch-wiki" . "https://wiki.archlinux.org/index.php/")
+            ("ddg" . "https://duckduckgo.com/?q=")
+            ("pydoc" . "https://docs.python.org/3/search.html?q=")
+            ("wiki" . "https://en.wikipedia.org/wiki/"))
+        org-table-convert-region-max-lines 20000
+        org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
+          '((sequence
+             "TODO(t)"           ; A task that is ready to be tackled
+             "BLOG(b)"           ; Blog writing assignments
+             "PROJ(p)"           ; A project that contains other tasks
+             "WAIT(w)"           ; Something is holding up this task
+             "|"                 ; The pipe necessary to separate "active" states and "inactive" states
+             "DONE(d)"           ; Task has been completed
+             "CANCELLED(c)" )))) ; Task has been cancelled
+#+end_src
+
+#+RESULTS:
+| sequence | TODO(t) | BLOG(b) | PROJ(p) | WAIT(w) |   |   | DONE(d) | CANCELLED(c) |
+
+** Org-auto-tangle
+=org-auto-tangle= allows you to add the option =#+auto_tangle: t= in your Org file so that it automatically tangles when you save the document.
+
+#+begin_src emacs-lisp
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
+
+#+end_src
+
+#+RESULTS:
+| org-auto-tangle-mode | (closure ((hook . org-mode-hook) (--dolist-tail--) t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | (closure ((hook . org-mode-hook) (--dolist-tail--) t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | (closure ((hook . org-mode-hook) (--dolist-tail--) t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | er/add-org-mode-expansions | +lookup--init-org-mode-handlers-h | (closure ((hook . org-mode-hook) (--dolist-tail--) t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | (closure ((hook . org-mode-hook) (--dolist-tail--) t) nil (flyspell-mode 1)) | doom-disable-show-paren-mode-h | doom-disable-show-trailing-whitespace-h | +org-enable-auto-reformat-tables-h | +org-enable-auto-update-cookies-h | +org-make-last-point-visible-h | org-fancy-priorities-mode | org-superstar-mode | evil-org-mode | toc-org-enable | writegood-mode | flyspell-mode | embrace-org-mode-hook | org-eldoc-load |
+
+* RAINBOW MODE
+rainbox mode displays the actual color for any hex value color.regardless of what mode I am in.  The following creates a global minor mode for rainbow-mode and enables it.
+
+#+begin_src emacs-lisp
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+  (lambda () (rainbow-mode 1)))
+(global-rainbow-mode 1 )
+#+end_src
+
+#+RESULTS:
+: t
+
+* WINNER MODE
+Winner mode has been included with GNU Emacs since version 20.  This is a global minor mode and, when activated, it allows you to “undo” (and “redo”) changes in the window configuration with the key commands 'SCP w <left>' and 'SPC w <right>'.
+
+#+BEGIN_SRC emacs-lisp
+(map! :leader
+      (:prefix ("w" . "window")
+       :desc "Winner redo" "<right>" #'winner-redo
+       :desc "Winner undo" "<left>" #'winner-undo))
+#+END_SRC
+
+#+RESULTS:
+: winner-undo
+
+* format on save
+
+#+begin_src emacs-lisp
+
+
+(setq +format-on-save-enabled-modes
+      '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
+                sql-mode         ; sqlformat is currently broken
+                tex-mode         ; latexindent is broken
+                latex-mode))
+
+(add-hook 'python-mode-hook #'format-all-mode)
+(add-hook 'js2-mode-hook #'format-all-mode)
+(add-hook 'c++-mode-hook #'format-all-mode)
+
+#+end_src
+
+#+RESULTS:
+| (closure (t) nil (lsp-deferred) (platformio-conditionally-enable)) | format-all-mode | modern-c++-font-lock-mode | +cc-fontify-constants-h | +evil-embrace-angle-bracket-modes-hook-h |
+
+* platformio: config
+
+#+begin_src emacs-lisp
+
+;; Enable ccls for all c++ files, and platformio-mode only
+;; when needed (platformio.ini present in project root).
+
+
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
+
+(add-hook 'c++-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (platformio-conditionally-enable)))
+;; generates compile-commands.json for clangd
+;; every time load cpp file with platformio mode
+(add-hook 'platformio-mode-hook (lambda ()
+                                  (platformio--run "-t compiledb")
+                                  ))
+(add-hook 'c++-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (platformio-conditionally-enable)))
+
+#+end_src
+
+#+RESULTS:
+| lambda | nil | (platformio--run -t compiledb) |
+
+* magit: config
+add files to git repository with force(-f) tag
+#+begin_src emacs-lisp
+(defun magit-add-current-buffer ()
+    "Adds (with force) the file from the current buffer to the git repo"
+    (interactive)
+    (shell-command (concat "git add -f "
+               (shell-quote-argument buffer-file-name))))
+#+end_src
+
+#+RESULTS:
+: magit-add-current-buffer
+
+* flyspell: auto enable on specified text modes
+activate flyspell mode when loading some text modes
+
+#+begin_src emacs-lisp
+(dolist (hook '(text-mode-hook org-mode-hook markdown-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))
+  ))
+#+end_src
+
+#+RESULTS:
+
+* copilot.el
+#+begin_src emacs-lisp
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+#+end_src
+
+#+RESULTS:
+
+* docker
+
+#+begin_src emacs-lisp
+(after! docker
+(setq docker-command "podman")
+ )
+#+end_src
