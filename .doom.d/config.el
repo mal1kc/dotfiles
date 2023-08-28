@@ -204,3 +204,9 @@
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+(map! :leader "ü" #'+popup/toggle )
+(map! :leader "ö" #'mark-sexp )
+(map! "C-ç" #'comment-line )
+(map! "C-ş" #'er/expand-region ) ;; similliar to mark-sexp but slightly different
+(map! :leader "r" #'recentf-open-files )
