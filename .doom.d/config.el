@@ -186,3 +186,26 @@
 (after! docker
 (setq docker-command "podman")
  )
+
+(map! :leader "ü" #'+popup/toggle )
+(map! :leader "ö" #'mark-sexp )
+(map! "C-ç" #'comment-line )
+(map! "C-ş" #'er/expand-region ) ;; similliar to mark-sexp but slightly different
+(map! :leader "r" #'recentf-open-files )
+
+(setq hl-todo-keyword-faces
+   '(("HOLD"   . "#fff8dc")
+    ("TODO"   . "#7fff00")
+    ("NEXT"   . "#dca3a3")
+    ("THEM"   . "#dc8cc3")
+    ("PROG"   . "#7cb8bb")
+    ("OKAY"   . "#7cb8bb")
+    ("DONT"   . "#5f7f5f")
+    ("FAIL"   . "#8c5353")
+    ("DONE"   . "#afd8af")
+    ("NOTE"   . "#d0bf8f")
+    ("KLUDGE" . "#d0bf8f")
+    ("HACK"   . "#d0bf8f")
+    ("TEMP"   . "#d0bf8f")
+    ("FIXME"  . "#cc9393")
+    ("IMPORTANT" . "#8b0000")))
