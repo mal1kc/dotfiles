@@ -6,10 +6,11 @@
 this config is my main setup config with archlinux
 (if u have recommendations/questions for me please say it)
 
+* PKGSLIST IS NOT UP-TO-DATE
 * packages i use
 ** desktop apps
 
-#+begin_src bash :tangle required_packages.txt
+#+begin_src bash :tangle used_packages.txt.txt
 
 ark
 dunst                     # lightweight notification deamon
@@ -30,14 +31,14 @@ zathura-pdf-poppler       # pdf plugin
 
 ** editors
 
-#+begin_src bash :tangle required_packages.txt
-neovim                    # astronvim
+#+begin_src bash :tangle used_packages.txt.txt
+neovim                    # currently trying to create own configs
 emacs                     # doomemacs
 #+end_src
 
 ** cli utils
 
-#+begin_src bash :tangle required_packages.txt
+#+begin_src bash :tangle used_packages.txt.txt
 bat                       # cat with syntax highlighting + pager
 btop                      # process,system usage viewer
 dash                      # POSIX compliant shell that aims to be as small as possible
@@ -75,9 +76,9 @@ refind
 
 ** system
 
-#+begin_src bash :tangle required_packages.txt
+#+begin_src bash :tangle used_packages.txt.txt
 amd-ucode                 # for amd processor
-make                      
+make
 patch                     # for applying git diffs as patches to code
 wireplumber               # pipewire session manager
 pipewire-pulse            # pipewire pulseaudio replacement
@@ -87,7 +88,8 @@ udisks2                   # mounting disks with udev rules
 #+end_src
 ** fonts
 
-#+begin_src bash :tangle required_packages.txt
+#+begin_src bash :tangle used_packages.txt.txt
+ttc-isevka
 noto-fonts-emoji
 gnu-free-fonts
 ttf-hack
@@ -97,14 +99,14 @@ ttf-firacode-nerd
 
 ** aur
 
-#+begin_src bash :tangle required_packages.txt
+#+begin_src bash :tangle used_packages.txt.txt
 # nsxiv                     # neo sxiv
 # librewolf                 # more piracy firendly,much faster firefox
 # sww
 #+end_src
 ** build from source
 
-#+begin_src bash :tangle required_packages.txt
+#+begin_src bash :tangle used_packages.txt.txt
 #st
 #nnn                       # file manager build from source or nerd icons
 
@@ -112,7 +114,7 @@ ttf-firacode-nerd
 ** extras
 
 i am currently using hyprland (wl-roots based wayland compositor)
-#+begin_src bash :tangle required_packages.txt
+#+begin_src bash :tangle used_packages.txt.txt
 
 # hyprland-nvidia-git
 
