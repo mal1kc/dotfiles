@@ -47,3 +47,8 @@ alias docker="podman"
 if command -v handlr >/dev/null
    alias xdg-open="handlr open"
 end
+
+
+function _termdown
+    ignore_title_change 'countdown' "termdown $argv"
+end

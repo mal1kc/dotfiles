@@ -33,9 +33,11 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq doom-theme 'sanityinc-tomorrow-night)
-(setq doom-font (font-spec :family "FiraCode Nerd Font":size 14 :weight 'semi-light )
-      doom-big-font (font-spec :family "Hack NF" :size 19)
+(setq doom-theme 'doom-tomorrow-night)
+(setq doom-font
+    (font-spec :family "Iosevka Fixed" :size 16 )
+      ;; (font-spec :family "FiraCode Nerd Font":size 14 :weight 'semi-light )
+      doom-big-font (font-spec :family "Hack NF" :size 20)
       )
 
 ;; (setq doom-font (font-spec :family "FiraCode Nerd Font" :size 14 :weight 'semi-light)
@@ -203,10 +205,44 @@
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-<tab>" . 'copilot-accept-completion-by-word)
+              ("C-c RET" . 'copilot-accept-completion)
+              ))
 
 (map! :leader "ü" #'+popup/toggle )
 (map! :leader "ö" #'mark-sexp )
 (map! "C-ç" #'comment-line )
 (map! "C-ş" #'er/expand-region ) ;; similliar to mark-sexp but slightly different
 (map! :leader "r" #'recentf-open-files )
+
+(after! hl-todo
+(setq hl-todo-keyword-faces
+   '(("HOLD"   . "#fff8dc")
+    ("TODO"   . "#7fff00")
+    ("NEXT"   . "#dca3a3")
+    ("THEM"   . "#dc8cc3")
+    ("PROG"   . "#7cb8bb")
+    ("OKAY"   . "#7cb8bb")
+    ("DONT"   . "#5f7f5f")
+    ("FAIL"   . "#8c5353")
+    ("DONE"   . "#afd8af")
+    ("NOTE"   . "#d0bf8f")
+    ("HACK"   . "#dfff8f")
+    ("TEMP"   . "#ddaa6f")
+    ("FIXME"  . "#cc9393")
+    ("DEPRECATED" . "#cb4b16")
+    ("IMPORTANT" . "#8b0000")
+    )))
+
+(add-hook 'prog-mode-hook #'hl-todo-mode)
+
+(map! :g "C-ğ" #'mc/edit-lines)
+(map! :g "C->" #'mc/mark-next-like-this)
+(map! :g "C-<" #'mc/mark-previous-like-this)
+(map! :g "ğ" #'mc/mark-all-like-this-dwim)
+;; idk but while in multi cursor backspace not working
+
+(after! poetry
+        (setq poetry-tracking-strategy 'projectile
+                poetry-tracking-strategy-project-root-files '("pyproject.toml"))
+  )

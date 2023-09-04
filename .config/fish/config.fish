@@ -126,3 +126,8 @@ function fish_prompt --description 'Write out the prompt'
 
     echo -n "$suffix "
 end
+
+function ignore_title_change --description "sets title to \$argv[1] and run \$argv[2] in new kitty window"
+    kitty --detach --title "$argv[1]" fish -c $argv[2..-1];exit
+    exit
+end
