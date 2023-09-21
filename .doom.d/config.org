@@ -49,8 +49,7 @@ this is my personal doom emacs config. [[https://github.com/doomemacs/][doomemac
 ;; `load-theme' function. This is the default:
 
 (setq doom-theme 'doom-tomorrow-night)
-(setq doom-font
-    (font-spec :family "Iosevka Fixed" :size 16 )
+(setq doom-font (font-spec :family "Iosevka Fixed" :size 16 )
       ;; (font-spec :family "FiraCode Nerd Font":size 14 :weight 'semi-light )
       doom-big-font (font-spec :family "Hack NF" :size 20)
       )
@@ -142,14 +141,15 @@ dired is the file manager within emacs. below, i setup keybindings for image pre
 | dired-do-rename | Rename file or all marked files  | R          |
 
 #+begin_src emacs-lisp
+
 (map! :leader
-   (:prefix ("d" . "dired")
+      (:prefix ("d" . "dired")
        :desc "Open dired" "d" #'dired
        :desc "Dired jump to current" "j" #'dired-jump)
       (:after dired
-       (:map dired-mode-map
-        :desc "Peep-dired image previews" "d p" #'peep-dired
-        :desc "Dired view file" "d v" #'dired-view-file)))
+              (:map dired-mode-map
+               :desc "Peep-dired image previews" "d p" #'peep-dired
+               :desc "Dired view file" "d v" #'dired-view-file)))
 
 (evil-define-key 'normal dired-mode-map
   (kbd "M-RET") 'dired-display-file
@@ -246,6 +246,14 @@ if peep-dired is enabled, you will get image previews as you go up/down with 'j'
 
 #+RESULTS:
 : t
+
+* configure shell excutables
+
+setting default shell to 'bash' because 'fish' is non-POSIX shell
+
+#+begin_src emacs-lisp
+(setq shell-file-name (executable-find "bash"))
+#+end_src
 
 * org mode
 #+begin_src emacs-lisp
@@ -407,6 +415,10 @@ activate flyspell mode when loading some text modes
               ("C-<tab>" . 'copilot-accept-completion-by-word)
               ("C-c RET" . 'copilot-accept-completion)
               ))
+(map! :mode copilot-mode "C-<return>" #'copilot-accept-completion-by-line)
+(map! :mode copilot-mode "<tab>" #'copilot-accept-completion)
+(map! :mode copilot-mode "TAB" #'copilot-accept-completion)
+
 #+end_src
 
 #+RESULTS:
@@ -463,9 +475,27 @@ activate flyspell mode when loading some text modes
 
 * python specific
 
+set poetry tracking strategy to projectile
 #+begin_src emacs-lisp
 (after! poetry
         (setq poetry-tracking-strategy 'projectile
                 poetry-tracking-strategy-project-root-files '("pyproject.toml"))
+  )
+#+end_src
+
+* lsp-mod settings
+
+#+begin_src emacs-lisp
+(after! lsp-mode
+  (setq lsp-enable-indentation t)
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-modeline-code-actions-enable t)
+  (setq lsp-modeline-diagnostics-enable t)
+  ;; (setq lsp-modeline-diagnostics-scope :workspace)
+  (setq lsp-modeline-workspace-status-enable t)
+  (setq lsp-headerline-breadcrumb-enable t)
+  )
+(after! lsp-ui
+  (setq lsp-ui-doc-enable t)
   )
 #+end_src

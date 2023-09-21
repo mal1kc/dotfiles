@@ -218,6 +218,12 @@ label:focus {
 }
 
 
+#mpris {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
 #custom-media {
     background-color: #66cc99;
     color: #2a5c45;
@@ -315,9 +321,15 @@ label:focus {
 }
 
 #custom-media {
-	background-color: @mantle;
+	background-color: @crust;
+    color: #bebebe;
+	padding: 0px 5px;
+    border-radius: 5px;
+	margin: 5px 0px;
+}
 
-    background: #1f1f1f;
+#mpris {
+	background-color: @crust;
     color: #bebebe;
 	padding: 0px 5px;
     border-radius: 5px;

@@ -34,8 +34,7 @@
 ;; `load-theme' function. This is the default:
 
 (setq doom-theme 'doom-tomorrow-night)
-(setq doom-font
-    (font-spec :family "Iosevka Fixed" :size 16 )
+(setq doom-font (font-spec :family "Iosevka Fixed" :size 16 )
       ;; (font-spec :family "FiraCode Nerd Font":size 14 :weight 'semi-light )
       doom-big-font (font-spec :family "Hack NF" :size 20)
       )
@@ -57,13 +56,13 @@
 (setq global-auto-revert-non-file-buffers t)
 
 (map! :leader
-   (:prefix ("d" . "dired")
+      (:prefix ("d" . "dired")
        :desc "Open dired" "d" #'dired
        :desc "Dired jump to current" "j" #'dired-jump)
       (:after dired
-       (:map dired-mode-map
-        :desc "Peep-dired image previews" "d p" #'peep-dired
-        :desc "Dired view file" "d v" #'dired-view-file)))
+              (:map dired-mode-map
+               :desc "Peep-dired image previews" "d p" #'peep-dired
+               :desc "Dired view file" "d v" #'dired-view-file)))
 
 (evil-define-key 'normal dired-mode-map
   (kbd "M-RET") 'dired-display-file
@@ -113,6 +112,8 @@
        :desc "Evaluate elisp in region" "r" #'eval-region))
 
 (xterm-mouse-mode 1)
+
+(setq shell-file-name (executable-find "bash"))
 
 (map! :leader
       :desc "Org babel tange" "m B" #'org-babel-tangle)
@@ -208,6 +209,9 @@
               ("C-<tab>" . 'copilot-accept-completion-by-word)
               ("C-c RET" . 'copilot-accept-completion)
               ))
+(map! :mode copilot-mode "C-<return>" #'copilot-accept-completion-by-line)
+(map! :mode copilot-mode "<tab>" #'copilot-accept-completion)
+(map! :mode copilot-mode "TAB" #'copilot-accept-completion)
 
 (map! :leader "ü" #'+popup/toggle )
 (map! :leader "ö" #'mark-sexp )
@@ -245,4 +249,17 @@
 (after! poetry
         (setq poetry-tracking-strategy 'projectile
                 poetry-tracking-strategy-project-root-files '("pyproject.toml"))
+  )
+
+(after! lsp-mode
+  (setq lsp-enable-indentation t)
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-modeline-code-actions-enable t)
+  (setq lsp-modeline-diagnostics-enable t)
+  ;; (setq lsp-modeline-diagnostics-scope :workspace)
+  (setq lsp-modeline-workspace-status-enable t)
+  (setq lsp-headerline-breadcrumb-enable t)
+  )
+(after! lsp-ui
+  (setq lsp-ui-doc-enable t)
   )
