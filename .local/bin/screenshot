@@ -1,0 +1,144 @@
+#!/bin/env sh
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    echo "XDG_RUNTIME_DIR is not set"
+    exit 1
+fi
+temp_save_path="$XDG_RUNTIME_DIR/screenshot.png"
+is_succesful_shot=false
+is_shot_taken=false
+
+check_deps(){
+    for cmd in xclip maim xdg-open notify-send; do
+        if ! command -v "$cmd" >/dev/null; then
+            echo "$cmd not found in PATH. Exiting..."
+            exit 1
+        fi
+    done
+}
+
+take_screenshot() {
+  if ! $is_shot_taken ; then
+    is_shot_taken=true
+    is_succesful_shot=$( maim -o -s | xclip -i -selection clipboard -t image/png >/dev/null 2>&1)
+  fi
+}
+
+take_screenshot_full (){
+  if ! $is_shot_taken ; then
+    is_shot_taken=true
+    is_succesful_shot=$( maim -o | xclip -i -selection clipboard -t image/png >/dev/null 2>&1)
+  fi
+}
+
+open_img() {
+  take_screenshot
+  xdg-open "$temp_save_path" 2>&1
+}
+
+save_to_file(){
+    take_screenshot
+    xclip -o -selection clipboard -t image/png > "$1"
+}
+
+show_icat() {
+    take_screenshot
+    if $is_succesful_shot; then
+        if [ "$TERM" = "xterm-kitty" ] ; then
+            xclip -o -selection clipboard -t image/png | kitty +kitten icat >/dev/null 2>&1
+        fi
+    fi
+}
+
+show_notification() {
+take_screenshot
+if $is_succesful_shot; then
+    save_to_file "$temp_save_path"
+    if [ -x "$(command -v dunstify)" ]; then
+        # with greenish background
+        ACTION=$(dunstify dunstify -u normal -t 5000 -i "$temp_save_path" -u normal -r 2594  --action="default,open_img" \
+                "Screenshot" "Screenshot copied to clipboard" \
+                -h 'string:x-canonical-private-synchronous:warning' \
+                -h 'string:bgcolor:#bbffb0' )
+        case "$ACTION" in
+            "default")
+                open_img
+                ;;
+            2)
+                # dismiss action
+                # do nothing
+                exit 0
+                ;;
+            "*" )
+                echo "other action"
+                ;;
+        esac
+    else
+        notify-send "Screenshot copied to clipboard"
+    fi
+else
+ if [ -x "$(command -v dunstify)" ]; then
+     # with redish background
+  dunstify -u normal -t 5000 -u normal -r 2594 \
+   "Error" \
+   -h 'string:x-canonical-private-synchronous:warning' \
+   -h 'string:bgcolor:#ff6500'
+ else
+  notify-send "Error taking screenshot"
+ fi
+    exit 1
+fi
+}
+
+if [ "$#" -eq 0 ]; then
+    # no arguments
+    show_notification
+    show_icat
+    exit 0
+fi
+
+# if any of the arguments is -f or --full first take full screenshot
+#
+# poor quality but it do the job
+
+echo "$@"
+for arg in "$@"; do
+    case $arg in
+       "-f"|"--full")
+         take_screenshot_full
+       ;;
+    esac
+done
+
+for arg in "$@"; do
+    case $arg in
+       "-s"|"--save")
+         save_to_file "$temp_save_path"
+       ;;
+       "-h"|"--help")
+       echo "Usage: screenshot [OPTION]..."
+       echo "Take screenshot and copy it to clipboard"
+       echo ""
+       echo "  -f, --full     Take full screenshot"
+       echo "  -s, --save     Save screenshot to file"
+       echo "  -h, --help     Show this help"
+       exit 0
+       ;;
+       "--show")
+         show_icat
+         ;;
+       "--open")
+         open_img
+         ;;
+       "--notify")
+         show_notification
+         ;;
+       "--check-deps")
+         check_deps
+         ;;
+       *)
+        exit 0
+        ;;
+   esac
+done
+
+exit 0

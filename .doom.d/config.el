@@ -1,3 +1,9 @@
+(setq shell-file-name (executable-find "bash"))
+
+(setq-default vterm-shell (executable-find "fish"))
+
+(setq-default explicit-shell-file-name (executable-find "fish"))
+
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
@@ -12,7 +18,7 @@
 (setq user-full-name "malik kökçan")
 
 (setq doom-theme 'sanityinc-tomorrow-night)
-(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 16 :weight 'light)
+(setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'light)
       doom-big-font (font-spec :family "Hack Nerd Font" :size 24)
      )
 
@@ -57,7 +63,7 @@
   (kbd "% u") 'dired-upcase
  )
 ;;Get file icons in dired
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 ;;With dired-open plugin, you can launch external programs for certain extensions
 ;;For example, I set all .png files to open in 'nsxiv' and all .mp4 files to open in 'mpv'
 (setq dired-open-extensions '(("gif" . "nsxiv")
@@ -148,18 +154,30 @@
 ;; Enable ccls for all c++ files, and platformio-mode only
 ;; when needed (platformio.ini present in project root).
 
-
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
 
 (add-hook 'c++-mode-hook (lambda ()
                            (lsp-deferred)
                            (platformio-conditionally-enable)))
-;; generates compile-commands.json for clangd
-;; every time load cpp file with platformio mode
-(add-hook 'platformio-mode-hook (lambda ()
-                                  (platformio--run "-t compiledb")
-                                  ))
+
+
+;; if platformio.ini file exists
+;; enable platformio-mode and create compile-commands.json for clangd
+;; platformio run -t compiledb ->  generates compile-commands.json for clangd
+
+(add-hook 'projectile-after-switch-project-hook
+                (lambda ()
+                (if (file-exists-p (concat (projectile-project-root) "ini.platformio"))
+                    (progn (message "platformio.ini file found")
+                        (require 'platformio-mode)
+                        (platformio-mode t)
+                        (platformio--run "-t compiledb")
+                        )
+                (message "No platformio.ini file found"))
+                    ))
+
+
 (add-hook 'c++-mode-hook (lambda ()
                            (lsp-deferred)
                            (platformio-conditionally-enable)))
@@ -181,7 +199,11 @@
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-<tab>" . 'copilot-accept-completion-by-word)
+              ))
+(map! :mode copilot-mode "C-<return>" #'copilot-accept-completion-by-line)
+(map! :mode copilot-mode "<tab>" #'copilot-accept-completion)
+(map! :mode copilot-mode "TAB" #'copilot-accept-completion)
 
 (after! docker
 (setq docker-command "podman")
@@ -193,19 +215,45 @@
 (map! "C-ş" #'er/expand-region ) ;; similliar to mark-sexp but slightly different
 (map! :leader "r" #'recentf-open-files )
 
-(setq hl-todo-keyword-faces
-   '(("HOLD"   . "#fff8dc")
-    ("TODO"   . "#7fff00")
-    ("NEXT"   . "#dca3a3")
-    ("THEM"   . "#dc8cc3")
-    ("PROG"   . "#7cb8bb")
-    ("OKAY"   . "#7cb8bb")
-    ("DONT"   . "#5f7f5f")
-    ("FAIL"   . "#8c5353")
-    ("DONE"   . "#afd8af")
-    ("NOTE"   . "#d0bf8f")
-    ("KLUDGE" . "#d0bf8f")
-    ("HACK"   . "#d0bf8f")
-    ("TEMP"   . "#d0bf8f")
-    ("FIXME"  . "#cc9393")
-    ("IMPORTANT" . "#8b0000")))
+(after! hl-todo
+    (setq hl-todo-keyword-faces
+        '(("HOLD"   . "#fff8dc")
+        ("TODO"   . "#7fff00")
+        ("NEXT"   . "#dca3a3")
+        ("THEM"   . "#dc8cc3")
+        ("PROG"   . "#7cb8bb")
+        ("OKAY"   . "#7cb8bb")
+        ("DONT"   . "#5f7f5f")
+        ("FAIL"   . "#8c5353")
+        ("DONE"   . "#afd8af")
+        ("NOTE"   . "#d0bf8f")
+        ("HACK"   . "#dfff8f")
+        ("TEMP"   . "#ddaa6f")
+        ("FIXME"  . "#cc9393")
+        ("DEPRECATED" . "#cb4b16")
+        ("IMPORTANT" . "#8b0000")
+    )))
+
+(add-hook 'prog-mode-hook #'hl-todo-mode)
+
+;; (map! :g "C-ğ" #'mc/edit-lines)
+;; (map! :g "C->" #'mc/mark-next-like-this)
+;; (map! :g "C-<" #'mc/mark-previous-like-this)
+;; (map! :g "ğ" #'mc/mark-all-like-this-dwim)
+
+(after! poetry
+        (setq poetry-tracking-strategy 'projectile
+                poetry-tracking-strategy-project-root-files '("pyproject.toml"))
+  )
+
+(after! lsp-mode
+    (setq lsp-enable-indentation t)
+    (setq lsp-enable-on-type-formatting nil)
+    (setq lsp-modeline-code-actions-enable t)
+    (setq lsp-modeline-diagnostics-enable t)
+    (setq lsp-headerline-breadcrumb-enable t))
+
+(after! lsp-ui
+  (setq lsp-ui-doc-enable t))
+
+(setq projectile-project-search-path '(("~/projeler" . 2) ("~/projects++" . 2) ("~/.config" . 1)))

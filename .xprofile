@@ -6,13 +6,7 @@ picom &
 kdeconnect-indicator &
 dunst &
 ~/.local/bin/ch_wallpaper &
-xrdb >> ~/.dwm.log &
+xrdb >>~/.xprofile.log &
 /usr/lib/polkit-kde-authentication-agent-1 &
 dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY &
-# while true; do
-#     # Log stderror to a file 
-#     dwm 2>> ~/.dwm.log
-#     # No error logging
-#     #dwm >/dev/null 2>&1
-# done
 #sudo /usr/bin/prime-switch

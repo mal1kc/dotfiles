@@ -1,0 +1,5 @@
+#!/bin/env sh
+scrshot_cmd="$HOME/.local/bin/screenshot --full"
+# dont wait for screenshot to finish
+$scrshot_cmd "$@" &
+exit 0

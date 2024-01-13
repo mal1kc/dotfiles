@@ -1,11 +1,11 @@
 # update shortcuts
 alias flpak_updt="flatpak update -y;flatpak uninstall --unused -y"
 alias sys_updt="yay -Syu --noconfirm"
-alias nix_updt="nix-channel --update -v;nix profile upgrade -f '<nixpkgs>' '.*';nix-store --gc"
+alias nix_updt="nix store gc;nix-channel --update -v;nix profile upgrade '.*' -v;nix store gc"
 alias fish_updt="fisher update"
 # nvim error hangs because of 'restart question'
 #alias nvim_updt="nvim --headless +AstroUpdate +qall" 
-alias nvim_updt="echo 'ignoring astronvim because ask restart question cannot be answerable'" 
+alias nvim_updt="echo 'ignoring astronvim because ask restart question cannot be answerable'"
 alias dmacs_updt="~/.emacs-profiles/doomemacs/bin/doom upgrade;~/.emacs-profiles/doomemacs/bin/doom sync"
 alias pip_updt="python -m pip install --upgrade --user pip"
 # sys_updt is in end because it neets sudo rights

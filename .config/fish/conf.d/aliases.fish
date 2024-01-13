@@ -7,16 +7,16 @@ alias ll='lsd -l --almost-all'
 alias list_biggest_files="fd . -t f --print0 |du --files0-from=- | sort -nr | head -n 20"
 
 if command -v fd >/dev/null
-  alias ldir="fd . -t d -d 1"
+    alias ldir="fd . -t d -d 1"
 end
 
 
 
 # mv, rm, cp
 if command -v trash >/dev/null
-  alias rm="trash"
+    alias rm="trash"
 else
-  alias rm="rm -i -v"
+    alias rm="rm -i -v"
 end
 alias mv="mv -v"
 alias cp="cp -v"
@@ -40,15 +40,15 @@ alias docker="podman"
 
 # prints all info about package with fuzzy search in local pacman and remote pacman search installed "Q" and non-installed "S" database
 
-#alias fuzzy_pacQs="pacman -Qs | paste -d '' - - | fzf | awk '{\$1=\$2=\"\";print \$0}'| lolcat"
-#alias fuzzy_pacSs="pacman -Ss | paste -d '' - - | fzf | awk '{\$1=\$2=\"\";print \$0}'| lolcat"
+#alias fuzzy_pacQs="pacman -Qs | paste -d '' - - | fzf | awk '{\$1=\$2=\"\";print \$0}'| echo"
+#alias fuzzy_pacSs="pacman -Ss | paste -d '' - - | fzf | awk '{\$1=\$2=\"\";print \$0}'| echo"
 
 # prints all info about package with fuzzy search in local yay and remote yay ,remote pacman search installed "Q" and non-installed "S" database
 
-alias fuzzy_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | lolcat"
-alias fuzzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | lolcat"
+alias fuzzy_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | echo"
+alias fuzzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | echo"
 
-alias fuzzy_pacSs="pacman -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | lolcat"
+alias fuzzy_pacSs="pacman -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | echo"
 
 # laptop specific
 alias bat_status="upower -i (upower -e | rg 'BAT')"
