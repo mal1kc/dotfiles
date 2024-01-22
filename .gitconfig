@@ -51,7 +51,7 @@
 	hreset = reset --hard
 	co = checkout
 	df = diff --color-words -abbrev
-	
+
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
 	cp = cherry-pick
 
@@ -62,7 +62,7 @@
 	ci = commit -v
 
 	git = !exec git
-	
+
 	mergeorigin = !"git merge origin/$(git mainormaster)"
 
 	diffbranch = !"git diff $(git diffbase)"
@@ -84,7 +84,7 @@
 	#    # be on the new feature branch, be okay with rewriting it's history.
 	#    git reset --soft (git merge-base Other_Branch_Name HEAD)
 
-	
+
 	# Two utils:
 	#   What's the ancestor commit this branch shares with main?
 	diffbase = !"git merge-base origin/$(git mainormaster) HEAD"

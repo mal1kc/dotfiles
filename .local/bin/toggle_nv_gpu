@@ -27,7 +27,7 @@ check_libvirtd_status(){
 }
 
 toggle_vfio(){
-if lspci -nnk | rg -o vfio > /dev/null ; then 
+if lspci -nnk | rg -o vfio > /dev/null ; then
   # if card controlled by vfio driver
   echo "gpu card is controlled by vfio-pci driver"
   echo "requesting sudo for reattaching gpu card"

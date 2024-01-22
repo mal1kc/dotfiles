@@ -8,7 +8,7 @@ TARGT_GIGNORE_F=~/.notgitignore
 
 mv_gitdir() {
 if [ -d "$DIRECTORY" ]; then
- # if $DIRECTORY exists 
+ # if $DIRECTORY exists
   mv $DIRECTORY $TARGT_DIR
 else
   if [ -d "$TARGT_DIR" ]; then

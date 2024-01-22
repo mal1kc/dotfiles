@@ -19,7 +19,7 @@ finder:
   # overrides_var: --tac # equivalent to the --fzf-overrides-var option
 
 cheats:
-  paths: 
+  paths:
     - ~/.local/share/navi/cheats/denisidoro__cheats
     - ~/.local/share/navi/cheats/rstacruz__cheatsheets
     - ~/.local/share/navi/cheats/denisidoro__navi-tldr-pages

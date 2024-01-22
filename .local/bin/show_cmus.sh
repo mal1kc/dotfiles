@@ -17,7 +17,7 @@ show_cmus_status () {
         DURATION=$(echo "$CMUSDATA" | grep -w '^duration' | awk '{gsub("duration ", "");print}')
         STATUS=$(echo "$CMUSDATA" | grep -w '^status' | awk '{gsub("status ", "");print}')
         SHUFFLE=$(echo "$CMUSDATA" | grep -w '^set shuffle' | awk '{gsub("set shuffle ", "");print}')
-        
+
         if [ "$STATUS" = "playing" ]; then
                 STATUS="▶"
         else
@@ -29,7 +29,7 @@ show_cmus_status () {
         else
                 SHUFFLE=""
         fi
-        
+
         printf "%s%s %s - " "$SEP1" "$STATUS" "$FILE"
         printf "%0d:%02d/" $((POSITION%3600/60)) $((POSITION%60))
         printf "%0d:%02d" $((DURATION%3600/60)) $((DURATION%60))

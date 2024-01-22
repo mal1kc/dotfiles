@@ -1,0 +1,2 @@
+#!/bin/env sh
+swaylock -e -f -i ~/.config/c_lock_screen.jpg -k -l

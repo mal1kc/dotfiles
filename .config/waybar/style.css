@@ -1,0 +1,390 @@
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0px;
+    font-family: Victor Mono;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+
+window#waybar {
+    background: @base;
+    color: white;
+}
+
+#workspaces {
+	margin: 5px 5px;
+}
+#workspaces button {
+    padding: 2px 8px 2px 8px;
+    margin: 0px 8px 0px 8px;
+    color: #eceff4;
+}
+
+#workspaces button.active {
+/* color: @lavender; */
+/* light blue */
+background-color: #5e81ac;
+}
+#workspaces button.empty
+{
+  color: @overlay2;
+  background-color: #000000;
+}
+#workspaces button.special {
+  background-color: @overlay2;
+  color: #bf616a;
+}
+
+
+#window {
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+window#waybar.kitty {
+    background-color: #111111;
+    color: #ffffff;
+}
+
+/* make window module transparent when no windows present */
+window#waybar.empty #window {
+    background-color: transparent;
+}
+
+/* #workspaces button:hover { */
+/*     color: @lavender; */
+/* 			background-color: @maroon; */
+/* } */
+
+#disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network,#temperature {
+  background-color: #64727D;
+	padding: 0px 8px;
+	margin: 8px 0px;
+}
+
+#custom-date {
+	color: #8fbcbb;
+}
+
+/* #custom-power { */
+/* 	color: @overlay1; */
+/* 	background-color: #bf616a; */
+/* 	border-radius: 5px; */
+/* 	margin-right: 8px; */
+/* 	margin-top: 5px; */
+/* 	margin-bottom: 5px; */
+/* 	margin-left: 0px; */
+/* 	padding: 0px 5px; */
+/* } */
+
+#bluetooth {
+    background-color: @blue;
+    border-radius: 5px 0px 0px 5px;
+    /* margin-bottom: 1px; */
+    /* margin-left: px; */
+    /* margin: 10px 10px 10px 10px; */
+}
+
+#clock {
+    color: @maroon;
+    border-radius: 0px 5px 5px 0px;
+    margin-right: 8px;
+}
+
+#battery {
+  color: #1B1D2B;
+  background-color: #82AAFF;
+}
+
+@keyframes blink {
+  0% {
+        background-color: #ffffff;
+        color: #000000;
+  }
+  100% {
+        background-color: #000000;
+        color: #ffffff;
+  }
+}
+
+#battery.charging {
+    color: #64727D;
+    background-color: #CEE0C5
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#network {
+  color: #1B1D2B;
+}
+
+#audio, #wireplumber {
+	color: #ebcb8b;
+	border-radius: 0px 0px 0px 0px;
+}
+
+/* #bluetooth, */
+/* #clock, */
+/* #battery, */
+/* #cpu, */
+/* #memory, */
+/* #disk, */
+/* #temperature, */
+/* #backlight, */
+/* #network, */
+/* #audio, #wireplumber, */
+/* #wireplumber, */
+/* #custom-media, */
+/* #tray, */
+/* #mode, */
+/* #idle_inhibitor, */
+/* #scratchpad, */
+/* #mpd { */
+/*     padding: 0 10px; */
+/*     color: #ffffff; */
+/* } */
+
+
+#window,
+#workspaces {
+    margin: 0px 4px;
+
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0px;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0px;
+}
+
+#clock {
+    background-color: #64727D;
+}
+
+#battery {
+    color: #000000;
+}
+
+#battery.charging, #battery.plugged {
+    color: #ffffff;
+    background-color : #12503f;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#cpu {
+    background-color: #2ecc71;
+    color: #000000;
+    border-radius: 5px 0px 0px 5px;
+    margin-left: 8px ;
+
+}
+
+#memory {
+    background-color: @lavender;
+}
+
+#disk.root {
+    background-color: @red;
+    border-radius: 0px;
+}
+#disk.home {
+    background-color: @mauve;
+    border-radius: 0px 5px 5px 0px;
+}
+
+#backlight {
+    background-color: #90b1b1;
+}
+
+#network {
+    background-color: #2980b9;
+}
+
+#network.disconnected {
+    background-color: #f53c3c;
+}
+
+#audio, #wireplumber {
+    background-color: #f1c40f;
+    color: #000000;
+}
+
+#audio.muted, #wireplumber.muted {
+    background-color: #90b1b1;
+    color: #2a5c45;
+}
+
+
+#mpris {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#custom-media {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+    background-color: #66cc99;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
+}
+
+#temperature {
+    background-color: #f0932b;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#tray {
+    background-color: #2980b9;
+    margin: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+#idle_inhibitor {
+    background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #2d3436;
+}
+
+#mpd {
+    background-color: @crust;
+    margin: 5px 8px 5px 5px;
+}
+
+#mpd.disconnected {
+    color: @red;
+}
+
+#mpd.stopped {
+    color: @rosewater;
+}
+
+#mpd.paused {
+    color: @green;
+}
+
+#language {
+    background: #00b093;
+    color: #740864;
+    padding: 0px 5px;
+    margin: 0px 5px;
+    min-width: 8px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    padding: 0px 0px;
+    margin: 0px 5px;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0px 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad.empty {
+	background-color: transparent;
+}
+
+#custom-media {
+	background-color: @crust;
+    color: #bebebe;
+	padding: 0px 5px;
+    border-radius: 5px;
+	margin: 5px 0px;
+}
+
+#mpris {
+	background-color: @crust;
+    color: #bebebe;
+	padding: 0px 5px;
+    border-radius: 5px;
+	margin: 5px 0px;
+}
+
+#backlight-slider slider {
+    min-height: 0px;
+    min-width: 0px;
+    opacity: .7;
+    background-image: none;
+    border: brown;
+    box-shadow: none;
+}
+#backlight-slider trough {
+    min-height: 10px;
+    min-width: 40px;
+    border-radius: 5px;
+    background-color: #64727D;
+}
+#backlight-slider highlight {
+    min-width: 0px;
+    border-radius: 5px;
+    background-color: white;
+}

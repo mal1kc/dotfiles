@@ -257,3 +257,11 @@
   (setq lsp-ui-doc-enable t))
 
 (setq projectile-project-search-path '(("~/projeler" . 2) ("~/projects++" . 2) ("~/.config" . 1)))
+
+(map! :prefix "C-h"
+      (:prefix ("D" . "devdocs")
+               :desc "lookup" "l" #'devdocs-lookup
+               :desc "update all docs" "u" #'devdocs-update-all
+               :desc "delete doc" "d" #'devdocs-delete
+               :desc "install doc" "i" #'devdocs-install
+))

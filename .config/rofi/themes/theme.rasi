@@ -32,7 +32,7 @@
     foreground:                  rgba ( 248, 248, 242, 100 % );
     border-color:                @foreground;
 
-   
+
     spacing:                     2;
 
     red:                         rgba ( 219, 50, 47, 100 % );

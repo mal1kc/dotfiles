@@ -45,10 +45,10 @@ alias docker="podman"
 
 # prints all info about package with fuzzy search in local yay and remote yay ,remote pacman search installed "Q" and non-installed "S" database
 
-alias fuzzy_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | echo"
-alias fuzzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | echo"
+alias fuzzy_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
+alias fuzzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
 
-alias fuzzy_pacSs="pacman -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% | echo"
+alias fuzzy_pacSs="pacman -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
 
 # laptop specific
 alias bat_status="upower -i (upower -e | rg 'BAT')"

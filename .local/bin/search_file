@@ -12,7 +12,7 @@ set -e
 #
 # find
 # -iname ignore case in filename
-# -I 
+# -I
 # -L follow links
 #
 #

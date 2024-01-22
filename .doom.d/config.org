@@ -498,3 +498,15 @@ activate flyspell mode when loading some text modes
 #+begin_src emacs-lisp
 (setq projectile-project-search-path '(("~/projeler" . 2) ("~/projects++" . 2) ("~/.config" . 1)))
 #+end_src
+
+* devdocs.el
+
+#+begin_src emacs-lisp
+(map! :prefix "C-h"
+      (:prefix ("D" . "devdocs")
+               :desc "lookup" "l" #'devdocs-lookup
+               :desc "update all docs" "u" #'devdocs-update-all
+               :desc "delete doc" "d" #'devdocs-delete
+               :desc "install doc" "i" #'devdocs-install
+))
+#+end_src
