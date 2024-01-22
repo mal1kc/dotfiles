@@ -7,20 +7,16 @@
 
 ## system info
 all program version are latest (what available on arch packages)
-
-|--------------------------------------------------------------------------------------------------------|
-
-|:         :|: :|
-| OS:       | Arch Linux x86_64|
-| Shell:    | fish |
-| DE:       | [Hyprland](https://github.com/hyprwm/Hyprland) |
-| Theme     | Arc-Dark [GTK2/3] |
-| Icons     | Papirus-Dark [GTK2/3] |
-| Terminal: | [kitty](https://github.com/kovidgoyal/kitty/) |
-| Font:     | [Iosevka](https://typeof.net/Iosevka) |
-|:         :|: :|
-
-|--------------------------------------------------------------------------------------------------------|
+|           |                                                                                            |
+|-----------|--------------------------------------------------------------------------------------------|
+| OS:       | Arch Linux x86_64                                                                          |
+| Shell:    | fish                                                                                       |
+| DE:       | [Hyprland](https://github.com/hyprwm/Hyprland)                                             |
+| Theme     | Arc-Dark [GTK2/3]                                                                          |
+| Icons     | Papirus-Dark [GTK2/3]                                                                      |
+| Terminal: | [kitty](https://github.com/kovidgoyal/kitty/)                                              |
+| Font:     | [Iosevka](https://typeof.net/Iosevka)                                                      |
+|           |                                                                                            |
 
 ## programs
 
@@ -44,12 +40,12 @@ all program version are latest (what available on arch packages)
 
 [ screenshots location ./gscreenshots/wall*.png ]: #
 
-<img src="wall1.png" width="200" height="100">
-<img src="wall2.png" width="200" height="100">
-<img src="wall3.png" width="200" height="100">
-<img src="wall4.png" width="200" height="100">
-<img src="wall5.png" width="200" height="100">
-<img src="wall6.png" width="200" height="100">
+<img src="./gscreenshots/wall1.png" width="200" height="100">
+<img src="./gscreenshots/wall2.png" width="200" height="100">
+<img src="./gscreenshots/wall3.png" width="200" height="100">
+<img src="./gscreenshots/wall4.png" width="200" height="100">
+<img src="./gscreenshots/wall5.png" width="200" height="100">
+<img src="./gscreenshots/wall6.png" width="200" height="100">
 
 <!-- [!wall](./gscreenshots/wall1.png) -->
 
