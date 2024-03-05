@@ -244,6 +244,8 @@ git ls-files | tree --fromfile
         git grep "dunstify"
    #+end_comment
 + revisit zsh and update zsh config
++ simlify package list to update installer script
++ maybe maybe add git crypt with some files
 * images gallery
 
 images are in diffrent branch

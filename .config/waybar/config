@@ -1,7 +1,7 @@
 {
     "layer": "top", // Waybar at top layer
-    "height": 24, // Waybar height (to be removed for auto height)
-    "spacing": 2, // Gaps between modules (4px)
+    "height": 26, // Waybar height (to be removed for auto height)
+    "spacing": 1, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left":["cpu","memory","disk#root","disk#home","hyprland/window"],
     "modules-center": ["hyprland/workspaces","tray"],

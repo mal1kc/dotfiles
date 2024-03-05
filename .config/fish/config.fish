@@ -21,13 +21,17 @@ function notify
     end
 end
 
+function run_wal_sequence
+    cat ~/.cache/wal/sequences
+end
+
 # functions -e fish_greeting
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)
     echo the time is (set_color yellow; date +%T; set_color normal)
 
-    if test "$term"="foot"
-        set TERM xterm-256color # for tmux to work properly
+    if string match --ignore-case --quiet "$TERM" foot
+        set term xterm-256color # for tmux to work properly
         run_wal_sequence
     end
 end
