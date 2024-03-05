@@ -63,3 +63,5 @@
 (package! beacon)
 (package! rainbow-mode)
 (package! peep-dired)
+
+(package! devdocs)

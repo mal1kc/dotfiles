@@ -6,7 +6,7 @@
     "modules-left":["cpu","memory","disk#root","disk#home","hyprland/window"],
     "modules-center": ["hyprland/workspaces","tray"],
     // "modules-right":["custom/media","bluetooth","wireplumber","clock","gamemode"],
-    "modules-right":["mpris","bluetooth","wireplumber","clock","gamemode"],
+    "modules-right":["mpris","wireplumber","clock","gamemode"],
     // Modules configuration
     "hyprland/workspaces": {
     "on-scroll-up": "hyprctl dispatch workspace e+1",
@@ -21,6 +21,7 @@
         "3": "",
         "4": "",
         "5": "",
+        "special":"¿",
         "urgent": "",
         "focused": "",
         "default": ""
@@ -76,7 +77,7 @@
     "clock": {
         "timezone": "Europe/Istanbul",
         "format": "{:%H:%M}",
-        "format-alt": "{:%Y-%m-%d}",
+        "format-alt": "{:%d.%m.%Y}",
         "tooltip-format": "\n<tt><small>{calendar}</small></tt>",
         "calendar": {
                     "mode"          : "month",
@@ -131,7 +132,6 @@
         },
         "on-click": "~/.local/bin/rofi_audio.sh"
     },
-
      "mpris":{
          "player":"playerctld",
         "format": "{player_icon} {dynamic}",

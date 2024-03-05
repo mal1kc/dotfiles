@@ -1,0 +1,18 @@
+# sindresorhus/pure
+
+romkatv/powerlevel10k
+
+# woefe/git-prompt.zsh
+
+# liquidprompt/liquidprompt
+
+# you can even use Oh My Zsh plugins
+# ohmyzsh/ohmyzsh path:lib
+# ohmyzsh/ohmyzsh path:plugins/extract
+
+# zsh-users/zsh-syntax-highlighting
+
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
+
+zdharma-continuum/fast-syntax-highlighting

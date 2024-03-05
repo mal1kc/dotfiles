@@ -13,8 +13,7 @@
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
 	cp = cherry-pick
 
-	git = !exec git
-
+  git = !exec git
 
 	mergeorigin = !"git merge origin/$(git mainormaster)"
 
@@ -54,6 +53,7 @@
 [core]
 	editor = nvim
 	pager = diff-so-fancy | less --tabs=4 -RFX
+	autocrlf = false
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f

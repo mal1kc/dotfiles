@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type = Application
-Name = st
-Comment = suckless terminal emulator for x
-Exec = st
-Icon = 

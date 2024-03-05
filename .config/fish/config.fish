@@ -10,7 +10,10 @@ end
 
 function notify
     set -l job (jobs -l -g)
-    or begin; echo "There are no jobs" >&2; return 1; end
+    or begin
+        echo "There are no jobs" >&2
+        return 1
+    end
 
     function _notify_job_$job --on-job-exit $job --inherit-variable job
         echo -n \a # beep
@@ -18,47 +21,15 @@ function notify
     end
 end
 
-function change_wallpaper
-    set walpapers ~/pictures/wallpapers
-    
-    #set file (printf "%s" "${wallpapers[RANDOM % ${#wallpapers[@]}]}")
-    set file (random choice $walpapers/*)
-    set -U wallpaper $file
-    set file_ext ( echo $wallpaper | rg -o '(png|jpeg|jpg|webp|gif)')
-    printf "wall_file :%s\nwall_file_ext:%s\n" $file $file_ext
-    if set -q "file_ext"
-       set target ~/.config/c_wallpaper.$file_ext
-       touch $target
-       cp -Hf "$file" "$target"
-       printf "file copied to %s\n" $target
-       wal -c
-       wal -i "$target" -ne -a 82
-       xrdb -merge ~/.cache/wal/colors.Xresources
-
-       if pgrep swww-daemon > /dev/null
-          swww img "$wallpaper" --transition-type random --no-resize
-       end
-
-       if pgrep hyprpaper > /dev/null
-           set hypr_mons (hyprctl monitors -j | jq -r '.[].name')
-           echo $hypr_mons
-           hyprctl hyprpaper unload all
-           hyprctl hyprpaper preload $target
-           for mon in $hypr_mons
-                hyprctl hyprpaper wallpaper $mon,$target
-                hyprctl hyprpaper wallpaper $mon,$target
-            end
-       end
-       if pgrep Xorg
-           xwallpaper --maximize "$target"
-       end
-    end
-end
-
 # functions -e fish_greeting
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)
     echo the time is (set_color yellow; date +%T; set_color normal)
+
+    if test "$term"="foot"
+        set TERM xterm-256color # for tmux to work properly
+        run_wal_sequence
+    end
 end
 
 if command -q zoxide
@@ -99,7 +70,7 @@ function fish_prompt --description 'Write out the prompt'
 
     set -l color_cwd
     set -l suffix
-   if functions -q fish_is_root_user; and fish_is_root_user
+    if functions -q fish_is_root_user; and fish_is_root_user
         if set -q fish_color_cwd_root
             set color_cwd $fish_color_cwd_root
         else
@@ -110,7 +81,7 @@ function fish_prompt --description 'Write out the prompt'
         set color_cwd $fish_color_cwd
         set suffix '$'
     end
-    
+
     # PWD
     set_color $color_cwd
     echo -n (prompt_pwd)
@@ -128,6 +99,7 @@ function fish_prompt --description 'Write out the prompt'
 end
 
 function ignore_title_change --description "sets title to \$argv[1] and run \$argv[2] in new kitty window"
-    kitty --detach --title "$argv[1]" fish -c $argv[2..-1];exit
+    kitty --detach --title "$argv[1]" fish -c $argv[2..-1]
+    exit
     exit
 end

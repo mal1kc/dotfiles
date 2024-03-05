@@ -1,0 +1,13 @@
+#!/bin/env dash
+
+# chech if x11 or wayland if wayland
+# wayland: screenshot-wl
+# x11: screenshot-x11
+
+# give all args to selected screenshot script
+
+if [ -n "$WAYLAND_DISPLAY" ]; then
+	screenshot-wl "$@"
+else
+	screenshot-x11 "$@"
+fi
