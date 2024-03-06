@@ -248,14 +248,15 @@
   )
 
 (after! lsp-mode
-    (setq lsp-enable-indentation t)
-    (setq lsp-enable-on-type-formatting nil)
-    (setq lsp-modeline-code-actions-enable t)
-    (setq lsp-modeline-diagnostics-enable t)
-    (setq lsp-headerline-breadcrumb-enable t))
-
-(after! lsp-ui
-  (setq lsp-ui-doc-enable t))
+  (setq lsp-enable-indentation t)
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-modeline-code-actions-enable t)
+  (setq lsp-modeline-diagnostics-enable t)
+  (setq lsp-headerline-breadcrumb-enable t)
+  (after! lsp-ui
+    (setq lsp-ui-doc-enable t)
+    (setq lsp-ui-sideline-diagnostic-max-lines 2))
+  )
 
 (setq projectile-project-search-path '(("~/projeler" . 4) ("~/projects++" . 4) ))
 
@@ -266,3 +267,15 @@
                :desc "delete doc" "d" #'devdocs-delete
                :desc "install doc" "i" #'devdocs-install
 ))
+
+(add-hook 'csharp-mode-hook
+  #'format-all-mode
+ )
+
+(add-hook 'csharp-mode-hook
+  #'lsp-mode
+ )
+
+(add-hook 'csharp-mode-hook
+  #'copilot-mode
+ )

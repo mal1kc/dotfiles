@@ -238,6 +238,8 @@ git ls-files | tree --fromfile
 
 * TODOs
 
++ rewrt install.sh with python (+next)
+
 + try other notification daemons
   + if change happens convert *dunstify* lines to *notify* in *scripts*
    #+begin_comment
@@ -246,11 +248,12 @@ git ls-files | tree --fromfile
 + revisit zsh and update zsh config
 + simlify package list to update installer script
 + maybe maybe add git crypt with some files
+
 * images gallery
 
 images are in diffrent branch
 
-[[file:../dotfiles_screenshots/screenshot1.png]]
-[[file:../dotfiles_screenshots/screenshot2.png]]
-[[file:../dotfiles_screenshots/screenshot3.png]]
-[[file:../dotfiles_screenshots/screenshot4.png]]
+[[../dotfiles_screenshots/desktop_screenshot0.png]]
+[[../dotfiles_screenshots/desktop_screenshot1.png]]
+[[../dotfiles_screenshots/desktop_screenshot2.png]]
+[[../dotfiles_screenshots/desktop_screenshot3.png]]
