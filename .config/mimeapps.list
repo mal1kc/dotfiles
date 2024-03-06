@@ -9,9 +9,14 @@ application/pdf=org.pwmt.zathura-pdf-mupdf.desktop
 x-scheme-handler/mailto=userapp-Thunderbird-TQ5XD2.desktop
 message/rfc822=userapp-Thunderbird-TQ5XD2.desktop
 x-scheme-handler/mid=userapp-Thunderbird-TQ5XD2.desktop
+image/jpeg=userapp-nsxiv-N0FLI2.desktop
+image/png=nsxiv.desktop
 
 [Added Associations]
 application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
 application/octet-stream=neovide.desktop;
 x-scheme-handler/mailto=userapp-Thunderbird-TQ5XD2.desktop;
 x-scheme-handler/mid=userapp-Thunderbird-TQ5XD2.desktop;
+image/jpeg=userapp-nsxiv-N0FLI2.desktop;
+
+[Removed Associations]

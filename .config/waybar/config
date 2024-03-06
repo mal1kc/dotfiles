@@ -13,7 +13,6 @@
     "hyprland/workspaces",
     "tray"
   ],
-  // "modules-right":["custom/media","bluetooth","wireplumber","clock","gamemode"],
   "modules-right": [
     "mpris",
     // "bluetooth",
@@ -38,6 +37,7 @@
       "3": "",
       "4": "",
       "5": "",
+      "special":"¿",
       "urgent": "",
       "focused": "",
       "default": ""
@@ -169,20 +169,6 @@
     "format": "👉 {}",
     "separate-outputs": true
   },
-  // "custom/media": {
-  //   "format": "{icon} {}",
-  //   "return-type": "json",
-  //   "max-length": 40,
-  //   "on-click": "playerctl play-pause",
-  //   "on-click-right": "playerctl stop",
-  //   "format-icons": {
-  //     "spotify": "",
-  //     "default": "🎜"
-  //   },
-  //   "escape": true,
-  //   "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
-  //   "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-  // },
   "battery": {
     "bat": "BAT0",
     "interval": 60,
@@ -206,20 +192,6 @@
     "orientation": "horizontal",
   },
   "network": {
-  // "interface": "wlp2s0",
-  //  "format": "{ifname}",
-  //  "format-wifi": "{essid} ({signalStrength}%)  ",
-  //  "format-ethernet": "{ipaddr}/{cidr} 󰊗 ",
-  //  "format-linked": "{ipaddr}/{cidr} 󰊗 ",
-  //  "format-disconnected": "󰲜 ", //An empty format will hide the module.
-  //  "tooltip-format": "{ifname} via {gwaddr} 󰊗 ",
-  //  "tooltip-format-wifi": "{essid} ({signalStrength}%)  ",
-  //  "tooltip-format-ethernet": "{ifname}  ",
-  //  "tooltip-format-disconnected": "Disconnected",
-  //  "max-length": 50
-  // "interface": "wlp2*", // (Optional) To force the use of this interface
-  // "format-wifi": "{essid} ({signalStrength}%)  ",
-  // "format-wifi": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ {signalStrength}%  ",
 		"format-wifi": "{essid} ({signalStrength}%)  ",
     "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ {ipaddr}/{cidr}   ",
         "tooltip-format": "{ifname} via {ipaddr} 󰱔 ",

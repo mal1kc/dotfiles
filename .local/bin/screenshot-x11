@@ -1,4 +1,18 @@
 #!/bin/env sh
+
+# if runnting in wayland session or no not in X11 session
+# exit
+
+if [ -z "$WAYLAND_DISPLAY" ]; then
+	if [ -z "$DISPLAY" ]; then
+		echo "Not in X11 session"
+		exit 1
+	fi
+else
+	echo "Running in Wayland session"
+	exit 1
+fi
+
 if [ -z "$XDG_RUNTIME_DIR" ]; then
 	echo "XDG_RUNTIME_DIR is not set"
 	exit 1
@@ -8,26 +22,25 @@ is_succesful_shot=false
 is_shot_taken=false
 
 check_deps() {
-	for cmd in wl-copy grim slurp xdg-open notify-send; do
+	for cmd in xclip maim xdg-open notify-send; do
 		if ! command -v "$cmd" >/dev/null; then
 			echo "$cmd not found in PATH. Exiting..."
 			exit 1
 		fi
 	done
-	echo "all dependent binaries found"
 }
 
 take_screenshot() {
 	if ! $is_shot_taken; then
 		is_shot_taken=true
-		is_succesful_shot=$(grim -g "$(slurp -w 0)" - | wl-copy --type image/png)
+		is_succesful_shot=$(maim -o -s | xclip -i -selection clipboard -t image/png >/dev/null 2>&1)
 	fi
 }
 
 take_screenshot_full() {
 	if ! $is_shot_taken; then
 		is_shot_taken=true
-		is_succesful_shot=$(grim - | wl-copy --type image/png)
+		is_succesful_shot=$(maim -o | xclip -i -selection clipboard -t image/png >/dev/null 2>&1)
 	fi
 }
 
@@ -38,18 +51,14 @@ open_img() {
 
 save_to_file() {
 	take_screenshot
-	if [ -e "$1" ]; then
-		rm "$1"
-	fi
-	wl-paste --type image/png >"$1"
+	xclip -o -selection clipboard -t image/png >"$1"
 }
 
 show_icat() {
 	take_screenshot
 	if $is_succesful_shot; then
-
 		if [ "$TERM" = "xterm-kitty" ]; then
-			wl-paste --type image/png | kitty +kitten icat >/dev/null 2>&1
+			xclip -o -selection clipboard -t image/png | kitty +kitten icat >/dev/null 2>&1
 		fi
 	fi
 }
@@ -116,10 +125,6 @@ done
 
 for arg in "$@"; do
 	case $arg in
-	"--check-deps" | "check-deps" | "check_deps")
-		check_deps
-		exit 0
-		;;
 	"-s" | "--save")
 		save_to_file "$temp_save_path"
 		;;
@@ -141,10 +146,11 @@ for arg in "$@"; do
 	"--notify")
 		show_notification
 		;;
-
+	"--check-deps")
+		check_deps
+		;;
 	*)
-		# unknown option
-		# do nothing
+		exit 0
 		;;
 	esac
 done

@@ -17,7 +17,8 @@
 
 (setq user-full-name "malik kökçan")
 
-(setq doom-theme 'sanityinc-tomorrow-night)
+;; (setq doom-theme 'sanityinc-tomorrow-night)
+(setq doom-theme 'doom-tomorrow-night)
 (setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'light)
       doom-big-font (font-spec :family "Hack Nerd Font" :size 24)
      )
@@ -194,7 +195,7 @@
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
+  ;; :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
@@ -256,7 +257,9 @@
 (after! lsp-ui
   (setq lsp-ui-doc-enable t))
 
-(setq projectile-project-search-path '(("~/projeler" . 2) ("~/projects++" . 2) ("~/.config" . 1)))
+(setq projectile-project-search-path '(("~/projeler" . 2) ("~/projects++" . 2) ))
+(after! projectile
+  (add-to-list 'projectile-globally-ignored-directories '"~/"))
 
 (map! :prefix "C-h"
       (:prefix ("D" . "devdocs")

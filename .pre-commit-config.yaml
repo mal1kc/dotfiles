@@ -1,0 +1,20 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+# -   repo: https://github.com/pre-commit/pre-commit-hooks
+#     rev: v3.2.0
+#     hooks:
+#     -   id: trailing-whitespace
+#     -   id: check-added-large-files
+- repo: local
+  hooks:
+      - id : create_program_list
+        name: create_program_list
+        entry: ./scripts/write_pkg_list.sh
+        language: script
+        pass_filenames: false
+      - id: gitleaks-system
+        name: Detect hardcoded secrets
+        description: Detect hardcoded secrets using Gitleaks
+        entry: gitleaks protect --verbose --redact --staged
+        language: system

@@ -59,6 +59,7 @@
 (package! org-auto-tangle)
 (package! dired-open)
 (package! dired-subtree)
+(package! all-the-icons-dired)
 (package! beacon)
 (package! rainbow-mode)
 (package! peep-dired)

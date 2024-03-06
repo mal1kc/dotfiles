@@ -1,28 +1,6 @@
-# if test "$TERM" = "xterm-kitty"
-# alias ssh="kitty +kitten ssh"
-# end
-# dont work with windows-servers
-
 function git_tree -d "git log oneline graph"
     command git log --graph --all --pretty=oneline --abbrev-commit
 end
-
-# function fish_prompt -d "Write out the prompt"
-#     # $USER and $hostname are set by fish, so you can just use them
-#     # instead of using `whoami` and `hostname`
-#     set -l last_status $status
-
-#     prompt_login
-
-#     echo -n ':'
-
-#     # PWD
-#     set_color $fish_color_cwd
-#     echo -n (prompt_pwd)
-#     set_color normal
-#     # printf '%s@%s %s%s%s > ' $USER $hostname \
-#     #     (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
-# end
 
 # functions -e fish_greeting
 set -l nix_shell_info (
@@ -30,47 +8,6 @@ set -l nix_shell_info (
     echo -n "<nix-shell> "
   end
 )
-
-function change_wallpaper
-    set walpapers ~/pictures/wallpapers/
-
-    #set file (printf "%s" "${wallpapers[RANDOM % ${#wallpapers[@]}]}")
-    set file (random choice $walpapers/*)
-    set -U wallpaper $file
-    echo $file
-    set target ~/.config/c_wallpaper.jpg
-    echo $target
-    set file_ext ( echo $wallpaper | rg -o '(png|jpeg|jpg|webp|gif)')
-    printf "wall_file :%s\nwall_file_ext:%s\n" $file $file_ext
-    if set -q file_ext
-        set target ~/.config/c_wallpaper.$file_ext
-        touch $target
-        cp -Hf "$file" "$target"
-        printf "file copied to %s\n" $target
-        wal -c
-        wal -i "$target" -ne -a 82
-        xrdb -merge ~/.cache/wal/colors.Xresources
-
-        if pgrep swww-daemon >/dev/null
-            swww img "$wallpaper" --transition-type random --no-resize
-        end
-
-        if pgrep hyprpaper >/dev/null
-            set hypr_mons (hyprctl monitors -j | jq -r '.[].name')
-            echo $hypr_mons
-            hyprctl hyprpaper unload all
-            hyprctl hyprpaper preload $target
-            for mon in $hypr_mons
-                hyprctl hyprpaper wallpaper $mon,$target
-                hyprctl hyprpaper wallpaper $mon,$target
-            end
-        end
-        if pgrep Xorg
-            xwallpaper --maximize "$target"
-        end
-    end
-end
-
 
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)

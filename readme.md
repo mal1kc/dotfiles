@@ -35,17 +35,21 @@ all program version are latest (what available on arch packages)
 ## TODO
 
 * move emacs config to another repo
+* turn nsxiv key-handler to wayland compatible
 
 ## screenshots gallery
 
-[ screenshots location ./gscreenshots/wall*.png ]: #
+[ screenshots are in diffrent branch ]: #
 
-<img src="./gscreenshots/wall1.png" width="200" height="100">
-<img src="./gscreenshots/wall2.png" width="200" height="100">
-<img src="./gscreenshots/wall3.png" width="200" height="100">
-<img src="./gscreenshots/wall4.png" width="200" height="100">
-<img src="./gscreenshots/wall5.png" width="200" height="100">
-<img src="./gscreenshots/wall6.png" width="200" height="100">
-
-<!-- [!wall](./gscreenshots/wall1.png) -->
+![screenshot0](../dotfiles_screenshots/laptop_screenshot0.png)
+<br>
+![screenshot1](../dotfiles_screenshots/laptop_screenshot1.png)
+<br>
+![screenshot2](../dotfiles_screenshots/laptop_screenshot2.png)
+<br>
+![screenshot3](../dotfiles_screenshots/laptop_screenshot3.png)
+<br>
+![screenshot4](../dotfiles_screenshots/laptop_screenshot4.png)
+<br>
+![screenshot5](../dotfiles_screenshots/laptop_screenshot5.png)
 

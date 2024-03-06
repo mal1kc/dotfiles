@@ -35,7 +35,8 @@ this is my personal doom emacs config. [[https://github.com/doomemacs/][doomemac
 
 (setq user-full-name "malik kökçan")
 
-(setq doom-theme 'sanityinc-tomorrow-night)
+;; (setq doom-theme 'sanityinc-tomorrow-night)
+(setq doom-theme 'doom-tomorrow-night)
 (setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'light)
       doom-big-font (font-spec :family "Hack Nerd Font" :size 24)
      )
@@ -400,7 +401,7 @@ activate flyspell mode when loading some text modes
 #+begin_src emacs-lisp
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
+  ;; :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
@@ -496,7 +497,9 @@ activate flyspell mode when loading some text modes
 * projectile-settings
 
 #+begin_src emacs-lisp
-(setq projectile-project-search-path '(("~/projeler" . 2) ("~/projects++" . 2) ("~/.config" . 1)))
+(setq projectile-project-search-path '(("~/projeler" . 2) ("~/projects++" . 2) ))
+(after! projectile
+  (add-to-list 'projectile-globally-ignored-directories '"~/"))
 #+end_src
 
 * devdocs.el

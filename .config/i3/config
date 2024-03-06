@@ -204,8 +204,8 @@ bindsym XF86MonBrightnessDown       exec --no-startup-id  light -U 5
 
 # screenshot with maim
 
-bindsym Print exec "sh ~/.local/bin/screenshot-full --notify"
-bindsym $mod+Print exec "sh ~/.local/bin/screenshot --open"
+bindsym Print exec "~/.local/bin/screenshot-full --notify"
+bindsym $mod+Print exec "~/.local/bin/screenshot --open"
 
 
 # resize window (you can also use the mouse for that)

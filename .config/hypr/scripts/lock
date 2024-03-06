@@ -1,2 +1,6 @@
 #!/bin/env sh
-swaylock -e -f -i ~/.config/c_lock_screen.jpg -k -l
+if command -v hyprlock >/dev/null; then
+	hyprlock
+else
+	swaylock -e -f -i ~/.config/c_lock_screen.jpg -k -l
+fi
