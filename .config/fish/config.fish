@@ -31,7 +31,7 @@ function fish_greeting
     echo the time is (set_color yellow; date +%T; set_color normal)
 
     if string match --ignore-case --quiet "$TERM" foot
-        set term xterm-256color # for tmux to work properly
+        set TERM xterm-256color # for tmux to work properly
         run_wal_sequence
     end
 end
