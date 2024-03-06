@@ -1,0 +1,35 @@
+#!/bin/env dash
+
+# swayidle starter script
+
+if command -v hypridle >/dev/null; then
+	hypridle
+else
+	swayidle -w \
+		timeout 900 "$HOME/.config/hypr/scripts/lock" \
+		timeout 1200 '
+      hyprctl monitors | grep HDMI
+      ret=$?
+          
+          if [ $ret -eq 0 ]	
+      then
+        hyprctl dispatch dpms off DP-1
+      else
+        hyprctl dispatch dpms off eDP-1
+      fi
+
+          systemctl suspend' \
+		resume '
+      hyprctl monitors | grep HDMI
+      ret=$?
+
+      if [ $ret -eq 0 ]	
+      then
+        hyprctl dispatch dpms on DP-1
+      else
+        hyprctl dispatch dpms on eDP-1
+      fi
+      ' \
+		before-sleep "$HOME/.config/hypr/scripts/lock" \
+		lock "$HOME/.config/hypr/scripts/lock"
+fi

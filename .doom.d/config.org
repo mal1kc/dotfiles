@@ -2,52 +2,63 @@
 #+AUTHOR: mal1c
 #+DESCRIPTION: mal1kc's personal doom emacs config.
 #+STARTUP: showeverything
-#+options: toc:2 tangle:yes
+#+property: header-args :results output :tangle yes
+#+auto_tangle: t
 #+Toc: listings
-
 
 * about this config
 
 this is my personal doom emacs config. [[https://github.com/doomemacs/][doomemacs]] is a distrubution of emacs .
+* change shell to bash in emacs
+
+#+begin_src emacs-lisp
+(setq shell-file-name (executable-find "bash"))
+
+(setq-default vterm-shell (executable-find "fish"))
+
+(setq-default explicit-shell-file-name (executable-find "fish"))
+#+end_src
+
+* doom theme and font
+
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; Place your private configuration here! Remember, you do not need to run 'doom
+;; sync' after modifying this file!
+
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+
+;; clients, file templates and snippets. It is optional.
+;;(setq user-full-name "John Doe"
+;;     user-mail-address "john@doe.com")
+
+(setq user-full-name "malik kökçan")
+
+;; (setq doom-theme 'sanityinc-tomorrow-night)
+(setq doom-theme 'doom-tomorrow-night)
+(setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'light)
+      doom-big-font (font-spec :family "Hack Nerd Font" :size 24)
+     )
+
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
+(setq display-line-numbers-type 'relative)
+(setq scroll-margin 10)
+
+#+end_src
+
+#+RESULTS:
+| doom--customize-themes-h-229 | doom--customize-themes-h-230 |
 
 * beacon
 when we scroll, our cursor will shine! this is a global minor-mode. Turn it on everywhere with:
 
 #+begin_src emacs-lisp
-;; (beacon-mode 1)
+(beacon-mode 1)
 #+end_src
 
 #+RESULTS:
-: t
-
-* bookmarks and buffers
-
-doom emacs uses 'SPC b'  for keybindings related to bookmarks and buffers
-
-** bookmarks
-
-#+begin_src emacs-lisp
-(map! :leader
-      (:prefix ("b", "buffer")
-        :desc "list bookmars" "L" #'list-bookmars
-        :desc "Save current bookmars to bookmark file" "w" #'bookmark-save
-                ))
-#+end_src
-
-#+RESULTS:
-: bookmark-save
-
-** buffers
-
-regarding /buffers/, the text you are editing in Emacs resided in an object called /buffer/./Ibuffer/ is a program that lists all of your Emacs /buffers/, allowing you to navigate between them and filter them.
-
-| command     | description        | keybindings |
-|-------------+--------------------+-------------|
-| ibuffer         | Launch ibuffer       | SPC b i    |
-| kill-buffer     | Kill current buffer  | SPC b k    |
-| next-buffer     | Goto next buffer     | SPC b n    |
-| previous-buffer | Goto previous buffer | SPC b p    |
-| save-buffer     | Save current buffer  | SPC b s    |
 
 ** global auto revert
 
@@ -61,78 +72,6 @@ a buffer can get out of sync  with respect to its visited fie on disk that file 
 #+RESULTS:
 : t
 
-** keybinds within ibuffer mode
-
-| COMMAND                           | DESCRIPTION                            | KEYBINDING |
-|-----------------------------------+----------------------------------------+------------|
-| ibuffer-mark-forward              | Mark the buffer                        | m          |
-| ibuffer-unmark-forward            | Unmark the buffer                      | u          |
-| ibuffer-do-kill-on-deletion-marks | Kill the marked buffers                | x          |
-| ibuffer-filter-by-content         | Ibuffer filter by content              | f c        |
-| ibuffer-filter-by-directory       | Ibuffer filter by directory            | f d        |
-| ibuffer-filter-by-filename        | Ibuffer filter by filename (full path) | f f        |
-| ibuffer-filter-by-mode            | Ibuffer filter by mode                 | f m        |
-| ibuffer-filter-by-name            | Ibuffer filter by name                 | f n        |
-| ibuffer-filter-disable            | Disable ibuffer filter                 | f x        |
-| ibuffer-do-kill-lines             | Hide marked buffers                    | g h        |
-| ibuffer-update                    | Restore hidden buffers                 | g H        |
-
-
-#+begin_src emacs-lisp
-(evil-define-key 'normal ibuffer-mode-map
-  (kbd "f c") 'ibuffer-filter-by-content
-  (kbd "f d") 'ibuffer-filter-by-directory
-  (kbd "f f") 'ibuffer-filter-by-filename
-  (kbd "f m") 'ibuffer-filter-by-mode
-  (kbd "f n") 'ibuffer-filter-by-name
-  (kbd "f x") 'ibuffer-filter-disable
-  (kbd "g h") 'ibuffer-do-kill-lines
-  (kbd "g H") 'ibuffer-update)
-#+end_src
-
-#+RESULTS:
-
-* dashboard
-
-#+begin_src emacs-lisp
-(use-package dashboard
-  :init      ;; tweak dashboard config before loading it
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-banner-logo-title "\nKEYBINDINGS:\
-\nFind file               (SPC .)     \
-Open buffer list    (SPC b i)\
-\nFind recent files       (SPC f r)   \
-Open the eshell     (SPC e s)\
-\nOpen dired file manager (SPC d d)   \
-List of keybindings (SPC h b b)")
-  ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-  (setq dashboard-startup-banner "~/.config/doom/doom-emacs-dash.png")  ;; use custom image as banner
-  (setq dashboard-center-content nil) ;; set to 't' for centered content
-  (setq dashboard-items '((recents . 5)
-                          (agenda . 5 )
-                          (bookmarks . 5)
-                          (projects . 5)
-                          (registers . 5)))
-  :config
-  (dashboard-setup-startup-hook)
-  (dashboard-modify-heading-icons '((recents . "file-text")
-                                    (bookmarks . "book"))))
-#+end_src
-
-#+RESULTS:
-: t
-
-** dashboard in emacsclient
-This setting ensures that emacsclient always opens on *dashboard* rather than *scratch*.
-
-#+begin_src emacs-lisp
-(setq initial-buffer-choice 'dashboard-open)
-(setq doom-fallback-buffer-name "*dashboard*")
-#+end_src
-
-#+RESULTS:
-: *dashboard*
 
 * dired
 
@@ -185,7 +124,7 @@ dired is the file manager within emacs. below, i setup keybindings for image pre
 
 #+begin_src emacs-lisp
 (map! :leader
-      (:prefix ("d" . "dired")
+   (:prefix ("d" . "dired")
        :desc "Open dired" "d" #'dired
        :desc "Dired jump to current" "j" #'dired-jump)
       (:after dired
@@ -213,11 +152,9 @@ dired is the file manager within emacs. below, i setup keybindings for image pre
   (kbd "-") 'dired-up-directory
   (kbd "% l") 'dired-downcase
   (kbd "% u") 'dired-upcase
-(kbd "; d") 'epa-dired-do-decrypt
-(kbd "; e") 'epa-dired-do-encrypt
  )
 ;;Get file icons in dired
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 ;;With dired-open plugin, you can launch external programs for certain extensions
 ;;For example, I set all .png files to open in 'nsxiv' and all .mp4 files to open in 'mpv'
 (setq dired-open-extensions '(("gif" . "nsxiv")
@@ -282,136 +219,6 @@ if peep-dired is enabled, you will get image previews as you go up/down with 'j'
 #+RESULTS:
 : eval-region
 
-* doom theme and font
-
-#+begin_src emacs-lisp
-(setq doom-theme 'sanityinc-tomorrow-night)
-
-(setq doom-font (font-spec :family "FiraCode Nerd Font":size 14 :weight 'semi-light )
-      doom-variable-pitch-font (font-spec :family "Victor Mono" :size 15)
-      doom-big-font (font-spec :family "Hack NF" :size 24))
-(after! doom-themes
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t))
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-keyword-face :slant italic))
-#+end_src
-
-#+RESULTS:
-| doom--customize-themes-h-229 | doom--customize-themes-h-230 |
-
-* insert date
-
-| COMMAND            | EXAMPLE OUTPUT            | KEYBINDING            |
-|--------------------+---------------------------+-----------------------|
-| insert-todays-date | Friday, November 19, 2021 | SPC i d t             |
-| insert-todays-date | 11-19-2021                | SPC u SPC i d t       |
-| insert-todays-date | 2021-11-19                | SPC u SPC u SPC i d t |
-| insert-any-date    | Friday, November 19, 2021 | SPC i d a             |
-
-#+begin_src emacs-lisp
-(defun insert-todays-date (prefix)
-  (interactive "P")
-  (let ((format (cond
-                 ((not prefix) "%A, %B %d, %Y")
-                 ((equal prefix '(4)) "%m-%d-%Y")
-                 ((equal prefix '(16)) "%Y-%m-%d"))))
-    (insert (format-time-string format))))
-
-(require 'calendar)
-(defun insert-any-date (date)
-  "Insert DATE using the current locale."
-  (interactive (list (calendar-read-date)))
-  (insert (calendar-date-string date)))
-
-(map! :leader
-      (:prefix ("i d" . "Insert date")
-        :desc "Insert any date" "a" #'insert-any-date
-        :desc "Insert todays date" "t" #'insert-todays-date))
-#+end_src
-
-#+RESULTS:
-: insert-todays-date
-
-# * ivy
-# by default, doom emacs does not use 'SPC v', so the format we use for these bindings is 'SPC v' plus 'key'.
-
-# #+begin_src emacs-lisp
-# (map! :leader
-#       (:prefix ("v" . "Ivy")
-#                :desc "ivy push view" "v p" #'ivy-push-view
-#                :desc "ivy switch view" "v s" #'ivy-switch-view))
-# #+end_src
-
-* line settings
-
-| COMMAND                  | DESCRIPTION                               | KEYBINDING  |
-|--------------------------+-------------------------------------------+-------------|
-| hl-line-mode             | /Toggle line highlighting in current frame/ | SPC t h     |
-| global-hl-line-mode      | /Toggle line highlighting globally/         | SPC t H     |
-| doom/toggle-line-numbers | /Toggle line numbers/                       | SPC t l     |
-| toggle-truncate-lines    | /Toggle truncate lines/                     | SPC t t     |
-
-#+BEGIN_SRC emacs-lisp
-(setq scroll-margin 10)
-(setq display-line-numbers-type 'relative)
-(map! :leader :desc "comment or uncomment lines" "C ç")
-(map! :leader
-      (:prefix ("t" . "toggle")
-       :desc "Toggle line numbers" "l" #'doom/toggle-line-numbers
-       :desc "Toggle line highlight in frame" "h" #'hl-line-mode
-       :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
-       :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
-#+END_SRC
-
-* markdown
-
-#+begin_src emacs-lisp
-(custom-set-faces
- '(markdown-header-face ((t (:inherit font-lock-function-name-face :weight bold :family "variable-pitch"))))
- '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.7))))
- '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.6))))
- '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.5))))
- '(markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.4))))
- '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 1.3))))
- '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 1.2)))))
-
-#+end_src
-
-#+RESULTS:
-
-* minimap
-
-| COMMAND      | DESCRIPTION                               | KEYBINDING |
-|--------------+-------------------------------------------+------------|
-| minimap-mode | /Toggle minimap-mode/                       | SPC t m    |
-
-#+begin_src emacs-lisp
-(setq minimap-window-location 'right)
-(map! :leader
-      (:prefix ("t" . "toggle")
-       :desc "Toggle minimap-mode" "m" #'minimap-mode))
-#+end_src
-
-#+RESULTS:
-: minimap-mode
-
-* modeline
-
-The modeline is the bottom status bar that appears in Emacs windows.
-
-#+begin_src emacs-lisp
-(set-face-attribute 'mode-line nil :font "Victor Mono-13")
-(setq doom-modeline-height 30     ;; sets modeline height
-      doom-modeline-bar-width 5   ;; sets right bar width
-      doom-modeline-persp-name t  ;; adds perspective name to modeline
-      doom-modeline-persp-icon t) ;; adds folder icon next to persp name
-#+end_src
-
-#+RESULTS:
-: t
-
 * mouse support
 
 #+begin_src emacs-lisp
@@ -421,8 +228,18 @@ The modeline is the bottom status bar that appears in Emacs windows.
 #+RESULTS:
 : t
 
+* word-checking
+
+#+begin_src emacs-lisp
+(dolist (hook '(text-mode-hook org-mode-hook markdown-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))
+  ))
+#+end_src
+
 * org mode
 #+begin_src emacs-lisp
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
 (map! :leader
       :desc "Org babel tange" "m B" #'org-babel-tangle)
 (after! org
@@ -456,189 +273,6 @@ The modeline is the bottom status bar that appears in Emacs windows.
 
 #+RESULTS:
 | sequence | TODO(t) | BLOG(b) | PROJ(p) | WAIT(w) |   |   | DONE(d) | CANCELLED(c) |
-
-** org fonts
-i have created an interactive function for each color scheme (M-x dt/org-colors-*).  These functions will set appropriate colors and font attributes for org-level fonts and the org-table font.
-#+begin_src emacs-lisp
-
-(defun dt/org-colors-doom-one ()
-  "Enable Doom One colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#51afef" ultra-bold)
-         (org-level-2 1.6 "#c678dd" extra-bold)
-         (org-level-3 1.5 "#98be65" bold)
-         (org-level-4 1.4 "#da8548" semi-bold)
-         (org-level-5 1.3 "#5699af" normal)
-         (org-level-6 1.2 "#a9a1e1" normal)
-         (org-level-7 1.1 "#46d9ff" normal)
-         (org-level-8 1.0 "#ff6c6b" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-dracula ()
-  "Enable Dracula colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#8be9fd" ultra-bold)
-         (org-level-2 1.6 "#bd93f9" extra-bold)
-         (org-level-3 1.5 "#50fa7b" bold)
-         (org-level-4 1.4 "#ff79c6" semi-bold)
-         (org-level-5 1.3 "#9aedfe" normal)
-         (org-level-6 1.2 "#caa9fa" normal)
-         (org-level-7 1.1 "#5af78e" normal)
-         (org-level-8 1.0 "#ff92d0" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-gruvbox-dark ()
-  "Enable Gruvbox Dark colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#458588" ultra-bold)
-         (org-level-2 1.6 "#b16286" extra-bold)
-         (org-level-3 1.5 "#98971a" bold)
-         (org-level-4 1.4 "#fb4934" semi-bold)
-         (org-level-5 1.3 "#83a598" normal)
-         (org-level-6 1.2 "#d3869b" normal)
-         (org-level-7 1.1 "#d79921" normal)
-         (org-level-8 1.0 "#8ec07c" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-monokai-pro ()
-  "Enable Monokai Pro colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#78dce8" ultra-bold)
-         (org-level-2 1.6 "#ab9df2" extra-bold)
-         (org-level-3 1.5 "#a9dc76" bold)
-         (org-level-4 1.4 "#fc9867" semi-bold)
-         (org-level-5 1.3 "#ff6188" normal)
-         (org-level-6 1.2 "#ffd866" normal)
-         (org-level-7 1.1 "#78dce8" normal)
-         (org-level-8 1.0 "#ab9df2" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-nord ()
-  "Enable Nord colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#81a1c1" ultra-bold)
-         (org-level-2 1.6 "#b48ead" extra-bold)
-         (org-level-3 1.5 "#a3be8c" bold)
-         (org-level-4 1.4 "#ebcb8b" semi-bold)
-         (org-level-5 1.3 "#bf616a" normal)
-         (org-level-6 1.2 "#88c0d0" normal)
-         (org-level-7 1.1 "#81a1c1" normal)
-         (org-level-8 1.0 "#b48ead" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-oceanic-next ()
-  "Enable Oceanic Next colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#6699cc" ultra-bold)
-         (org-level-2 1.6 "#c594c5" extra-bold)
-         (org-level-3 1.5 "#99c794" bold)
-         (org-level-4 1.4 "#fac863" semi-bold)
-         (org-level-5 1.3 "#5fb3b3" normal)
-         (org-level-6 1.2 "#ec5f67" normal)
-         (org-level-7 1.1 "#6699cc" normal)
-         (org-level-8 1.0 "#c594c5" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-palenight ()
-  "Enable Palenight colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#82aaff" ultra-bold)
-         (org-level-2 1.6 "#c792ea" extra-bold)
-         (org-level-3 1.5 "#c3e88d" bold)
-         (org-level-4 1.4 "#ffcb6b" semi-bold)
-         (org-level-5 1.3 "#a3f7ff" normal)
-         (org-level-6 1.2 "#e1acff" normal)
-         (org-level-7 1.1 "#f07178" normal)
-         (org-level-8 1.0 "#ddffa7" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-solarized-dark ()
-  "Enable Solarized Dark colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#268bd2" ultra-bold)
-         (org-level-2 1.6 "#d33682" extra-bold)
-         (org-level-3 1.5 "#859900" bold)
-         (org-level-4 1.4 "#b58900" semi-bold)
-         (org-level-5 1.3 "#cb4b16" normal)
-         (org-level-6 1.2 "#6c71c4" normal)
-         (org-level-7 1.1 "#2aa198" normal)
-         (org-level-8 1.0 "#657b83" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-solarized-light ()
-  "Enable Solarized Light colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#268bd2" ultra-bold)
-         (org-level-2 1.6 "#d33682" extra-bold)
-         (org-level-3 1.5 "#859900" bold)
-         (org-level-4 1.4 "#b58900" semi-bold)
-         (org-level-5 1.3 "#cb4b16" normal)
-         (org-level-6 1.2 "#6c71c4" normal)
-         (org-level-7 1.1 "#2aa198" normal)
-         (org-level-8 1.0 "#657b83" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-(defun dt/org-colors-tomorrow-night ()
-  "Enable Tomorrow Night colors for Org headers."
-  (interactive)
-  (dolist
-      (face
-       '((org-level-1 1.7 "#81a2be" ultra-bold)
-         (org-level-2 1.6 "#b294bb" extra-bold)
-         (org-level-3 1.5 "#b5bd68" bold)
-         (org-level-4 1.4 "#e6c547" semi-bold)
-         (org-level-5 1.3 "#cc6666" normal)
-         (org-level-6 1.2 "#70c0ba" normal)
-         (org-level-7 1.1 "#b77ee0" normal)
-         (org-level-8 1.0 "#9ec400" normal)))
-    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
-    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
-
-;; Load our desired dt/org-colors-* theme on startup
-(dt/org-colors-tomorrow-night)
-
-#+end_src
-
-#+RESULTS:
-
-** org-journal
-#+begin_src emacs-lisp
-(setq org-journal-dir "~/org/journal/"
-      org-journal-date-prefix "* "
-      org-journal-time-prefix "** "
-      org-journal-date-format "%d %B, %Y (%A) "
-      org-journal-file-format "%Y-%m-%d.org")
-#+end_src
-
-#+RESULTS:
-: %Y-%m-%d.org
 
 ** Org-auto-tangle
 =org-auto-tangle= allows you to add the option =#+auto_tangle: t= in your Org file so that it automatically tangles when you save the document.
@@ -680,32 +314,6 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 #+RESULTS:
 : winner-undo
 
-* ZAP TO CHAR
-Emacs provides a 'zap-to-char' command that kills from the current point to a character.  It is bound to 'M-z' in standard GNU Emacs but since Doom Emacs uses 'SPC' as its leader key and does not have 'SPC z' binded to anything, it just makes since to use it for 'zap-to-char'.  Note that 'zap-to-char' can be used with the universal argument 'SPC u' to modify its behavior.  Examples of 'zap-to-char' usage are listed in the table below:
-
-| KEYBINDING                | WHAT IS DOES                                               |
-|---------------------------+------------------------------------------------------------|
-| SPC z e                   | deletes all chars to the next occurrence of 'e'            |
-| SPC u 2 SPC z e           | deletes all chars to the second occurrence of 'e'          |
-| SPC u - SPC z e           | deletes all chars to the previous occurrence of 'e'        |
-| SPC u - 2 SPC z e         | deletes all chars to the second previous occurrence of 'e' |
-| SPC u 1 0 0 SPC u SPC z e | deletes all chars to the 100th occurrence of 'e'           |
-
-=TIP=: The universal argument (SPC u) can only take a single integer by default.  If you need to use a multi-digit number (like 100 in the last example in the table above), then you must terminate the universal argument with another 'SPC u' after typing the number.
-
-'zap-up-to-char' is an alternative command that does not zap the char specified.  It is binded to 'SPC Z'.  It can also be used in conjunction with the universal argument 'SPC u' in similar fashion to the the 'zap-to-char' examples above.
-
-=NOTE=:  Vim (evil mode) has similar functionality builtin.  You can delete to the next occurrence of 'e' by using 'dte' in normal.  To delete to the next occurrence of 'e' including the 'e', then you would use 'dfe'.  And you can modify 'dt' and 'df' by prefixing them with numbers, so '2dte' would delete to the second occurrence of 'e'.
-
-#+BEGIN_SRC emacs-lisp
-(map! :leader
-      :desc "Zap to char" "z" #'zap-to-char
-      :desc "Zap up to char" "Z" #'zap-up-to-char)
-#+END_SRC
-
-#+RESULTS:
-: zap-up-to-char
-
 * format on save
 
 #+begin_src emacs-lisp
@@ -729,20 +337,41 @@ Emacs provides a 'zap-to-char' command that kills from the current point to a ch
 * platformio: config
 
 #+begin_src emacs-lisp
+
+;; Enable ccls for all c++ files, and platformio-mode only
+;; when needed (platformio.ini present in project root).
+
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . platformio-mode))
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
 
 (add-hook 'c++-mode-hook (lambda ()
                            (lsp-deferred)
                            (platformio-conditionally-enable)))
-;; generates compile-commands.json for clangd
-;; every time load cpp file with platformio mode
-(add-hook 'platformio-mode-hook (lambda ()
-                                  (platformio--run "-t compiledb")
-                                  ))
+
+
+;; if platformio.ini file exists
+;; enable platformio-mode and create compile-commands.json for clangd
+;; platformio run -t compiledb ->  generates compile-commands.json for clangd
+
+(add-hook 'projectile-after-switch-project-hook
+                (lambda ()
+                (if (file-exists-p (concat (projectile-project-root) "ini.platformio"))
+                    (progn (message "platformio.ini file found")
+                        (require 'platformio-mode)
+                        (platformio-mode t)
+                        (platformio--run "-t compiledb")
+                        )
+                (message "No platformio.ini file found"))
+                    ))
+
+
+(add-hook 'c++-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (platformio-conditionally-enable)))
+
 #+end_src
 
 #+RESULTS:
-| lambda | nil | (platformio--run -t compiledb) |
 
 * magit: config
 add files to git repository with force(-f) tag
@@ -772,12 +401,130 @@ activate flyspell mode when loading some text modes
 #+begin_src emacs-lisp
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
+  ;; :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-<tab>" . 'copilot-accept-completion-by-word)
+              ))
+(map! :mode copilot-mode "C-<return>" #'copilot-accept-completion-by-line)
+(map! :mode copilot-mode "<tab>" #'copilot-accept-completion)
+(map! :mode copilot-mode "TAB" #'copilot-accept-completion)
 #+end_src
 
 #+RESULTS:
+
+* docker
+
+#+begin_src emacs-lisp
+(after! docker
+(setq docker-command "podman")
+ )
+#+end_src
+
+* tr keyboard layout keybinds
+
+#+begin_src emacs-lisp
+(map! :leader "ü" #'+popup/toggle )
+(map! :leader "ö" #'mark-sexp )
+(map! "C-ç" #'comment-line )
+(map! "C-ş" #'er/expand-region ) ;; similliar to mark-sexp but slightly different
+(map! :leader "r" #'recentf-open-files )
+#+end_src
+
+
+* hl-todo
+    hl-todo is emacs package to add highlighting and flyspell listing and some more features for TODO comments
+
+    setting keywords and their highlight colors
+    #+begin_src emacs-lisp
+(after! hl-todo
+    (setq hl-todo-keyword-faces
+        '(("HOLD"   . "#fff8dc")
+        ("TODO"   . "#7fff00")
+        ("NEXT"   . "#dca3a3")
+        ("THEM"   . "#dc8cc3")
+        ("PROG"   . "#7cb8bb")
+        ("OKAY"   . "#7cb8bb")
+        ("DONT"   . "#5f7f5f")
+        ("FAIL"   . "#8c5353")
+        ("DONE"   . "#afd8af")
+        ("NOTE"   . "#d0bf8f")
+        ("HACK"   . "#dfff8f")
+        ("TEMP"   . "#ddaa6f")
+        ("FIXME"  . "#cc9393")
+        ("DEPRECATED" . "#cb4b16")
+        ("IMPORTANT" . "#8b0000")
+    )))
+
+(add-hook 'prog-mode-hook #'hl-todo-mode)
+#+end_src
+* multiple-cursors keybindings
+
+#+begin_src emacs-lisp
+;; (map! :g "C-ğ" #'mc/edit-lines)
+;; (map! :g "C->" #'mc/mark-next-like-this)
+;; (map! :g "C-<" #'mc/mark-previous-like-this)
+;; (map! :g "ğ" #'mc/mark-all-like-this-dwim)
+#+end_src
+
+#+RESULTS:
+
+* python specific
+
+#+begin_src emacs-lisp
+(after! poetry
+        (setq poetry-tracking-strategy 'projectile
+                poetry-tracking-strategy-project-root-files '("pyproject.toml"))
+  )
+#+end_src
+
+* lsp-mode settings
+
+#+begin_src emacs-lisp
+(after! lsp-mode
+  (setq lsp-enable-indentation t)
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-modeline-code-actions-enable t)
+  (setq lsp-modeline-diagnostics-enable t)
+  (setq lsp-headerline-breadcrumb-enable t)
+  (after! lsp-ui
+    (setq lsp-ui-doc-enable t)
+    (setq lsp-ui-sideline-diagnostic-max-lines 2))
+  )
+#+end_src
+
+* projectile-settings
+
+#+begin_src emacs-lisp
+(setq projectile-project-search-path '(("~/projeler" . 4) ("~/projects++" . 4) ))
+#+end_src
+
+* devdocs.el
+
+#+begin_src emacs-lisp
+(map! :prefix "C-h"
+      (:prefix ("D" . "devdocs")
+               :desc "lookup" "l" #'devdocs-lookup
+               :desc "update all docs" "u" #'devdocs-update-all
+               :desc "delete doc" "d" #'devdocs-delete
+               :desc "install doc" "i" #'devdocs-install
+))
+#+end_src
+* dotnet specicifc
+
+#+begin_src emacs-lisp
+(add-hook 'csharp-mode-hook
+  #'format-all-mode
+ )
+
+(add-hook 'csharp-mode-hook
+  #'lsp-mode
+ )
+
+(add-hook 'csharp-mode-hook
+  #'copilot-mode
+ )
+
+#+end_src

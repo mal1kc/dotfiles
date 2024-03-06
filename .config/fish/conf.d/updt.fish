@@ -1,12 +1,24 @@
+set NIX_GC_CLEAN_OLD_AGE 10d
 
-# update shortcuts
-alias flpak_updt="flatpak update -y;flatpak uninstall --unused -y"
-alias sys_updt="yay -Syu --noconfirm"
-alias nix_updt="nix-channel --update -v;nix-env -uv;nix-store --gc"
 alias fish_updt="fisher update"
-# alias nvim_updt="nvim --headless +AstroUpdate +qall" 
-alias nvim_updt="echo 'skipping astronvim ask y/n question but not accept answer'"
-alias dmacs_updt="~/.emacs-profiles/doomemacs/bin/doom upgrade;~/.emacs-profiles/doomemacs/bin/doom sync"
-alias pip_updt="python -m pip install --upgrade --user pip"
+
+alias flpak_updt="flatpak update -y ; \
+                  flatpak uninstall --unused -y"
+
+alias sys_updt="yay -Syu --noconfirm"
+
+alias nix_updt="nix-collect-garbage --delete-older-than $NIX_GC_CLEAN_OLD_AGE ; \
+  nix-channel --update -v ; \
+  nix profile upgrade '.*' -v ; \
+  nix-collect-garbage --delete-older-than $NIX_GC_CLEAN_OLD_AGE"
+
+alias dmacs_updt="~/.emacs-profiles/doomemacs/bin/doom upgrade ; \
+                  ~/.emacs-profiles/doomemacs/bin/doom sync -p"
+
 # sys_updt is in end because it neets sudo rights
-alias all_updt="fish_updt;nix_updt;flpak_updt;nvim_updt;dmacs_updt; sys_updt"
+alias all_updt="fish_updt ; \
+  nix_updt ; \
+  flpak_updt ; \
+  nvim_updt ; \
+  dmacs_updt ; \
+  sys_updt"

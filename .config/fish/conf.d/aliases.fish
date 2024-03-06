@@ -3,15 +3,17 @@ alias py=python
 alias create_ghub_repo="python ~/scripts/create-github-repo.py"
 alias show_sys_info="python ~/scripts/system_hardware_info.py"
 
-alias ls='lsd --color=never'
-alias ll='lsd -l --almost-all'
+if command -v lsd >/dev/null
+    alias ls='lsd --color=never'
+    alias ll='lsd -l --almost-all'
+end
 
 if command -v fd >/dev/null
    alias ldir="fd . -t d -d 1"
 end
 
 # mv, rm, cp
-if command -v trash > /dev/null
+if command -v trash >/dev/null
 	alias rm="trash"
 else 
 	alias rm="rm -i -v"
@@ -45,5 +47,10 @@ alias fzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-w
 alias docker="podman"
 
 if command -v handlr >/dev/null
-   alias xdg-open="handlr"
+   alias xdg-open="handlr open"
+end
+
+
+function _termdown
+    ignore_title_change 'countdown' "termdown $argv"
 end

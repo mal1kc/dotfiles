@@ -6,116 +6,55 @@
 this config is my main setup config with archlinux
 (if u have recommendations/questions for me please say it)
 
-* packages i use
-** desktop apps
+** sys_info
+|           |                                                                                            |
+|-----------|--------------------------------------------------------------------------------------------|
+| OS:       | Arch Linux x86_64                                                                          |
+| Shell:    | fish                                                                                       |
+| DE:       | [Hyprland](https://github.com/hyprwm/Hyprland)                                             |
+| Theme     | Arc-Dark [GTK2/3]                                                                          |
+| Icons     | Papirus-Dark [GTK2/3]                                                                      |
+| Terminal: | [foot](https://codeberg.org/dnkl/foot)                                          |
+| Font:     | [Iosevka](https://typeof.net/Iosevka)                                                      |
+|           |                                                                                            |
 
-#+begin_src bash :tangle required_packages.txt
+** programs
 
-ark
-dunst                     # lightweight notification deamon
-kitty
-pcmanfm
-kdeconnect
-xorg-xev                  # for learn key names
-virt-manager              # qemu virtual machine manager
-xorg-xinit
-xorg-xsetroot
-rofi                      # dmenu like app launcher
-mpv                       # hackable video player
-keepassxc                 # password manager
-zathura                   # minimalist document viewer
-zathura-pdf-poppler       # pdf plugin
++ file manager: nnn,pcmanfm
++ media-player: mpv
++ music-player: cmus
++ editor: neovim (config is in another repo) ,emacs [doom-emacs]
++ browser: librewolf,ungoogled-chromium (sites that doesn't work in librewolf)
++ image viewer: nsxiv, kitty icat
++ pdf viewer: zathura
++ launcher: [rofi wayland fork](https://github.com/lbonn/rofi)
 
-#+end_src
+** package list
 
-** editors
+bare aur and normal packages is in [[file:pkg_list.txt]]
 
-#+begin_src bash :tangle required_packages.txt
-neovim                    # astronvim
-emacs                     # doomemacs
-#+end_src
-
-** cli utils
-
-#+begin_src bash :tangle required_packages.txt
-bat                       # cat with syntax highlighting + pager
-btop                      # process,system usage viewer
-dash                      # POSIX compliant shell that aims to be as small as possible
-# dust                      # du alternative
-# duf                       # df alternative
-# curlie                    # curl + httpie
-fd                        # faster find
-fish                      # user friendly command shell
-fzf                       # command-line fuzzy finder
-the_silver_searcher       # faster ack , ag
-playerctl                 # mpris nedia player controller
-gitui                     # tui git
-glow                      # markdown renderer
-jq                        # json processor
-lsd                       # more powerful ls
-# light                     # backlight controller manager for laptops etc.
-ncdu                      # disk usage analyzer
-nvtop                     # nvidia gpu usage viewer
-picocom                   # serial comminication terminal
-# podman                    # rootless docker alternative
-powertop                  # power usage viewer
-pyenv                     # easily switch between multiple versions of
-python
-python-pywal              # Generate and change colorschemes on the fly
-ripgrep                   # faster grep
-# testdisk                  # disk recovery repair tool
-zoxide                    # folder jumper, z
-axel                      # wget but can parallel download
-aria2                     # multi-protocol download utily
-
-sddm
-refind
-
-#+end_src
-
-** system
-
-#+begin_src bash :tangle required_packages.txt
-amd-ucode                 # for amd processor
-make                      
-patch                     # for applying git diffs as patches to code
-wireplumber               # pipewire session manager
-pipewire-pulse            # pipewire pulseaudio replacement
-cups                      # printer support
-udisks2                   # mounting disks with udev rules
-
-#+end_src
+nix profile package list is in [[file:nix_profile_pkg_list.txt
+]]
 ** fonts
 
-#+begin_src bash :tangle required_packages.txt
+#+begin_src bash
+ttc-isevka # (big font pkg ~300MB)
 noto-fonts-emoji
 gnu-free-fonts
 ttf-hack
-ttf-firacode-nerd
-
 #+end_src
 
 ** aur
 
-#+begin_src bash :tangle required_packages.txt
-# nsxiv                     # neo sxiv
-# librewolf                 # more piracy firendly,much faster firefox
-# sww
+#+begin_src bash
+nsxiv                     # neo sxiv
+librewolf                 # more piracy firendly,much faster firefox
+sww
 #+end_src
-** build from source
+** build from source and why
 
-#+begin_src bash :tangle required_packages.txt
-#st
-#nnn                       # file manager build from source or nerd icons
-
-#+end_src
-** extras
-
-i am currently using hyprland (wl-roots based wayland compositor)
-#+begin_src bash :tangle required_packages.txt
-
-# hyprland-nvidia-git
-
+#+begin_src bash
+nnn                       # file manager build from source for nerd icons
 #+end_src
 
 * other installations
@@ -130,4 +69,191 @@ i am currently using hyprland (wl-roots based wayland compositor)
 [[https://astronvim.com/][astronvim]]
 ** emacs - doomemacs config
 [[doomemacs.org][doom emacs]]
-* Files list
+
+* git file tree
+#+begin_comment
+git ls-files | tree --fromfile
+#+end_comment
+
+
+#+begin_src bash
+.
+|-- .Xresources
+|-- .bashrc
+|-- .config
+|   |-- MangoHud
+|   |   `-- MangoHud.conf
+|   |-- bat
+|   |   `-- config
+|   |-- dunst
+|   |   `-- dunstrc
+|   |-- fish
+|   |   |-- conf.d
+|   |   |   |-- DEsktop_wayland.fish
+|   |   |   |-- aliases.fish
+|   |   |   |-- asdf.fish
+|   |   |   |-- exports.user.fish
+|   |   |   |-- fzf.fish
+|   |   |   |-- kitty.fish
+|   |   |   |-- mkfileP.fish
+|   |   |   |-- nix.fish
+|   |   |   |-- nnn.fish
+|   |   |   |-- pyenv.fish
+|   |   |   `-- updt.fish
+|   |   `-- config.fish
+|   |-- foot
+|   |   `-- foot.ini
+|   |-- gamemode.ini
+|   |-- gtk-3.0
+|   |   `-- settings.ini
+|   |-- hypr
+|   |   |-- hypridle.conf
+|   |   |-- hyprland.conf
+|   |   |-- hyprland_apps.conf
+|   |   |-- hyprland_binds.conf
+|   |   |-- hyprland_displays.conf
+|   |   |-- hyprland_plugins.conf
+|   |   |-- hyprland_variables.conf
+|   |   |-- hyprland_windowrules.conf
+|   |   |-- hyprlock.conf
+|   |   |-- hyprpaper.conf
+|   |   `-- scripts
+|   |       |-- lock
+|   |       `-- start_idle_tool
+|   |-- i3
+|   |   |-- config
+|   |   `-- status.conf
+|   |-- kitty
+|   |   |-- diff.conf
+|   |   `-- kitty.conf
+|   |-- mimeapps.list
+|   |-- mpv
+|   |   |-- input.conf
+|   |   |-- mpv.conf
+|   |   |-- scripts
+|   |   |   |-- mpris.so
+|   |   |   |-- osc.lua
+|   |   |   |-- seek-show-position.js
+|   |   |   `-- thumbfast.lua
+|   |   `-- scripts-opts
+|   |       `-- thumbfast.conf
+|   |-- my_extra_configs
+|   |   |-- change_wallpaper.sh
+|   |   `-- sounds
+|   |       `-- new_bell.ogg
+|   |-- nnn
+|   |   `-- plugins
+|   |       |-- autojump
+|   |       |-- cmusq
+|   |       |-- diffs
+|   |       |-- finder
+|   |       |-- fzopen
+|   |       |-- imgview
+|   |       |-- preview-tui
+|   |       `-- renamer
+|   |-- nsxiv
+|   |   `-- exec
+|   |       `-- key-handler
+|   |-- pcmanfm
+|   |   `-- default
+|   |       `-- pcmanfm.conf
+|   |-- picom.conf
+|   |-- rofi
+|   |   |-- colors.rasi
+|   |   |-- config.rasi
+|   |   |-- powermenu.rasi
+|   |   `-- themes
+|   |       `-- theme.rasi
+|   |-- systemd
+|   |   `-- user
+|   |       |-- waybar.path
+|   |       `-- waybar.service
+|   |-- user-dirs.dirs
+|   |-- wal
+|   |   `-- templates
+|   |       |-- colors-rofi-dark.rasi
+|   |       `-- colors.Xresources
+|   |-- waybar
+|   |   |-- colors.css
+|   |   |-- config
+|   |   `-- style.css
+|   |-- zathura
+|   |   `-- zathurarc
+|   `-- zsh
+|       |-- alias.zsh
+|       |-- conf.d
+|       |   `-- asdf.zsh
+|       |-- mkfileP.zsh
+|       |-- p10k.zsh
+|       `-- zsh_plugins.txt
+|-- .doom.d
+|   |-- config.el
+|   |-- config.org
+|   |-- custom.el
+|   |-- init.el
+|   `-- packages.el
+|-- .emacs-profiles.el
+|-- .firefox_scipts_configs
+|   `-- user.js
+|-- .gitconfig
+|-- .gitignore
+|-- .gtkrc-2.0
+|-- .local
+|   |-- bin
+|   |   |-- ch_wallpaper.sh
+|   |   |-- clear_pacman_aur_cache.sh
+|   |   |-- download_music_playlist.sh
+|   |   |-- e
+|   |   |-- git-tip
+|   |   |-- qrclip
+|   |   |-- rofi_audio.sh
+|   |   |-- rofi_mode_powermenu
+|   |   |-- screenshot
+|   |   |-- screenshot-wl
+|   |   |-- screenshot-x11
+|   |   |-- screenshot_fullscreen
+|   |   |-- search
+|   |   |-- search_file
+|   |   |-- start_waybar.sh
+|   |   |-- start_wlsunset.sh
+|   |   |-- tmux-nvim-sessionizer
+|   |   |-- tmux-sessionizer
+|   |   `-- yt
+|   `-- share
+|       `-- applications
+|           `-- cmus.desktop
+|-- .zshrc
+|-- install.sh
+|-- mgitfile.sh
+|-- nix_profile_pkg_list.txt
+|-- pkg_list.txt
+|-- readme.org
+`-- scripts
+    |-- create-github-repo.py
+    |-- load_tokens.py
+    `-- system_hardware_info.py
+
+41 directories, 114 files
+#+end_src
+
+* TODOs
+
++ rewrt install.sh with python (+next)
+
++ try other notification daemons
+  + if change happens convert *dunstify* lines to *notify* in *scripts*
+   #+begin_comment
+        git grep "dunstify"
+   #+end_comment
++ revisit zsh and update zsh config
++ simlify package list to update installer script
++ maybe maybe add git crypt with some files
+
+* images gallery
+
+images are in diffrent branch
+
+[[../dotfiles_screenshots/desktop_screenshot0.png]]
+[[../dotfiles_screenshots/desktop_screenshot1.png]]
+[[../dotfiles_screenshots/desktop_screenshot2.png]]
+[[../dotfiles_screenshots/desktop_screenshot3.png]]

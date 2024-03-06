@@ -1,39 +1,81 @@
 @import "colors.css";
 
 * {
+    font-family: "Iosevka Light";
     border: none;
     border-radius: 0px;
-    font-family: Victor Mono;
     font-weight: normal;
     font-size: 12px;
 }
 
-
 window#waybar {
-    background: @base;
+    /* background: @base; */
+    background: transparent;
     color: white;
 }
 
-#workspaces {
-	margin: 5px 5px;
+tooltip {
+	color: @color2;
+	background: @color0;
+	opacity: 0.8;
+	border-radius: 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: @color15;
 }
-#workspaces button {
-    padding: 2px 8px 2px 8px;
-    margin: 0px 8px 0px 8px;
-    color: #eceff4;
+
+/*-----module groups----*/
+.modules-left, .modules-right, .modules-center {
+	opacity: 0.92;
+	background-color: @color0;
+	border: 0.25px solid @color15;
+	border-radius: 5px;
+	padding-top: 0.5px;
+	padding-bottom: 0.5px;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+#waybar.empty, #waybar.tiled, #waybar.floating {
+	background-color: transparent;
+}
+
+workspaces button {
+    margin: 5px 5px 5px 5px;
+    color: @color2;
+    box-shadow: none;
+    text-shadow: none;
+    padding: 2px;
+    border-radius: 9px;
+    padding-left: 4px;
+    padding-right: 4px;
+    animation: gradient_f 20s ease-in infinite;
+}
+
+#workspaces button.active {
+    color: @foreground;
+    background-color: @color2;
+    animation: gradient_f 20s ease-in infinite;
 }
 
 #workspaces button.focused {
-    color: @surface0;
-    background-color: #88c0d0;
+    color: @color4;
+    text-decoration: underline;
+    animation: gradient_f 20s ease-in infinite;
+}
+
+#workspaces button.urgent {
+    color: @color11;
 }
 
 #workspaces button:hover {
-	background-color: #5e81ac;
+    color: @color4;
+    text-shadow:3px 0px @color9;
+    animation: gradient_f 20s ease-in infinite;
 }
 
+
 #disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network {
-	background-color: @mantle;
 	padding: 0px 8px;
 	margin: 8px 0px;
 }
@@ -44,56 +86,21 @@ window#waybar {
 
 #custom-power {
 	color: @overlay1;
-	background-color: #bf616a;
 	border-radius: 5px;
-	margin-right: 8px;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	margin-left: 0px;
+	/* margin-left: 0px; */
 	padding: 0px 5px;
-}
-
-#bluetooth {
-    background-color: @blue;
-    border-radius: 5px 0px 0px 5px;
-    /* margin-bottom: 1px; */
-    /* margin-left: px; */
-    /* margin: 10px 10px 10px 10px; */
 }
 
 #clock {
     color: @maroon;
     border-radius: 0px 5px 5px 0px;
-    margin-right: 8px;
 }
 
-#battery {
-    color: #a3be8c;
-}
-
-@keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: black;
-    }
-}
-
-#battery.charging {
-    color: #a3be8c;
-}
-
-#battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #ffffff;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
 
 #network {
-	color: #d08770;
+	color: black;
 }
 
 #audio, #wireplumber {
@@ -101,32 +108,8 @@ window#waybar {
 	border-radius: 0px 0px 0px 0px;
 }
 
-/* #bluetooth, */
-/* #clock, */
-/* #battery, */
-/* #cpu, */
-/* #memory, */
-/* #disk, */
-/* #temperature, */
-/* #backlight, */
-/* #network, */
-/* #audio, #wireplumber, */
-/* #wireplumber, */
-/* #custom-media, */
-/* #tray, */
-/* #mode, */
-/* #idle_inhibitor, */
-/* #scratchpad, */
-/* #mpd { */
-/*     padding: 0 10px; */
-/*     color: #ffffff; */
-/* } */
-
-
-#window,
-#workspaces {
-    margin: 0px 4px;
-
+#window{
+    margin-left: 5px;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
@@ -136,7 +119,7 @@ window#waybar {
 
 /* If workspaces is the rightmost module, omit right margin */
 .modules-right > widget:last-child > #workspaces {
-    margin-right: 0px;
+    margin-right: 1px;
 }
 
 #clock {
@@ -144,11 +127,17 @@ window#waybar {
 }
 
 #battery {
-    background-color: #ffffff;
-    color: #000000;
+  color: #1B1D2B;
+  background-color: #82AAFF;
+  border-radius: 5px 0px 0px 5px;
 }
 
-#battery.charging, #battery.plugged {
+#battery.charging {
+    color: #64727D;
+    background-color: #CEE0C5
+}
+
+#battery.plugged {
     color: #ffffff;
     background-color: #26A65B;
 }
@@ -162,7 +151,7 @@ window#waybar {
 
 #battery.critical:not(.charging) {
     background-color: #f53c3c;
-    color: #ffffff;
+    color: red;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -178,8 +167,7 @@ label:focus {
     background-color: #2ecc71;
     color: #000000;
     border-radius: 5px 0px 0px 5px;
-    margin-left: 8px ;
-
+    /* margin-left: 2px ; */
 }
 
 #memory {
@@ -213,24 +201,9 @@ label:focus {
 }
 
 #audio.muted, #wireplumber.muted {
-    background-color: #90b1b1;
-    color: #2a5c45;
+    background-color: @color1;
 }
 
-
-#custom-media {
-    background-color: #66cc99;
-    color: #2a5c45;
-    min-width: 100px;
-}
-
-#custom-media.custom-spotify {
-    background-color: #66cc99;
-}
-
-#custom-media.custom-vlc {
-    background-color: #ffa000;
-}
 
 #temperature {
     background-color: #f0932b;
@@ -241,7 +214,7 @@ label:focus {
 }
 
 #tray {
-    background-color: #2980b9;
+    background-color: @background;
     margin: 5px;
     padding-left: 10px;
     padding-right: 10px;
@@ -256,56 +229,6 @@ label:focus {
     background-color: #eb4d4b;
 }
 
-#idle_inhibitor {
-    background-color: #2d3436;
-}
-
-#idle_inhibitor.activated {
-    background-color: #ecf0f1;
-    color: #2d3436;
-}
-
-#mpd {
-    background-color: @crust;
-    margin: 5px 8px 5px 5px;
-}
-
-#mpd.disconnected {
-    color: @red;
-}
-
-#mpd.stopped {
-    color: @rosewater;
-}
-
-#mpd.paused {
-    color: @green;
-}
-
-#language {
-    background: #00b093;
-    color: #740864;
-    padding: 0px 5px;
-    margin: 0px 5px;
-    min-width: 8px;
-}
-
-#keyboard-state {
-    background: #97e1ad;
-    color: #000000;
-    padding: 0px 0px;
-    margin: 0px 5px;
-    min-width: 16px;
-}
-
-#keyboard-state > label {
-    padding: 0px 5px;
-}
-
-#keyboard-state > label.locked {
-    background: rgba(0, 0, 0, 0.2);
-}
-
 #scratchpad {
     background: rgba(0, 0, 0, 0.2);
 }
@@ -315,9 +238,15 @@ label:focus {
 }
 
 #custom-media {
-	background-color: @mantle;
+	background-color: @crust;
+    color: #bebebe;
+	padding: 0px 5px;
+    border-radius: 5px;
+	margin: 5px 0px;
+}
 
-    background: #1f1f1f;
+#mpris {
+	background-color: @crust;
     color: #bebebe;
 	padding: 0px 5px;
     border-radius: 5px;
