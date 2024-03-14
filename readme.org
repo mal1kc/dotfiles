@@ -7,16 +7,16 @@ this config is my main setup config with archlinux
 (if u have recommendations/questions for me please say it)
 
 ** sys_info
-|           |                                                                                            |
-|-----------|--------------------------------------------------------------------------------------------|
-| OS:       | Arch Linux x86_64                                                                          |
-| Shell:    | fish                                                                                       |
-| DE:       | [Hyprland](https://github.com/hyprwm/Hyprland)                                             |
-| Theme     | Arc-Dark [GTK2/3]                                                                          |
-| Icons     | Papirus-Dark [GTK2/3]                                                                      |
-| Terminal: | [foot](https://codeberg.org/dnkl/foot)                                          |
-| Font:     | [Iosevka](https://typeof.net/Iosevka)                                                      |
-|           |                                                                                            |
+|           |                                                |
+|-----------+------------------------------------------------|
+| OS:       | Arch Linux x86_64                              |
+| Shell:    | fish                                           |
+| DE:       | [Hyprland](https://github.com/hyprwm/Hyprland) |
+| Theme     | Arc-Dark [GTK2/3]                              |
+| Icons     | Papirus-Dark [GTK2/3]                          |
+| Terminal: | [foot](https://codeberg.org/dnkl/foot)         |
+| Font:     | [Iosevka](https://typeof.net/Iosevka)          |
+|           |                                                |
 
 ** programs
 
@@ -25,16 +25,14 @@ this config is my main setup config with archlinux
 + music-player: cmus
 + editor: neovim (config is in another repo) ,emacs [doom-emacs]
 + browser: librewolf,ungoogled-chromium (sites that doesn't work in librewolf)
-+ image viewer: nsxiv, kitty icat
++ image viewer: nsxiv
 + pdf viewer: zathura
-+ launcher: [rofi wayland fork](https://github.com/lbonn/rofi)
++ launcher: [wofi](https://sr.ht/~scoopta/wofi/)
 
 ** package list
 
-bare aur and normal packages is in [[file:pkg_list.txt]]
-
-nix profile package list is in [[file:nix_profile_pkg_list.txt
-]]
+bare aur and normal packages is in [[./dotfiles_installers/pkg_list.txt]]
+nix profile package list is in [[./dotfiles_installers/nix_profile_pkg_list.txt]]
 ** fonts
 
 #+begin_src bash
@@ -65,10 +63,32 @@ nnn                       # file manager build from source for nerd icons
 
 [[https://github.com/acomagu/fish-async-prompt][fish-async-prompt - Make your prompt asynchronous to improve the reactivity.]]
 [[https://github.com/PatrickF1/fzf.fish][fzf.fish - 🔍 🐟 Fzf plugin for Fish]]
-** neovim - astronvim config
-[[https://astronvim.com/][astronvim]]
+** neovim
+[[../../../nvim-config/][my neovim config based on lazyvim starter]]
 ** emacs - doomemacs config
 [[doomemacs.org][doom emacs]]
+
+* images gallery
+
+images are in diffrent branch
+
+[[../dotfiles_screenshots/desktop_screenshot0.png]]
+[[../dotfiles_screenshots/desktop_screenshot1.png]]
+[[../dotfiles_screenshots/desktop_screenshot2.png]]
+[[../dotfiles_screenshots/desktop_screenshot3.png]]
+
+
+* TODOs
++ add missing featues install.py , add auto testing
+  + add remove old backups
+  + implement recovery from backup tar archive
++ write better screenshot scripts
++ try other notification daemons
++ revisit zsh and update zsh config
++ simlify package list to update installer script
++ maybe maybe add git crypt with some files
++ maybe add some x11 configs (prob i don't do that)
+
 
 * git file tree
 #+begin_comment
@@ -92,8 +112,8 @@ git ls-files | tree --fromfile
 |   |   |   |-- DEsktop_wayland.fish
 |   |   |   |-- aliases.fish
 |   |   |   |-- asdf.fish
+|   |   |   |-- dotnet.fish
 |   |   |   |-- exports.user.fish
-|   |   |   |-- fzf.fish
 |   |   |   |-- kitty.fish
 |   |   |   |-- mkfileP.fish
 |   |   |   |-- nix.fish
@@ -102,6 +122,8 @@ git ls-files | tree --fromfile
 |   |   |   `-- updt.fish
 |   |   `-- config.fish
 |   |-- foot
+|   |   |-- foot
+|   |   |   `-- foot.ini
 |   |   `-- foot.ini
 |   |-- gamemode.ini
 |   |-- gtk-3.0
@@ -158,24 +180,30 @@ git ls-files | tree --fromfile
 |   |   `-- default
 |   |       `-- pcmanfm.conf
 |   |-- picom.conf
-|   |-- rofi
-|   |   |-- colors.rasi
-|   |   |-- config.rasi
-|   |   |-- powermenu.rasi
-|   |   `-- themes
-|   |       `-- theme.rasi
+|   |-- river
+|   |   `-- init
 |   |-- systemd
 |   |   `-- user
 |   |       |-- waybar.path
 |   |       `-- waybar.service
+|   |-- tmux
+|   |   `-- tmux.conf
 |   |-- user-dirs.dirs
 |   |-- wal
 |   |   `-- templates
-|   |       |-- colors-rofi-dark.rasi
+|   |       |-- colors-custom-gtk3.css
 |   |       `-- colors.Xresources
 |   |-- waybar
 |   |   |-- colors.css
 |   |   |-- config
+|   |   `-- style.css
+|   |-- wofi
+|   |   |-- audio.json
+|   |   |-- config
+|   |   |-- notif-example.json
+|   |   |-- powermenu.json
+|   |   |-- scripts
+|   |   |   `-- audio.sh
 |   |   `-- style.css
 |   |-- zathura
 |   |   `-- zathurarc
@@ -198,6 +226,7 @@ git ls-files | tree --fromfile
 |-- .gitconfig
 |-- .gitignore
 |-- .gtkrc-2.0
+|-- .inputrc
 |-- .local
 |   |-- bin
 |   |   |-- ch_wallpaper.sh
@@ -206,8 +235,6 @@ git ls-files | tree --fromfile
 |   |   |-- e
 |   |   |-- git-tip
 |   |   |-- qrclip
-|   |   |-- rofi_audio.sh
-|   |   |-- rofi_mode_powermenu
 |   |   |-- screenshot
 |   |   |-- screenshot-wl
 |   |   |-- screenshot-x11
@@ -218,42 +245,26 @@ git ls-files | tree --fromfile
 |   |   |-- start_wlsunset.sh
 |   |   |-- tmux-nvim-sessionizer
 |   |   |-- tmux-sessionizer
+|   |   |-- wofi_json.py
 |   |   `-- yt
 |   `-- share
 |       `-- applications
 |           `-- cmus.desktop
+|-- .pre-commit-config.yaml
 |-- .zshrc
-|-- install.sh
-|-- mgitfile.sh
-|-- nix_profile_pkg_list.txt
-|-- pkg_list.txt
+|-- dotfiles_installers
+|   |-- archlinux_and_aur_install.sh
+|   |-- asdf_install.sh
+|   |-- fisher_install.sh
+|   `-- fisher_plugins.txt
+|-- install.py
+|-- nerd-font-smoke-test.sh
 |-- readme.org
 `-- scripts
     |-- create-github-repo.py
     |-- load_tokens.py
-    `-- system_hardware_info.py
+    |-- system_hardware_info.py
+    `-- write_pkg_list.sh
 
-41 directories, 114 files
+45 directories, 123 files
 #+end_src
-
-* TODOs
-
-+ rewrt install.sh with python (+next)
-
-+ try other notification daemons
-  + if change happens convert *dunstify* lines to *notify* in *scripts*
-   #+begin_comment
-        git grep "dunstify"
-   #+end_comment
-+ revisit zsh and update zsh config
-+ simlify package list to update installer script
-+ maybe maybe add git crypt with some files
-
-* images gallery
-
-images are in diffrent branch
-
-[[../dotfiles_screenshots/desktop_screenshot0.png]]
-[[../dotfiles_screenshots/desktop_screenshot1.png]]
-[[../dotfiles_screenshots/desktop_screenshot2.png]]
-[[../dotfiles_screenshots/desktop_screenshot3.png]]

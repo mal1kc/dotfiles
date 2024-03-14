@@ -5,7 +5,6 @@ acl # # 2.3.2-1 # Access control list utilities, libraries and headers
 adobe-source-code-pro-fonts # # 2.042u+1.062i+1.026vf-1 # Monospaced font family for user interface and coding environments
 adwaita-cursors # # 45.0-1 # GNOME standard cursors
 adwaita-icon-theme # # 45.0-1 # GNOME standard icons
-alacritty # # 0.13.1-1 # A cross-platform, GPU-accelerated terminal emulator
 alsa-card-profiles # # 1:1.0.3-1 # Low-latency audio/video router and processor - ALSA card profiles
 alsa-lib # # 1.2.11-1 # An alternative implementation of Linux sound support
 alsa-plugins # # 1:1.2.7.1-2 # Additional ALSA plugins
@@ -24,7 +23,7 @@ archiso # # 75-1 # Tools for creating Arch Linux live and install iso images
 archlinux-keyring # # 20240208-1 # Arch Linux PGP keyring
 argon2 # # 20190702-5 # A password-hashing function (reference C implementation)
 aria2 # # 1.37.0-1 # Download utility that supports HTTP(S), FTP, BitTorrent, and Metalink
-ark 23.08.5-1 (kde-applications # # kde-utilities) # Archiving Tool
+ark 24.02.0-1 (kde-applications # # kde-utilities) # Archiving Tool
 aspell # # 0.60.8.1-2 # A spell checker designed to eventually replace Ispell
 aspell-en # # 2020.12.07-1 # English dictionary for aspell
 aspell-uk # # 1.8.0-3 # Ukrainian dictionary for aspell
@@ -32,7 +31,7 @@ at-spi2-core # # 2.50.1-1 # Protocol definitions and daemon for D-Bus at-spi
 atkmm # # 2.28.4-1 # C++ bindings for ATK
 attica5 5.115.0-1 # # (kf5) # Qt library that implements the Open Collaboration Services API
 attr # # 2.5.2-1 # Extended attribute support library for ACL support
-audit # # 4.0-1 # Userspace components of the audit framework
+audit # # 4.0.1-2 # Userspace components of the audit framework
 autoconf # # 2.72-1 # A GNU tool for automatically configuring source code
 automake # # 1.16.5-2 # A GNU tool for automatically creating Makefiles
 avahi # # 1:0.8+r194+g3f79789-1 # Service Discovery for Linux using mDNS/DNS-SD (compatible with Bonjour)
@@ -60,7 +59,7 @@ bc # # 1.07.1-4 # An arbitrary precision calculator language
 binutils # # 2.42-2 # A set of programs to assemble and manipulate binary and object files
 bison # # 3.8.2-6 # The GNU general-purpose parser generator
 blas # # 3.12.0-3 # Basic Linear Algebra Subprograms
-bluez-libs # # 5.72-2 # Deprecated libraries for the bluetooth protocol stack
+bluez-libs # # 5.73-3 # Deprecated libraries for the bluetooth protocol stack
 bmake # # 20240108-1 # Portable version of the NetBSD make build tool
 boost-libs # # 1.83.0-5 # Free peer-reviewed portable C++ source libraries (runtime libraries)
 botan # # 3.3.0-1 # Crypto library written in C++
@@ -70,33 +69,38 @@ btop # # 1.3.2-1 # A monitor of system resources, bpytop ported to C++
 btrfs-progs # # 6.7.1-1 # Btrfs filesystem utilities
 bubblewrap # # 0.8.0-1 # Unprivileged sandboxing tool
 bzip2 # # 1.0.8-5 # A high-quality data compression program
-c++utilities # # 5.24.6-1 # Common C++ classes and routines such as argument parser, IO and conversion utilities
+c++utilities # # 5.24.7-1 # Common C++ classes and routines such as argument parser, IO and conversion utilities
+c++utilities-debug # # 5.24.7-1 # Detached debugging symbols for c++utilities
 c-ares # # 1.27.0-1 # A C library for asynchronous DNS requests
 ca-certificates # # 20220905-1 # Common CA certificates (default providers)
 ca-certificates-mozilla # # 3.98-1 # Mozilla's set of trusted CA certificates
 ca-certificates-utils # # 20220905-1 # Common CA certificates (utilities)
 cabextract # # 1.11-1 # A program to extract Microsoft cabinet (.CAB) files
-cairo # # 1.18.0-1 # 2D graphics library with support for multiple output devices
+cairo # # 1.18.0-2 # 2D graphics library with support for multiple output devices
 cairomm # # 1.14.5-1 # C++ bindings for Cairo
 cantarell-fonts # # 1:0.303.1-1 # Humanist sans serif font
 capstone # # 5.0.1-2 # Lightweight multi-platform, multi-architecture disassembly framework
 catatonit # # 0.2.0-3 # A container init that is so simple it's effectively brain-dead.
-catch2 # # 3.5.2-1 # Modern, C++-native, header-only, test framework for unit-tests, TDD and BDD
+catch2 # # 3.5.3-1 # Modern, C++-native, header-only, test framework for unit-tests, TDD and BDD
 cbindgen # # 0.26.0-1 # A tool for generating C bindings to Rust code
 cblas # # 3.12.0-3 # C interface to BLAS
 cdparanoia # # 10.2-9 # Compact Disc Digital Audio extraction tool
 cdrtools # # 3.02a09-5 # Original cdrtools supporting CD, DVD and BluRay burning
+check # # 0.15.2-2 # A unit testing framework for C
 chromaprint # # 1.5.1-7 # Library for extracting fingerprints from any audio source
 chrono-date # # 3.0.1-3 # A date and time library based on the C++11/14/17 <chrono> header
 cifs-utils # # 7.0-3 # CIFS filesystem user-space tools
-clang # # 16.0.6-2 # C language family frontend for LLVM
+clang # # 17.0.6-1 # C language family frontend for LLVM
+clang16 # # 16.0.6-1 # C language family frontend for LLVM 16
 cmake # # 3.28.3-1 # A cross-platform open-source make system
 cmocka # # 1.1.7-1 # Elegant unit testing framework for C with support for mock objects
 cmus # # 2.10.0-4 # Feature-rich ncurses-based music player
-compiler-rt # # 16.0.6-3 # Compiler runtime libraries for clang
+compiler-rt # # 17.0.6-1 # Compiler runtime libraries for clang
+compiler-rt16 # # 16.0.6-1 # Compiler runtime libraries for clang 16
 confuse # # 3.3-4 # C-library for parsing configuration files
 conmon # # 1:2.1.10-1 # OCI container runtime monitor
 containers-common # # 1:0.57.4-1 # Configuration files and manpages for containers
+convertlit # # 1.8-11 # An extractor/converter for .LIT eBooks
 coreutils # # 9.4-3 # The basic file, shell and text manipulation utilities of the GNU operating system
 cpio # # 2.15-1 # A tool to copy files into or out of a cpio or tar archive
 cppdap # # 1.58.0-1 # C++ library for the Debug Adapter Protocol
@@ -104,10 +108,10 @@ cppunit # # 1.15.1-3 # A C++ unit testing framework
 cracklib # # 2.9.11-1 # Password Checking Library
 criu # # 3.18-2 # Utilities to checkpoint and restore processes in userspace
 crun # # 1.14.4-1 # A fast and lightweight fully featured OCI runtime and C library for running containers
-cryptsetup # # 2.7.0-1 # Userspace setup tool for transparent encryption of block devices using dm-crypt
-cuda # # 12.3.2-1 # NVIDIA's GPU programming toolkit
+cryptsetup # # 2.7.1-1 # Userspace setup tool for transparent encryption of block devices using dm-crypt
+cuda # # 12.4.0-2 # NVIDIA's GPU programming toolkit
 curl # # 8.6.0-3 # command line tool and library for transferring data with URLs
-cython # # 3.0.8-1 # C-Extensions for Python
+cython # # 3.0.9-1 # C-Extensions for Python
 dash # # 0.5.12-1 # POSIX compliant shell that aims to be as small as possible
 dav1d # # 1.4.0-1 # AV1 cross-platform decoder focused on speed and correctness
 db # # 6.2.32-1 # The Berkeley DB embedded database system
@@ -120,7 +124,7 @@ dconf # # 0.40.0-2 # Configuration database system
 debugedit # # 5.0-5 # Tool to mangle source locations in .debug files
 default-cursors # # 2-1 # Default cursor set
 desktop-file-utils # # 0.27-1 # Command line utilities for working with desktop entries
-device-mapper # # 2.03.23-1 # Device mapper userspace library and tools
+device-mapper # # 2.03.23-3 # Device mapper userspace library and tools
 diff-so-fancy # # 1.4.4-2 # Good-looking diffs with diff-highlight and more
 diffutils # # 3.10-1 # Utility programs used for creating patch files
 dkms # # 3.0.12-1 # Dynamic Kernel Modules System
@@ -131,12 +135,12 @@ dnsmasq # # 2.90-1 # Lightweight, easy to configure DNS forwarder and DHCP serve
 dnssec-anchors # # 20190629-3 # DNSSEC trust anchors for the root zone
 dosfstools # # 4.2-3 # DOS filesystem utilities
 double-conversion # # 3.3.0-1 # Binary-decimal and decimal-binary routines for IEEE doubles
-downgrade # # 11.3.0-1 # Bash script for downgrading one or more packages to a version in your cache or the A.L.A.
 dtc # # 1.7.0-4 # Device Tree Compiler
 duktape # # 2.7.0-6 # Embeddable Javascript engine
 dump_syms # # 2.2.2-1 # Symbol dumper for Firefox
 dunst # # 1.10.0-1 # Customizable and lightweight notification-daemon
 e2fsprogs # # 1.47.0-1 # Ext2/3/4 filesystem utilities
+ebook-tools # # 0.2.2-7 # Tools for accessing and converting various ebook file formats
 editline # # 1.17.1-3 # A readline() replacement for UNIX without termcap (ncurses)
 edk2-ovmf # # 202311-1 # Firmware for Virtual Machines (x86_64, i686)
 efibootmgr # # 18-2 # Linux user-space application to modify the EFI Boot Manager
@@ -153,7 +157,7 @@ exiv2 # # 0.28.2-1 # Exif, Iptc and XMP metadata manipulation library and tools
 expat # # 2.6.1-1 # An XML parser library
 faac # # 1.30-4 # Freeware Advanced Audio Coder
 faad2 # # 2.11.1-1 # Freeware Advanced Audio (AAC) Decoder
-fakeroot # # 1.33-2 # Tool for simulating superuser privileges
+fakeroot # # 1.34-1 # Tool for simulating superuser privileges
 fcft # # 3.1.8-1 # Simple library for font loading and glyph rasterization
 fd # # 9.0.0-1 # Simple, fast and user-friendly alternative to find
 ffmpeg # # 2:6.1.1-6 # Complete solution to record, convert and stream audio and video
@@ -185,7 +189,7 @@ gcc-libs # # 13.2.1-5 # Runtime libraries shipped by GCC
 gcc12 # # 12.3.0-3 # The GNU Compiler Collection - C and C++ frontends (12.x.x)
 gcc12-libs # # 12.3.0-3 # Runtime libraries shipped by GCC (12.x.x)
 gcr # # 3.41.2-1 # A library for bits of crypto UI and parsing
-gcr-4 # # 4.2.1-1 # A library for bits of crypto UI and parsing
+gcr-4 # # 4.2.1-2 # A library for bits of crypto UI and parsing
 gd # # 2.3.3-7 # Library for the dynamic creation of images by programmers
 gdb # # 14.2-1 # The GNU Debugger
 gdb-common # # 14.2-1 # The GNU Debugger
@@ -194,11 +198,11 @@ gdk-pixbuf2 # # 2.42.10-2 # An image loading library
 gegl # # 0.4.48-1 # Graph based image processing framework
 geoclue # # 2.7.1-2 # Modular geoinformation service built on the D-Bus messaging system
 gettext # # 0.22.4-1 # GNU internationalization library
-ghc-libs # # 9.0.2-3 # The Glasgow Haskell Compiler - Dynamic Libraries
-ghostscript # # 10.02.1-1 # An interpreter for the PostScript language
+ghc-libs # # 9.2.8-1 # The Glasgow Haskell Compiler - Dynamic Libraries
+ghostscript # # 10.03.0-1 # An interpreter for the PostScript language
 giflib # # 5.2.2-1 # Library for reading and writing gif images
 gimp # # 2.10.36-5 # GNU Image Manipulation Program
-girara # # 0.4.2-1 # User interface library focused on simplicity and minimalism
+girara # # 0.4.3-2 # User interface library focused on simplicity and minimalism
 git # # 2.44.0-1 # the fast distributed version control system
 git-lfs # # 3.5.0-1 # Git extension for versioning large files
 glew # # 2.2.0-6 # The OpenGL Extension Wrangler Library
@@ -208,22 +212,21 @@ glib2 # # 2.78.4-1 # Low level core library
 glibc # # 2.39-1 # GNU C Library
 glibmm # # 2.66.6-1 # C++ bindings for GLib
 glow # # 1.5.1-1 # Command-line markdown renderer
-glslang # # 14.0.0-1 # OpenGL and OpenGL ES shader front end and validator
+glslang # # 14.0.0-2 # OpenGL and OpenGL ES shader front end and validator
 glu # # 9.0.3-1 # Mesa OpenGL utility library
 gmp # # 6.3.0-1 # A free library for arbitrary precision arithmetic
-gnome-disk-utility 45.1-1 # # (gnome) # Disk Management Utility for GNOME
+gnome-disk-utility 46.0-1 # # (gnome) # Disk Management Utility for GNOME
 gnu-free-fonts # # 20120503-8 # A free family of scalable outline fonts
-gnupg # # 2.4.4-1 # Complete and free implementation of the OpenPGP standard
+gnupg # # 2.4.5-1 # Complete and free implementation of the OpenPGP standard
 gnuplot # # 6.0.0-1 # Plotting package which outputs to X11, PostScript, PNG, GIF, and others
 gnutls # # 3.8.3-1 # A library which provides a secure layer over a reliable transport layer
-go # # 2:1.22.0-1 # Core compiler tools for the Go programming language
+go # # 2:1.22.1-1 # Core compiler tools for the Go programming language
 gobject-introspection-runtime # # 1.78.1-1 # Introspection system for GObject-based libraries - runtime
 gperftools # # 2.15-1 # Fast, multi-threaded malloc and nifty performance analysis tools
 gpgme # # 1.23.2-1 # A C wrapper library for GnuPG
 gpm # # 1.20.7.r38.ge82d1a6-5 # A mouse server for the console and xterm
 gptfdisk # # 1.0.10-1 # A text-mode partitioning tool that works on GUID Partition Table (GPT) disks
 graphene # # 1.10.8-1 # A thin layer of graphic data types
-graphicsmagick # # 1.3.42-3 # Image processing system
 graphite # # 1:1.3.14-3 # reimplementation of the SIL Graphite text processing engine
 graphviz # # 10.0.1-1 # Graph visualization software
 greetd # # 0.9.0-3 # Generic greeter daemon
@@ -235,19 +238,17 @@ groff # # 1.23.0-5 # GNU troff text-formatting system
 grub # # 2:2.12-1 # GNU GRand Unified Bootloader (2)
 gsettings-desktop-schemas # # 45.0-1 # Shared GSettings schemas for the desktop
 gsfonts # # 20200910-3 # (URW)++ base 35 font set
-gsl # # 2.7.1-3 # The GNU Scientific Library (GSL) is a modern numerical library for C and C++ programmers
 gsm # # 1.0.22-1 # Shared libraries for GSM 06.10 lossy speech compression
-gspell # # 1.12.2-2 # Spell-checking library for GTK applications
 gssdp # # 1.6.3-1 # GObject-based API for handling resource discovery and announcement over SSDP
-gst-libav # # 1.22.10-1 # Multimedia graph framework - libav plugin
+gst-libav # # 1.24.0-1 # Multimedia graph framework - libav plugin
 gst-plugin-pipewire # # 1:1.0.3-1 # Multimedia graph framework - pipewire plugin
-gst-plugins-bad # # 1.22.10-1 # Multimedia graph framework - bad plugins
-gst-plugins-bad-libs # # 1.22.10-1 # Multimedia graph framework - bad
-gst-plugins-base # # 1.22.10-1 # Multimedia graph framework - base plugins
-gst-plugins-base-libs # # 1.22.10-1 # Multimedia graph framework - base
-gst-plugins-good # # 1.22.10-1 # Multimedia graph framework - good plugins
-gstreamer # # 1.22.10-1 # Multimedia graph framework - core
-gstreamer-vaapi # # 1.22.10-1 # Multimedia graph framework - vaapi plugin
+gst-plugins-bad # # 1.24.0-1 # Multimedia graph framework - bad plugins
+gst-plugins-bad-libs # # 1.24.0-1 # Multimedia graph framework - bad
+gst-plugins-base # # 1.24.0-1 # Multimedia graph framework - base plugins
+gst-plugins-base-libs # # 1.24.0-1 # Multimedia graph framework - base
+gst-plugins-good # # 1.24.0-1 # Multimedia graph framework - good plugins
+gstreamer # # 1.24.0-1 # Multimedia graph framework - core
+gstreamer-vaapi # # 1.24.0-1 # Multimedia graph framework - vaapi plugin
 gtk-layer-shell # # 0.8.2-1 # Library to create Wayland desktop components using the Layer Shell protocol
 gtk-update-icon-cache # # 1:4.12.5-1 # GTK icon cache updater
 gtk-vnc # # 1.3.1-1 # VNC viewer widget for GTK
@@ -265,69 +266,71 @@ gvfs 1.52.2-2 # # (gnome) # Virtual filesystem implementation for GIO
 gvfs-mtp 1.52.2-2 # # (gnome) # Virtual filesystem implementation for GIO (MTP backend; Android, media player)
 gvfs-smb 1.52.2-2 # # (gnome) # Virtual filesystem implementation for GIO (SMB/CIFS backend; Windows client)
 gzip # # 1.13-2 # GNU compression utility
-handlr # # 0.6.4-2 # Powerful alternative to xdg-utils written in Rust
+handlr-regex # # 0.9.0-1 # Powerful alternative to xdg-utils written in Rust
 harfbuzz # # 8.3.0-2 # OpenType text shaping engine
-haskell-aeson # # 2.1.2.1-37 # A JSON parsing and encoding library optimized for ease of use and high performance
-haskell-assoc # # 1.0.2-246 # swap and assoc: Symmetric and Semigroupy Bifunctors
-haskell-attoparsec # # 0.14.4-70 # Fast combinator parsing for bytestrings and text
-haskell-base-compat # # 0.12.2-1 # A compatibility layer for base
-haskell-base-compat-batteries # # 0.12.2-75 # base-compat with extra batteries
-haskell-base-orphans # # 0.8.8.2-6 # Backwards-compatible orphan instances for base
-haskell-bifunctors # # 5.6-57 # Bifunctors
-haskell-comonad # # 5.0.8-241 # Comonads
-haskell-contravariant # # 1.5.5-3 # Contravariant functors
-haskell-data-array-byte # # 0.1.0.1-47 # Compatibility layer for Data.Array.Byte
-haskell-data-fix # # 0.3.2-98 # Fixpoint data types
-haskell-diff # # 0.4.1-71 # O(ND) diff algorithm in haskell
-haskell-distributive # # 0.6.2.1-205 # Distributive functors -- Dual to Traversable
-haskell-dlist # # 1.0-235 # Differences lists
-haskell-erf # # 2.0.0.0-24 # The error function, erf, and related functions.
-haskell-fgl # # 5.8.2.0-4 # Martin Erwig's Functional Graph Library
-haskell-foldable1-classes-compat # # 0.1-57 # Compatibility package for the Foldable1 and Bifoldable1 type classes
-haskell-generically # # 0.1.1-1 # Generically newtype to use with DerivingVia
-haskell-ghc-bignum-orphans # # 0.1.1-1 # Backwards-compatible orphan instances for ghc-bignum
-haskell-hashable # # 1.4.3.0-36 # A class for types that can be converted to a hash value
-haskell-indexed-traversable # # 0.1.3-49 # FunctorWithIndex, FoldableWithIndex, TraversableWithIndex
-haskell-indexed-traversable-instances # # 0.1.1.2-34 # More instances of FunctorWithIndex, FoldableWithIndex, TraversableWithIndex
-haskell-integer-logarithms # # 1.0.3.1-6 # Integer logarithms
-haskell-onetuple # # 0.3.1-71 # Singleton Tuple
-haskell-primitive # # 0.7.4.0-103 # Wrappers for primitive operations
-haskell-quickcheck # # 2.14.3-53 # Automatic testing of Haskell programs
-haskell-random # # 1.2.1.1-154 # Pseudo-random number generation
-haskell-regex-base # # 0.94.0.2-2 # Common "Text.Regex.*" API for Regex matching
-haskell-regex-tdfa # # 1.3.2.2-34 # Pure Haskell Tagged DFA Backend for Text.Regex (regex-base)
-haskell-scientific # # 0.3.7.0-109 # Numbers represented using scientific notation
-haskell-semialign # # 1.2.0.1-150 # Align and Zip type-classes from the common Semialign ancestor.
-haskell-semigroupoids # # 5.3.7-132 # Semigroupoids: Category sans id
-haskell-splitmix # # 0.1.0.5-14 # Fast Splittable PRNG
-haskell-statevar # # 1.2.2-2 # State variables
-haskell-strict # # 0.4.0.1-220 # Strict data types and String IO
-haskell-tagged # # 0.8.8-1 # Haskell 98 phantom types to avoid unsafely passing dummy arguments
-haskell-text-short # # 0.1.5-75 # Memory-efficient representation of Unicode text strings
-haskell-th-abstraction # # 0.4.5.0-1 # Nicer interface for reified information about data types
-haskell-these # # 1.1.1.1-247 # An either-or-both data type
-haskell-time-compat # # 1.9.6.1-93 # Compatibility package for time
-haskell-transformers-compat # # 0.7.2-1 # A small compatibility shim exposing the new types from transformers 0.3 to older Haskell platforms.
-haskell-unordered-containers # # 0.2.20-8 # Efficient hashing-based container types
-haskell-uuid-types # # 1.0.5.1-12 # Type definitions for Universally Unique Identifiers
-haskell-vector # # 0.13.1.0-21 # Efficient Arrays
-haskell-vector-stream # # 0.1.0.1-1 # Efficient Streams
-haskell-witherable # # 0.4.2-91 # filterable traversable
+haskell-aeson # # 2.1.2.1-42 # A JSON parsing and encoding library optimized for ease of use and high performance
+haskell-assoc # # 1.0.2-256 # swap and assoc: Symmetric and Semigroupy Bifunctors
+haskell-attoparsec # # 0.14.4-73 # Fast combinator parsing for bytestrings and text
+haskell-base-compat # # 0.12.2-2 # A compatibility layer for base
+haskell-base-compat-batteries # # 0.12.2-81 # base-compat with extra batteries
+haskell-base-orphans # # 0.8.8.2-12 # Backwards-compatible orphan instances for base
+haskell-bifunctors # # 5.6-67 # Bifunctors
+haskell-comonad # # 5.0.8-251 # Comonads
+haskell-contravariant # # 1.5.5-4 # Contravariant functors
+haskell-data-array-byte # # 0.1.0.1-53 # Compatibility layer for Data.Array.Byte
+haskell-data-fix # # 0.3.2-101 # Fixpoint data types
+haskell-diff # # 0.4.1-74 # O(ND) diff algorithm in haskell
+haskell-distributive # # 0.6.2.1-208 # Distributive functors -- Dual to Traversable
+haskell-dlist # # 1.0-240 # Differences lists
+haskell-erf # # 2.0.0.0-25 # The error function, erf, and related functions.
+haskell-fgl # # 5.8.2.0-7 # Martin Erwig's Functional Graph Library
+haskell-foldable1-classes-compat # # 0.1-67 # Compatibility package for the Foldable1 and Bifoldable1 type classes
+haskell-generically # # 0.1.1-2 # Generically newtype to use with DerivingVia
+haskell-ghc-bignum-orphans # # 0.1.1-2 # Backwards-compatible orphan instances for ghc-bignum
+haskell-hashable # # 1.4.3.0-44 # A class for types that can be converted to a hash value
+haskell-indexed-traversable # # 0.1.3-59 # FunctorWithIndex, FoldableWithIndex, TraversableWithIndex
+haskell-indexed-traversable-instances # # 0.1.1.2-39 # More instances of FunctorWithIndex, FoldableWithIndex, TraversableWithIndex
+haskell-integer-logarithms # # 1.0.3.1-7 # Integer logarithms
+haskell-onetuple # # 0.3.1-74 # Singleton Tuple
+haskell-primitive # # 0.7.4.0-109 # Wrappers for primitive operations
+haskell-quickcheck # # 2.14.3-62 # Automatic testing of Haskell programs
+haskell-random # # 1.2.1.2-6 # Pseudo-random number generation
+haskell-regex-base # # 0.94.0.2-3 # Common "Text.Regex.*" API for Regex matching
+haskell-regex-tdfa # # 1.3.2.2-39 # Pure Haskell Tagged DFA Backend for Text.Regex (regex-base)
+haskell-scientific # # 0.3.7.0-112 # Numbers represented using scientific notation
+haskell-semialign # # 1.2.0.1-155 # Align and Zip type-classes from the common Semialign ancestor.
+haskell-semigroupoids # # 5.3.7-137 # Semigroupoids: Category sans id
+haskell-splitmix # # 0.1.0.5-20 # Fast Splittable PRNG
+haskell-statevar # # 1.2.2-3 # State variables
+haskell-strict # # 0.4.0.1-230 # Strict data types and String IO
+haskell-tagged # # 0.8.8-2 # Haskell 98 phantom types to avoid unsafely passing dummy arguments
+haskell-text-short # # 0.1.5-78 # Memory-efficient representation of Unicode text strings
+haskell-th-abstraction # # 0.4.5.0-2 # Nicer interface for reified information about data types
+haskell-these # # 1.1.1.1-257 # An either-or-both data type
+haskell-time-compat # # 1.9.6.1-96 # Compatibility package for time
+haskell-transformers-compat # # 0.7.2-2 # A small compatibility shim exposing the new types from transformers 0.3 to older Haskell platforms.
+haskell-unordered-containers # # 0.2.20-13 # Efficient hashing-based container types
+haskell-uuid-types # # 1.0.5.1-15 # Type definitions for Universally Unique Identifiers
+haskell-vector # # 0.13.1.0-28 # Efficient Arrays
+haskell-vector-stream # # 0.1.0.1-2 # Efficient Streams
+haskell-witherable # # 0.4.2-96 # filterable traversable
 hicolor-icon-theme # # 0.17-3 # Freedesktop.org Hicolor icon theme
 hidapi # # 0.14.0-2 # Simple library for communicating with USB and Bluetooth HID devices
 highway # # 1.1.0-1 # A C++ library that provides portable SIMD/vector intrinsics
 htop # # 3.3.0-1 # Interactive process viewer
 http-parser # # 2.9.4-1 # Parser for HTTP Request/Response written in C
 hunspell # # 1.7.2-1 # Spell checker and morphological analyzer library and program
-hwdata # # 0.379-1 # hardware identification databases
+hwdata # # 0.380-1 # hardware identification databases
 hwloc # # 2.10.0-1 # Portable Hardware Locality is a portable abstraction of hierarchical architectures
-hypridle-git # # 0.1.1.r2.g029f0880-1 # Hyprland's idle daemon
-hypridle-git-debug # # 0.1.1.r2.g029f0880-1 # Detached debugging symbols for hypridle-git
-hyprland-git # # 0.36.0.r50.12985fa0-1 # A dynamic tiling Wayland compositor based on wlroots that doesn't sacrifice on its looks.
-hyprland-git-debug # # 0.36.0.r50.12985fa0-1 # Detached debugging symbols for hyprland-git
+hyprcursor-git-debug # # 0.1.4.r0.g2a78c30d-1 # Detached debugging symbols for hyprcursor-git
+hypridle-git # # 0.1.1.r3.g4395339a-1 # Hyprland's idle daemon
+hypridle-git-debug # # 0.1.1.r3.g4395339a-1 # Detached debugging symbols for hypridle-git
+hyprland # # 0.35.0-2 # a highly customizable dynamic tiling Wayland compositor
+hyprland-git-debug # # 0.36.0.r100.a065b481-1 # Detached debugging symbols for hyprland-git
 hyprlang # # 0.4.1-1 # implementation library for the hypr config language
-hyprlock-git # # 0.1.0.r24.gd1f542a7-1 # Hyprland's GPU-accelerated screen locking utility
-hyprlock-git-debug # # 0.1.0.r24.gd1f542a7-1 # Detached debugging symbols for hyprlock-git
+hyprlang-git-debug # # 0.5.0.r0.a685493-1 # Detached debugging symbols for hyprlang-git
+hyprlock-git # # 0.1.0.r53.g5c91621a-1 # Hyprland's GPU-accelerated screen locking utility
+hyprlock-git-debug # # 0.1.0.r53.g5c91621a-1 # Detached debugging symbols for hyprlock-git
 i3-wm 4.23-1 # # (i3) # Improved dynamic tiling window manager
 i3lock 2.14.1-1 # # (i3) # Improved screenlocker based upon XCB and PAM
 i3status 2.14-1 # # (i3) # Generates status bar to use with i3bar, dzen2 or xmobar
@@ -339,15 +342,14 @@ imake # # 1.0.10-1 # X.Org imake program and related utilities
 imath # # 3.1.11-1 # A C++ and python library of 2D and 3D vector, matrix, and math operations for computer graphics
 imlib2 # # 1.12.2-2 # Library that does image file loading and saving as well as rendering, manipulation, arbitrary polygon support
 inetutils # # 2.5-1 # A collection of common network programs
-iniparser # # 4.1-4 # A free stand-alone ini file parsing library written in portable ANSI C
-inkscape # # 1.3.2-3 # Professional vector graphics editor
+iniparser # # 4.1-5 # A free stand-alone ini file parsing library written in portable ANSI C
 inxi # # 3.3.33.1-1 # Full featured CLI system information tool
-iproute2 # # 6.7.0-1 # IP Routing Utilities
+iproute2 # # 6.8.0-1 # IP Routing Utilities
 iptables # # 1:1.8.10-1 # Linux kernel packet control tool (using legacy interface)
 iputils # # 20240117-1 # Network monitoring tools, including ping
 iso-codes # # 4.16.0-1 # Lists of the country, language, and currency names
 ispell # # 3.4.05-1 # An interactive spell-checking program for Unix
-iwd # # 2.15-1 # Internet Wireless Daemon
+iwd # # 2.16-1 # Internet Wireless Daemon
 jansson # # 2.14-2 # C library for encoding, decoding and manipulating JSON data
 jasper # # 4.2.1-1 # Software-based implementation of the codec specified in the emerging JPEG-2000 Part-1 standard
 jbig2dec # # 0.20-1 # Decoder implementation of the JBIG2 image compression format
@@ -356,54 +358,86 @@ jq # # 1.7.1-1 # Command-line JSON processor
 json-c # # 0.17-1 # A JSON implementation in C
 json-glib # # 1.8.0-1 # JSON library built on GLib
 jsoncpp # # 1.9.5-2 # C++ library for interacting with JSON
+karchive 6.0.0-1 # # (kf6) # Qt addon providing access to numerous types of archives
 karchive5 5.115.0-1 # # (kf5) # Qt 5 addon providing access to numerous types of archives
+kauth 6.0.0-2 # # (kf6) # Abstraction to system policy and authentication features
 kauth5 5.115.0-1 # # (kf5) # Abstraction to system policy and authentication features
 kbd # # 2.6.4-1 # Keytable files and keyboard utilities
+kbookmarks 6.0.0-1 # # (kf6) # Support for bookmarks and the XBEL format
 kbookmarks5 5.115.0-1 # # (kf5) # Support for bookmarks and the XBEL format
+kcmutils 6.0.0-2 # # (kf6) # Utilities for interacting with KCModules
 kcmutils5 5.115.0-1 # # (kf5) # Utilities for interacting with KCModules
+kcodecs 6.0.0-1 # # (kf6) # Provide a collection of methods to manipulate strings using various encodings
 kcodecs5 5.115.0-1 # # (kf5) # Provide a collection of methods to manipulate strings using various encodings
+kcolorscheme 6.0.0-1 # # (kf6) # Classes to read and interact with KColorScheme
+kcompletion 6.0.0-1 # # (kf6) # Text completion helpers and widgets
 kcompletion5 5.115.0-1 # # (kf5) # Text completion helpers and widgets
+kconfig 6.0.0-1 # # (kf6) # Configuration system
 kconfig5 5.115.0-1 # # (kf5) # Configuration system
+kconfigwidgets 6.0.0-1 # # (kf6) # Widgets for KConfig
 kconfigwidgets5 5.115.0-1 # # (kf5) # Widgets for KConfig
-kcontacts5 5.115.0-1 # # (kf5) # Address book API for KDE
+kcontacts 1:6.0.0-1 # # (kf6) # Address book API for KDE
+kcoreaddons 6.0.0-1 # # (kf6) # Addons to QtCore
 kcoreaddons5 5.115.0-1 # # (kf5) # Addons to QtCore
+kcrash 6.0.0-1 # # (kf6) # Support for application crash analysis and bug report from apps
 kcrash5 5.115.0-1 # # (kf5) # Support for application crash analysis and bug report from apps
+kdbusaddons 6.0.0-1 # # (kf6) # Addons to QtDBus
 kdbusaddons5 5.115.0-1 # # (kf5) # Addons to QtDBus
+kdeclarative 6.0.0-1 # # (kf6) # Provides integration of QML and KDE Frameworks
 kdeclarative5 5.115.0-1 # # (kf5) # Provides integration of QML and KDE Frameworks
-kdeconnect 23.08.5-1 (kde-applications # # kde-network) # Adds communication between KDE and your smartphone
+kdeconnect 24.02.0-2 (kde-applications # # kde-network) # Adds communication between KDE and your smartphone
 kded5 5.115.0-1 # # (kf5) # Extensible deamon for providing system level services
-keepassxc # # 2.7.6-3 # Cross-platform community-driven port of Keepass password manager
+keepassxc # # 2.7.7-1 # Cross-platform community-driven port of Keepass password manager
 keyutils # # 1.6.3-2 # Linux Key Management Utilities
-kglobalaccel5 5.115.0-1 # # (kf5) # Add support for global workspace shortcuts
-kguiaddons5 5.115.0-1 # # (kf5) # Addons to QtGui
+kfilemetadata 6.0.0-2 # # (kf6) # A library for extracting file metadata
+kglobalaccel 6.0.0-1 # # (kf6) # Add support for global workspace shortcuts
+kglobalaccel5 5.115.0-3 # # (kf5) # Add support for global workspace shortcuts
+kguiaddons 6.0.0-2 # # (kf6) # Addons to QtGui
+kguiaddons5 5.115.0-2 # # (kf5) # Addons to QtGui
+ki18n 6.0.0-1 # # (kf6) # Advanced internationalization framework
 ki18n5 5.115.1-1 # # (kf5) # Advanced internationalization framework
+kiconthemes 6.0.0-1 # # (kf6) # Support for icon themes
 kiconthemes5 5.115.0-1 # # (kf5) # Support for icon themes
-kio5 5.115.0-1 # # (kf5) # Resource and network access abstraction
+kio 6.0.0-2 # # (kf6) # Resource and network access abstraction
+kio5 5.115.0-3 # # (kf5) # Resource and network access abstraction
+kirigami 6.0.0-2 # # (kf6) # A QtQuick based components set
+kirigami-addons # # 1.0.1-1 # Add-ons for the Kirigami framework
 kirigami-addons5 # # 0.11.0-7 # Add-ons for the Kirigami framework
 kirigami2 5.115.0-1 # # (kf5) # A QtQuick based components set
+kitemmodels 6.0.0-1 # # (kf6) # Models for Qt Model/View system
 kitemmodels5 5.115.0-1 # # (kf5) # Models for Qt Model/View system
+kitemviews 6.0.0-1 # # (kf6) # Widget addons for Qt Model/View
 kitemviews5 5.115.0-1 # # (kf5) # Widget addons for Qt Model/View
 kitty # # 0.31.0-1 # A modern, hackable, featureful, OpenGL-based terminal emulator
 kitty-shell-integration # # 0.31.0-1 # Shell integration scripts for kitty, an OpenGL-based terminal emulator
 kitty-terminfo # # 0.31.0-1 # Terminfo for kitty, an OpenGL-based terminal emulator
+kjobwidgets 6.0.0-1 # # (kf6) # Widgets for tracking KJob instances
 kjobwidgets5 5.115.0-1 # # (kf5) # Widgets for tracking KJob instances
-kmod # # 31-1 # Linux kernel module management tools and library
+kmod # # 32-1 # Linux kernel module management tools and library
 kmon # # 1.6.4-1 # Linux kernel manager and activity monitor
 knewstuff5 5.115.0-1 # # (kf5) # Support for downloading application assets from the network
+knotifications 6.0.0-1 # # (kf6) # Abstraction for system notifications
 knotifications5 5.115.0-1 # # (kf5) # Abstraction for system notifications
 knotifyconfig5 5.115.0-1 # # (kf5) # Configuration system for KNotify
-konsole 23.08.5-1 (kde-applications # # kde-utilities) # KDE terminal emulator
 kpackage5 5.115.0-1 # # (kf5) # Framework that lets applications manage user installable packages of non-binary assets
+kparts 6.0.0-1 # # (kf6) # Document centric plugin system
 kparts5 5.115.0-1 # # (kf5) # Document centric plugin system
-kpeople5 5.115.0-1 # # (kf5) # A library that provides access to all contacts and the people who hold them
-kpeoplevcard # # 0.1-2 # Makes it possible to expose vcards to KPeople
+kpeople 6.0.0-1 # # (kf6) # A library that provides access to all contacts and the people who hold them
+kpty 6.0.0-1 # # (kf6) # Pty abstraction
 kpty5 5.115.0-1 # # (kf5) # Pty abstraction
 krb5 # # 1.21.2-2 # The Kerberos network authentication system
+kservice 6.0.0-1 # # (kf6) # Advanced plugin and service introspection
 kservice5 5.115.0-1 # # (kf5) # Advanced plugin and service introspection
+kstatusnotifieritem 6.0.0-2 # # (kf6) # Implementation of Status Notifier Items
+ksvg 6.0.0-1 # # (kf6) # Components for handling SVGs
 ktextwidgets5 5.115.0-1 # # (kf5) # Advanced text editing widgets
-kwallet5 5.115.0-1 # # (kf5) # Secure and unified container for user passwords
+kwallet 6.0.0-3 # # (kf6) # Secure and unified container for user passwords
+kwallet5 5.115.0-2 # # (kf5) # Secure and unified container for user passwords
+kwidgetsaddons 6.0.0-1 # # (kf6) # Addons to QtWidgets
 kwidgetsaddons5 5.115.0-1 # # (kf5) # Addons to QtWidgets
+kwindowsystem 6.0.0-1 # # (kf6) # Access to the windowing system
 kwindowsystem5 5.115.0-1 # # (kf5) # Access to the windowing system
+kxmlgui 6.0.0-1 # # (kf6) # User configurable main windows
 kxmlgui5 5.115.0-1 # # (kf5) # User configurable main windows
 l-smash # # 2.14.5-3 # MP4 muxer and other tools
 lame # # 3.100-4 # A high quality MPEG Audio Layer III (MP3) encoder
@@ -415,7 +449,6 @@ ldns # # 1.8.3-2 # Fast DNS library supporting recent RFCs
 lensfun # # 1:0.3.4-3 # Database of photographic lenses and a library that allows advanced access to the database
 leptonica # # 1.84.1-2 # Software that is broadly useful for image processing and image analysis applications
 less # # 1:643-1 # A terminal based program for viewing text files
-lib2geom # # 1.3-1 # Easy to use 2D geometry library in C++
 lib32-acl # # 2.3.2-1 # Access control list libraries (32-bit)
 lib32-alsa-lib # # 1.2.11-1 # An alternative implementation of Linux sound support (32 bit)
 lib32-alsa-plugins # # 1.2.7.1-2 # Additional ALSA plugins (32-bit)
@@ -433,38 +466,38 @@ lib32-glib2 # # 2.78.4-1 # Low level core library - 32-bit
 lib32-glibc # # 2.39-1 # GNU C Library (32-bit)
 lib32-harfbuzz # # 8.3.0-2 # OpenType text shaping engine - 32-bit
 lib32-icu # # 74.2-1 # International Components for Unicode library (32 bit)
-lib32-keyutils # # 1.6.3-1 # Linux Key Management Utilities (32-bit)
+lib32-keyutils # # 1.6.3-2 # Linux Key Management Utilities (32-bit)
 lib32-krb5 # # 1.21.2-1 # The Kerberos network authentication system (32-bit)
 lib32-libcap # # 2.69-1 # POSIX 1003.1e capabilities (32-bit)
-lib32-libdrm # # 2.4.119-1 # Userspace interface to kernel DRM services (32-bit)
+lib32-libdrm # # 2.4.120-1 # Userspace interface to kernel DRM services (32-bit)
 lib32-libelf # # 0.191-1 # Handle ELF object files and DWARF debugging information (libraries) (32-bit)
 lib32-libffi # # 3.4.6-1 # Portable foreign function interface library (32-bit)
 lib32-libgcrypt # # 1.10.3-1 # General purpose cryptographic library based on the code from GnuPG (32-bit)
 lib32-libglvnd # # 1.7.0-1 # The GL Vendor-Neutral Dispatch library
-lib32-libgpg-error # # 1.47-1 # Support library for libgcrypt (32-bit)
+lib32-libgpg-error # # 1.48-1 # Support library for libgcrypt (32-bit)
 lib32-libidn2 # # 2.3.7-1 # Free software implementation of IDNA2008, Punycode and TR46
 lib32-libldap # # 2.6.6-1 # Lightweight Directory Access Protocol (LDAP) client libraries (32-bit)
 lib32-libnghttp2 # # 1.60.0-1 # Framing layer of HTTP/2 is implemented as a reusable C library (32-bit)
 lib32-libnghttp3 # # 1.2.0-1 # HTTP/3 library written in C (32-bit)
 lib32-libnl # # 3.9.0-1 # Library for applications dealing with netlink sockets (32 bit)
 lib32-libpcap # # 1.10.4-1 # A system-independent interface for user-level packet capture (32-bit)
-lib32-libpciaccess # # 0.17-1 # X11 PCI access library (32-bit
+lib32-libpciaccess # # 0.18-1 # X11 PCI access library (32-bit
 lib32-libpng # # 1.6.43-1 # A collection of routines used to create PNG format graphics files (32-bit)
 lib32-libpsl # # 0.21.2-1 # Public Suffix List library (32-bit)
 lib32-libssh2 # # 1.11.0-1 # A library implementing the SSH2 protocol as defined by Internet Drafts (32-bit)
 lib32-libtasn1 # # 4.19.0-1 # The ASN.1 library used in GNUTLS (32 bit)
 lib32-libtirpc # # 1.3.4-1 # Transport Independent RPC library (SunRPC replacement)
-lib32-libunistring # # 1.1-1 # Library for manipulating Unicode strings and C strings (32-bit)
+lib32-libunistring # # 1.2-1 # Library for manipulating Unicode strings and C strings (32-bit)
 lib32-libunwind # # 1.7.2-1 # Determine and manipulate the call-chain of a program (32-bit)
 lib32-libx11 # # 1.8.7-1 # X11 client-side library (32-bit)
 lib32-libxau # # 1.0.11-1 # X11 authorisation library (32-bit)
-lib32-libxcb # # 1.16-1 # X11 client-side library (32-bit)
+lib32-libxcb # # 1.16.1-1 # X11 client-side library (32-bit)
 lib32-libxcrypt # # 4.4.36-1 # Modern library for one-way hashing of passwords (32-bit)
 lib32-libxcrypt-compat # # 4.4.36-1 # Modern library for one-way hashing of passwords - legacy API functions (32bit)
-lib32-libxcursor # # 1.2.1-2 # X cursor management library (32-bit)
+lib32-libxcursor # # 1.2.2-1 # X cursor management library (32-bit)
 lib32-libxdamage # # 1.1.6-1 # X11 damaged region extension library (32-bit)
-lib32-libxdmcp # # 1.1.4-1 # X11 Display Manager Control Protocol library (32-bit)
-lib32-libxext # # 1.3.5-1 # X11 miscellaneous extensions library (32-bit)
+lib32-libxdmcp # # 1.1.5-1 # X11 Display Manager Control Protocol library (32-bit)
+lib32-libxext # # 1.3.6-1 # X11 miscellaneous extensions library (32-bit)
 lib32-libxfixes # # 6.0.1-1 # X11 miscellaneous 'fixes' extension library (32-bit)
 lib32-libxi # # 1.8.1-1 # X11 Input extension library (32-bit)
 lib32-libxkbcommon # # 1.6.0-1 # Keymap handling library for toolkits and window systems (32-bit)
@@ -474,9 +507,9 @@ lib32-libxrender # # 0.9.11-1 # X Rendering Extension client library (32-bit)
 lib32-libxshmfence # # 1.3.2-1 # a library that exposes a event API on top of Linux futexes (32-bit)
 lib32-libxss # # 1.2.4-1 # X11 Screen Saver extension library (32-bit)
 lib32-libxxf86vm # # 1.1.5-1 # X11 XFree86 video mode extension library (32-bit)
-lib32-llvm-libs # # 16.0.6-2 # LLVM runtime libraries (32-bit)
+lib32-llvm-libs # # 17.0.6-2 # LLVM runtime libraries (32-bit)
 lib32-lm_sensors # # 1:3.6.0.r41.g31d1f125-2 # Collection of user space tools for general SMBus access and hardware monitoring (32-bit)
-lib32-mesa # # 1:24.0.2-1 # An open-source implementation of the OpenGL specification (32-bit)
+lib32-mesa # # 1:24.0.2-2 # An open-source implementation of the OpenGL specification (32-bit)
 lib32-ncurses # # 6.4_20230520-1 # System V Release 4.0 curses emulation library (32-bit)
 lib32-nspr # # 4.35-2 # Netscape Portable Runtime (32-bit)
 lib32-nss # # 3.98-1 # Network Security Services (32-bit)
@@ -485,12 +518,12 @@ lib32-openssl # # 1:3.2.1-1 # The Open Source toolkit for Secure Sockets Layer a
 lib32-p11-kit # # 0.25.3-1 # Loads and enumerates PKCS#11 modules (32-bit library)
 lib32-pam # # 1.6.0-1 # Pluggable Authentication Modules
 lib32-pcre2 # # 10.42-1 # A library that implements Perl 5-style regular expressions. 2nd version (32-bit)
-lib32-sqlite # # 3.45.0-1 # A C library that implements an SQL database engine (32-bit)
+lib32-sqlite # # 3.45.1-1 # A C library that implements an SQL database engine (32-bit)
 lib32-systemd # # 255.4-1 # system and service manager (32-bit)
 lib32-util-linux # # 2.39.3-1 # Miscellaneous system utilities for Linux (32-bit)
-lib32-vulkan-icd-loader # # 1.3.276-1 # Vulkan Installable Client Driver (ICD) Loader (32-bit)
+lib32-vulkan-icd-loader # # 1.3.279-1 # Vulkan Installable Client Driver (ICD) Loader (32-bit)
 lib32-wayland # # 1.22.0-1 # A computer display server protocol
-lib32-xz # # 5.6.0-1 # Library and command line tools for XZ and LZMA compressed files (32-bit)
+lib32-xz # # 5.6.1-1 # Library and command line tools for XZ and LZMA compressed files (32-bit)
 lib32-zlib # # 1.3.1-1 # Compression library implementing the deflate compression method found in gzip and PKZIP (32-bit)
 lib32-zstd # # 1.5.5-1 # Zstandard - Fast real-time compression algorithm (32-bit)
 libadwaita # # 1:1.4.4-1 # Building blocks for modern adaptive GNOME applications
@@ -528,14 +561,13 @@ libcap # # 2.69-3 # POSIX 1003.1e capabilities
 libcap-ng # # 0.8.4-1 # A library for Linux that makes using posix capabilities easy
 libcdio # # 2.1.0-3 # GNU Compact Disc Input and Control Library
 libcdio-paranoia # # 10.2+2.0.1-3 # Compact Disc Digital Audio (CDDA) extraction tool using libcdio for CDROM access
-libcdr # # 0.1.7-7 # CorelDraw file format importer library for LibreOffice
 libcerf # # 1:2.4-1 # Self-contained numeric library that provides an efficient and accurate implementation of complex error functions
 libcloudproviders # # 0.3.5-1 # DBus API that allows cloud storage sync clients to expose their services
 libcolord # # 1.4.7-2 # System daemon for managing color devices (client library)
 libcpuid # # 0.6.4-2 # A small C library for x86 CPU detection and feature extraction
 libcups # # 1:2.4.7-2 # OpenPrinting CUPS - client libraries and headers
 libdaemon # # 0.14-5 # Lightweight C library that eases the writing of UNIX daemons
-libdatachannel # # 0.20.1-1 # C/C++ WebRTC network library featuring Data Channels, Media Transport, and WebSockets
+libdatachannel # # 0.20.2-1 # C/C++ WebRTC network library featuring Data Channels, Media Transport, and WebSockets
 libdatrie # # 0.2.13-4 # Double-array trie library
 libdbusmenu-glib # # 16.04.0.r498-2 # Library for passing menus over DBus
 libdbusmenu-gtk3 # # 16.04.0.r498-2 # Library for passing menus over DBus (GTK+ 3 library)
@@ -558,7 +590,7 @@ libev # # 4.33-2 # A full-featured and high-performance event loop
 libevdev # # 1.13.1-1 # Wrapper library for evdev devices
 libevent # # 2.1.12-4 # Event notification library
 libexif # # 0.6.24-2 # Library to parse an EXIF file and read the data from those tags
-libfabric # # 1.20.0-1 # User-space API for OpenFabrics Interfaces (OFI)
+libfabric # # 1.20.1-1 # User-space API for OpenFabrics Interfaces (OFI)
 libfakekey # # 0.3-2 # X virtual keyboard library.
 libfdk-aac # # 2.0.3-1 # Fraunhofer FDK AAC codec library
 libffi # # 3.4.6-1 # Portable foreign function interface library
@@ -593,7 +625,7 @@ libisoburn # # 1.5.6-1 # frontend for libraries libburn and libisofs
 libisofs # # 1.5.6-1 # Library to pack up hard disk files and directories into a ISO 9660 disk image
 libjpeg-turbo # # 3.0.2-2 # JPEG image codec with accelerated baseline compression and decompression
 libjuice # # 1.3.4-1 # UDP Interactive Connectivity Establishment (ICE) library
-libjxl # # 0.10.1-1 # JPEG XL image format reference implementation
+libjxl # # 0.10.2-1 # JPEG XL image format reference implementation
 libkate # # 0.4.1-9 # A karaoke and text codec for embedding in ogg
 libksba # # 1.6.6-1 # Library for working with X.509 certificates, CMS data and related objects
 liblc3 # # 1.0.4-1 # Low Complexity Communication Codec library and tools
@@ -621,18 +653,19 @@ libmtp # # 1.1.21-1 # Library implementation of the Media Transfer Protocol
 libmupdf # # 1.23.11-2 # Library for Lightweight PDF and XPS viewer
 libmypaint # # 1.6.1-1 # Library for making brushstrokes which is used by MyPaint and other projects
 libmysofa # # 1.3.2-1 # C library to read HRTFs if they are stored in the AES69-2015 SOFA format
-libnbd # # 1.18.2-1 # NBD client library in userspace
+libnbd # # 1.18.2-2 # NBD client library in userspace
 libndp # # 1.8-1 # Library for Neighbor Discovery Protocol
 libnet # # 2:1.3-1 # A library which provides API for commonly used low-level net functions
 libnetfilter_conntrack # # 1.0.9-1 # Library providing an API to the in-kernel connection tracking state table
-libnewt # # 0.52.23-2 # Not Erik's Windowing Toolkit - text mode windowing with slang
+libnetfilter_queue # # 1.0.5-1 # Userspace API to packets that have been queued by the kernel packet filter
+libnewt # # 0.52.24-1 # Not Erik's Windowing Toolkit - text mode windowing with slang
 libnfnetlink # # 1.0.2-1 # Low-level library for netfilter related kernel/userspace communication
 libnfs # # 5.0.3-1 # client library for accessing NFS shares
 libnftnl # # 1.2.6-1 # Netfilter library providing interface to the nf_tables subsystem
 libnghttp2 # # 1.60.0-1 # Framing layer of HTTP/2 is implemented as a reusable C library
 libnghttp3 # # 1.2.0-1 # HTTP/3 library written in C
 libngtcp2 # # 1.3.0-1 # Implementation of IETF QUIC protocol
-libnice # # 0.1.21-2 # An implementation of the IETF's draft ICE (for p2p UDP data streams)
+libnice # # 0.1.22-1 # An implementation of the IETF's draft ICE (for p2p UDP data streams)
 libnl # # 3.9.0-1 # Library for applications dealing with netlink sockets
 libnm # # 1.46.0-2 # NetworkManager client library
 libnma # # 1.10.6-2 # NetworkManager GUI client library (GTK3)
@@ -649,14 +682,14 @@ libopenmpt # # 0.7.4-1 # A library to render tracker music to a PCM audio stream
 libosinfo # # 1.11.0-1 # GObject based library API for managing information about operating systems, hypervisors and the (virtual) hardware devices they can support
 libotf # # 0.9.16-4 # OpenType Font library
 libp11-kit # # 0.25.3-1 # Loads and enumerates PKCS#11 modules (library)
-libpaper # # 2.1.3-1 # Library for handling paper characteristics
+libpaper # # 2.2.5-1 # Library for handling paper characteristics
 libpcap # # 1.10.4-1 # A system-independent interface for user-level packet capture
 libpciaccess # # 0.18-1 # X11 PCI access library
 libpgm # # 5.3.128-3 # Library implementing the Pragmatic General Multicast (PGM, RFC3208) reliable transport protocol (OpenPGM)
 libpipeline # # 1.5.7-1 # a C library for manipulating pipelines of subprocesses in a flexible and convenient way
 libpipewire # # 1:1.0.3-1 # Low-latency audio/video router and processor - client library
 libplacebo # # 6.338.2-2 # Reusable library for GPU-accelerated video/image rendering primitives
-libplist # # 2.3.0-2 # Library to handle Apple Property List files
+libplist # # 2.4.0-1 # Library to handle Apple Property List files
 libpng # # 1.6.43-1 # A collection of routines used to create PNG format graphics files
 libproxy # # 0.5.4-1 # Automatic proxy configuration management library
 libpsl # # 0.21.2-1 # Public Suffix List library
@@ -667,10 +700,9 @@ libqrtr-glib # # 1.2.2-2 # Qualcomm IPC Router protocol helper library
 libraqm # # 0.10.1-1 # A library that encapsulates the logic for complex text layout
 libraw # # 0.21.2-1 # A library for reading RAW files obtained from digital photo cameras (CRW/CR2, NEF, RAF, DNG, and others)
 libraw1394 # # 2.1.2-3 # Provides an API to the Linux IEEE1394 (FireWire) driver
-librevenge # # 0.0.5-2 # library for REVerses ENGineered formats filters
 librewolf-bin # # 123.0-1 # Community-maintained fork of Firefox, focused on privacy, security and freedom.
 librewolf-bin-debug # # 123.0-1 # Detached debugging symbols for librewolf-bin
-librsvg # # 2:2.57.1-1 # SVG rendering library
+librsvg # # 2:2.57.2-1 # SVG rendering library
 librsync # # 1:2.3.4-1 # Library for calculating and applying network deltas
 libsamplerate # # 0.2.2-2 # An audio sample rate conversion library
 libsasl # # 2.1.28-4 # Cyrus Simple Authentication Service Layer (SASL) library
@@ -682,7 +714,7 @@ libsixel # # 1.10.3-5 # Provides a codec for DEC SIXEL graphics and some convert
 libslirp # # 4.7.0-1 # General purpose TCP-IP emulator
 libsm # # 1.2.4-1 # X11 Session Management library
 libsndfile # # 1.2.2-2 # A C library for reading and writing files containing sampled audio data
-libsodium # # 1.0.19-2 # P(ortable|ackageable) NaCl-based crypto library
+libsodium # # 1.0.19-3 # A modern, portable, easy to use crypto library
 libsoup # # 2.74.3-1 # HTTP client/server library for GNOME
 libsoup3 # # 3.4.4-1 # HTTP client/server library for GNOME
 libsoxr # # 0.1.3-3 # The SoX Resampler library that aims to give fast and high quality results for any constant resampling ratio
@@ -700,13 +732,14 @@ libthai # # 0.1.29-3 # Thai language support library
 libtheora # # 1.1.1-6 # Standard encoder and decoder library for the Theora video compression format
 libtiff # # 4.6.0-2 # Library for manipulation of TIFF images
 libtirpc # # 1.3.4-1 # Transport Independent RPC library (SunRPC replacement)
+libtommath # # 1.2.1-1 # Highly optimized and portable routines for integer based number theoretic applications
 libtool # # 2.4.7+4+g1ec8fa28-7 # A generic library support script
 libtorrent-rasterbar # # 1:2.0.9-3 # A C++ BitTorrent library that aims to be a good alternative to all the other implementations around
 libtraceevent # # 1:1.8.2-1 # Linux kernel trace event library
 libtracefs # # 1.8.0-1 # Linux kernel trace file system library
 libunibreak # # 6.1-1 # An implementation of the line breaking algorithm as described in Unicode 5.2.0 Standard Annex 14, Revision 24
-libunistring # # 1.1-2 # Library for manipulating Unicode strings and C strings
-libunwind # # 1.7.2-1 # Determine and manipulate the call-chain of a program
+libunistring # # 1.2-1 # Library for manipulating Unicode strings and C strings
+libunwind # # 1.8.1-1 # Determine and manipulate the call-chain of a program
 liburcu # # 0.14.0-1 # LGPLv2.1 userspace RCU (read-copy-update) library
 liburing # # 2.5-1 # Linux-native io_uring I/O access library
 libusb # # 1.0.27-1 # Library that provides generic access to USB devices
@@ -715,7 +748,7 @@ libutempter # # 1.2.1-4 # Interface for terminal emulators such as screen and xt
 libutf8proc # # 2.9.0-1 # C library for processing UTF-8 encoded Unicode strings
 libuv # # 1.48.0-1 # Multi-platform support library with a focus on asynchronous I/O
 libva # # 2.20.0-1 # Video Acceleration (VA) API for Linux
-libva-mesa-driver # # 1:24.0.2-1 # VA-API drivers
+libva-mesa-driver # # 1:24.0.2-2 # VA-API drivers
 libva-nvidia-driver # # 0.0.11-1 # VA-API implementation that uses NVDEC as a backend
 libva-utils # # 2.20.1-1 # Intel VA-API Media Applications and Scripts for libva
 libvdpau # # 1.5-2 # Nvidia VDPAU library
@@ -723,7 +756,6 @@ libverto # # 0.3.2-4 # Main event loop abstraction library
 libvirt # # 1:10.1.0-1 # API for controlling virtualization engines (openvz,kvm,qemu,virtualbox,xen,etc)
 libvirt-glib # # 5.0.0-1 # GLib bindings for libvirt
 libvirt-python # # 1:10.1.0-1 # libvirt python binding
-libvisio # # 0.1.7-10 # Library providing ability to interpret and import visio diagrams
 libvorbis # # 1.3.7-3 # Reference implementation of the Ogg Vorbis audio format
 libvpl # # 2.10.2-1 # Intel Video Processing Library
 libvpx # # 1.14.0-1 # VP8 and VP9 codec
@@ -733,11 +765,9 @@ libwbclient # # 4.19.5-1 # winbind client library
 libwebp # # 1.3.2-1 # WebP library and conversion tools
 libwireplumber # # 0.4.17-1 # Session / policy manager implementation for PipeWire - client library
 libwmf # # 0.2.13-1 # A library for reading vector images in Microsoft's native Windows Metafile Format (WMF)
-libwpd # # 0.10.3-4 # Library for importing WordPerfect (tm) documents
-libwpg # # 0.3.4-1 # Library for importing and converting Corel WordPerfect(tm) Graphics images.
 libx11 # # 1.8.7-1 # X11 client-side library
 libxau # # 1.0.11-2 # X11 authorisation library
-libxaw # # 1.0.15-1 # X11 Athena Widget library
+libxaw # # 1.0.16-1 # X11 Athena Widget library
 libxcb # # 1.16.1-1 # X11 client-side library
 libxcomposite # # 0.4.6-1 # X11 Composite extension library
 libxcrypt # # 4.4.36-1 # Modern library for one-way hashing of passwords
@@ -777,17 +807,19 @@ libyuv # # r2426+464c51a0-1 # Library for YUV scaling
 libzip # # 1.10.1-1 # C library for reading, creating, and modifying zip archives
 licenses # # 20240206-1 # A set of common license files
 lilv # # 0.24.24-1 # A C library interface to the LV2 plug-in standard
-linux # # 6.7.8.arch1-1 # The Linux kernel and modules
+linux # # 6.7.9.arch1-1 # The Linux kernel and modules
 linux-api-headers # # 6.7-1 # Kernel headers sanitized for use in userspace
 linux-firmware # # 20240220.97b693d2-1 # Firmware files for Linux
 linux-firmware-qlogic # # 20240220.97b693d2-1 # Firmware files for Linux - qlogic / Firmware for QLogic devices
 linux-firmware-whence # # 20240220.97b693d2-1 # Firmware files for Linux - contains the WHENCE license file which documents the vendor license details
-linux-headers # # 6.7.8.arch1-1 # Headers and scripts for building modules for the Linux kernel
-linux-zen # # 6.7.8.zen1-1 # The Linux ZEN kernel and modules
-linux-zen-headers # # 6.7.8.zen1-1 # Headers and scripts for building modules for the Linux ZEN kernel
-lld # # 16.0.6-1 # Linker from the LLVM project
-llvm # # 16.0.6-1 # Compiler infrastructure
-llvm-libs # # 16.0.6-1 # LLVM runtime libraries
+linux-headers # # 6.7.9.arch1-1 # Headers and scripts for building modules for the Linux kernel
+linux-zen # # 6.7.9.zen1-1 # The Linux ZEN kernel and modules
+linux-zen-headers # # 6.7.9.zen1-1 # Headers and scripts for building modules for the Linux ZEN kernel
+lld # # 17.0.6-1 # Linker from the LLVM project
+lld16 # # 16.0.6-1 # Linker from the LLVM project (version 16)
+llvm # # 17.0.6-2 # Compiler infrastructure
+llvm-libs # # 17.0.6-2 # LLVM runtime libraries
+llvm16-libs # # 16.0.6-1 # LLVM 16 runtime libraries
 lm_sensors # # 1:3.6.0.r41.g31d1f125-2 # Collection of user space tools for general SMBus access and hardware monitoring
 lmdb # # 0.9.32-1 # Symas Lightning Memory-Mapped Database
 lolcat # # 100.0.1-1 # Okay, no unicorns. But rainbows!!
@@ -795,12 +827,11 @@ lowdown # # 1.0.2-2 # A simple Markdown translator
 lsb-release # # 2.0.r53.a86f885-1 # LSB version query program
 lsd # # 1.0.0-1 # Modern ls with a lot of pretty colors and awesome icons
 lshw # # B.02.20-1 # A small tool to provide detailed information on the hardware configuration of the machine.
-lsof # # 4.99.0-1 # Lists open files for running Unix processes
+lsof # # 4.99.3-1 # Lists open files for running Unix processes
 lua # # 5.4.6-3 # Powerful lightweight programming language designed for extending applications
 luajit # # 2.1.1702233742-1 # Just-in-time compiler and drop-in replacement for Lua 5.1
-luit # # 20240102-1 # Filter that can be run between an arbitrary application and a UTF-8 terminal emulator
 lv2 # # 1.18.10-1 # Plugin standard for audio systems
-lvm2 # # 2.03.23-1 # Logical Volume Manager 2 utilities
+lvm2 # # 2.03.23-3 # Logical Volume Manager 2 utilities
 lxappearance 0.6.3-4 # # (lxde) # Feature-rich GTK+ theme switcher of the LXDE Desktop
 lxmenu-data # # 0.1.5-3 # Freedesktop.org desktop menus for LXDE
 ly # # 0.6.0-1 # TUI display manager
@@ -816,19 +847,20 @@ mangohud # # 0.7.1-1 # A Vulkan overlay layer for monitoring FPS, temperatures, 
 marked # # 5.0.0-1 # A markdown parser built for speed
 mbedtls # # 3.5.1-1 # An open source, portable, easy to use, readable and flexible TLS library
 md4c # # 0.5.2-1 # C Markdown parser
-mdadm # # 4.3-1 # A tool for managing/monitoring Linux md device arrays, also known as Software RAID
+mdadm # # 4.3-2 # A tool for managing/monitoring Linux md device arrays, also known as Software RAID
 media-player-info # # 24-2 # Data files describing media player capabilities, for post-HAL systems
 menu-cache # # 1.1.0-4 # Caching mechanism for freedesktop.org compliant menus
-mesa # # 1:24.0.2-1 # An open-source implementation of the OpenGL specification
+mesa # # 1:24.0.2-2 # An open-source implementation of the OpenGL specification
 meson # # 1.3.2-1 # High productivity build system
 mimalloc # # 2.1.2-1 # General-purpose allocator with excellent performance characteristics
 minicom # # 2.9-1 # A serial communication program
 minizip # # 1:1.3.1-1 # Mini zip and unzip based on zlib
 mjpegtools # # 2.2.1-2 # Video capture, editing, playback and compression to MPEG of MJPEG video
-mkinitcpio # # 37.3-1 # Modular initramfs image creation utility
+mkinitcpio # # 38-4 # Modular initramfs image creation utility
 mkinitcpio-busybox # # 1.36.1-1 # Base initramfs tools
 mobile-broadband-provider-info # # 20230416-1 # APN configuration presets for mobile broadband connections
 modemmanager # # 1.22.0-1 # Mobile broadband modem management service
+modemmanager-qt 6.0.0-1 # # (kf6) # Qt wrapper for ModemManager DBus API
 modemmanager-qt5 5.115.0-1 # # (kf5) # Qt wrapper for ModemManager DBus API
 mold # # 2.4.1-1 # A Modern Linker
 mpfr # # 4.2.1-2 # Multiple-precision floating-point library
@@ -840,8 +872,6 @@ mtools # # 1:4.0.43-1 # A collection of utilities to access MS-DOS disks
 mujs # # 1.3.4-1 # An embeddable Javascript interpreter in C
 multipath-tools # # 0.9.8-1 # Multipath tools for Linux (including kpartx)
 musl # # 1.2.5-1 # Lightweight implementation of C standard library
-mypaint # # 2.0.1-3 # Fast and easy painting application for digital painters, with brush dynamics
-mypaint-brushes # # 2.0.2-1 # Brushes used by MyPaint and other software using libmypaint
 mypaint-brushes1 # # 1.3.1-1 # Brushes used by MyPaint and other software using libmypaint (v1.x)
 nasm # # 2.16.01-1 # 80x86 assembler designed for portability and modularity
 ncdu # # 2.3-1 # Disk usage analyzer with an ncurses interface
@@ -857,12 +887,12 @@ networkmanager # # 1.46.0-2 # Network connection manager and user applications
 networkmanager-openvpn # # 1.10.2-3 # NetworkManager VPN plugin for OpenVPN
 nftables # # 1:1.0.9-1 # Netfilter tables userspace tools
 ninja # # 1.11.1-3 # Small build system with a focus on speed
-nix # # 2.20.3-1 # A purely functional package manager
+nix # # 2.21.0-1 # A purely functional package manager
 nix-busybox # # 1.35.0-1 # Slimmed down busybox for Nix sandbox builds
 nlohmann-json # # 3.11.2-2 # JSON for Modern C++
 nm-connection-editor # # 1.36.0-1 # NetworkManager GUI connection editor and widgets
 nnn # # 4.9-1 # The fastest terminal file manager ever written.
-nodejs # # 21.6.2-1 # Evented I/O for V8 javascript
+nodejs # # 21.7.0-1 # Evented I/O for V8 javascript
 noto-fonts # # 1:24.3.1-1 # Google Noto TTF fonts
 npth # # 1.7-1 # The new GNU portable threads library
 nspr # # 4.35-2 # Netscape Portable Runtime
@@ -883,27 +913,27 @@ openal # # 1.23.1-1 # Cross-platform 3D audio library, software implementation
 openbsd-netcat # # 1.226_1-2 # TCP/IP swiss army knife. OpenBSD variant.
 opencl-nvidia # # 550.54.14-4 # OpenCL implemention for NVIDIA
 opencore-amr # # 0.1.6-1 # Open source implementation of the Adaptive Multi Rate (AMR) speech codec
-openexr # # 3.2.2-1 # A high dynamic-range image file format library
+openexr # # 3.2.3-1 # A high dynamic-range image file format library
 openjpeg2 # # 2.5.2-1 # An open source JPEG 2000 codec, version 2.5.2
 openmpi # # 5.0.2-6 # High performance message passing library (MPI)
 openpmix # # 4.2.9-1 # Extended version of the PMI standard
-openssh # # 9.6p1-3 # SSH protocol implementation for remote login, command execution and file transfer
+openssh # # 9.7p1-1 # SSH protocol implementation for remote login, command execution and file transfer
 openssl # # 3.2.1-1 # The Open Source toolkit for Secure Sockets Layer and Transport Layer Security
 openucx # # 1.15.0-2 # Communication framework for data-centric and high-performance applications
 openvpn # # 2.6.9-1 # An easy-to-use, robust and highly configurable VPN (Virtual Private Network)
-opus # # 1.4-1 # Totally open, royalty-free, highly versatile audio codec
+opus # # 1.5.1-1 # Totally open, royalty-free, highly versatile audio codec
 orc # # 0.4.38-1 # Optimized Inner Loop Runtime Compiler
 osinfo-db # # 20231215-1 # Osinfo database of information about operating systems for virtualization provisioning tools
 ostree # # 2024.4-1 # Operating system and container binary deployment and upgrades
 p11-kit # # 0.25.3-1 # Loads and enumerates PKCS#11 modules
 p7zip # # 1:17.05-2 # Command-line file archiver with high compression ratio
 pacman # # 6.0.2-9 # A library-based package manager with dependency support
-pacman-contrib # # 1.10.4-1 # Contributed scripts and tools for pacman systems
+pacman-contrib # # 1.10.4-3 # Contributed scripts and tools for pacman systems
 pacman-mirrorlist # # 20231001-1 # Arch Linux mirror list for use by pacman
 pahole # # 1:1.26-1 # Pahole and other DWARF utils
 pam # # 1.6.0-4 # PAM (Pluggable Authentication Modules) library
 pambase # # 20230918-1 # Base PAM configuration for services
-pango # # 1:1.52.0-1 # A library for layout and rendering of text
+pango # # 1:1.52.1-1 # A library for layout and rendering of text
 pangomm # # 2.46.4-1 # C++ bindings for Pango
 papirus-icon-theme # # 20240201-1 # Papirus icon theme
 parted # # 3.6-1 # A program for creating, destroying, resizing, checking and copying partitions
@@ -932,49 +962,45 @@ playerctl # # 2.4.1-3 # mpris media player controller and lib for spotify, vlc, 
 podman # # 4.9.3-1 # Tool and library for running OCI-based containers in pods
 podman-compose # # 1.0.6-4 # A script to run docker-compose.yml using podman
 polkit # # 124-2 # Application development toolkit for controlling system-wide privileges
-polkit-kde-agent 5.27.10-1 # # (plasma) # Daemon providing a polkit authentication UI for KDE
+polkit-kde-agent 6.0.1-1 # # (plasma) # Daemon providing a polkit authentication UI for KDE
 polkit-qt5 # # 0.200.0-1 # A library that allows developers to access PolicyKit API with a nice Qt-style API
-poppler # # 24.01.0-1 # PDF rendering library based on xpdf 3.0
+polkit-qt6 # # 0.200.0-1 # A library that allows developers to access PolicyKit API with a nice Qt-style API
+poppler # # 24.03.0-1 # PDF rendering library based on xpdf 3.0
 poppler-data # # 0.4.12-1 # Encoding data for the poppler PDF rendering library
-poppler-glib # # 24.01.0-1 # Poppler glib bindings
+poppler-glib # # 24.03.0-1 # Poppler glib bindings
+poppler-qt6 # # 24.03.0-1 # Poppler Qt6 bindings
 popt # # 1.19-1 # A commandline option parser
 portaudio # # 1:19.7.0-2 # A free, cross-platform, open source, audio I/O library.
-potrace # # 1.16-2 # Utility for tracing a bitmap (input: PBM,PGM,PPM,BMP; output: EPS,PS,PDF,SVG,DXF,PGM,Gimppath,XFig)
 powertop # # 2.15-1 # A tool to diagnose issues with power consumption and power management
 ppp # # 2.5.0-3 # A daemon which implements the Point-to-Point Protocol for dial-up networking
 procps-ng # # 4.0.4-2 # Utilities for monitoring your system and its processes
 progress # # 0.17-1 # Shows running coreutils basic commands and displays stats
-protobuf # # 25.2-1 # Protocol Buffers - Google's data interchange format
+protobuf # # 25.3-1 # Protocol Buffers - Google's data interchange format
 protobuf-c # # 1.5.0-1 # Protocol Buffers implementation in C
 prrte # # 3.0.4-3 # PMIx Reference RunTime Environment
-psmisc # # 23.6-1 # Miscellaneous procfs tools
-pulseaudio-qt # # 1.4.0-1 # Qt bindings for libpulse
+psmisc # # 23.7-1 # Miscellaneous procfs tools
+pulseaudio-qt # # 1.4.0-3 # Qt bindings for libpulse
 pyenv # # 1:2.3.36-1 # Easily switch between multiple versions of Python
 pyenv-virtualenv # # 1:1.2.2-1 # pyenv plugin to manage virtualenv (a.k.a. python-virtualenv)
-python # # 3.11.7-1 # The Python programming language
-python-appdirs # # 1.4.4-9 # A small Python module for determining appropriate platform-specific dirs, e.g. a "user data dir".
+python # # 3.11.8-1 # The Python programming language
 python-argcomplete # # 2.0.0-2 # Easy, extensible command line tab completion of arguments for your Python script
 python-attrs # # 23.2.0-1 # Attributes without boilerplate.
-python-beautifulsoup4 # # 4.12.2-1 # A Python HTML/XML parser designed for quick turnaround projects like screen-scraping
 python-black # # 23.12.1-1 # Uncompromising Python code formatter
-python-build # # 1.1.1-1 # A simple, correct Python packaging build frontend
+python-build # # 1.1.1-2 # A simple, correct Python packaging build frontend
 python-cachecontrol # # 1:0.14.0-2 # Port of the caching algorithms in httplib2 for use with requests session object
 python-cachy # # 0.3.0-9 # simple yet effective caching library
 python-cairo # # 1.26.0-1 # Python bindings for the cairo graphics library
 python-certifi # # 2024.02.02-1 # Python package for providing Mozilla's CA Bundle (using system CA store)
 python-cffi # # 1.16.0-1 # Foreign Function Interface for Python calling C code
-python-chardet # # 5.2.0-1 # Python3 module for character encoding auto-detection
 python-charset-normalizer # # 3.3.2-1 # Encoding and language detection alternative to chardet
 python-cleo # # 2.1.0-1 # create beautiful and testable command-line interfaces
 python-click # # 8.1.7-1 # Simple wrapper around optparse for powerful command line utilities
 python-configargparse # # 1.5.5-1 # A drop-in replacement for argparse that allows options to also be set via config files and/or environment variables
 python-contourpy # # 1.2.0-1 # Python library for calculating contours in 2D quadrilateral grids
-python-coverage # # 7.4.1-1 # A tool for measuring code coverage of Python programs
 python-crashtest # # 0.4.1-2 # supposedly makes exceptions handling and inspection easier
-python-cryptography # # 41.0.7-1 # A package designed to expose cryptographic recipes and primitives to Python developers
-python-cssselect # # 1.2.0-3 # A Python3 library that parses CSS3 Selectors and translates them to XPath 1.0
+python-cryptography # # 42.0.5-1 # A package designed to expose cryptographic recipes and primitives to Python developers
 python-cycler # # 0.12.1-1 # Composable style cycles
-python-dateutil # # 2.9.0-1 # Provides powerful extensions to the standard datetime module
+python-dateutil # # 2.9.0-2 # Provides powerful extensions to the standard datetime module
 python-distlib # # 0.3.8-1 # Low-level functions that relate to packaging and distribution of Python software
 python-distro # # 1.9.0-1 # Linux OS platform information API
 python-docopt # # 0.6.2-12 # Pythonic argument parser, that will make you smile
@@ -996,14 +1022,13 @@ python-jsonschema # # 4.21.1-1 # An implementation of JSON Schema validation for
 python-jsonschema-specifications # # 2023.12.1-1 # The JSON Schema meta-schemas and vocabularies, exposed as a Registry
 python-keyring # # 24.3.0-1 # Store and access your passwords safely
 python-keyutils # # 0.6-9 # A set of python bindings for keyutils
-python-kiwisolver # # 1.4.5-1 # A fast implementation of the Cassowary constraint solver
+python-kiwisolver # # 1.4.5-2 # A fast implementation of the Cassowary constraint solver
 python-lark-parser # # 1.1.9-1 # A modern parsing library
 python-lockfile # # 0.12.2-12 # Platform-independent file locking module
-python-lxml # # 4.9.2-3 # Python3 binding for the libxml2 and libxslt libraries
 python-mako # # 1.3.2-1 # A super-fast templating language that borrows the best ideas from the existing templating languages
 python-markupsafe # # 2.1.4-1 # Implements a XML/HTML/XHTML Markup safe string for Python
 python-matplotlib # # 3.8.2-1 # A python plotting library, making publication quality plots
-python-more-itertools # # 10.1.0-1 # More routines for operating on iterables, beyond itertools
+python-more-itertools # # 10.2.0-1 # More routines for operating on iterables, beyond itertools
 python-msgpack # # 1.0.5-1 # MessagePack serializer implementation for Python
 python-mypy_extensions # # 1.0.0-3 # Experimental type system extensions for programs checked with the mypy typechecker
 python-numpy # # 1.26.4-1 # Scientific tools for Python
@@ -1015,20 +1040,19 @@ python-pip # # 24.0-1 # The PyPA recommended tool for installing Python packages
 python-pipenv # # 2023.12.1-1 # Sacred Marriage of Pipfile, Pip, & Virtualenv.
 python-pipx # # 1.4.3-1 # Install and Run Python Applications in Isolated Environments
 python-pkginfo # # 1.9.6-2 # Query metadata from sdists / bdists / installed packages
-python-platformdirs # # 4.1.0-1 # A library to determine platform-specific system directories
-python-pluggy # # 1.4.0-1 # Plugin and hook calling mechanisms for python
+python-platformdirs # # 4.2.0-1 # A library to determine platform-specific system directories
+python-pluggy # # 1.4.0-2 # Plugin and hook calling mechanisms for python
 python-ply # # 3.11-12 # Implementation of lex and yacc parsing tools
 python-poetry # # 1.8.2-1 # Python dependency management and packaging made easy
 python-poetry-core 1.9.0-3 # # (python-build-backend) # Poetry PEP 517 Build Backend & Core Utilities
 python-poetry-plugin-export # # 1.5.0-1 # Poetry plugin to export the dependencies to various formats
-python-protobuf # # 25.2-1 # Python 3 bindings for Google Protocol Buffers
+python-protobuf # # 25.3-1 # Python 3 bindings for Google Protocol Buffers
 python-psutil # # 5.9.8-1 # A cross-platform process and system utilities module for Python
 python-ptyprocess # # 0.7.0-5 # Run a subprocess in a pseudo terminal
 python-pycparser # # 2.21-5 # C parser and AST generator written in Python
-python-pyparsing # # 3.1.1-1 # General parsing module for Python
+python-pyparsing # # 3.1.2-1 # General parsing module for Python
 python-pyproject-hooks # # 1.0.0-5 # A low-level library for calling build-backends in pyproject.toml-based project
 python-pyrsistent # # 0.19.3-3 # Persistent/Functional/Immutable data structures
-python-pyserial # # 3.5-5 # Multiplatform Serial Port Module for Python
 python-pytest # # 1:7.4.4-1 # Simple powerful testing with Python
 python-rapidfuzz # # 3.6.0-1 # Rapid fuzzy string matching in Python using various string metrics
 python-referencing # # 0.33.0-1 # An implementation-agnostic implementation of JSON reference resolution
@@ -1038,12 +1062,11 @@ python-rpds-py # # 0.17.1-1 # Python bindings to the Rust rpds crate for persist
 python-secretstorage # # 3.3.3-2 # Securely store passwords and other private data using the SecretService DBus API
 python-shellingham # # 1.5.4-1 # Detect what shell the current Python executable is running in
 python-six # # 1.16.0-8 # Python 2 and 3 compatibility utilities
-python-soupsieve # # 2.5-1 # A CSS4 selector implementation for Beautiful Soup
 python-toml # # 0.10.2-9 # A Python library for parsing and creating TOML
 python-tomli # # 2.0.1-3 # A lil' TOML parser
 python-tomlkit # # 0.12.4-1 # Style-preserving TOML library for Python
 python-tqdm # # 4.66.2-1 # Fast, Extensible Progress Meter
-python-trove-classifiers # # 2024.2.23-1 # Canonical source for classifiers on PyPI (pypi.org)
+python-trove-classifiers # # 2024.3.3-1 # Canonical source for classifiers on PyPI (pypi.org)
 python-typing_extensions # # 4.10.0-1 # Backported and Experimental Type Hints for Python 3.8+
 python-urllib3 # # 1.26.18-1 # HTTP library with thread-safe connection pooling and file post support
 python-userpath # # 1.9.2-1 # Cross-platform tool for adding locations to the user PATH, no elevated privileges required!
@@ -1053,40 +1076,41 @@ python-webencodings # # 0.5.1-10 # This is a Python implementation of the WHATWG
 python-wheel # # 0.42.0-2 # A built-package format for Python
 python-yaml # # 6.0.1-2 # Python bindings for YAML, using fast libYAML library
 python-zipp # # 3.17.0-1 # Pathlib-compatible object wrapper for zip files
-python-zstandard # # 0.22.0-1 # Python bindings to the Zstandard (zstd) compression library
 qbittorrent # # 4.6.3-1 # An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar
 qca-qt5 # # 2.3.8-2 # Qt Cryptographic Architecture
-qemu-audio-pipewire # # 8.2.1-2 # QEMU PipeWire audio driver
-qemu-audio-spice # # 8.2.1-2 # QEMU spice audio driver
-qemu-base # # 8.2.1-2 # A basic QEMU setup for headless environments
-qemu-block-curl # # 8.2.1-2 # QEMU curl block driver
-qemu-block-dmg # # 8.2.1-2 # QEMU DMG block driver
-qemu-block-nfs # # 8.2.1-2 # QEMU NFS block driver
-qemu-block-ssh # # 8.2.1-2 # QEMU SSH block driver
-qemu-chardev-spice # # 8.2.1-2 # QEMU spice chardev driver
-qemu-common # # 8.2.1-2 # A generic and open source machine emulator and virtualizer
-qemu-hw-display-qxl # # 8.2.1-2 # QEMU QXL display device
-qemu-hw-display-virtio-gpu # # 8.2.1-2 # QEMU virtio-gpu display device
-qemu-hw-display-virtio-gpu-gl # # 8.2.1-2 # QEMU virtio-gpu-gl display device
-qemu-hw-display-virtio-gpu-pci # # 8.2.1-2 # QEMU virtio-gpu-pci display device
-qemu-hw-display-virtio-gpu-pci-gl # # 8.2.1-2 # QEMU virtio-gpu-pci-gl display device
-qemu-hw-display-virtio-vga # # 8.2.1-2 # QEMU virtio-vga display device
-qemu-hw-display-virtio-vga-gl # # 8.2.1-2 # QEMU virtio-vga-gl display device
-qemu-hw-s390x-virtio-gpu-ccw # # 8.2.1-2 # QEMU s390x-virtio-gpu-ccw display device
-qemu-hw-usb-host # # 8.2.1-2 # QEMU USB host device
-qemu-hw-usb-redirect # # 8.2.1-2 # QEMU usbredir device
-qemu-hw-usb-smartcard # # 8.2.1-2 # QEMU USB smartcard device
-qemu-img # # 8.2.1-2 # QEMU tooling for manipulating disk images
-qemu-pr-helper # # 8.2.1-2 # QEMU persistent reservation utility
-qemu-system-x86 # # 8.2.1-2 # QEMU system emulator for x86
-qemu-system-x86-firmware # # 8.2.1-2 # Firmware for QEMU system emulator for x86
-qemu-tools # # 8.2.1-2 # QEMU tools
-qemu-ui-curses # # 8.2.1-2 # QEMU curses UI driver
-qemu-ui-opengl # # 8.2.1-2 # QEMU OpenGL UI driver
-qemu-ui-spice-app # # 8.2.1-2 # QEMU spice app UI driver
-qemu-ui-spice-core # # 8.2.1-2 # QEMU spice core UI driver
+qca-qt6 # # 2.3.8-2 # Qt Cryptographic Architecture
+qemu-audio-pipewire # # 8.2.2-1 # QEMU PipeWire audio driver
+qemu-audio-spice # # 8.2.2-1 # QEMU spice audio driver
+qemu-base # # 8.2.2-1 # A basic QEMU setup for headless environments
+qemu-block-curl # # 8.2.2-1 # QEMU curl block driver
+qemu-block-dmg # # 8.2.2-1 # QEMU DMG block driver
+qemu-block-nfs # # 8.2.2-1 # QEMU NFS block driver
+qemu-block-ssh # # 8.2.2-1 # QEMU SSH block driver
+qemu-chardev-spice # # 8.2.2-1 # QEMU spice chardev driver
+qemu-common # # 8.2.2-1 # A generic and open source machine emulator and virtualizer
+qemu-hw-display-qxl # # 8.2.2-1 # QEMU QXL display device
+qemu-hw-display-virtio-gpu # # 8.2.2-1 # QEMU virtio-gpu display device
+qemu-hw-display-virtio-gpu-gl # # 8.2.2-1 # QEMU virtio-gpu-gl display device
+qemu-hw-display-virtio-gpu-pci # # 8.2.2-1 # QEMU virtio-gpu-pci display device
+qemu-hw-display-virtio-gpu-pci-gl # # 8.2.2-1 # QEMU virtio-gpu-pci-gl display device
+qemu-hw-display-virtio-vga # # 8.2.2-1 # QEMU virtio-vga display device
+qemu-hw-display-virtio-vga-gl # # 8.2.2-1 # QEMU virtio-vga-gl display device
+qemu-hw-s390x-virtio-gpu-ccw # # 8.2.2-1 # QEMU s390x-virtio-gpu-ccw display device
+qemu-hw-usb-host # # 8.2.2-1 # QEMU USB host device
+qemu-hw-usb-redirect # # 8.2.2-1 # QEMU usbredir device
+qemu-hw-usb-smartcard # # 8.2.2-1 # QEMU USB smartcard device
+qemu-img # # 8.2.2-1 # QEMU tooling for manipulating disk images
+qemu-pr-helper # # 8.2.2-1 # QEMU persistent reservation utility
+qemu-system-x86 # # 8.2.2-1 # QEMU system emulator for x86
+qemu-system-x86-firmware # # 8.2.2-1 # Firmware for QEMU system emulator for x86
+qemu-tools # # 8.2.2-1 # QEMU tools
+qemu-ui-curses # # 8.2.2-1 # QEMU curses UI driver
+qemu-ui-opengl # # 8.2.2-1 # QEMU OpenGL UI driver
+qemu-ui-spice-app # # 8.2.2-1 # QEMU spice app UI driver
+qemu-ui-spice-core # # 8.2.2-1 # QEMU spice core UI driver
 qhull # # 2020.2-4 # A general dimension code for computing convex hulls and related structures
 qpwgraph 0.6.2-1 # # (pro-audio) # PipeWire Graph Qt GUI Interface
+qqc2-desktop-style 6.0.0-1 # # (kf6) # A style for Qt Quick Controls 2 to make it follow your desktop theme
 qqc2-desktop-style5 5.115.0-1 # # (kf5) # A style for Qt Quick Controls 2 to make it follow your desktop theme
 qrencode # # 4.1.1-2 # C library for encoding data in a QR Code symbol.
 qt5-base 5.15.12+kde+r151-1 # # (qt5) # A cross-platform application and UI framework
@@ -1097,19 +1121,22 @@ qt5-quickcontrols 5.15.12-1 # # (qt5) # Reusable Qt Quick based UI controls to c
 qt5-quickcontrols2 5.15.12+kde+r5-1 # # (qt5) # Next generation user interface controls based on Qt Quick
 qt5-speech 5.15.12+kde+r1-1 # # (qt5) # Qt module to make text to speech and speech recognition easy
 qt5-svg 5.15.12+kde+r6-1 # # (qt5) # Classes for displaying the contents of SVG files
-qt5-tools 5.15.12+kde+r4-1 # # (qt5) # A cross-platform application and UI framework (Development Tools, QtHelp)
+qt5-tools 5.15.12+kde+r4-2 # # (qt5) # A cross-platform application and UI framework (Development Tools, QtHelp)
 qt5-translations 5.15.12-1 # # (qt5) # A cross-platform application and UI framework (Translations)
 qt5-wayland 5.15.12+kde+r61-1 # # (qt5) # Provides APIs for Wayland
 qt5-x11extras 5.15.12-1 # # (qt5) # Provides platform-specific APIs for X11
 qt5ct # # 1.8-1 # Qt5 Configuration Utility
-qt6-5compat 6.6.2-1 # # (qt6) # Module that contains unsupported Qt 5 APIs
+qt6-5compat 6.6.2-2 # # (qt6) # Module that contains unsupported Qt 5 APIs
 qt6-base 6.6.2-4 # # (qt6) # A cross-platform application and UI framework
 qt6-declarative 6.6.2-1 # # (qt6) # Classes for QML and JavaScript languages
+qt6-multimedia 6.6.2-1 # # (qt6) # Classes for audio, video, radio and camera functionality
+qt6-multimedia-ffmpeg # # 6.6.2-1 # FFMpeg backend for qt6-multimedia
+qt6-shadertools 6.6.2-1 # # (qt6) # Provides functionality for the shader pipeline that allows Qt Quick to operate on Vulkan, Metal, and Direct3D, in addition to OpenGL
 qt6-svg 6.6.2-1 # # (qt6) # Classes for displaying the contents of SVG files
 qt6-translations 6.6.2-1 # # (qt6) # A cross-platform application and UI framework (Translations)
 qt6-wayland 6.6.2-1 # # (qt6) # Provides APIs for Wayland
-qtutilities # # 6.13.4-1 # Common Qt related C++ classes and routines used by my applications such as dialogs, widgets and models
-ragel # # 6.10-3 # Compiles finite state machines from regular languages into executable C, C++, Objective-C, or D code.
+qtutilities # # 6.13.5-1 # Common Qt related C++ classes and routines used by my applications such as dialogs, widgets and models
+qtutilities-debug # # 6.13.5-1 # Detached debugging symbols for qtutilities
 ranger # # 1.9.3-9 # Simple, vim-like file manager
 raptor # # 2.0.16-4 # A C library that parses RDF/XML/N-Triples into RDF triples
 rav1e # # 0.7.1-1 # An AV1 encoder focused on speed and safety
@@ -1120,12 +1147,12 @@ refind # # 0.14.0.2-2 # An EFI boot manager
 rhash # # 1.4.4-1 # Utility for verifying hash sums of files
 ripgrep # # 14.1.0-1 # A search tool that combines the usability of ag with the raw speed of grep
 rnnoise # # 0.4.1-1 # A noise suppression library based on a recurrent neural network
-rofi-lbonn-wayland # # 1.7.5+wayland2-1 # A window switcher, run dialog and dmenu replacement - fork with wayland support
+rofi-lbonn-wayland-debug # # 1.7.5+wayland3-1 # Detached debugging symbols for rofi-lbonn-wayland
 rofimoji # # 6.2.0-1 # Emoji, unicode and general character picker for rofi and rofi-likes
 rpcsvc-proto # # 1.4.4-1 # rpcsvc protocol definitions from glibc
 rsync # # 3.2.7-6 # A fast and versatile file copying tool for remote and local files
 rtkit # # 0.13-2 # Realtime Policy and Watchdog Daemon
-rtmpdump # # 1:2.4.r99.f1b83c1-2 # A toolkit for RTMP streams
+rtmpdump # # 1:2.4.r105.6f6bb13-1 # A toolkit for RTMP streams
 rubberband # # 3.3.0-1 # Time-stretching and pitch-shifting audio library and utility
 ruby # # 3.0.6-1 # An object-oriented language for quick and easy programming
 ruby-abbrev # # 0.1.0-4 # Calculates a set of unique abbreviations for a given set of strings
@@ -1194,19 +1221,18 @@ rustup # # 1.26.0-5 # The Rust toolchain installer
 s2n-tls # # 1.3.47-1 # A C99 implementation of the TLS/SSL protocols that is designed to be simple, small, fast, and with security as a priority
 sbc # # 2.0-1 # Bluetooth Subband Codec (SBC) library
 scdoc # # 1.11.3-1 # Tool for generating roff manual pages
-scour # # 0.38.2-3 # An SVG scrubber
 screen # # 4.9.1-1 # Full-screen window manager that multiplexes a physical terminal
 sdbus-cpp # # 1.5.0-3 # a high-level C++ D-Bus library designed to provide expressive, easy-to-use API
-sddm # # 0.20.0-4 # QML based X11 and Wayland display manager
-sdl2 # # 2.30.0-1 # A library for portable low-level access to a video framebuffer, audio output, mouse, and keyboard (Version 2)
+sddm # # 0.21.0-4 # QML based X11 and Wayland display manager
+sdl2 # # 2.30.1-1 # A library for portable low-level access to a video framebuffer, audio output, mouse, and keyboard (Version 2)
 seabios # # 1.16.3-1 # Open-source legacy BIOS implementation
 seatd # # 0.8.0-1 # A minimal seat management daemon, and a universal seat management library
 sed # # 4.9-3 # GNU stream editor
 serd # # 0.32.2-1 # Lightweight C library for RDF syntax supporting reading/ writing Turtle and NTriples
 shaderc # # 2023.8-1 # Collection of tools, libraries and tests for shader compilation
-shadow # # 4.14.6-1 # Password and account management tool suite with support for shadow files and PAM
+shadow # # 4.15.0-1 # Password and account management tool suite with support for shadow files and PAM
 shared-mime-info # # 2.4-1 # Freedesktop.org Shared MIME Info
-shellcheck # # 0.9.0-79 # Shell script analysis tool
+shellcheck # # 0.9.0-85 # Shell script analysis tool
 shfmt # # 3.7.0-1 # Format shell programs
 slang # # 2.3.3-2 # S-Lang is a powerful interpreted language
 slirp4netns # # 1.2.3-1 # User-mode networking for unprivileged network namespaces
@@ -1215,7 +1241,9 @@ smartmontools # # 7.4-1 # Control and monitor S.M.A.R.T. enabled ATA and SCSI Ha
 smbclient # # 4.19.5-1 # Tools to access a server's filespace and printers via SMB
 snappy # # 1.1.10-1 # A fast compressor/decompressor library
 sndio # # 1.9.0-1 # A small audio and MIDI framework part of the OpenBSD project
+solid 6.0.0-1 # # (kf6) # Hardware integration and detection
 solid5 5.115.0-1 # # (kf5) # Hardware integration and detection
+sonnet 6.0.0-1 # # (kf6) # Spelling framework for Qt5
 sonnet5 5.115.0-1 # # (kf5) # Spelling framework for Qt5
 sord # # 0.16.16-1 # A lightweight C library for storing RDF data in memory
 sound-theme-freedesktop # # 0.8-5 # Freedesktop sound theme
@@ -1244,17 +1272,17 @@ svt-hevc # # 1.5.1-2 # Scalable Video Technology HEVC encoder
 swaylock # # 1.7.2-1 # Screen locker for Wayland
 swww # # 0.8.2-2 # A Solution to your Wayland Wallpaper Woes
 swww-debug # # 0.8.2-2 # Detached debugging symbols for swww
-syncthing # # 1.27.3-2 # Open Source Continuous Replication / Cluster Synchronization Thing
+syncthing # # 1.27.4-1 # Open Source Continuous Replication / Cluster Synchronization Thing
 syndication5 5.115.0-1 # # (kf5) # RSS/Atom parser library
 sysfsutils # # 2.1.1-1 # System Utilities Based on Sysfs
-systemd # # 255.4-1 # system and service manager
-systemd-libs # # 255.4-1 # systemd client libraries
-systemd-sysvcompat # # 255.4-1 # sysvinit compat for systemd
+systemd # # 255.4-2 # system and service manager
+systemd-libs # # 255.4-2 # systemd client libraries
+systemd-sysvcompat # # 255.4-2 # sysvinit compat for systemd
 taglib # # 2.0-1 # A Library for reading and editing the meta-data of several popular audio formats
 talloc # # 2.4.1-1 # Hierarchical pool based memory allocator with destructors
 tar # # 1.35-2 # Utility used to store, backup, and transport files
 task # # 2.6.2-2 # Taskwarrior, a command-line todo list manager
-tcl # # 8.6.13-1 # Powerful, easy-to-learn dynamic programming language
+tcl # # 8.6.14-1 # Powerful, easy-to-learn dynamic programming language
 tdb # # 1.4.9-1 # Trivial Database similar to GDBM but allows simultaneous commits
 tesseract # # 5.3.4-1 # An OCR program
 tesseract-data-afr 2:4.1.0-4 # # (tesseract-data) # Tesseract OCR data (afr)
@@ -1262,20 +1290,19 @@ tesseract-data-osd # # 2:4.1.0-4 # Tesseract OCR data (osd)
 testdisk # # 7.2-1 # Checks and undeletes partitions + PhotoRec, signature based recovery tool
 tevent # # 1:0.15.0-1 # Event system based on the talloc memory management library
 texinfo # # 7.1-2 # GNU documentation system for on-line information and printed output
-the_silver_searcher # # 2.2.0-2 # Code searching tool similar to Ack, but faster
+the_silver_searcher # # 2.2.0-3 # Code searching tool similar to Ack, but faster
 thin-provisioning-tools # # 1.0.12-1 # Suite of tools for manipulating the metadata of the dm-thin device-mapper target
-thunderbird # # 115.8.0-1 # Standalone mail and news reader from mozilla.org
-tig # # 2.5.8-1 # Text-mode interface for Git.
+thunderbird # # 115.8.1-1 # Standalone mail and news reader from mozilla.org
 tinycompress # # 1.2.11-1 # ALSA compressed device interface
-tk # # 8.6.13-2 # A windowing toolkit for use with tcl
+tk # # 8.6.14-1 # A windowing toolkit for use with tcl
 tmux # # 3.4-4 # Terminal multiplexer
 tomlplusplus # # 3.4.0-1 # Header-only TOML config file parser and serializer for C++17
 tpm2-tss # # 4.0.1-1 # Implementation of the TCG Trusted Platform Module 2.0 Software Stack (TSS2)
 tracker3 # # 3.6.0-3 # SQLite-based RDF triplestore database with SPARQL interface
 trash-cli # # 0.23.11.10-1 # Command line trashcan (recycle bin) interface
-tree-sitter # # 0.20.10-2 # Incremental parsing library
+tree-sitter # # 0.22.1-2 # Incremental parsing library
 tslib # # 1.23-1 # Touchscreen Access Library
-ttc-iosevka # # 27.3.5-1 # Typeface family designed for coding, terminal use and technical documents.
+ttc-iosevka # # 29.0.1-1 # Typeface family designed for coding, terminal use and technical documents.
 ttf-bitstream-vera-mono-nerd 3.1.1-1 # # (nerd-fonts) # Patched font Bitstream Vera Mono from nerd fonts library
 ttf-dejavu-nerd 3.1.1-1 # # (nerd-fonts) # Patched font Dejavu Sans Mono from nerd fonts library
 ttf-firacode-nerd 3.1.1-1 # # (nerd-fonts) # Patched font Fira (Fura) Code from nerd fonts library
@@ -1309,20 +1336,20 @@ vmaf # # 3.0.0-1 # Perceptual video quality assessment algorithm based on multi-
 volume_key # # 0.3.12-8 # A library for manipulating storage volume encryption keys and storing them separately from volumes to handle forgotten passphrases
 vte-common # # 0.74.2-1 # Virtual Terminal Emulator widget (common files)
 vte3 # # 0.74.2-1 # Virtual Terminal Emulator widget (GTK3)
-vulkan-headers 1:1.3.276-1 # # (vulkan-devel) # Vulkan header files
-vulkan-icd-loader # # 1.3.276-1 # Vulkan Installable Client Driver (ICD) Loader
+vulkan-headers 1:1.3.279-1 # # (vulkan-devel) # Vulkan header files
+vulkan-icd-loader # # 1.3.279-1 # Vulkan Installable Client Driver (ICD) Loader
 vulkan-validation-layers 1.3.275-1 # # (vulkan-devel) # Vulkan Validation Layers
-wasi-compiler-rt # # 16.0.6-2 # WASI LLVM compiler runtime
+wasi-compiler-rt # # 17.0.6-1 # WASI LLVM compiler runtime
 wasi-libc # # 1:0+352+c5264e2b-1 # WASI libc implementation for WebAssembly
-wasi-libc++ # # 16.0.6-1 # WASI LLVM C++ standard library
-wasi-libc++abi # # 16.0.6-1 # WASI Low level support for the LLVM C++ standard library.
-wavpack # # 5.6.0-1 # Audio compression format with lossless, lossy and hybrid compression modes
+wasi-libc++ # # 17.0.6-1 # WASI LLVM C++ standard library
+wasi-libc++abi # # 17.0.6-1 # WASI Low level support for the LLVM C++ standard library.
+wavpack # # 5.7.0-1 # Audio compression format with lossless, lossy and hybrid compression modes
 waybar # # 0.9.24-3 # Highly customizable Wayland bar for Sway and Wlroots based compositors
 wayland # # 1.22.0-1 # A computer display server protocol
 wayland-protocols # # 1.33-1 # Specifications of extended Wayland protocols
 webrtc-audio-processing # # 0.3.1-4 # AudioProcessing library based on Google's implementation of WebRTC
 webrtc-audio-processing-1 # # 1.3-2 # AudioProcessing library based on Google's implementation of WebRTC
-wget # # 1.21.4-1 # Network utility to retrieve files from the Web
+wget # # 1.24.5-1 # Network utility to retrieve files from the Web
 which # # 2.21-6 # A utility to show the full path of commands
 wildmidi # # 0.4.5-2 # Simple software MIDI player which has a core softsynth library
 wine # # 9.3-1 # A compatibility layer for running Windows programs
@@ -1332,14 +1359,14 @@ wireplumber # # 0.4.17-1 # Session / policy manager implementation for PipeWire
 wl-clipboard # # 1:2.2.1-1 # Command-line copy/paste utilities for Wayland
 wlroots # # 0.17.1-1 # Modular Wayland compositor library
 wlsunset # # 0.3.0-2 # Day/night gamma adjustments for Wayland compositors
+wofi # # 1.4.1-1 # launcher for wlroots-based wayland compositors
 wolfssl # # 5.6.6-1 # Lightweight, portable, C-language-based SSL/TLS library
 wpa_supplicant # # 2:2.10-8 # A utility providing key negotiation for WPA wireless networks
 wxwidgets-common # # 3.2.4-3 # Common libraries and headers for wxwidgets
 wxwidgets-gtk3 # # 3.2.4-3 # GTK+3 implementation of wxWidgets API for GUI
 x264 # # 3:0.164.r3108.31e19f9-1 # Open Source H264/AVC video encoder
 x265 # # 3.5-3 # Open Source H265/HEVC video encoder
-xarchiver # # 0.5.4.22-1 # GTK+ frontend to various command line archivers
-xbitmaps # # 1.1.3-1 # X.org Bitmap files
+xarchiver # # 0.5.4.23-1 # GTK+ frontend to various command line archivers
 xcb-proto # # 1.16.0-1 # XML-XCB protocol descriptions
 xcb-util # # 0.4.1-1 # Utility libraries for XC Binding
 xcb-util-cursor # # 0.1.5-1 # XCB cursor library
@@ -1353,7 +1380,7 @@ xclip # # 0.13-4 # Command line interface to the X11 clipboard
 xdg-dbus-proxy # # 0.1.5-1 # Filtering proxy for D-Bus connections
 xdg-desktop-portal # # 1.18.2-1 # Desktop integration portals for sandboxed apps
 xdg-desktop-portal-gtk # # 1.15.1-1 # A backend implementation for xdg-desktop-portal using GTK
-xdg-desktop-portal-hyprland-git # # 1.3.1.r14.g2d2fb547-1 # xdg-desktop-portal backend for hyprland
+xdg-desktop-portal-hyprland # # 1.3.1-5 # xdg-desktop-portal backend for hyprland
 xdg-desktop-portal-hyprland-git-debug # # 1.3.1.r14.g2d2fb547-1 # Detached debugging symbols for xdg-desktop-portal-hyprland-git
 xdg-user-dirs # # 0.18-1 # Manage user directories like ~/Desktop and ~/Music
 xdg-utils # # 1.2.1-1 # Command line tools that assist applications with a variety of desktop integration tasks
@@ -1370,7 +1397,7 @@ xorg-xauth 1.1.3-1 (xorg-apps # # xorg) # X.Org authorization settings program
 xorg-xinit # # 1.4.2-1 # X.Org initialisation program
 xorg-xinput 1.6.4-1 (xorg-apps # # xorg) # Small commandline tool to configure devices
 xorg-xkbcomp 1.4.7-1 (xorg-apps # # xorg) # X Keyboard description compiler
-xorg-xmessage # # 1.0.6-1 # Display a message or query in a window
+xorg-xmessage # # 1.0.7-1 # Display a message or query in a window
 xorg-xmodmap 1.0.11-1 (xorg-apps # # xorg) # Utility for modifying keymaps and button mappings
 xorg-xprop 1.2.7-1 (xorg-apps # # xorg) # Property displayer for X
 xorg-xrandr 1.5.2-1 (xorg-apps # # xorg) # Primitive command line interface to RandR extension
@@ -1379,23 +1406,22 @@ xorg-xset 1.2.5-1 (xorg-apps # # xorg) # User preference utility for X
 xorg-xwayland 23.2.4-2 # # (xorg) # run X clients under wayland
 xorgproto # # 2023.2-1 # combined X.Org X11 Protocol headers
 xsel # # 1.2.1-1 # Command-line program for getting and setting the contents of the X selection
-xterm # # 390-1 # X Terminal Emulator
 xvidcore # # 1.3.7-2 # XviD is an open source MPEG-4 video codec
 xwallpaper # # 0.7.4-1 # Wallpaper setting utility for X
 xxhash # # 0.8.2-1 # Extremely fast non-cryptographic hash algorithm
-xz # # 5.6.0-1 # Library and command line tools for XZ and LZMA compressed files
+xz # # 5.6.1-1 # Library and command line tools for XZ and LZMA compressed files
 yajl # # 2.1.0-6 # Yet Another JSON Library
 yasm # # 1.3.0-6 # A rewrite of NASM to allow for multiple syntax supported (NASM, TASM, GAS, etc.)
-yay-bin # # 12.3.0-1 # Yet another yogurt. Pacman wrapper and AUR helper written in go. Pre-compiled.
-yay-bin-debug # # 12.3.0-1 # Detached debugging symbols for yay-bin
+yay-bin # # 12.3.1-1 # Yet another yogurt. Pacman wrapper and AUR helper written in go. Pre-compiled.
+yay-bin-debug # # 12.3.1-1 # Detached debugging symbols for yay-bin
 ydotool # # 1.0.4-1 # Generic command-line automation tool (no X!)
-yt-dlp # # 2023.12.30-1 # A youtube-dl fork with additional features and fixes
-zathura # # 0.5.4-2 # Minimalistic document viewer
-zathura-pdf-mupdf # # 0.4.1-16 # PDF support for Zathura (MuPDF backend) (Supports PDF, ePub, and OpenXPS)
+yt-dlp # # 2024.03.10-1 # A youtube-dl fork with additional features and fixes
+zathura # # 0.5.5-1 # Minimalistic document viewer
+zathura-pdf-mupdf # # 0.4.1-17 # PDF support for Zathura (MuPDF backend) (Supports PDF, ePub, and OpenXPS)
 zbar # # 0.23.90-3 # Application and library for reading bar codes from various sources
 zenity # # 4.0.1-1 # Display graphical dialog boxes from shell scripts
 zeromq # # 4.3.5-2 # Fast messaging system built on sockets. C and C++ bindings. aka 0MQ, ZMQ.
-zig # # 0.11.0-1 # a general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software
+zig # # 0.11.0-2 # a general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software
 zimg # # 3.0.5-1 # Scaling, colorspace conversion, and dithering library
 zip # # 3.0-11 # Compressor/archiver for creating and modifying zipfiles
 zix # # 0.4.2-2 # A lightweight C99 portability and data structure library

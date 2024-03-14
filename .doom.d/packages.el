@@ -65,3 +65,5 @@
 (package! peep-dired)
 
 (package! devdocs)
+
+(package! format-all)

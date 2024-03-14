@@ -11,7 +11,7 @@
 set -euo pipefail
 
 # Check dependencies
-for cmd in rg fd dunstify wpctl pactl; do
+for cmd in rg fd notify-send wpctl pactl wofi; do
 	if ! command -v "$cmd" >/dev/null; then
 		echo "$cmd not found in PATH. Exiting..."
 		exit 1
@@ -62,6 +62,12 @@ get_default_sink_name() {
 
 # Increase the volume by a certain percentage
 raise_volume() {
+	# show error if no argument is passed
+	if [[ -z $1 ]]; then
+		show_notification_error "No argument passed to raise_volume() function. Exiting..."
+		exit 1
+	fi
+
 	local percentage=$1
 
 	wpctl set-volume @DEFAULT_AUDIO_SINK@ "$percentage"+
@@ -70,6 +76,11 @@ raise_volume() {
 
 # Decrease the volume by a certain percentage
 lower_volume() {
+	if [[ -z $1 ]]; then
+		show_notification_error "No argument passed to lower_volume() function. Exiting..."
+		exit 1
+	fi
+
 	local percentage=$1
 
 	wpctl set-volume @DEFAULT_AUDIO_SINK@ "$percentage"-
@@ -84,29 +95,9 @@ toggle_mute_volume() {
 
 # Get the sink id for a given sink name
 get_sink_id() {
-
-	# local chosen_sink=$1
-	# local sink_ids
-	# local sink_names
-
-	# sink_ids=("$(pw-dump Node | jq '.[] | select(.info.props."media.class" == "Audio/Sink") | .id')") # example out : 44 45 47
-	# readarray -t sink_names < <(get_sink_names)
-
-	# sink_ids=("$(pactl list sinks | awk '/Sink #/ {print $2}' | cut -d '#' -f2)")
-	# sink_names=("$(pactl list sinks | awk '/Description:/ {print $2}')")
-
-	# for i in "${!sink_names[@]}"; do
-	# 	if [[ "${sink_names[$i]}" == "$chosen_sink" ]]; then
-	# 		echo "${sink_ids[$i]}"
-	# 		return
-	# 	fi
-	# done
-	#
-
-
 	local chosen_sink=$1
 	local result
-	result="$(pw-dump Node |  jq ".[] | select(.info.props.\"node.nick\" == \"${chosen_sink}\" ) | .id" )"
+	result="$(pw-dump Node | jq ".[] | select(.info.props.\"node.nick\" == \"${chosen_sink}\" ) | .id")"
 	if [ -n "$result" ]; then
 		echo "$result"
 		return
@@ -117,15 +108,15 @@ get_sink_id() {
 		icon_theme="$(get_icon_theme_name)"
 		icon="$(fd audio-volume-muted.svg "/usr/share/icons/$icon_theme" | rg 22 | xargs dirname | head -n 1)/dialog-warning.svg"
 
-		dunstify -u normal -t 5000 -i "$icon" -u normal -r 2594 \
-			"Error" "sink $chosen_sink not found ..." \
-			-h 'string:x-canonical-private-synchronous:warning' \
-			-h 'string:bgcolor:#ff4500'
+		notify-send -u normal -t 5000 -i "$icon" "Error: sink $chosen_sink not found" \
+			-h string:x-canonical-private-synchronous:warning \
+			-h string:bgcolor:#ff4500
+
 		exit 1
 	fi
 }
 
-get_sink_names(){
+get_sink_names() {
 	sink_names=$(pw-dump Node | jq '.[] | select(.info.props."media.class" == "Audio/Sink") | .info.props."node.nick"' | tr -d '"') ## example output "adas" "asdad" "asdasdsdd"
 	echo "${sink_names[@]}"
 }
@@ -135,8 +126,7 @@ switch_audio_sink() {
 	local chosen_sink
 	local chosen_sink_id
 
-	# chosen_sink="$(pactl list sinks | awk '/Description:/ {print $2}' | rofi -dmenu -p "Switch audio sink:")"
-	chosen_sink="$(get_sink_names | rofi -dmenu -p 'switch audio sink: ')"
+	chosen_sink="$(get_sink_names | wofi -d -p 'switch audio sink: ')"
 
 	if [[ -n "$chosen_sink" ]]; then
 
@@ -149,7 +139,25 @@ switch_audio_sink() {
 	fi
 }
 
-# Show a notification with the current volume level and audio sink
+show_notification_warning() {
+	local icon
+	local icon_theme
+	icon_theme="$(get_icon_theme_name)"
+	icon="$(fd audio-volume-muted.svg "/usr/share/icons/$icon_theme" | rg 22 | xargs dirname | head -n 1)/dialog-warning.svg"
+	notify-send -u normal -t 5000 -i "$icon" "Warning: $1" \
+		-h string:x-canonical-private-synchronous:warning \
+		-h string:bgcolor:#ff4500
+}
+
+show_notification_error() {
+	local icon
+	local icon_theme
+	icon_theme="$(get_icon_theme_name)"
+	icon="$(fd audio-volume-muted.svg "/usr/share/icons/$icon_theme" | rg 22 | xargs dirname | head -n 1)/dialog-error.svg"
+	notify-send -u normal -t 5000 -i "$icon" "Error: $1" \
+		-h string:x-canonical-private-synchronous:error \
+		-h string:bgcolor:#ff4500
+}
 
 show_notification() {
 	local volume
@@ -168,7 +176,7 @@ show_notification() {
 		summary+=" (Muted)"
 	fi
 
-	dunstify -a volume -i "$icon" -u normal -r 2593  "$summary" "$body" -h 'string:bgcolor:#F0C808' # uses yellow background
+	notify-send -i "$icon" "Volume" "$summary\n$body"
 }
 
 open_qpwgraph() {
@@ -179,50 +187,39 @@ open_qpwgraph() {
 		icon_theme="$(get_icon_theme_name)"
 		icon="$(fd audio-volume-muted.svg "/usr/share/icons/$icon_theme" | rg 22 | xargs dirname | head -n 1)/dialog-warning.svg"
 
-		dunstify -u normal -t 5000 -i "$icon" -u normal -r 2594 \
-			"Warning" "qpwgraph not found in PATH. Exiting..." \
-			-h 'string:x-canonical-private-synchronous:warning' \
-			-h 'string:bgcolor:#ff4500'
+		notify-send -u normal -t 5000 -i "$icon" \
+			"Warning: qpwgraph not found in PATH. Exiting..." \
+			-h string:x-canonical-private-synchronous:warning \
+			-h string:bgcolor:#ff4500
 		exit 1
 	fi
-	setsid qpwgraph &> /dev/null
+	setsid qpwgraph &>/dev/null
 }
 
-show_menu() {
+submenu_raise_volume() {
+	percentage="$(echo -e "5%\n10%\n15%" | wofi -d -p "raise volume by")"
+	if [[ -n $percentage ]]; then
+		raise_volume "$percentage"
+	fi
+}
 
-	options=(
-		"<span font='FontAwesome'></span> raise volume"
-		"<span font='FontAwesome'></span> lower volume"
-		"<span font='FontAwesome'></span> toggle mute"
-		"<span font='FontAwesome'>⤳</span> switch audio sink"
-		"<span font='FontAwesome'>⚙</span> open qpwgraph"
-	)
-
-	selected="$(printf '%s\n' "${options[@]}" | rofi -dmenu -markup-rows -i -p "select an option")"
-	case $selected in
-	"<span font='FontAwesome'></span> raise volume")
-		percentage="$(echo -e "5%\n10%\n15%" | rofi -dmenu -p "raise volume by")"
-		if [[ -n $percentage ]]; then
-			raise_volume "$percentage"
-		fi
-		;;
-	"<span font='FontAwesome'></span> lower volume")
-		percentage=$(echo -e "5%\n10%\n15%" | rofi -dmenu -p "lower volume by")
-		if [[ -n $percentage ]]; then
-			lower_volume "$percentage"
-		fi
-		;;
-	"<span font='FontAwesome'></span> toggle mute")
-		toggle_mute_volume
-		;;
-	"<span font='FontAwesome'>⤳</span> switch audio sink")
-		switch_audio_sink
-		;;
-	"<span font='FontAwesome'>⚙</span> open qpwgraph")
-		open_qpwgraph
-		;;
-	esac
+submenu_lower_volume() {
+	percentage=$(echo -e "5%\n10%\n15%" | wofi -d -p "lower volume by")
+	if [[ -n $percentage ]]; then
+		lower_volume "$percentage"
+	fi
 }
 
 # Show menu
-show_menu
+
+case "$1" in
+"raise") raise_volume "$2" ;;
+"lower") lower_volume "$2" ;;
+"toggle") toggle_mute_volume ;;
+"switch") switch_audio_sink ;;
+"show") show_notification ;;
+"qpwgraph") open_qpwgraph ;;
+"raise-submenu") submenu_raise_volume ;;
+"lower-submenu") submenu_lower_volume ;;
+*) echo "Invalid option" ;;
+esac
