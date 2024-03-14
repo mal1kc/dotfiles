@@ -142,15 +142,13 @@
        :desc "Winner redo" "<right>" #'winner-redo
        :desc "Winner undo" "<left>" #'winner-undo))
 
-(setq +format-on-save-enabled-modes
-      '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
-                sql-mode         ; sqlformat is currently broken
-                tex-mode         ; latexindent is broken
-                latex-mode))
-
-(add-hook 'python-mode-hook #'format-all-mode)
-(add-hook 'js2-mode-hook #'format-all-mode)
-(add-hook 'c++-mode-hook #'format-all-mode)
+(use-package! format-all
+  :commands format-all-mode
+  :hook (prog-mode . format-all-mode)
+  :config
+  (setq-default format-all-formatters
+                '(("C"     (astyle "--mode=c"))
+                  ("Shell" (shfmt "-i" "4" "-ci")))))
 
 ;; Enable ccls for all c++ files, and platformio-mode only
 ;; when needed (platformio.ini present in project root).
@@ -196,12 +194,15 @@
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
   ;; :hook (prog-mode . copilot-mode)
+  ;; complete with enter and tab
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)
-              ))
+                  ("<return>" . 'copilot-accept-completion-by-line)
+                  ("<tab>" . 'copilot-accept-completion)
+                  ("TAB" . 'copilot-accept-completion)
+                  ("C-TAB" . 'copilot-accept-completion-by-word)
+                  ("C-<tab>" . 'copilot-accept-completion-by-word)
+                  ))
+
 (map! :mode copilot-mode "C-<return>" #'copilot-accept-completion-by-line)
 (map! :mode copilot-mode "<tab>" #'copilot-accept-completion)
 (map! :mode copilot-mode "TAB" #'copilot-accept-completion)
@@ -268,14 +269,9 @@
                :desc "install doc" "i" #'devdocs-install
 ))
 
-(add-hook 'csharp-mode-hook
-  #'format-all-mode
- )
+(add-hook 'csharp-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (copilot-mode)
+                ))
 
-(add-hook 'csharp-mode-hook
-  #'lsp-mode
- )
-
-(add-hook 'csharp-mode-hook
-  #'copilot-mode
- )
+(add-hook 'csharp-mode-hook #'format-all-mode)

@@ -12,6 +12,20 @@
 /* URxvt.iso14755: false */
 /* URxvt.font: xft:Iosevka:size=20 */
 
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.autohint: 0
+Xft.hintstyle: hintslight
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+
+*.font: Iosevka:style:medium:pixelsize=16
+
 Nsxiv.*.background: #000000
 Nsxiv.*.foreground: #ffffff
-Nsxiv.*.font: xft:Iosevka:size=20
+
+st.borderpx: 2
+
+st.alpha: 0.9
+
+st.font: Iosevka:style:medium:pixelsize=13

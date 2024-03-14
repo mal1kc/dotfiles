@@ -1,0 +1,24 @@
+# Ignore case when completing file names
+set completion-ignore-case on 
+
+# Treat hyphens as part of a word
+set completion-map-case on
+
+# Show all possible completions at first tab
+set show-all-if-ambiguous on
+
+# Show all possible completions at second tab
+set mark-symlinked-directories on
+
+# Show all possible at third tab
+set page-completions off
+
+set colored-stats on
+set colored-completion-prefix on
+set visible-stats on
+set skip-completed-text on
+
+set input-meta on
+set output-meta on
+set convert-meta off
+set bell-style visible

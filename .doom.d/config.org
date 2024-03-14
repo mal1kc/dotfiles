@@ -48,8 +48,6 @@ this is my personal doom emacs config. [[https://github.com/doomemacs/][doomemac
 
 #+end_src
 
-#+RESULTS:
-| doom--customize-themes-h-229 | doom--customize-themes-h-230 |
 
 * beacon
 when we scroll, our cursor will shine! this is a global minor-mode. Turn it on everywhere with:
@@ -57,8 +55,6 @@ when we scroll, our cursor will shine! this is a global minor-mode. Turn it on e
 #+begin_src emacs-lisp
 (beacon-mode 1)
 #+end_src
-
-#+RESULTS:
 
 ** global auto revert
 
@@ -68,9 +64,6 @@ a buffer can get out of sync  with respect to its visited fie on disk that file 
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 #+end_src
-
-#+RESULTS:
-: t
 
 
 * dired
@@ -164,8 +157,6 @@ dired is the file manager within emacs. below, i setup keybindings for image pre
                               ("mp4" . "mpv")))
 #+end_src
 
-#+RESULTS:
-: ((gif . nsxiv) (jpg . nsxiv) (png . nsxiv) (mkv . mpv) (mp4 . mpv))
 
 ** Keybindings Within Dired With Peep-Dired-Mode Enabled
 if peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
@@ -183,8 +174,6 @@ if peep-dired is enabled, you will get image previews as you go up/down with 'j'
 (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 #+END_SRC
 
-#+RESULTS:
-| evil-normalize-keymaps |
 
 ** Making deleted files go to trash can
 #+begin_src emacs-lisp
@@ -192,8 +181,6 @@ if peep-dired is enabled, you will get image previews as you go up/down with 'j'
       trash-directory "~/.local/share/Trash/files/")
 #+end_src
 
-#+RESULTS:
-: ~/.local/share/Trash/files/
 
 
 * EVALUATE ELISP EXPRESSIONS
@@ -216,8 +203,6 @@ if peep-dired is enabled, you will get image previews as you go up/down with 'j'
        :desc "Evaluate elisp in region" "r" #'eval-region))
 #+END_SRC
 
-#+RESULTS:
-: eval-region
 
 * mouse support
 
@@ -225,8 +210,6 @@ if peep-dired is enabled, you will get image previews as you go up/down with 'j'
 (xterm-mouse-mode 1)
 #+end_src
 
-#+RESULTS:
-: t
 
 * word-checking
 
@@ -271,8 +254,6 @@ if peep-dired is enabled, you will get image previews as you go up/down with 'j'
              "CANCELLED(c)" )))) ; Task has been cancelled
 #+end_src
 
-#+RESULTS:
-| sequence | TODO(t) | BLOG(b) | PROJ(p) | WAIT(w) |   |   | DONE(d) | CANCELLED(c) |
 
 ** Org-auto-tangle
 =org-auto-tangle= allows you to add the option =#+auto_tangle: t= in your Org file so that it automatically tangles when you save the document.
@@ -286,9 +267,6 @@ if peep-dired is enabled, you will get image previews as you go up/down with 'j'
 
 #+end_src
 
-#+RESULTS:
-| org-auto-tangle-mode | (closure ((hook . org-mode-hook) (--dolist-tail--) t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | (closure ((hook . org-mode-hook) (--dolist-tail--) t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | (closure ((hook . org-mode-hook) (--dolist-tail--) t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | er/add-org-mode-expansions | +lookup--init-org-mode-handlers-h | (closure ((hook . org-mode-hook) (--dolist-tail--) t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | (closure ((hook . org-mode-hook) (--dolist-tail--) t) nil (flyspell-mode 1)) | doom-disable-show-paren-mode-h | doom-disable-show-trailing-whitespace-h | +org-enable-auto-reformat-tables-h | +org-enable-auto-update-cookies-h | +org-make-last-point-visible-h | org-fancy-priorities-mode | org-superstar-mode | evil-org-mode | toc-org-enable | writegood-mode | flyspell-mode | embrace-org-mode-hook | org-eldoc-load |
-
 * RAINBOW MODE
 rainbox mode displays the actual color for any hex value color.regardless of what mode I am in.  The following creates a global minor mode for rainbow-mode and enables it.
 
@@ -298,8 +276,6 @@ rainbox mode displays the actual color for any hex value color.regardless of wha
 (global-rainbow-mode 1 )
 #+end_src
 
-#+RESULTS:
-: t
 
 * WINNER MODE
 Winner mode has been included with GNU Emacs since version 20.  This is a global minor mode and, when activated, it allows you to “undo” (and “redo”) changes in the window configuration with the key commands 'SCP w <left>' and 'SPC w <right>'.
@@ -311,28 +287,20 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
        :desc "Winner undo" "<left>" #'winner-undo))
 #+END_SRC
 
-#+RESULTS:
-: winner-undo
 
 * format on save
 
 #+begin_src emacs-lisp
-
-
-(setq +format-on-save-enabled-modes
-      '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
-                sql-mode         ; sqlformat is currently broken
-                tex-mode         ; latexindent is broken
-                latex-mode))
-
-(add-hook 'python-mode-hook #'format-all-mode)
-(add-hook 'js2-mode-hook #'format-all-mode)
-(add-hook 'c++-mode-hook #'format-all-mode)
+(use-package! format-all
+  :commands format-all-mode
+  :hook (prog-mode . format-all-mode)
+  :config
+  (setq-default format-all-formatters
+                '(("C"     (astyle "--mode=c"))
+                  ("Shell" (shfmt "-i" "4" "-ci")))))
 
 #+end_src
 
-#+RESULTS:
-| (closure (t) nil (lsp-deferred) (platformio-conditionally-enable)) | format-all-mode | modern-c++-font-lock-mode | +cc-fontify-constants-h | +evil-embrace-angle-bracket-modes-hook-h |
 
 * platformio: config
 
@@ -371,7 +339,6 @@ Winner mode has been included with GNU Emacs since version 20.  This is a global
 
 #+end_src
 
-#+RESULTS:
 
 * magit: config
 add files to git repository with force(-f) tag
@@ -383,8 +350,6 @@ add files to git repository with force(-f) tag
                (shell-quote-argument buffer-file-name))))
 #+end_src
 
-#+RESULTS:
-: magit-add-current-buffer
 
 * flyspell: auto enable on specified text modes
 activate flyspell mode when loading some text modes
@@ -395,25 +360,26 @@ activate flyspell mode when loading some text modes
   ))
 #+end_src
 
-#+RESULTS:
 
 * copilot.el
 #+begin_src emacs-lisp
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
   ;; :hook (prog-mode . copilot-mode)
+  ;; complete with enter and tab
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)
-              ))
+                  ("<return>" . 'copilot-accept-completion-by-line)
+                  ("<tab>" . 'copilot-accept-completion)
+                  ("TAB" . 'copilot-accept-completion)
+                  ("C-TAB" . 'copilot-accept-completion-by-word)
+                  ("C-<tab>" . 'copilot-accept-completion-by-word)
+                  ))
+
 (map! :mode copilot-mode "C-<return>" #'copilot-accept-completion-by-line)
 (map! :mode copilot-mode "<tab>" #'copilot-accept-completion)
 (map! :mode copilot-mode "TAB" #'copilot-accept-completion)
 #+end_src
 
-#+RESULTS:
 
 * docker
 
@@ -469,7 +435,6 @@ activate flyspell mode when loading some text modes
 ;; (map! :g "ğ" #'mc/mark-all-like-this-dwim)
 #+end_src
 
-#+RESULTS:
 
 * python specific
 
@@ -514,17 +479,13 @@ activate flyspell mode when loading some text modes
 #+end_src
 * dotnet specicifc
 
+enable lsp-mode ,copilot ,format-all-mode and company-mode for csharp-mode
+
 #+begin_src emacs-lisp
-(add-hook 'csharp-mode-hook
-  #'format-all-mode
- )
+(add-hook 'csharp-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (copilot-mode)
+                ))
 
-(add-hook 'csharp-mode-hook
-  #'lsp-mode
- )
-
-(add-hook 'csharp-mode-hook
-  #'copilot-mode
- )
-
+(add-hook 'csharp-mode-hook #'format-all-mode)
 #+end_src

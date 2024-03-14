@@ -130,7 +130,7 @@
         "format-icons": {
             "default": ["", "", ""]
         },
-        "on-click": "~/.local/bin/rofi_audio.sh"
+        "on-click": "$HOME/.local/bin/wofi_json.py audio"
     },
      "mpris":{
          "player":"playerctld",
