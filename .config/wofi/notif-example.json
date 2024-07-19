@@ -1,0 +1,37 @@
+{
+  "options": [
+    {
+      "name": "Option 1",
+      "command": "notify-send 'Option 1' 'This is Option 1'",
+      "calculated_var": "echo 'Dynamic Var for Option 1'"
+    },
+    {
+      "name": "Option 2",
+      "command": "notify-send 'Option 2' 'This is Option 2'",
+      "calculated_var": "echo 'Dynamic Var for Option 2'"
+    },
+    {
+      "name": "Option 3",
+      "dynamic_submenu": true,
+      "dynamic_command": "echo -e 'Suboption 1\nSuboption 2\nSuboption 3'",
+      "dynamic_submenu_command": "notify-send 'Dynamic Submenu Selected: {dynamic_submenu_selected_option}'"
+    },
+    {
+      "name": "Option 4",
+      "submenu": [
+        {
+          "name": "Suboption 1",
+          "command": "notify-send 'Suboption 1' 'This is Suboption 1'"
+        },
+        {
+          "name": "Suboption 2",
+          "command": "notify-send 'Suboption 2' 'This is Suboption 2'"
+        },
+        {
+          "name": "Suboption 3",
+          "command": "notify-send 'Suboption 3' 'This is Suboption 3'"
+        }
+      ]
+    }
+  ]
+}

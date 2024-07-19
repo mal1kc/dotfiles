@@ -1,0 +1,19 @@
+{
+  "globals": {
+    "script": "~/dotfiles/.config/wofi/scripts/network.sh"
+  },
+  "options": [
+    {
+      "name": "<span font='Hack Nerd Font'> 🛜 </span> wifi toggle",
+      "command": "wifi-toggle"
+    },
+    {
+      "name": "<span font='Hack Nerd Font'> 📜 </span> wifi list",
+      "command": "wifi-list"
+    },
+    {
+      "name": "<span font='Hack Nerd Font'> ⚙️ </span> open network manager window",
+      "command": "open-nm"
+    }
+  ]
+}

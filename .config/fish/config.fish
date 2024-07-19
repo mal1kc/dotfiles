@@ -9,9 +9,16 @@ set -l nix_shell_info (
   end
 )
 
+
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)
     echo the time is (set_color yellow; date +%T; set_color normal)
+    if string match --ignore-case --quiet "$TERM" foot
+        set TERM screen-256color # for tmux to work properly
+        if test -f ~/.cache/wal/sequences
+            cat ~/.cache/wal/sequences
+        end
+    end
 end
 
 function fish_prompt --description 'Write out the prompt'
@@ -75,6 +82,3 @@ function fish_prompt --description 'Write out the prompt'
 
     echo -n "$suffix "
 end
-
-zoxide init fish | source
-pyenv init - | source

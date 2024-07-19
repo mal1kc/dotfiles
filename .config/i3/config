@@ -199,8 +199,8 @@ bindsym XF86AudioMute              exec --no-startup-id  $toggle_vol
 bindsym XF86AudioLowerVolume       exec --no-startup-id  $down_vol
 bindsym XF86AudioRaiseVolume       exec --no-startup-id  $up_vol
 
-bindsym XF86MonBrightnessUp      exec --no-startup-id  light -A 5
-bindsym XF86MonBrightnessDown       exec --no-startup-id  light -U 5
+bindsym XF86MonBrightnessUp      exec --no-startup-id  xbacklight -inc 5
+bindsym XF86MonBrightnessDown       exec --no-startup-id  xbacklight -dec 5
 
 # screenshot with maim
 

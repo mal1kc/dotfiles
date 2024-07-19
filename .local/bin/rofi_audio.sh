@@ -103,10 +103,9 @@ get_sink_id() {
 	# done
 	#
 
-
 	local chosen_sink=$1
 	local result
-	result="$(pw-dump Node |  jq ".[] | select(.info.props.\"node.nick\" == \"${chosen_sink}\" ) | .id" )"
+	result="$(pw-dump Node | jq ".[] | select(.info.props.\"node.nick\" == \"${chosen_sink}\" ) | .id")"
 	if [ -n "$result" ]; then
 		echo "$result"
 		return
@@ -125,7 +124,7 @@ get_sink_id() {
 	fi
 }
 
-get_sink_names(){
+get_sink_names() {
 	sink_names=$(pw-dump Node | jq '.[] | select(.info.props."media.class" == "Audio/Sink") | .info.props."node.nick"' | tr -d '"') ## example output "adas" "asdad" "asdasdsdd"
 	echo "${sink_names[@]}"
 }
@@ -168,7 +167,7 @@ show_notification() {
 		summary+=" (Muted)"
 	fi
 
-	dunstify -a volume -i "$icon" -u normal -r 2593  "$summary" "$body" -h 'string:bgcolor:#F0C808' # uses yellow background
+	dunstify -a volume -i "$icon" -u normal -r 2593 "$summary" "$body" -h 'string:bgcolor:#F0C808' # uses yellow background
 }
 
 open_qpwgraph() {
@@ -185,7 +184,7 @@ open_qpwgraph() {
 			-h 'string:bgcolor:#ff4500'
 		exit 1
 	fi
-	setsid qpwgraph &> /dev/null
+	setsid qpwgraph &>/dev/null
 }
 
 show_menu() {

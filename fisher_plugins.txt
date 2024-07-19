@@ -1,6 +1,0 @@
-jorgebucaran/fisher
-andreiborisov/sponge
-jorgebucaran/autopair.fish
-acomagu/fish-async-prompt
-lilyball/nix-env.fish
-patrickf1/fzf.fish

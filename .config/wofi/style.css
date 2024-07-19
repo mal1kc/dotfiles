@@ -1,0 +1,84 @@
+@import url("/home/mal1kc/.cache/wal/colors-custom-gtk3.css");
+* {
+  font-family: "Iosevka";
+  border: none;
+  outline: none;
+}
+
+#window {
+  /* margin: 5px; */
+  background-color: transparent;
+  /* border: 3px dotted red; */
+}
+
+#entry {
+  border: none;
+  color: @foreground;
+  /*overflow:hidden;*/
+  /*border: 3px solid red;*/
+  /*overflow-wrap: break-word;*/
+}
+
+#entry:selected {
+}
+
+#input {
+  margin: 5px;
+  /* margin-left: 350px; */
+  /* margin-right: 350px; */
+  border-radius: 2px;
+  padding: 10px;
+  border: 2px @color5Alpha;
+  color: @foreground;
+  background-color: @backgroundAlpha;
+}
+
+#scroll {
+  /* margin: 5px; */
+  background-color: @backgroundAlpha;
+  border-radius: 2px;
+  font-size: 1.25em;
+  padding: 10px;
+  border: 2px solid @color13Alpha;
+  /*overflow:hidden;*/
+  /*border: 1px solid rgba(246, 246, 239, 0.85);*/
+  box-shadow: 0 8px 6px -6px @color4Alpha;
+  /*border: 3px dotted yellow;*/
+  /*overflow-wrap: break-word;*/
+  /* padding-right: 100px; */
+}
+
+#outer-box {
+  margin: 5px;
+  border: none;
+  /*border: 3px solid green;*/
+}
+
+#inner-box {
+  /*margin: 5px;*/
+  padding: 5px;
+  border: none;
+  /*border: 6px dotted purple;*/
+}
+
+#text {
+  /*margin: 5px;*/
+  padding: 5px;
+  /*color: #1a1a1a; */
+  border: none;
+  /*border: 3px solid white;*/
+}
+
+#entry:selected {
+  background: linear-gradient(135deg, @color1, @color5);
+  /* background-color: transparent; */
+  /* color: @foregroundAlpha; */
+  /* font-weight: 600; */
+  /*border: 3px solid red;*/
+  /*word-wrap: break-word;*/
+} 
+
+image {
+  margin-left: .25em;
+  margin-right: .25em;
+}

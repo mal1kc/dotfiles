@@ -1,0 +1,26 @@
+{
+  "options": [
+    {
+      "name": " logout",
+      "command": "python ~/.local/bin/confirm_dialog.py 'do you want logout' && notify-send 'Logging out'  &&  loginctl terminate-session {calculated_var}",
+      "calculated_var": "echo '${XDG_SESSION_ID}'"
+    },
+    {
+      "name": " reboot",
+      "command": "python ~/.local/bin/confirm_dialog.py 'do you want reboot' && notify-send 'Rebooting' && sleep 2 && systemctl reboot"
+    },
+    {
+      "name": "󰐥 poweroff",
+      "command": "python ~/.local/bin/confirm_dialog.py 'do you want poweroff' && notify-send 'Powering off' && sleep 1 && systemctl poweroff"
+    },
+    {
+      "name": "⏾ suspend",
+      "command": "notify-send 'Suspending' && sleep 1 && systemctl suspend"
+    },
+    {
+      "name": " lock",
+      "command": "{calculated_var}/.config/hypr/scripts/lock",
+      "calculated_var": "echo $HOME"
+    }
+  ]
+}

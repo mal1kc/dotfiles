@@ -5,7 +5,7 @@
     border: none;
     border-radius: 0px;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 window#waybar {
@@ -94,7 +94,8 @@ workspaces button {
 }
 
 #clock {
-    color: @maroon;
+    color: @crust;
+    background-color: @sapphire;
     border-radius: 0px 5px 5px 0px;
 }
 
@@ -122,9 +123,7 @@ workspaces button {
     margin-right: 0px;
 }
 
-#clock {
-    background-color: #64727D;
-}
+
 
 #battery {
   color: #1B1D2B;
@@ -182,8 +181,24 @@ label:focus {
     border-radius: 0px 5px 5px 0px;
 }
 
-#backlight {
-    background-color: #90b1b1;
+#backlight-slider slider {
+    min-height: 0px;
+    min-width: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+#backlight-slider trough {
+    min-height: 0.5px;
+    min-width: 50px;
+    border-radius: 5px;
+    background-color: @color0;
+}
+#backlight-slider highlight {
+    min-width: 0px;
+    border-radius: 5px;
+    background-color: white;
 }
 
 #network {
@@ -245,8 +260,8 @@ label:focus {
 
 #mpris {
 	background-color: @crust;
-    color: #bebebe;
+  color: #bebebe;
 	padding: 0px 5px;
-    border-radius: 5px;
+  border-radius: 5px;
 	margin: 5px 0px;
 }

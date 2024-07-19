@@ -27,7 +27,7 @@ all program version are latest (what available on arch packages)
 * browser: librewolf,ungoogled-chromium (sites that doesn't work in librewolf)
 * image viewer: nsxiv, kitty icat,
 * pdf viewer: zathura
-* launcher: [rofi wayland fork](https://github.com/lbonn/rofi)
+* launcher: [wofi](https://sr.ht/~scoopta/wofi/) / [rofi wayland fork](https://github.com/lbonn/rofi) (x11 stuff)
 
 *  [all program list](./program_list.txt)
 *  [nix program list](./nix_program_list.txt)

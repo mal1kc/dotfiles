@@ -1,0 +1,27 @@
+{
+  "globals": {
+    "script": "~/dotfiles/.config/wofi/scripts/audio.sh"
+  },
+  "options": [
+    {
+      "name": "<span font='Hack Nerd Font'></span> raise volume",
+      "command": "raise-submenu"
+    },
+    {
+      "name": "<span font='Hack Nerd Font'></span> lower volume",
+      "command": "lower-submenu"
+    },
+    {
+      "name": "<span font='Hack Nerd Font'></span> toggle mute",
+      "command": "toggle"
+    },
+    {
+      "name": "<span font='Hack Nerd Font'>⤳</span> switch audio sink",
+      "command": "switch"
+    },
+    {
+      "name": "<span font='Hack Nerd Font'>⚙</span> open qpwgraph",
+      "command": "qpwgraph"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+@define-color background rgb({{background | red }},{{ background | green }},{{ background | blue}});
+@define-color backgroundAlpha rgba({{background | red }},{{ background | green }},{{ background | blue}},0.5);
+
+@define-color foreground rgb({{foreground | red }},{{ foreground | green }},{{ foreground | blue}});
+@define-color foregroundAlpha rgba({{foreground | red }},{{ foreground | green }},{{ foreground | blue}},0.5);
+
+
+@define-color color0 rgb({{color0 | red }},{{ color0 | green }},{{ color0 | blue}});
+@define-color color0Alpha rgba({{color0 | red }},{{ color0 | green }},{{ color0 | blue}},0.5);
+
+@define-color color1 rgb({{color1 | red }},{{ color1 | green }},{{ color1 | blue}});
+@define-color color1Alpha rgba({{color1 | red }},{{ color1 | green }},{{ color1 | blue}},0.5);
+
+@define-color color2 rgb({{color2 | red }},{{ color2 | green }},{{ color2 | blue}});
+@define-color color2Alpha rgba({{color2 | red }},{{ color2 | green }},{{ color2 | blue}},0.5);
+
+@define-color color3 rgb({{color3 | red }},{{ color3 | green }},{{ color3 | blue}});
+@define-color color3Alpha rgba({{color3 | red }},{{ color3 | green }},{{ color3 | blue}},0.5);
+
+@define-color color4 rgb({{color4 | red }},{{ color4 | green }},{{ color4 | blue}});
+@define-color color4Alpha rgba({{color4 | red }},{{ color4 | green }},{{ color4 | blue}},0.5);
+
+@define-color color5 rgb({{color5 | red }},{{ color5 | green }},{{ color5 | blue}});
+@define-color color5Alpha rgba({{color5 | red }},{{ color5 | green }},{{ color5 | blue}},0.5);
+
+@define-color color6 rgb({{color6 | red }},{{ color6 | green }},{{ color6 | blue}});
+@define-color color6Alpha rgba({{color6 | red }},{{ color6 | green }},{{ color6 | blue}},0.5);
+
+@define-color color7 rgb({{color7 | red }},{{ color7 | green }},{{ color7 | blue}});
+@define-color color7Alpha rgba({{color7 | red }},{{ color7 | green }},{{ color7 | blue}},0.5);
+
+@define-color color8 rgb({{color8 | red }},{{ color8 | green }},{{ color8 | blue}});
+@define-color color8Alpha rgba({{color8 | red }},{{ color8 | green }},{{ color8 | blue}},0.5);
+
+@define-color color9 rgb({{color9 | red }},{{ color9 | green }},{{ color9 | blue}});
+@define-color color9Alpha rgba({{color9 | red }},{{ color9 | green }},{{ color9 | blue}},0.5);
+
+@define-color color10 rgb({{color10 | red }},{{ color10 | green }},{{ color10 | blue}});
+@define-color color10Alpha rgba({{color10 | red }},{{ color10 | green }},{{ color10 | blue}},0.5);
+
+@define-color color11 rgb({{color11 | red }},{{ color11 | green }},{{ color11 | blue}});
+@define-color color11Alpha rgba({{color11 | red }},{{ color11 | green }},{{ color11 | blue}},0.5);
+
+@define-color color12 rgb({{color12 | red }},{{ color12 | green }},{{ color12 | blue}});
+@define-color color12Alpha rgba({{color12 | red }},{{ color12 | green }},{{ color12 | blue}},0.5);
+
+@define-color color13 rgb({{color13 | red }},{{ color13 | green }},{{ color13 | blue}});
+@define-color color13Alpha rgba({{color13 | red }},{{ color13 | green }},{{ color13 | blue}},0.5);
+
+@define-color color14 rgb({{color14 | red }},{{ color14 | green }},{{ color14 | blue}});
+@define-color color14Alpha rgba({{color14 | red }},{{ color14 | green }},{{ color14 | blue}},0.5);
+
+@define-color color15 rgb({{color15 | red }},{{ color15 | green }},{{ color15 | blue}});
+@define-color color15Alpha rgba({{color15 | red }},{{ color15 | green }},{{ color15 | blue}},0.5);

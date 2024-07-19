@@ -1,0 +1,152 @@
+acpi # Client for battery, power, and thermal readings
+acpid # A daemon for delivering ACPI power management events with netlink support
+acpilight # a backward-compatible xbacklight replacement based on ACPI
+amd-ucode # Microcode update image for AMD CPUs
+android-file-transfer # Android MTP client with minimalistic UI
+android-tools # Android platform tools
+arc-gtk-theme # A flat theme with transparent elements for GTK 2,3,4 and Gnome-Shell
+arch-wiki-lite # Arch Wiki without HTML. 1/9 as big, easily searched & viewable on console
+archiso # Tools for creating Arch Linux live and install iso images
+arduino-cli # Arduino command line interface
+ark # Archiving Tool
+aspell-en # English dictionary for aspell
+atftp # Client/server implementation of the TFTP protocol that implements RFCs 1350, 2090, 2347, 2348, and 2349
+axel # Light command line download accelerator
+base # Minimal package set to define a basic Arch Linux installation
+base-devel # Basic tools to build Arch Linux packages
+bat # Cat clone with syntax highlighting and git integration
+bc # An arbitrary precision calculator language
+bluez-utils # Development and debugging utilities for the bluetooth protocol stack
+bmon # Portable bandwidth monitor and rate estimator
+btop # A monitor of system resources, bpytop ported to C++
+cmus # Feature-rich ncurses-based music player
+cups-pdf # PDF printer for cups
+curlie # The power of curl, the ease of use of httpie.
+dash # POSIX compliant shell that aims to be as small as possible
+dex # Program to generate and execute DesktopEntry files of type Application
+diff-so-fancy # Good-looking diffs with diff-highlight and more
+dunst # Customizable and lightweight notification-daemon
+emacs-nativecomp # The extensible, customizable, self-documenting real-time display editor with native compilation enabled
+evtest # Input device event monitor and query tool
+expac # alpm data (pacman database) extraction utility
+fastfetch # Like Neofetch, but much faster because written in C
+fd # Simple, fast and user-friendly alternative to find
+flatpak # Linux application sandboxing and distribution framework (formerly xdg-app)
+foot # Fast, lightweight, and minimalistic Wayland terminal emulator
+fuseiso # FUSE module to mount ISO filesystem images
+fwupd # Simple daemon to allow session software to update firmware
+gamemode # A daemon/lib combo that allows games to request a set of optimisations be temporarily applied to the host OS
+git-crypt # Transparent file encryption in Git
+git-filter-repo # Quickly rewrite git repository history (filter-branch replacement)
+git-lfs # Git extension for versioning large files
+glow # Command-line markdown renderer
+go # Core compiler tools for the Go programming language
+grim # Screenshot utility for Wayland
+gstreamer-vaapi # Multimedia graph framework - vaapi plugin
+guvcview # Simple GTK+ interface for capturing and viewing video from v4l2 devices
+hdparm # A shell utility for manipulating Linux IDE drive/driver parameters
+hplip # Drivers for HP DeskJet, OfficeJet, Photosmart, Business Inkjet and some LaserJet
+hypridle # hyprland’s idle daemon
+hyprland # a highly customizable dynamic tiling Wayland compositor
+hyprlock # hyprland’s GPU-accelerated screen locking utility
+i3-wm # Improved dynamic tiling window manager
+i3status-rust # Resourcefriendly and feature-rich replacement for i3status, written in pure Rust
+inxi # Full featured CLI system information tool
+iperf # A tool to measure maximum TCP bandwidth
+iw # nl80211 based CLI configuration utility for wireless devices
+jq # Command-line JSON processor
+kdiskmark # HDD and SSD benchmark tool with a very friendly graphical user interface
+kitty # A modern, hackable, featureful, OpenGL-based terminal emulator
+kmon # Linux kernel manager and activity monitor
+ksystemlog # System log viewer tool
+libc++ # LLVM C++ standard library.
+libguestfs # Access and modify virtual machine disk images
+libinput-gestures # Actions gestures on your touchpad using libinput
+librewolf-bin # Community-maintained fork of Firefox, focused on privacy, security and freedom.
+libusb-compat # Library to enable user space application programs to communicate with USB devices
+linux-zen # The Linux ZEN kernel and modules
+lsd # Modern ls with a lot of pretty colors and awesome icons
+lshw # A small tool to provide detailed information on the hardware configuration of the machine.
+lxappearance # Feature-rich GTK+ theme switcher of the LXDE Desktop
+maim # Utility to take a screenshot using imlib2
+man-db # A utility for reading man pages
+man-pages # Linux man pages
+mangohud # A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more.
+minicom # A serial communication program
+mpv # a free, open source, and cross-platform media player
+mypaint # Fast and easy painting application for digital painters, with brush dynamics
+ncdu # Disk usage analyzer with an ncurses interface
+neovide # No Nonsense Neovim Client in Rust
+network-manager-applet # Applet for managing network connections
+networkmanager-openvpn # NetworkManager VPN plugin for OpenVPN
+nix # A purely functional package manager
+nmap # Utility for network discovery and security auditing
+nnn # The fastest terminal file manager ever written.
+nvidia-open-dkms # NVIDIA open kernel modules
+nvtop # GPUs process monitoring for AMD, Intel and NVIDIA
+obs-studio # Free, open source software for live streaming and recording
+papirus-icon-theme # Papirus icon theme
+partitionmanager # A KDE utility that allows you to manage disks, partitions, and file systems
+pcmanfm-gtk3 # Extremely fast and lightweight file manager (GTK+ 3 version)
+picom # A lightweight compositor for X11
+polkit-kde-agent # Daemon providing a polkit authentication UI for KDE
+powerstat # A tool for measuring a laptops power usage via the battery.
+powertop # A tool to diagnose issues with power consumption and power management
+progress # Shows running coreutils basic commands and displays stats
+pypy3 # A Python3 implementation written in Python, JIT enabled
+python-pywal # Generate and change colorschemes on the fly
+python-virtualenv # Virtual Python Environment builder
+qbittorrent # An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar
+qpwgraph # PipeWire Graph Qt GUI Interface
+qt5ct # Qt5 Configuration Utility
+reflector # A Python 3 module and script to retrieve and filter the latest Pacman mirror list.
+remmina # remote desktop client written in GTK+
+ripgrep # A search tool that combines the usability of ag with the raw speed of grep
+river # A dynamic tiling wayland compositor
+rpi-imager # Raspberry Pi Imaging Utility
+rye # An experimental alternative to poetry, pip, pipenv, venv, virtualenv, pdm, hatch
+screen # Full-screen window manager that multiplexes a physical terminal
+steam # Valve's digital software delivery system
+swayidle # Idle management daemon for Wayland
+swaylock # Screen locker for Wayland
+swww # A Solution to your Wayland Wallpaper Woes
+syncthing # Open Source Continuous Replication / Cluster Synchronization Thing
+task # Taskwarrior, a command-line todo list manager
+terminus-font # Monospace bitmap font (for X11 and console)
+testdisk # Checks and undeletes partitions + PhotoRec, signature based recovery tool
+the_silver_searcher # Code searching tool similar to Ack, but faster
+thunderbird # Standalone mail and news reader from mozilla.org
+tig # Text-mode interface for Git.
+timeshift # A system restore utility for Linux
+ttc-iosevka # Typeface family designed for coding, terminal use and technical documents.
+ttf-dejavu-nerd # Patched font Dejavu Sans Mono from nerd fonts library
+ttf-firacode-nerd # Patched font Fira (Fura) Code from nerd fonts library
+ttf-hack # A hand groomed and optically balanced typeface based on Bitstream Vera Mono.
+ttf-hack-nerd # Patched font Hack from nerd fonts library
+ttf-monoid # A customisable coding font
+ttf-sazanami # Japanese fonts
+ttf-terminus-nerd # Patched font Terminus (Terminess) from nerd fonts library
+ttf-victor-mono-nerd # Patched font Victor Mono from nerd fonts library
+turbostat # Report processor frequency and idle statistics
+udiskie # Removable disk automounter using udisks
+unicode-emoji # Unicode Emoji Data Files
+virt-manager # Desktop user interface for managing virtual machines
+virt-viewer # A lightweight interface for interacting with the graphical display of virtualized guest OS.
+waybar # Highly customizable Wayland bar for Sway and Wlroots based compositors
+wireless_tools # Tools allowing to manipulate the Wireless Extensions
+wlroots # Modular Wayland compositor library
+wlsunset # Day/night gamma adjustments for Wayland compositors
+woff-fira-code # Monospaced font with programming ligatures
+wol # Wake On LAN functionality in a small program. It wakes up hardware that is Magic Packet compliant
+xcompmgr # Composite window effect manager for X.org
+xf86-input-synaptics # Synaptics driver for notebook touchpads
+xkeycaps # A graphical front-end to xmodmap
+xorg-xev # Print contents of X events
+xorg-xinit # X.Org initialisation program
+xorg-xsetroot # Classic X utility to set your root window background to a given pattern or color
+xwallpaper # Wallpaper setting utility for X
+yay # Yet another yogurt. Pacman wrapper and AUR helper written in go.
+ydotool # Generic command-line automation tool (no X!)
+zig # a general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software
+zoxide # A smarter cd command for your terminal
+zram-generator # Systemd unit generator for zram devices
