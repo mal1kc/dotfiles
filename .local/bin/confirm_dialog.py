@@ -1,3 +1,4 @@
+#!/bin/env python3
 # Copyright (c) 2023 <copyright mal1kc(mal1kc [at] proton [dot] me, mal1kc@proton.me )>
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,8 +19,7 @@
 # SOFTWARE.
 #
 # dependecies is gtk4 and python bindings
-# 
-#!/bin/env python3
+#
 import sys
 import gi
 

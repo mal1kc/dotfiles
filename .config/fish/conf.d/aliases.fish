@@ -32,8 +32,6 @@ if not test -n "$aliases_initialized"
 
     alias g="git"
     alias gi="git"
-    alias gita="git add -A"
-    alias gdiff="git diff"
     alias v="nvim"
     alias vim="nvim"
 

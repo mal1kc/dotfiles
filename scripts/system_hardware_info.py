@@ -88,9 +88,10 @@ for partition in psutil.disk_partitions():
 
 # get I/O statistics since boot
 disk_io = psutil.disk_io_counters()
-print(" I/O statistics since boot:")
-print(f"  -> total read: {get_size(disk_io.read_bytes)}")
-print(f"  -> total write: {get_size(disk_io.write_bytes)}")
+if disk_io:
+    print(" I/O statistics since boot:")
+    print(f"  -> total read: {get_size(disk_io.read_bytes)}")
+    print(f"  -> total write: {get_size(disk_io.write_bytes)}")
 
 # network info
 print("=" * 19, "network information", "=" * 19)

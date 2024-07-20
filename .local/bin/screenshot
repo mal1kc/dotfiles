@@ -6,14 +6,14 @@
 log_file="$HOME/.screenshot.log"
 
 if [ -f "$log_file" ]; then
-	rm "$log_file"
+  rm "$log_file"
 fi
 
 screenshot_wl="$HOME/.local/bin/screenshot-wl"
 screenshot_x11="$HOME/.local/bin/screenshot-x11"
 
 if [ -n "$WAYLAND_DISPLAY" ]; then
-	$screenshot_wl "$@" 2>>"$log_file"
+  $screenshot_wl "$@" 2>>"$log_file"
 else
-	$screenshot_x11 "$@" 2>>"$log_file"
+  $screenshot_x11 "$@" 2>>"$log_file"
 fi

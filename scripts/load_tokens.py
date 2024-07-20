@@ -1,9 +1,10 @@
-#!/usr/bin/python
+#!/bin/env python3
+import os
 from typing import List
 import re
 
 
-def get_all_envs(env_file_path: str) -> dict[str:str]:
+def get_all_envs(env_file_path: str) -> dict[str, str]:
     pattern = re.compile("([\S]+=[\"'].+[\"']|[\S]+=[\S]+)")
     with open(env_file_path) as env_file:
         lines = env_file.read()
@@ -21,6 +22,6 @@ def get_env(env_name: str, env_file_path: str) -> str:
 
 
 if __name__ == "__main__":
-    # some tests
-    print(get_all_envs("~/scripts/.env"))
-    print(get_env("GHUB_TOKEN", ".env"))
+    env_file_path = os.getenv("HOME", "~") + "/scripts/.env"
+    print(get_all_envs(env_file_path))
+    print(get_env("GHUB_TOKEN", env_file_path))

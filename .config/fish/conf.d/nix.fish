@@ -1,4 +1,3 @@
-
 if command -v nix >/dev/null
 
     export PATH="$PATH:$HOME/.nix-profile/bin"

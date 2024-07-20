@@ -1,4 +1,4 @@
-@import url("/home/mal1kc/.cache/wal/colors-custom-gtk3.css");
+@import url("/home/mal1kc/.cache/wallust/custom-gtk3.css");
 * {
   font-family: "Iosevka";
   border: none;
@@ -13,13 +13,13 @@
 
 #entry {
   border: none;
-  color: @foreground;
   /*overflow:hidden;*/
   /*border: 3px solid red;*/
   /*overflow-wrap: break-word;*/
 }
 
 #entry:selected {
+    background: linear-gradient(135deg, @color1, @color5);
 }
 
 #input {
@@ -30,7 +30,6 @@
   padding: 10px;
   border: 2px @color5Alpha;
   color: @foreground;
-  background-color: @backgroundAlpha;
 }
 
 #scroll {
@@ -69,11 +68,14 @@
   /*border: 3px solid white;*/
 }
 
+/*#entry:unselected {*/
+/*color: rgba(217, 216, 216, 1);*/
+/*}*/
+
 #entry:selected {
-  background: linear-gradient(135deg, @color1, @color5);
-  /* background-color: transparent; */
-  /* color: @foregroundAlpha; */
-  /* font-weight: 600; */
+  background-color: transparent;
+  color: #fa8419;
+  font-weight: 600;
   /*border: 3px solid red;*/
   /*word-wrap: break-word;*/
 } 
