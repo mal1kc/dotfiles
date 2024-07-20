@@ -23,7 +23,7 @@ all program version are latest (what available on arch packages)
 * file manager: nnn,pcmanfm
 * media-player: mpv
 * music-player: cmus
-* editor: neovim (config is in another repo) ,emacs [doom-emacs]
+* editor: neovim (config is in another repo)
 * browser: librewolf,ungoogled-chromium (sites that doesn't work in librewolf)
 * image viewer: nsxiv, kitty icat,
 * pdf viewer: zathura
@@ -34,7 +34,6 @@ all program version are latest (what available on arch packages)
 
 ## TODO
 
-* move emacs config to another repo
 * turn nsxiv key-handler to wayland compatible
 
 ## screenshots gallery

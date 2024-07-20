@@ -26,7 +26,6 @@ dash # POSIX compliant shell that aims to be as small as possible
 dex # Program to generate and execute DesktopEntry files of type Application
 diff-so-fancy # Good-looking diffs with diff-highlight and more
 dunst # Customizable and lightweight notification-daemon
-emacs-nativecomp # The extensible, customizable, self-documenting real-time display editor with native compilation enabled
 evtest # Input device event monitor and query tool
 expac # alpm data (pacman database) extraction utility
 fastfetch # Like Neofetch, but much faster because written in C

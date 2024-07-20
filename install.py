@@ -105,13 +105,15 @@ OTHER_DOTFILES: dict[str, List[os.PathLike]] = {
             ".config/wofi",
         ]
     ],
-    "emacs": [
-        Path(emacs_config)
-        for emacs_config in [
-            ".doom.d",
-            ".emacs-profiles.el",
-        ]
-    ],
+    # i don't use emacs anymore
+    #
+    # "emacs": [
+    #     Path(emacs_config)
+    #     for emacs_config in [
+    #         ".doom.d",
+    #         ".emacs-profiles.el",
+    #     ]
+    # ],
 }
 
 
@@ -478,12 +480,12 @@ def main() -> None:
         help="Do not install scripts.",
     )
 
-    parser.add_argument(
-        "--emacs",
-        action="store_true",
-        help="install .emacs-profiles.el and .doom.d &"
-        " you need manualy clone https://github.com/plexus/chemacs2.git in order to use .emacs-profiles.el",
-    )
+    # parser.add_argument(
+    #     "--emacs",
+    #     action="store_true",
+    #     help="install .emacs-profiles.el and .doom.d &"
+    #     " you need manualy clone https://github.com/plexus/chemacs2.git in order to use .emacs-profiles.el",
+    # )
 
     parser.add_argument(
         "--wayland",
@@ -511,8 +513,8 @@ def main() -> None:
         DOTFILES = DOTFILES + OTHER_DOTFILES["x11"]
     if args.wayland:
         DOTFILES = DOTFILES + OTHER_DOTFILES["wayland"]
-    if args.emacs:
-        DOTFILES = DOTFILES + OTHER_DOTFILES["emacs"]
+    # if args.emacs:
+    #     DOTFILES = DOTFILES + OTHER_DOTFILES["emacs"]
 
     if args.no_scripts:
         INSTALLER_DIR = None
