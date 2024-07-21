@@ -8,7 +8,6 @@
 ## screenshots of laptop branch
 
 [laptop screenshot 0](./laptop_screenshot0.png)
-[laptop screenshot 1](./laptop_screenshot1.png)
 [laptop screenshot 2](./laptop_screenshot2.png)
 [laptop screenshot 3](./laptop_screenshot3.png)
 [laptop screenshot 4](./laptop_screenshot4.png)
