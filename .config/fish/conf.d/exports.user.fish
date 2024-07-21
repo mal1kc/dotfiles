@@ -4,8 +4,9 @@ export XCURSOR_SIZE=24
 export EDITOR='/sbin/nvim'
 export SUDO_EDITOR=$EDITOR
 
+export MANPAGER="sh -c 'col -bx | bat -l man'"
 # export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.emacs-profiles/doomemacs/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export XDG_DATA_DIRS="/usr/share:$XDG_DATA_DIRS"
 
 export FZF_DEFAULT_OPTS="--black --preview 'bat --color=always --style=numbers --line-range=:500 {}' --height 90%"

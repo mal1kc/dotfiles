@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/env python3
 import os
 from typing import List
 import re

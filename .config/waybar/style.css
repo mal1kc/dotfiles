@@ -12,6 +12,7 @@ window#waybar {
     /* background: @base; */
     background: transparent;
     color: white;
+    margin-right: 8px;
 }
 
 tooltip {

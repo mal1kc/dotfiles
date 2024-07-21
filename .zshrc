@@ -52,9 +52,19 @@ eval "$(register-python-argcomplete pipx)"
 
 autoload -U edit-command-line
 zle -N edit-command-line
-bindkey "^X^E" edit-command-line
+bindkey "^E" edit-command-line
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
+
 source $ZSHDOTDIR/alias.zsh
 source $ZSHDOTDIR/mkfileP.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $ZSHDOTDIR/p10k.zsh ]] || source $ZSHDOTDIR/p10k.zsh
+
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[[A" history-beginning-search-backward-end
+bindkey "^[[B" history-beginning-search-forward-end

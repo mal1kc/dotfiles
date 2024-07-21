@@ -2,20 +2,20 @@
   "options": [
     {
       "name": " logout",
-      "command": "notify-send 'Logging out'&& loginctl terminate-session {calculated_var}",
+      "command": "python ~/.local/bin/confirm_dialog.py 'do you want logout' && notify-send 'Logging out'  &&  loginctl terminate-session {calculated_var}",
       "calculated_var": "echo '${XDG_SESSION_ID}'"
     },
     {
       "name": " reboot",
-      "command": "notify-send 'Rebooting'&& sleep 2 && systemctl reboot"
+      "command": "python ~/.local/bin/confirm_dialog.py 'do you want reboot' && notify-send 'Rebooting' && sleep 2 && systemctl reboot"
     },
     {
       "name": "󰐥 poweroff",
-      "command": "notify-send 'Powering off'&& sleep 1 && systemctl poweroff"
+      "command": "python ~/.local/bin/confirm_dialog.py 'do you want poweroff' && notify-send 'Powering off' && sleep 1 && systemctl poweroff"
     },
     {
       "name": "⏾ suspend",
-      "command": "notify-send 'Suspending'&& sleep 1 && systemctl suspend"
+      "command": "notify-send 'Suspending' && sleep 1 && systemctl suspend"
     },
     {
       "name": " lock",

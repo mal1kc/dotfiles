@@ -1,0 +1,92 @@
+/* Special */
+@import 'color_config.css';
+
+/* Adjust the top margin to bring the tabs to the top of the screen */
+#navigator-toolbox {
+    margin-top: 0 !important;
+}
+
+/* Ensure the tabs are always visible, even when not focused or hovered */
+#tabbrowser-tabs {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* General transition for smooth animations */
+#toolbar-menubar,
+#PersonalToolbar,
+#nav-bar,
+#statuspanel {
+    transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    max-height: 2px; /* Initially thin line */
+    opacity: 0.2; /* Slightly visible */
+}
+
+/* Expand menu bar on hover */
+#toolbar-menubar:hover,
+#toolbar-menubar:focus-within,
+#toolbar-menubar:hover > * {
+    max-height: 30px !important; /* Adjust as needed */
+    opacity: 1 !important;
+}
+
+/* Expand navigation toolbar on hover */
+#nav-bar:hover,
+#nav-bar:focus-within,
+#nav-bar:hover > * {
+    max-height: 30px !important; /* Adjust as needed */
+    opacity: 1 !important;
+}
+
+/* Expand status panel on hover */
+#statuspanel:hover,
+#statuspanel:focus-within,
+#statuspanel:hover > * {
+    max-height: 30px !important; /* Adjust as needed */
+    opacity: 1 !important;
+}
+
+/* Make the tab bar stretch to the top of the window */
+#TabsToolbar {
+    margin-top: -4px !important;
+    padding-top: 4px !important;
+}
+
+/* Remove the padding around the window content */
+#main-window {
+    padding: 0 !important;
+}
+
+/* Remove any extra margins and padding from the content area */
+.browserContainer {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Adjust the position and size of URL bar suggestions */
+#urlbar[breakout-extend] {
+    top: 4px !important;
+    left: 0 !important;
+    width: 100% !important;
+}
+
+/* Style the URL bar when focused within */
+#urlbar:focus-within {
+    /* Add your styling for the :focus-within state here */
+    background-color: #f0f0f0; /* Example background color */
+    color: #333; /* Example text color */
+}
+
+.unified-extensions-item-action-button[disabled] > .unified-extensions-item-icon{
+  display: none !important;
+}
+.unified-extensions-item-action-button[disabled]::before{
+  display: -moz-box !important;
+  height: var(--uei-icon-size);
+  width: var(--uei-icon-size);
+  -moz-context-properties: fill;
+}
+
+.unified-extensions-item-action-button[enabled] > .unified-extensions-item-icon{
+  display: block !important;
+}

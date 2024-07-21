@@ -23,7 +23,7 @@ this config is my main setup config with archlinux
 + file manager: nnn,pcmanfm
 + media-player: mpv
 + music-player: cmus
-+ editor: neovim (config is in another repo) ,emacs [doom-emacs]
++ editor: neovim (config is in another repo)
 + browser: librewolf,ungoogled-chromium (sites that doesn't work in librewolf)
 + image viewer: nsxiv
 + pdf viewer: zathura
@@ -65,8 +65,6 @@ nnn                       # file manager build from source for nerd icons
 [[https://github.com/PatrickF1/fzf.fish][fzf.fish - 🔍 🐟 Fzf plugin for Fish]]
 ** neovim
 [[../../../nvim-config/][my neovim config based on lazyvim starter]]
-** emacs - doomemacs config
-[[doomemacs.org][doom emacs]]
 
 * images gallery
 
@@ -214,13 +212,6 @@ git ls-files | tree --fromfile
 |       |-- mkfileP.zsh
 |       |-- p10k.zsh
 |       `-- zsh_plugins.txt
-|-- .doom.d
-|   |-- config.el
-|   |-- config.org
-|   |-- custom.el
-|   |-- init.el
-|   `-- packages.el
-|-- .emacs-profiles.el
 |-- .firefox_scipts_configs
 |   `-- user.js
 |-- .gitconfig

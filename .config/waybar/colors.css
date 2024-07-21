@@ -29,4 +29,4 @@
 @define-color flamingo  #f2cdcd;
 @define-color rosewater #f5e0dc;
 
-@import '../../.cache/wal/colors-waybar.css';
+@import '../../.cache/wallust/waybar.css';

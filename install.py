@@ -26,14 +26,11 @@ BACKUP_TMP_DIR: Path = Path(tempfile.mkdtemp())
 DOTFILE_LIST: list[os.PathLike] = [
     Path(config)
     for config in [
-        ".doom.d",
         ".local/bin",
         ".local/share/applications",
         ".Xresources",
         ".bashrc",
-        ".emacs-profiles.el",
         ".gitconfig",
-        ".gitignore",
         ".gtkrc-2.0",
         ".inputrc",
         ".zshrc",
@@ -108,6 +105,15 @@ OTHER_DOTFILES: dict[str, List[os.PathLike]] = {
             ".config/wofi",
         ]
     ],
+    # i don't use emacs anymore
+    #
+    # "emacs": [
+    #     Path(emacs_config)
+    #     for emacs_config in [
+    #         ".doom.d",
+    #         ".emacs-profiles.el",
+    #     ]
+    # ],
 }
 
 
@@ -145,9 +151,14 @@ def do_job(
 
 def check_dirs() -> None:
     for directry in [DOTFILES_DIR, INSTALLER_DIR]:
+        if directry is None:
+            write_stdout(f"ignoring {directry} dir.")
+            continue
         if not directry.exists():
             write_stderr(f"Error: {directry} does not exist.")
             sys.exit(1)
+        else:
+            directry.mkdir()
     if not BACKUPS_DIR.exists():
         BACKUPS_DIR.mkdir()
 
@@ -468,6 +479,14 @@ def main() -> None:
         action="store_true",
         help="Do not install scripts.",
     )
+
+    # parser.add_argument(
+    #     "--emacs",
+    #     action="store_true",
+    #     help="install .emacs-profiles.el and .doom.d &"
+    #     " you need manualy clone https://github.com/plexus/chemacs2.git in order to use .emacs-profiles.el",
+    # )
+
     parser.add_argument(
         "--wayland",
         action="store_true",
@@ -494,6 +513,9 @@ def main() -> None:
         DOTFILES = DOTFILES + OTHER_DOTFILES["x11"]
     if args.wayland:
         DOTFILES = DOTFILES + OTHER_DOTFILES["wayland"]
+    # if args.emacs:
+    #     DOTFILES = DOTFILES + OTHER_DOTFILES["emacs"]
+
     if args.no_scripts:
         INSTALLER_DIR = None
 
