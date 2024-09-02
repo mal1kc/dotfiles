@@ -88,3 +88,13 @@ function ignore_title_change --description "sets title to \$argv[1] and run \$ar
     exit
     exit
 end
+
+set -U XDG_DATA_HOME "$HOME/.local/share"
+set -U XDG_CONFIG_HOME "$HOME/.config"
+set -U XDG_STATE_HOME "$HOME/.local/state"
+set -U XDG_CACHE_HOME "$HOME/.cache"
+
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
