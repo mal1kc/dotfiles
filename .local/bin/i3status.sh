@@ -2,9 +2,9 @@
 source ~/.local/bin/tmp_backlight
 source ~/.local/bin/tmp_uptime
 
-tmp_delayed_uptime(){
+tmp_delayed_uptime() {
 
-    while true;do
+    while true; do
 
         tmp_uptime
         sleep 10 # 30 min
@@ -12,9 +12,9 @@ tmp_delayed_uptime(){
     done
 }
 
-tmp_delayed_backlight(){
+tmp_delayed_backlight() {
 
-    while true;do
+    while true; do
 
         tmp_backlight
         sleep 5
@@ -22,7 +22,7 @@ tmp_delayed_backlight(){
     done
 }
 
-i3_status_ext_tmpfiles(){
+i3_status_ext_tmpfiles() {
 
     tmp_delayed_uptime &
 

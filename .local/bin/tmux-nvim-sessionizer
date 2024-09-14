@@ -1,12 +1,31 @@
 #!/bin/env bash
 
+# Function to display help information
+help() {
+    echo "Usage: $0 <session_name> [command] [args]"
+    echo ""
+    echo "Commands:"
+    echo "  _new       Start a new tmux session with nvim."
+    echo "  _attach    Attach to the existing tmux session."
+    echo "  _kill      Kill the tmux session."
+    echo "  _detach    Detach from the tmux session."
+    echo ""
+    echo "If no command is provided, the script will open a file in nvim."
+    echo "You can specify the file to open as the second argument."
+    echo "Optionally, you can specify a cursor position as the third argument (format: x,y)."
+    echo ""
+    echo "Example:"
+    echo "  $0 mysession _attach"
+    echo "  $0 mysession myfile.txt 1,1"
+    exit 0
+}
+
 # if argv is empty do nothing
 if [[ -z $1 ]]; then
-	exit 1
+    help
 fi
 
-# start tmux session if not exits
-
+# start tmux session if not exists
 tmux_session_path="/tmp/tmux-$(whoami)-$1"
 nvim_session_path="/tmp/nvim-$(whoami)-$1"
 
@@ -17,43 +36,38 @@ nvim_session_path="/tmp/nvim-$(whoami)-$1"
 # checking nvim_session_path if not exists create it
 # one of them not exists create both
 if [[ ! -S "$tmux_session_path" ]]; then
-	tmux -S "$tmux_session_path" new-session -d "nvim --listen $nvim_session_path"
+    tmux -S "$tmux_session_path" new-session -d "nvim --listen $nvim_session_path"
 fi
 
 if [[ ! -S "$nvim_session_path" ]]; then
-	tmux -S "$tmux_session_path" new-session -d "nvim --listen $nvim_session_path"
+    tmux -S "$tmux_session_path" new-session -d "nvim --listen $nvim_session_path"
 fi
 
-# if [[ ! -S "$nvim_session_path" || ! -S "$tmux_session_path"  ]]; then
-#     tmux -S "$tmux_session_path" new-session -d -t "nvim --server $nvim_session_path"
-# fi
-
 # if $2 is one of _attach, _kill, _detach do it
-
 if [[ $2 == "_new" || $2 == "_attach" || $2 == "_kill" || $2 == "_detach" ]]; then
-	case $2 in
-	"_new")
-		tmux -S "$tmux_session_path" new-session -A -d "nvim --listen $nvim_session_path"
-		;;
-	"_attach")
-		tmux -S "$tmux_session_path" attach
-		;;
-	"_kill")
-		tmux -S "$tmux_session_path" kill-session
-		;;
-	"_detach")
-		tmux -S "$tmux_session_path" detach
-		;;
-	esac
-	exit 0 # block further execution
+    case $2 in
+        "_new")
+            tmux -S "$tmux_session_path" new-session -A -d "nvim --listen $nvim_session_path"
+            ;;
+        "_attach")
+            tmux -S "$tmux_session_path" attach
+            ;;
+        "_kill")
+            tmux -S "$tmux_session_path" kill-session
+            ;;
+        "_detach")
+            tmux -S "$tmux_session_path" detach
+            ;;
+    esac
+    exit 0 # block further execution
 fi
 
 if [[ -n $2 ]]; then
-	cursor=$3
-	if [[ -z $3 ]]; then
-		cursor="1,1"
-	fi
-	tmux -S "$tmux_session_path" display-message -p "opening $2:$3 in nvim" >/dev/null
-	nvim --server "$nvim_session_path" --remote "$2" &>/dev/null
-	nvim --server "$nvim_session_path" --remote-expr "cursor($cursor)" &>/dev/null
+    cursor=$3
+    if [[ -z $3 ]]; then
+        cursor="1,1"
+    fi
+    tmux -S "$tmux_session_path" display-message -p "opening $2:$3 in nvim" >/dev/null
+    nvim --server "$nvim_session_path" --remote "$2" &>/dev/null
+    nvim --server "$nvim_session_path" --remote-expr "cursor($cursor)" &>/dev/null
 fi

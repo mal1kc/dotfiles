@@ -1,4 +1,3 @@
-cheat
 cpufetch
 direnv
 dos2unix
@@ -12,19 +11,16 @@ navi
 nil
 nixos-icons
 nodejs
+nomacs
 nsxiv
 onefetch
 platformio
 pre-commit
 procs
-semgrep
 shellcheck
 shfmt
 taskwarrior-tui
-tea
 termdown
-tldr
-tree
 ueberzugpp
 wallust
 zls

@@ -5,8 +5,8 @@
 
 # Dependencies: cmus
 
-show_cmus_status () {
-    if ps -C cmus > /dev/null; then
+show_cmus_status() {
+    if ps -C cmus >/dev/null; then
         CMUSDATA=$(cmus-remote -Q)
         #ARTIST=$(echo "$CMUSDATA" | grep -w '^tag artist' | awk '{gsub("tag artist ", "");print}')
         #TRACK=$(echo "$CMUSDATA" | grep -w '^tag title' | awk '{gsub("tag title ", "");print}')
@@ -19,20 +19,20 @@ show_cmus_status () {
         SHUFFLE=$(echo "$CMUSDATA" | grep -w '^set shuffle' | awk '{gsub("set shuffle ", "");print}')
 
         if [ "$STATUS" = "playing" ]; then
-                STATUS="▶"
+            STATUS="▶"
         else
-                STATUS="⏸"
+            STATUS="⏸"
         fi
 
         if [ "$SHUFFLE" = "true" ]; then
-                SHUFFLE=" 🔀"
+            SHUFFLE=" 🔀"
         else
-                SHUFFLE=""
+            SHUFFLE=""
         fi
 
         printf "%s%s %s - " "$SEP1" "$STATUS" "$FILE"
-        printf "%0d:%02d/" $((POSITION%3600/60)) $((POSITION%60))
-        printf "%0d:%02d" $((DURATION%3600/60)) $((DURATION%60))
+        printf "%0d:%02d/" $((POSITION % 3600 / 60)) $((POSITION % 60))
+        printf "%0d:%02d" $((DURATION % 3600 / 60)) $((DURATION % 60))
         printf "%s%s\n" "$SHUFFLE" "$SEP2"
     fi
 }

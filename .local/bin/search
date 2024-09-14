@@ -9,13 +9,13 @@ set -e
 # -u ignore vcs .gitignore ,.ignore etc
 
 if [ -x /usr/bin/ag ]; then
-  /usr/bin/ag -iru "$@"
+    /usr/bin/ag -iru "$@"
 elif [ -x /usr/bin/ack ]; then
-  /usr/bin/ack -iru "$@"
+    /usr/bin/ack -iru "$@"
 else
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
-  printf "you dont installed ag(the_silver_searcher) or ack"
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
-  echo ''
-  exit
+    printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
+    printf "you dont installed ag(the_silver_searcher) or ack"
+    printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
+    echo ''
+    exit
 fi
