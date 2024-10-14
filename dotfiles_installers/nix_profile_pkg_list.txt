@@ -13,7 +13,6 @@ nodejs
 nsxiv
 onefetch
 platformio
-ruff-lsp
 taskwarrior-tui
 tldr
 tree

@@ -9,11 +9,10 @@ aspell-en # English dictionary for aspell
 aspell-uk # Ukrainian dictionary for aspell
 axel # Light command line download accelerator
 base # Minimal package set to define a basic Arch Linux installation
-base-devel # Basic tools to build Arch Linux packages
 bat # Cat clone with syntax highlighting and git integration
 bc # An arbitrary precision calculator language
 btop # A monitor of system resources, bpytop ported to C++
-cdrtools # Original cdrtools supporting CD, DVD and BluRay burning
+cdrtools # Highly portable CD/DVD/BluRay command line recording software
 cmus # Feature-rich ncurses-based music player
 cython # C-Extensions for Python
 dash # POSIX compliant shell that aims to be as small as possible
@@ -21,7 +20,7 @@ diff-so-fancy # Good-looking diffs with diff-highlight and more
 dunst # Customizable and lightweight notification-daemon
 enchant # A wrapper library for generic spell checking
 evtest # Input device event monitor and query tool
-fastfetch # Like Neofetch, but much faster because written in C
+fastfetch # An actively maintained, feature-rich and performance oriented, neofetch like system information tool
 fd # Simple, fast and user-friendly alternative to find
 flatpak # Linux application sandboxing and distribution framework (formerly xdg-app)
 foot # Fast, lightweight, and minimalistic Wayland terminal emulator
@@ -37,9 +36,9 @@ htop # Interactive process viewer
 hypridle # hyprland’s idle daemon
 hyprland # a highly customizable dynamic tiling Wayland compositor
 hyprlock # hyprland’s GPU-accelerated screen locking utility
-i3status-rust # Resourcefriendly and feature-rich replacement for i3status, written in pure Rust
 inxi # Full featured CLI system information tool
 jq # Command-line JSON processor
+kdeconnect # Adds communication between KDE and your smartphone
 kitty # A modern, hackable, featureful, OpenGL-based terminal emulator
 kmon # Linux kernel manager and activity monitor
 lazygit # Simple terminal UI for git commands
@@ -50,9 +49,9 @@ libva-nvidia-driver # VA-API implementation that uses NVDEC as a backend
 libva-utils # Intel VA-API Media Applications and Scripts for libva
 linux-firmware-qlogic # Firmware files for Linux - qlogic / Firmware for QLogic devices
 linux-zen # The Linux ZEN kernel and modules
-lolcat # Okay, no unicorns. But rainbows!!
 lsd # Modern ls with a lot of pretty colors and awesome icons
 lshw # A small tool to provide detailed information on the hardware configuration of the machine.
+luarocks # Deployment and management system for Lua modules
 lxappearance # Feature-rich GTK+ theme switcher of the LXDE Desktop
 ly # TUI display manager
 man-db # A utility for reading man pages
@@ -91,7 +90,6 @@ refind # An EFI boot manager
 ripgrep # A search tool that combines the usability of ag with the raw speed of grep
 rofimoji # Emoji, unicode and general character picker for rofi and rofi-likes
 rustup # The Rust toolchain installer
-rye # An experimental alternative to poetry, pip, pipenv, venv, virtualenv, pdm, hatch
 screen # Full-screen window manager that multiplexes a physical terminal
 sddm # QML based X11 and Wayland display manager
 shellcheck # Shell script analysis tool
@@ -121,7 +119,7 @@ xdg-user-dirs # Manage user directories like ~/Desktop and ~/Music
 xf86-video-nouveau # Open Source 3D acceleration driver for nVidia cards
 xorg-xinit # X.Org initialisation program
 xwallpaper # Wallpaper setting utility for X
-yay-bin # Yet another yogurt. Pacman wrapper and AUR helper written in go. Pre-compiled.
+yay # Yet another yogurt. Pacman wrapper and AUR helper written in go.
 ydotool # Generic command-line automation tool (no X!)
 zig # a general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software
 zoxide # A smarter cd command for your terminal

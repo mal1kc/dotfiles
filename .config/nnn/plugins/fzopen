@@ -34,7 +34,7 @@ if type fzf >/dev/null 2>&1; then
     # To show only the file name
     # entry=$(find . -type f 2>/dev/null | fzf --delimiter / --with-nth=-1 --tiebreak=begin --info=hidden)
 elif type sk >/dev/null 2>&1; then
-	entry=$(find . -type f 2>/dev/null | sk)
+    entry=$(find . -type f 2>/dev/null | sk)
 else
     exit 1
 fi
@@ -44,16 +44,16 @@ if [ "$3" ]; then
     if [ "$entry" ]; then
         case "$entry" in
             /*) fullpath="$entry" ;;
-            *)  fullpath="$PWD/$entry" ;;
+            *) fullpath="$PWD/$entry" ;;
         esac
         if [ "-" = "$3" ]; then
             printf "%s\n" "$fullpath"
         else
-            printf "%s\n" "$fullpath" > "$3"
+            printf "%s\n" "$fullpath" >"$3"
         fi
 
         # Tell `nnn` to clear its internal selection
-        printf "%s" "0p" > "$NNN_PIPE"
+        printf "%s" "0p" >"$NNN_PIPE"
     fi
 
     exit 0
@@ -77,7 +77,9 @@ fi
 
 case "$($cmd_file "$entry")" in
     *text*)
-        "${VISUAL:-$EDITOR}" "$entry" ;;
+        "${VISUAL:-$EDITOR}" "$entry"
+        ;;
     *)
-        $cmd_open "$entry" >/dev/null 2>&1 ;;
+        $cmd_open "$entry" >/dev/null 2>&1
+        ;;
 esac

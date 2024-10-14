@@ -32,8 +32,8 @@ function fish_greeting
     echo the time is (set_color yellow; date +%T; set_color normal)
 
     if string match --ignore-case --quiet "$TERM" foot
-        #set TERM xterm-256color
-        set TERM screen-256color
+        set TERM xterm-256color
+        #set TERM screen-256color
         if test -f ~/.cache/wallust/sequences
             cat ~/.cache/wallust/sequences
         end
@@ -107,3 +107,14 @@ function ignore_title_change --description "sets title to \$argv[1] and run \$ar
     exit
     exit
 end
+
+set -U XDG_DATA_HOME "$HOME/.local/share"
+set -U XDG_CONFIG_HOME "$HOME/.config"
+set -U XDG_STATE_HOME "$HOME/.local/state"
+set -U XDG_CACHE_HOME "$HOME/.cache"
+
+
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"

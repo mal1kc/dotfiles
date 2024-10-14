@@ -28,31 +28,31 @@ if type jump >/dev/null 2>&1; then
     IFS= read -r line
     # shellcheck disable=SC2086
     odir="$(jump cd ${line})"
-    printf "%s" "0c$odir" > "$NNN_PIPE"
+    printf "%s" "0c$odir" >"$NNN_PIPE"
 elif type autojump >/dev/null 2>&1; then
     printf "jump to : "
     read -r dir
     odir="$(autojump "$dir")"
-    printf "%s" "0c$odir" > "$NNN_PIPE"
+    printf "%s" "0c$odir" >"$NNN_PIPE"
 elif type zoxide >/dev/null 2>&1; then
     if type fzf >/dev/null 2>&1; then
-    	odir="$(zoxide query -i --)"
-    	printf "%s" "0c$odir" > "$NNN_PIPE"
+        odir="$(zoxide query -i --)"
+        printf "%s" "0c$odir" >"$NNN_PIPE"
     else
-	printf "jump to : "
-    	read -r dir
-    	odir="$(zoxide query -- "$dir")"
-    	printf "%s" "0c$odir" > "$NNN_PIPE"
+        printf "jump to : "
+        read -r dir
+        odir="$(zoxide query -- "$dir")"
+        printf "%s" "0c$odir" >"$NNN_PIPE"
     fi
 elif type lua >/dev/null 2>&1 && [ -n "$NNN_ZLUA" ]; then
     printf "jump to : "
     read -r line
     if type fzf >/dev/null 2>&1; then
         odir="$(lua "$NNN_ZLUA" -l "$line" | fzf --nth 2.. --reverse --inline-info --tac +s -e --height 35%)"
-        printf "%s" "0c$(echo "$odir" | awk '{print $2}')" > "$NNN_PIPE"
+        printf "%s" "0c$(echo "$odir" | awk '{print $2}')" >"$NNN_PIPE"
     else
         odir="$(lua "$NNN_ZLUA" -e "$line")"
-        printf "%s" "0c$odir" > "$NNN_PIPE"
+        printf "%s" "0c$odir" >"$NNN_PIPE"
     fi
 else
     # rupa/z uses $_Z_DATA, jethrokuan/z (=port of z for fish) uses $Z_DATA
@@ -66,7 +66,7 @@ else
         # you want to see the weightings of the dir's in the fzf pane
         # sel=$(awk -F "|" '{printf "%s %s\n", $2, $1}' "$datafile" | fzf | sed 's/^[0-9,.]* *//' | awk '{$1=$1};1')
 
-        printf "%s" "0c$sel" > "$NNN_PIPE"
+        printf "%s" "0c$sel" >"$NNN_PIPE"
     else
         printf "No supported autojump script [jump/autojump/zoxide/z (needs fzf)] found"
         read -r _

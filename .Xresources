@@ -26,4 +26,4 @@ Nsxiv.*.foreground: #ffffff
 
 st.borderpx: 2
 st.alpha: 0.9
-st.font: Iosevka:style:medium:pixelsize=12
+st.font: Iosevka:style:medium:pixelsize=16
