@@ -1,6 +1,6 @@
 [alias]
 	# mostly from https://github.com/paulirish/dotfiles/blob/main/.gitconfig
-	c = commit -am
+	c = commit
 	fpush = push --force
 	sts = status --short
 	st = status

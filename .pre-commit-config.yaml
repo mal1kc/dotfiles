@@ -18,3 +18,12 @@ repos:
         description: Detect hardcoded secrets using Gitleaks
         entry: gitleaks protect --verbose --redact --staged
         language: system
+      - id: shfmt
+        name: shfmt
+        language: golang
+        require_serial: true
+        additional_dependencies: [mvdan.cc/sh/v3/cmd/shfmt@v3.4.3]
+        entry: shfmt
+        args: ["-l", "-w", "-ci", "./local/bin/"]
+        types: [shell]
+

@@ -3,5 +3,5 @@ Description=Watch waybar for changes
 
 [Path]
 PathModified=%h/.config/waybar/style.css
-# PathModified=%h/.cache/wal/colors-waybar.css
+# PathModified=%h/.cache/wallust/waybar.css
 # disabled because wallpaper change script restarts waybar

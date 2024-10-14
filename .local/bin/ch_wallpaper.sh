@@ -29,10 +29,10 @@ set_wall_wl() {
 
 # set colorscheme using wal
 gen_colorscheme() {
-	printf "wal: set colorscheme based on wallpaper\n"
-	wal -c
-	wal -i "$target" -ne -a 82
-	xrdb -merge ~/.cache/wal/colors.Xresources
+	printf "wallust: set colorscheme based on wallpaper\n"
+	# wallust -c
+	wallust run -a 82 -w "$target"
+	xrdb -merge ~/.cache/wallust/.Xresources
 	restart_waybar
 }
 
@@ -55,9 +55,9 @@ set_wall() {
 
 	cp -Hf "$rand_wfile" "$target"
 
-	if [ -n "$WAYLAND_DISPLAY" ]; then
+	if [ ! -z ${WAYLAND_DISPLAY+x} ]; then
 		set_wall_wl "$target"
-	elif [ -n "$DISPLAY" ]; then
+	elif [ ! -z ${DISPLAY+x} ]; then
 		xwallpaper --maximize "$target"
 	else
 		echo "no display found"

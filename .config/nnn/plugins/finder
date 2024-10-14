@@ -46,24 +46,28 @@ mapexpr() {
 
 readexpr() {
     case "$fexpr" in
-        h)   clear
-             printf "Examples:\n"
-             mapfile -t fexprs < <(printexamples)
-             printexprs 0
-             read -r -p "Search expression or index: " fexpr
-             mapexpr
-             [ -n "$fexpr" ] && readexpr ;;
+        h)
+            clear
+            printf "Examples:\n"
+            mapfile -t fexprs < <(printexamples)
+            printexprs 0
+            read -r -p "Search expression or index: " fexpr
+            mapexpr
+            [ -n "$fexpr" ] && readexpr
+            ;;
         \$*) cmd="${fexpr:1}" ;;
-        *)   mapexpr && readexpr
-             cmd="find $fexpr -print0" ;;
+        *)
+            mapexpr && readexpr
+            cmd="find $fexpr -print0"
+            ;;
     esac
 }
 
 clear
-[ -f "$NNN_FINDHIST" ] || printexamples > "$NNN_FINDHIST"
+[ -f "$NNN_FINDHIST" ] || printexamples >"$NNN_FINDHIST"
 
-mapfile -t fexprs < <(sort "$NNN_FINDHIST" | uniq -c | sort -nr | head -n5 |\
-  awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}')
+mapfile -t fexprs < <(sort "$NNN_FINDHIST" | uniq -c | sort -nr | head -n5 |
+    awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}')
 printf "Most used search expressions:\n"
 printexprs 0
 
@@ -75,15 +79,15 @@ read -r -p "Search expression or index (h for help): " fexpr
 mapexpr
 
 if [ -n "$fexpr" ]; then
-    printf "+l" > "$NNN_PIPE"
+    printf "+l" >"$NNN_PIPE"
     while :; do
         readexpr
-        eval "$cmd" > "$NNN_PIPE" && break
+        eval "$cmd" >"$NNN_PIPE" && break
         read -r -e -p "Search expression: " -i "$fexpr" fexpr
     done
     if [ -n "$fexpr" ]; then
-        tail -n"$NNN_FINDHISTLEN" "$NNN_FINDHIST" > "$TMPDIR/finderbms"
-        printf "%s\n" "$fexpr" >> "$TMPDIR/finderbms"
+        tail -n"$NNN_FINDHISTLEN" "$NNN_FINDHIST" >"$TMPDIR/finderbms"
+        printf "%s\n" "$fexpr" >>"$TMPDIR/finderbms"
         mv "$TMPDIR/finderbms" "$NNN_FINDHIST"
     fi
 fi

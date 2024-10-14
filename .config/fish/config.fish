@@ -22,20 +22,22 @@ function notify
 end
 
 # functions -e fish_greeting
+set -l nix_shell_info (
+  if test -n "$IN_NIX_SHELL"
+    echo -n "<nix-shell> "
+  end
+)
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)
     echo the time is (set_color yellow; date +%T; set_color normal)
 
     if string match --ignore-case --quiet "$TERM" foot
-        set TERM xterm-256color # for tmux to work properly
-        if test -f ~/.cache/wal/sequences
-            cat ~/.cache/wal/sequences
+        set TERM xterm-256color
+        #set TERM screen-256color
+        if test -f ~/.cache/wallust/sequences
+            cat ~/.cache/wallust/sequences
         end
     end
-end
-
-if command -q zoxide
-    zoxide init fish | source
 end
 
 function fish_prompt --description 'Write out the prompt'
@@ -105,3 +107,14 @@ function ignore_title_change --description "sets title to \$argv[1] and run \$ar
     exit
     exit
 end
+
+set -U XDG_DATA_HOME "$HOME/.local/share"
+set -U XDG_CONFIG_HOME "$HOME/.config"
+set -U XDG_STATE_HOME "$HOME/.local/state"
+set -U XDG_CACHE_HOME "$HOME/.cache"
+
+
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"

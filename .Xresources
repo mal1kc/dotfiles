@@ -19,13 +19,11 @@ Xft.hintstyle: hintslight
 Xft.rgba: rgb
 Xft.lcdfilter: lcddefault
 
-*.font: Iosevka:style:medium:pixelsize=16
+*.font: Iosevka:style=medium:pixelsize=14
 
 Nsxiv.*.background: #000000
 Nsxiv.*.foreground: #ffffff
 
 st.borderpx: 2
-
 st.alpha: 0.9
-
-st.font: Iosevka:style:medium:pixelsize=13
+st.font: Iosevka:style:medium:pixelsize=16
