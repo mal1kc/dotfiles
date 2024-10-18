@@ -8,6 +8,10 @@
     font-size: 10px;
 }
 
+*:hover {
+  font-size: 20px;
+}
+
 window#waybar {
     /* background: @base; */
     background: transparent;
@@ -19,10 +23,11 @@ tooltip {
 	color: @color2;
 	background: @color0;
 	opacity: 0.8;
-	border-radius: 5px;
+	border-radius: 2.5px;
 	border-width: 1px;
 	border-style: solid;
 	border-color: @color15;
+  font-size: 32px;
 }
 
 /*-----module groups----*/
@@ -42,7 +47,7 @@ tooltip {
 }
 
 workspaces button {
-    margin: 5px 5px 5px 5px;
+    margin: 0.5px 5px 5px 5px;
     color: @color2;
     box-shadow: none;
     text-shadow: none;
@@ -73,12 +78,14 @@ workspaces button {
     color: @color4;
     text-shadow:3px 0px @color9;
     animation: gradient_f 20s ease-in infinite;
+    font-size: 20px;
+    font-weight: lighter;
 }
 
 
 #disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network {
 	padding: 0px 8px;
-	margin: 8px 0px;
+	margin: 0.5px 0px;
 }
 
 #custom-date {
@@ -88,7 +95,7 @@ workspaces button {
 #custom-power {
 	color: @overlay1;
 	border-radius: 5px;
-	margin-top: 5px;
+	margin-top: 0.5px;
 	margin-bottom: 5px;
 	padding: 0px 5px;
 }
@@ -229,9 +236,8 @@ label:focus {
 
 #tray {
     background-color: @background;
-    margin: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    margin: 0.5px;
+    padding: 5px;
 }
 
 #tray > .passive {
@@ -263,5 +269,5 @@ label:focus {
   color: #bebebe;
 	padding: 0px 5px;
   border-radius: 5px;
-	margin: 5px 0px;
+	margin: 0.5px 0px;
 }

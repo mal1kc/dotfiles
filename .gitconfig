@@ -40,7 +40,7 @@
 	whitespace = red reverse
 
 [alias]
-	c = commit -am
+	c = commit
 	fpush = push --force
 	sts = status --short
 	st = status
