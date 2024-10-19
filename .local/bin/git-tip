@@ -1,25 +1,22 @@
 #!/usr/bin/dash
 
+podman_or_docker() {
 
-podman_or_docker(){
-
-if command -v podman > /dev/null ; then
-    echo "podman"
-elif command -v docker > /dev/null ; then
-    echo "docker"
-else
-    exit 1
-fi
+    if command -v podman >/dev/null; then
+        echo "podman"
+    elif command -v docker >/dev/null; then
+        echo "docker"
+    else
+        exit 1
+    fi
 }
 
-get_img_id(){
+get_img_id() {
     "$1" images -q "$2"
 }
 
-
-git_tip()
-{
-    if [ -n "$img_id" ] ; then
+git_tip() {
+    if [ -n "$img_id" ]; then
         "$container_man" run -it --rm "$($container_man images -q $git_tip_img_name)" 'git-tip' "${@}"
     else
         if [ "$container_man" = "podman" ]; then
@@ -30,20 +27,19 @@ git_tip()
     fi
 }
 
-git_tip_update_img(){
-    if [ -n "$img" ] ; then
+git_tip_update_img() {
+    if [ -n "$img" ]; then
         "$container_man" image rm "$img_id"
     fi
     case "$container_man" in
         "podman")
             podman pull 'docker.io/djoudix/git-tip'
-        ;;
+            ;;
         "docker")
             docker pull 'djoudix/git-tip'
-        ;;
+            ;;
     esac
 }
-
 
 git_tip_img_name="git-tip"
 container_man="$(podman_or_docker)"

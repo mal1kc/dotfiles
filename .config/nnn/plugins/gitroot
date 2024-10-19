@@ -7,7 +7,7 @@
 
 root="$(git rev-parse --show-toplevel 2>/dev/null)"
 if [ -n "$root" ]; then
-    printf "%s" "0c$root" > "$NNN_PIPE"
+    printf "%s" "0c$root" >"$NNN_PIPE"
 else
     printf "Not in a git repository"
     read -r _

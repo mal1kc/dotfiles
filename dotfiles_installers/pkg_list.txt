@@ -51,8 +51,8 @@ i3-wm # Improved dynamic tiling window manager
 i3status-rust # Resourcefriendly and feature-rich replacement for i3status, written in pure Rust
 inxi # Full featured CLI system information tool
 iperf # A tool to measure maximum TCP bandwidth
+iperf3 # TCP, UDP, and SCTP network bandwidth measurement tool
 iw # nl80211 based CLI configuration utility for wireless devices
-jq # Command-line JSON processor
 kdiskmark # HDD and SSD benchmark tool with a very friendly graphical user interface
 kitty # A modern, hackable, featureful, OpenGL-based terminal emulator
 kmon # Linux kernel manager and activity monitor
@@ -67,6 +67,7 @@ lsd # Modern ls with a lot of pretty colors and awesome icons
 lshw # A small tool to provide detailed information on the hardware configuration of the machine.
 lxappearance # Feature-rich GTK+ theme switcher of the LXDE Desktop
 maim # Utility to take a screenshot using imlib2
+mako # Lightweight notification daemon for Wayland
 man-db # A utility for reading man pages
 man-pages # Linux man pages
 mangohud # A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more.
@@ -80,13 +81,13 @@ networkmanager-openvpn # NetworkManager VPN plugin for OpenVPN
 nix # A purely functional package manager
 nmap # Utility for network discovery and security auditing
 nnn # The fastest terminal file manager ever written.
-nvidia-open-dkms # NVIDIA open kernel modules
+nvidia-open-dkms # NVIDIA open kernel modules - module sources
 nvtop # GPUs process monitoring for AMD, Intel and NVIDIA
 obs-studio # Free, open source software for live streaming and recording
 papirus-icon-theme # Papirus icon theme
 partitionmanager # A KDE utility that allows you to manage disks, partitions, and file systems
 pcmanfm-gtk3 # Extremely fast and lightweight file manager (GTK+ 3 version)
-picom # A lightweight compositor for X11
+picom # Lightweight compositor for X11
 polkit-kde-agent # Daemon providing a polkit authentication UI for KDE
 powerstat # A tool for measuring a laptops power usage via the battery.
 powertop # A tool to diagnose issues with power consumption and power management

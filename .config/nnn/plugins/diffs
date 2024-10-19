@@ -22,14 +22,14 @@ fi
 dirdiff() {
     dir1=$(mktemp "${TMPDIR:-/tmp}"/nnn-"$(basename "$1")".XXXXXXXX)
     dir2=$(mktemp "${TMPDIR:-/tmp}"/nnn-"$(basename "$2")".XXXXXXXX)
-    ls -A1 "$1" > "$dir1"
-    ls -A1 "$2" > "$dir2"
+    ls -A1 "$1" >"$dir1"
+    ls -A1 "$2" >"$dir2"
     $diffcmd "$dir1" "$dir2"
     rm "$dir1" "$dir2"
 }
 
 if [ -s "$selection" ]; then
-    arr=$(tr '\0' '\n' < "$selection")
+    arr=$(tr '\0' '\n' <"$selection")
     if [ "$(echo "$arr" | wc -l)" -gt 1 ]; then
         f1="$(echo "$arr" | sed -n '1p')"
         f2="$(echo "$arr" | sed -n '2p')"
@@ -40,7 +40,7 @@ if [ -s "$selection" ]; then
             #     Vim: Warning: Input is not from a terminal
             # xargs -0 -o vimdiff < $selection
 
-            eval xargs -0 "$diffcmd" < "$selection"
+            eval xargs -0 "$diffcmd" <"$selection"
         fi
     elif [ -n "$1" ]; then
         f1="$(echo "$arr" | sed -n '1p')"
@@ -58,5 +58,5 @@ fi
 
 # Clear selection
 if [ -p "$NNN_PIPE" ]; then
-    printf "-" > "$NNN_PIPE"
+    printf "-" >"$NNN_PIPE"
 fi

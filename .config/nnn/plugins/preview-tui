@@ -81,7 +81,7 @@
 
 #SPLIT="$SPLIT"  # you can set a permanent split here
 #TERMINAL="$TERMINAL"  # same goes for the terminal
-DEBUG_LOG=0  # set to 1 to enable logging for debug purposes
+DEBUG_LOG=0 # set to 1 to enable logging for debug purposes
 USE_SCOPE="${USE_SCOPE:-0}"
 USE_PISTOL="${USE_PISTOL:-0}"
 ICONLOOKUP="${ICONLOOKUP:-0}"
@@ -137,7 +137,8 @@ start_preview() {
                 -e "PAGER=$PAGER" -e "ICONLOOKUP=$ICONLOOKUP" -e "NNN_PREVIEWWIDTH=$NNN_PREVIEWWIDTH" \
                 -e "USE_SCOPE=$USE_SCOPE" -e "SPLIT=$SPLIT" -e "USE_PISTOL=$USE_PISTOL" \
                 -e "NNN_PREVIEWDIR=$NNN_PREVIEWDIR" -e "NNN_PREVIEWHEIGHT=$NNN_PREVIEWHEIGHT" \
-                -e "FIFO_UEBERZUG=$FIFO_UEBERZUG" -e "QLPATH=$2" -d"$DSPLIT" "$0" "$1" ;;
+                -e "FIFO_UEBERZUG=$FIFO_UEBERZUG" -e "QLPATH=$2" -d"$DSPLIT" "$0" "$1"
+            ;;
         kitty) # Setting the layout for the new window. It will be restored after the script ends.
             kitty @ goto-layout splits
             # Trying to use kitty's integrated window management as the split window. All
@@ -145,13 +146,14 @@ start_preview() {
             kitty @ launch --no-response --title "nnn preview" --keep-focus \
                 --cwd "$PWD" --env "PATH=$PATH" --env "NNN_FIFO=$NNN_FIFO" \
                 --env "PREVIEW_MODE=1" --env "PAGER=$PAGER" --env "TMPDIR=$TMPDIR" \
-                --env "USE_SCOPE=$USE_SCOPE" --env "SPLIT=$SPLIT" --env "TERMINAL=$TERMINAL"\
+                --env "USE_SCOPE=$USE_SCOPE" --env "SPLIT=$SPLIT" --env "TERMINAL=$TERMINAL" \
                 --env "PREVIEWPID=$PREVIEWPID" --env "FIFO_UEBERZUG=$FIFO_UEBERZUG" \
                 --env "ICONLOOKUP=$ICONLOOKUP" --env "NNN_PREVIEWHEIGHT=$NNN_PREVIEWHEIGHT" \
                 --env "NNN_PREVIEWWIDTH=$NNN_PREVIEWWIDTH" --env "NNN_PREVIEWDIR=$NNN_PREVIEWDIR" \
                 --env "USE_PISTOL=$USE_PISTOL" --env "BAT_STYLE=$BAT_STYLE" \
                 --env "BAT_THEME=$BAT_THEME" --env "FIFOPID=$FIFOPID" --env TTY="$TTY" \
-                --env "CURSEL=$CURSEL" --location "${SPLIT}split" "$0" "$1" ;;
+                --env "CURSEL=$CURSEL" --location "${SPLIT}split" "$0" "$1"
+            ;;
         iterm)
             command="$SHELL -c 'cd $PWD; \
                 PATH=\\\"$PATH\\\" NNN_FIFO=\\\"$NNN_FIFO\\\" PREVIEW_MODE=1 PAGER=\\\"$PAGER\\\" \
@@ -180,12 +182,12 @@ EOF
                 NNN_PREVIEWDIR=$NNN_PREVIEWDIR NNN_PREVIEWHEIGHT=$NNN_PREVIEWHEIGHT \
                 FIFO_UEBERZUG=$FIFO_UEBERZUG QLPATH=$2 $0 $1" \; -w 0 mf previous
             ;;
-        *)  if [ -n "$2" ]; then
-                QUICKLOOK=1 QLPATH="$2" PREVIEW_MODE=1 "$0" "$1" &
-            else
-                PREVIEWPID="$PREVIEWPID" CURSEL="$CURSEL" PREVIEW_MODE=1 TTY="$TTY" \
-                     FIFOPID="$FIFOPID" FIFO_UEBERZUG="$FIFO_UEBERZUG" $TERMINAL -e "$0" "$1" &
-            fi ;;
+        *) if [ -n "$2" ]; then
+            QUICKLOOK=1 QLPATH="$2" PREVIEW_MODE=1 "$0" "$1" &
+        else
+            PREVIEWPID="$PREVIEWPID" CURSEL="$CURSEL" PREVIEW_MODE=1 TTY="$TTY" \
+                FIFOPID="$FIFOPID" FIFO_UEBERZUG="$FIFO_UEBERZUG" $TERMINAL -e "$0" "$1" &
+        fi ;;
     esac
 } >"$DEBUG_LOGFILE" 2>&1
 
@@ -196,14 +198,14 @@ toggle_preview() {
         QLPATH="Bridge.exe"
     fi
     if kill "$(cat "$FIFOPID")"; then
-        [ -p "$NNN_PPIPE" ] && printf "0" > "$NNN_PPIPE"
+        [ -p "$NNN_PPIPE" ] && printf "0" >"$NNN_PPIPE"
         kill "$(cat "$PREVIEWPID")"
         pkill -f "tail --follow $FIFO_UEBERZUG"
         if [ -n "$QLPATH" ] && stat "$1"; then
             f="$(wslpath -w "$1")" && "$QLPATH" "$f" &
         fi
     else
-        [ -p "$NNN_PPIPE" ] && printf "1" > "$NNN_PPIPE"
+        [ -p "$NNN_PPIPE" ] && printf "1" >"$NNN_PPIPE"
         start_preview "$1" "$QLPATH"
     fi
 } >"$DEBUG_LOGFILE" 2>&1
@@ -220,11 +222,11 @@ fifo_pager() {
     tmpfifopath="$TMPDIR/nnn-preview-tui-fifo.$$"
     mkfifo "$tmpfifopath" || return
 
-    $PAGER < "$tmpfifopath" &
-    printf "%s" "$!" > "$PREVIEWPID"
+    $PAGER <"$tmpfifopath" &
+    printf "%s" "$!" >"$PREVIEWPID"
 
     (
-        exec > "$tmpfifopath"
+        exec >"$tmpfifopath"
         if [ "$cmd" = "pager" ]; then
             if exists bat; then
                 bat --terminal-width="$(tput cols <"$TTY")" --decorations=always --color=always \
@@ -258,15 +260,16 @@ handle_mime() {
         image/*) generate_preview "$cols" "$lines" "$1" "image" ;;
         video/*) generate_preview "$cols" "$lines" "$1" "video" ;;
         audio/*) generate_preview "$cols" "$lines" "$1" "audio" ;;
-        application/font*|application/*opentype|font/*) generate_preview "$cols" "$lines" "$1" "font" ;;
-        */*office*|*/*document*) generate_preview "$cols" "$lines" "$1" "office" ;;
+        application/font* | application/*opentype | font/*) generate_preview "$cols" "$lines" "$1" "font" ;;
+        */*office* | */*document*) generate_preview "$cols" "$lines" "$1" "office" ;;
         application/zip) fifo_pager unzip -l "$1" ;;
         text/troff)
             if exists man; then
                 fifo_pager man -Pcat -l "$1"
             else
                 fifo_pager pager "$1"
-            fi ;;
+            fi
+            ;;
         *) handle_ext "$1" "$3" "$4" ;;
     esac
 }
@@ -275,15 +278,15 @@ handle_ext() {
     case "$2" in
         epub) generate_preview "$cols" "$lines" "$1" "epub" ;;
         pdf) generate_preview "$cols" "$lines" "$1" "pdf" ;;
-        gz|bz2) fifo_pager tar -tvf "$1" ;;
+        gz | bz2) fifo_pager tar -tvf "$1" ;;
         md) if exists glow; then
-                fifo_pager glow -s dark "$1"
-            elif exists lowdown; then
-                fifo_pager lowdown -Tterm "$1"
-            else
-                fifo_pager pager "$1"
-            fi ;;
-        htm|html|xhtml)
+            fifo_pager glow -s dark "$1"
+        elif exists lowdown; then
+            fifo_pager lowdown -Tterm "$1"
+        else
+            fifo_pager pager "$1"
+        fi ;;
+        htm | html | xhtml)
             if exists w3m; then
                 fifo_pager w3m "$1"
             elif exists lynx; then
@@ -292,19 +295,20 @@ handle_ext() {
                 fifo_pager elinks "$1"
             else
                 fifo_pager pager "$1"
-            fi ;;
-        7z|a|ace|alz|arc|arj|bz|cab|cpio|deb|jar|lha|lz|lzh|lzma|lzo\
-        |rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z)
+            fi
+            ;;
+        7z | a | ace | alz | arc | arj | bz | cab | cpio | deb | jar | lha | lz | lzh | lzma | lzo | rar | rpm | rz | t7z | tar | tbz | tbz2 | tgz | tlz | txz | tZ | tzo | war | xpi | xz | Z)
             if exists atool; then
                 fifo_pager atool -l "$1"
             elif exists bsdtar; then
                 fifo_pager bsdtar -tvf "$1"
-            fi ;;
+            fi
+            ;;
         *) if [ "$3" = "bin" ]; then
-               fifo_pager print_bin_info "$1"
-           else
-               fifo_pager pager "$1"
-           fi ;;
+            fifo_pager print_bin_info "$1"
+        else
+            fifo_pager pager "$1"
+        fi ;;
     esac
 }
 
@@ -358,46 +362,48 @@ preview_file() {
 } 2>"$DEBUG_LOGFILE"
 
 generate_preview() {
-  if [ -n "$QLPATH" ] && stat "$3"; then
+    if [ -n "$QLPATH" ] && stat "$3"; then
         f="$(wslpath -w "$3")" && "$QLPATH" "$f" &
-  elif [ ! -f "$NNN_PREVIEWDIR/$3.jpg" ] || [ -n "$(find -L "$3" -newer "$NNN_PREVIEWDIR/$3.jpg")" ]; then
+    elif [ ! -f "$NNN_PREVIEWDIR/$3.jpg" ] || [ -n "$(find -L "$3" -newer "$NNN_PREVIEWDIR/$3.jpg")" ]; then
         mkdir -p "$NNN_PREVIEWDIR/${3%/*}"
         case $4 in
             audio) ffmpeg -i "$3" -filter_complex "scale=iw*min(1\,min($NNN_PREVIEWWIDTH/iw\,ih)):-1" "$NNN_PREVIEWDIR/$3.jpg" -y ;;
             epub) gnome-epub-thumbnailer "$3" "$NNN_PREVIEWDIR/$3.jpg" ;;
             font) fontpreview -i "$3" -o "$NNN_PREVIEWDIR/$3.jpg" ;;
             gif) if [ -p "$FIFO_UEBERZUG" ] && exists convert; then
-                    frameprefix="$NNN_PREVIEWDIR/$3/${3##*/}"
-                    if [ ! -d "$NNN_PREVIEWDIR/$3" ]; then
-                        mkdir -p "$NNN_PREVIEWDIR/$3"
-                        convert -coalesce -resize "$NNN_PREVIEWWIDTH"x"$NNN_PREVIEWHEIGHT"\> "$3" "$frameprefix.jpg" ||
+                frameprefix="$NNN_PREVIEWDIR/$3/${3##*/}"
+                if [ ! -d "$NNN_PREVIEWDIR/$3" ]; then
+                    mkdir -p "$NNN_PREVIEWDIR/$3"
+                    convert -coalesce -resize "$NNN_PREVIEWWIDTH"x"$NNN_PREVIEWHEIGHT"\> "$3" "$frameprefix.jpg" ||
                         MAGICK_TMPDIR="/tmp" convert -coalesce -resize "$NNN_PREVIEWWIDTH"x"$NNN_PREVIEWHEIGHT"\> "$3" "$frameprefix.jpg"
-                    fi
-                    frames=$(($(find "$NNN_PREVIEWDIR/$3" | wc -l) - 2))
-                    [ $frames -lt 0 ] && return
-                    while true; do
-                        for i in $(seq 0 $frames); do
-                            image_preview "$1" "$2" "$frameprefix-$i.jpg"
-                            sleep 0.1
-                        done
-                    done &
-                    printf "%s" "$!" > "$PREVIEWPID"
-                    return
-                 else
-                    exec >/dev/tty
-                    image_preview "$1" "$2" "$3"
-                    return
-                 fi ;;
+                fi
+                frames=$(($(find "$NNN_PREVIEWDIR/$3" | wc -l) - 2))
+                [ $frames -lt 0 ] && return
+                while true; do
+                    for i in $(seq 0 $frames); do
+                        image_preview "$1" "$2" "$frameprefix-$i.jpg"
+                        sleep 0.1
+                    done
+                done &
+                printf "%s" "$!" >"$PREVIEWPID"
+                return
+            else
+                exec >/dev/tty
+                image_preview "$1" "$2" "$3"
+                return
+            fi ;;
             image) if exists convert; then
-                       convert "$3" -flatten -resize "$NNN_PREVIEWWIDTH"x"$NNN_PREVIEWHEIGHT"\> "$NNN_PREVIEWDIR/$3.jpg"
-                   else
-                       image_preview "$1" "$2" "$3" && return
-                   fi ;;
-            office) libreoffice --convert-to jpg "$3" --outdir "$NNN_PREVIEWDIR/${3%/*}"
-                    filename="$(printf "%s" "${3##*/}" | cut -d. -f1)"
-                    mv "$NNN_PREVIEWDIR/${3%/*}/$filename.jpg" "$NNN_PREVIEWDIR/$3.jpg" ;;
+                convert "$3" -flatten -resize "$NNN_PREVIEWWIDTH"x"$NNN_PREVIEWHEIGHT"\> "$NNN_PREVIEWDIR/$3.jpg"
+            else
+                image_preview "$1" "$2" "$3" && return
+            fi ;;
+            office)
+                libreoffice --convert-to jpg "$3" --outdir "$NNN_PREVIEWDIR/${3%/*}"
+                filename="$(printf "%s" "${3##*/}" | cut -d. -f1)"
+                mv "$NNN_PREVIEWDIR/${3%/*}/$filename.jpg" "$NNN_PREVIEWDIR/$3.jpg"
+                ;;
             pdf) pdftoppm -jpeg -f 1 -singlefile "$3" "$NNN_PREVIEWDIR/$3" ;;
-	    djvu) ddjvu -format=ppm -page=1 "$3" "$NNN_PREVIEWDIR/$3.jpg" ;;
+            djvu) ddjvu -format=ppm -page=1 "$3" "$NNN_PREVIEWDIR/$3.jpg" ;;
             video) ffmpegthumbnailer -s0 -i "$3" -o "$NNN_PREVIEWDIR/$3.jpg" || rm "$NNN_PREVIEWDIR/$3.jpg" ;;
         esac
     fi >"$DEBUG_LOGFILE"
@@ -422,17 +428,17 @@ image_preview() {
     else
         fifo_pager print_bin_info "$3" && return
     fi
-    printf "%s" "$!" > "$PREVIEWPID"
+    printf "%s" "$!" >"$PREVIEWPID"
 } 2>"$DEBUG_LOGFILE"
 
 ueberzug_layer() {
-    read -r x y < "$POSOFFSET"
-    printf '{"action": "add", "identifier": "nnn_ueberzug", "x": %d, "y": %d, "width": "%d", "height": "%d", "scaler": "fit_contain", "path": "%s"}\n'\
-        "${x:-0}" "${y:-0}" "$1" "$2" "$3" > "$FIFO_UEBERZUG"
+    read -r x y <"$POSOFFSET"
+    printf '{"action": "add", "identifier": "nnn_ueberzug", "x": %d, "y": %d, "width": "%d", "height": "%d", "scaler": "fit_contain", "path": "%s"}\n' \
+        "${x:-0}" "${y:-0}" "$1" "$2" "$3" >"$FIFO_UEBERZUG"
 }
 
 ueberzug_remove() {
-    printf '{"action": "remove", "identifier": "nnn_ueberzug"}\n' > "$FIFO_UEBERZUG"
+    printf '{"action": "remove", "identifier": "nnn_ueberzug"}\n' >"$FIFO_UEBERZUG"
 }
 
 winch_handler() {
@@ -452,9 +458,9 @@ preview_fifo() {
             [ -p "$FIFO_UEBERZUG" ] && ueberzug_remove
             [ "$selection" = "close" ] && break
             preview_file "$selection"
-            printf "%s" "$selection" > "$CURSEL"
+            printf "%s" "$selection" >"$CURSEL"
         fi
-    done < "$NNN_FIFO"
+    done <"$NNN_FIFO"
     sleep 0.1 # make sure potential preview by winch_handler is killed
     pkill -P "$$"
 } 2>"$DEBUG_LOGFILE"
@@ -467,8 +473,8 @@ if [ "$PREVIEW_MODE" ]; then
 
     preview_file "$PWD/$1"
     preview_fifo &
-    printf "%s" "$!" > "$FIFOPID"
-    printf "%s" "$PWD/$1" > "$CURSEL"
+    printf "%s" "$!" >"$FIFOPID"
+    printf "%s" "$PWD/$1" >"$CURSEL"
     trap 'winch_handler; wait' WINCH
     trap 'rm "$PREVIEWPID" "$CURSEL" "$FIFO_UEBERZUG" "$FIFOPID" "$POSOFFSET" 2>/dev/null' INT HUP EXIT
     wait "$!" 2>/dev/null
@@ -477,11 +483,17 @@ else
     if [ ! -r "$NNN_FIFO" ]; then
         clear
         printf "No FIFO available! (\$NNN_FIFO='%s')\nPlease read Usage in preview-tui." "$NNN_FIFO"
-        cfg=$(stty -g); stty raw -echo; head -c 1; stty "$cfg"
+        cfg=$(stty -g)
+        stty raw -echo
+        head -c 1
+        stty "$cfg"
     elif [ "$KITTY_WINDOW_ID" ] && [ -z "$TMUX" ] && [ -z "$KITTY_LISTEN_ON" ]; then
         clear
         printf "\$KITTY_LISTEN_ON not set!\nPlease read Usage in preview-tui."
-        cfg=$(stty -g); stty raw -echo; head -c 1; stty "$cfg"
+        cfg=$(stty -g)
+        stty raw -echo
+        head -c 1
+        stty "$cfg"
     else
         TTY="$(tty)"
         TTY="$TTY" toggle_preview "$1" &

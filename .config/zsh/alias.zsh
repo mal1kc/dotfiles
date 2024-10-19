@@ -1,7 +1,7 @@
 # alias bat=batcat
 # alias fd=fdfind
 
-if command -v trash &> /dev/null ; then
+if command -v trash &>/dev/null; then
     alias rm="trash"
 else
     alias rm="rm -i -v"

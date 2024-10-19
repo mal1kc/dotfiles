@@ -46,65 +46,62 @@
 # Shell: Bash (job control is weakly specified in POSIX)
 # Author: Léo Villeveygoux
 
-
 XDOTOOL_TIMEOUT=2
 PAGER=${PAGER:-"vim -R"}
 NUKE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins/nuke"
 
-
-if type xterm >/dev/null 2>&1 ; then
+if type xterm >/dev/null 2>&1; then
     TERMINAL="xterm -into"
-elif type urxvt >/dev/null 2>&1 ; then
+elif type urxvt >/dev/null 2>&1; then
     TERMINAL="urxvt -embed"
-elif type st >/dev/null 2>&1 ; then
+elif type st >/dev/null 2>&1; then
     TERMINAL="st -w"
 else
     echo "No xembed term found" >&2
 fi
 
-
-term_nuke () {
+term_nuke() {
     # $1 -> $XID, $2 -> $FILE
     $TERMINAL "$1" -e "$NUKE" "$2" &
 }
 
-start_tabbed () {
+start_tabbed() {
     FIFO="$(mktemp -u)"
     mkfifo "$FIFO"
 
-    tabbed > "$FIFO" &
+    tabbed >"$FIFO" &
 
     jobs # Get rid of the "Completed" entries
 
     TABBEDPID="$(jobs -p %%)"
 
-    if [ -z "$TABBEDPID" ] ; then
+    if [ -z "$TABBEDPID" ]; then
         echo "Can't start tabbed"
         exit 1
     fi
 
-    read -r XID < "$FIFO"
+    read -r XID <"$FIFO"
 
     rm "$FIFO"
 }
 
-get_viewer_pid () {
-        VIEWERPID="$(jobs -p %%)"
+get_viewer_pid() {
+    VIEWERPID="$(jobs -p %%)"
 }
 
-kill_viewer () {
-        if [ -n "$VIEWERPID" ] && jobs -p | grep "$VIEWERPID" ; then
-            kill "$VIEWERPID"
-        fi
+kill_viewer() {
+    if [ -n "$VIEWERPID" ] && jobs -p | grep "$VIEWERPID"; then
+        kill "$VIEWERPID"
+    fi
 }
 
-sigint_kill () {
-	kill_viewer
-	kill "$TABBEDPID"
-	exit 0
+sigint_kill() {
+    kill_viewer
+    kill "$TABBEDPID"
+    exit 0
 }
 
-previewer_loop () {
+previewer_loop() {
     unset -v NNN_FIFO
     # mute from now
     exec >/dev/null 2>&1
@@ -122,15 +119,15 @@ previewer_loop () {
     # (uncomment to use):
     #xdotool behave "$XID" focus windowactivate "$MAINWINDOW" &
 
-    while read -r FILE ; do
+    while read -r FILE; do
 
         jobs # Get rid of the "Completed" entries
 
-        if ! jobs | grep tabbed ; then
+        if ! jobs | grep tabbed; then
             break
         fi
 
-        if [ ! -e "$FILE" ] ; then
+        if [ ! -e "$FILE" ]; then
             continue
         fi
 
@@ -140,30 +137,30 @@ previewer_loop () {
 
         case "$MIME" in
             video/*)
-                if type mpv >/dev/null 2>&1 ; then
+                if type mpv >/dev/null 2>&1; then
                     mpv --force-window=immediate --loop-file --wid="$XID" "$FILE" &
                 else
                     term_nuke "$XID" "$FILE"
                 fi
                 ;;
             audio/*)
-                if type mpv >/dev/null 2>&1 ; then
+                if type mpv >/dev/null 2>&1; then
                     mpv --force-window=immediate --loop-file --wid="$XID" "$FILE" &
                 else
                     term_nuke "$XID" "$FILE"
                 fi
                 ;;
             image/*)
-                if type sxiv >/dev/null 2>&1 ; then
+                if type sxiv >/dev/null 2>&1; then
                     sxiv -ae "$XID" "$FILE" &
-                elif type nsxiv >/dev/null 2>&1 ; then
+                elif type nsxiv >/dev/null 2>&1; then
                     nsxiv -ae "$XID" "$FILE" &
                 else
                     term_nuke "$XID" "$FILE"
                 fi
                 ;;
             application/pdf)
-                if type zathura >/dev/null 2>&1 ; then
+                if type zathura >/dev/null 2>&1; then
                     zathura -e "$XID" "$FILE" &
                 else
                     term_nuke "$XID" "$FILE"
@@ -173,7 +170,7 @@ previewer_loop () {
                 $TERMINAL "$XID" -e nnn "$FILE" &
                 ;;
             text/*)
-                if [ -x "$NUKE" ] ; then
+                if [ -x "$NUKE" ]; then
                     term_nuke "$XID" "$FILE"
                 else
                     # shellcheck disable=SC2086
@@ -181,7 +178,7 @@ previewer_loop () {
                 fi
                 ;;
             *)
-                if [ -x "$NUKE" ] ; then
+                if [ -x "$NUKE" ]; then
                     term_nuke "$XID" "$FILE"
                 else
                     $TERMINAL "$XID" -e sh -c "file '$FILE' | $PAGER -" &
@@ -192,7 +189,7 @@ previewer_loop () {
 
         # following lines are not needed with the bruteforce xdotool method
         ACTIVE_XID="$(xdotool getactivewindow)"
-        if [ $((ACTIVE_XID == XID)) -ne 0 ] ; then
+        if [ $((ACTIVE_XID == XID)) -ne 0 ]; then
             xdotool windowactivate "$MAINWINDOW"
         else
             timeout "$XDOTOOL_TIMEOUT" xdotool behave "$XID" focus windowactivate "$MAINWINDOW" &
@@ -202,10 +199,10 @@ previewer_loop () {
     kill_viewer
 }
 
-if [ ! -r "$NNN_FIFO" ] ; then
+if [ ! -r "$NNN_FIFO" ]; then
     echo "Can't read \$NNN_FIFO ('$NNN_FIFO')"
     exit 1
 fi
 
-previewer_loop < "$NNN_FIFO" &
+previewer_loop <"$NNN_FIFO" &
 disown

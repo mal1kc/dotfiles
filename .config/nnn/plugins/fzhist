@@ -18,7 +18,7 @@ shellname="$(basename "$SHELL")"
 
 if [ "$shellname" = "bash" ]; then
     hist_file="$HOME/.bash_history"
-    entry="$("$fuzzy" < "$hist_file")"
+    entry="$("$fuzzy" <"$hist_file")"
 elif [ "$shellname" = "fish" ]; then
     hist_file="$HOME/.local/share/fish/fish_history"
     entry="$(grep "\- cmd: " "$hist_file" | cut -c 8- | "$fuzzy")"
@@ -26,7 +26,7 @@ fi
 
 if [ -n "$entry" ]; then
     tmpfile=$(mktemp)
-    echo "$entry" >> "$tmpfile"
+    echo "$entry" >>"$tmpfile"
     $EDITOR "$tmpfile"
 
     if [ -s "$tmpfile" ]; then

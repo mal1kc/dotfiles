@@ -24,7 +24,10 @@ NNN_PREVIEWDIR="${NNN_PREVIEWDIR:-${TMPDIR:-/tmp}/nnn/previews}"
 exit_prompt() {
     [ -n "$1" ] && printf "%s\n" "$1"
     printf "%s" "Press any key to exit..."
-    cfg=$(stty -g); stty raw -echo; head -c 1; stty "$cfg"
+    cfg=$(stty -g)
+    stty raw -echo
+    head -c 1
+    stty "$cfg"
     clear
     exit
 }
@@ -35,18 +38,22 @@ make_thumbs() {
         [ -d "$target" ] && exit_prompt "$2 can only display a single image"
         mime="$(file -bL --mime-type -- "$target")"
         case "$mime" in
-          audio/*) ffmpeg -i "$target" "$NNN_PREVIEWDIR$target.jpg" -y >/dev/null 2>&1
-              ret="$NNN_PREVIEWDIR/$target.jpg" ;;
-          video/*) ffmpegthumbnailer -i "$target" -o "$NNN_PREVIEWDIR$target.jpg" 2> /dev/null
-              ret="$NNN_PREVIEWDIR/$target.jpg" ;;
-          *) ret="$target" ;;
+            audio/*)
+                ffmpeg -i "$target" "$NNN_PREVIEWDIR$target.jpg" -y >/dev/null 2>&1
+                ret="$NNN_PREVIEWDIR/$target.jpg"
+                ;;
+            video/*)
+                ffmpegthumbnailer -i "$target" -o "$NNN_PREVIEWDIR$target.jpg" 2>/dev/null
+                ret="$NNN_PREVIEWDIR/$target.jpg"
+                ;;
+            *) ret="$target" ;;
         esac
     fi
     for file in "$dir"/*; do
         if [ ! -f "$NNN_PREVIEWDIR$file.jpg" ]; then
             case "$(file -bL --mime-type -- "$file")" in
                 audio/*) [ "$1" -ne 0 ] && ffmpeg -i "$file" "$NNN_PREVIEWDIR$file.jpg" -y >/dev/null 2>&1 ;;
-                video/*) [ "$1" -ne 1 ] && ffmpegthumbnailer -i "$file" -o "$NNN_PREVIEWDIR$file.jpg" 2> /dev/null ;;
+                video/*) [ "$1" -ne 1 ] && ffmpegthumbnailer -i "$file" -o "$NNN_PREVIEWDIR$file.jpg" 2>/dev/null ;;
             esac
         fi
     done
