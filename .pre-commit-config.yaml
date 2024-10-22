@@ -20,10 +20,8 @@ repos:
         language: system
       - id: shfmt
         name: shfmt
-        language: golang
-        require_serial: true
-        additional_dependencies: [mvdan.cc/sh/v3/cmd/shfmt@v3.4.3]
-        entry: shfmt
-        args: ["-l", "-w", "-ci", "./local/bin/"]
+        language: script
+        exclude: ".config/nnn/plugins|.config/river"
+        entry: ./scripts/shfmt.sh
         types: [shell]
 

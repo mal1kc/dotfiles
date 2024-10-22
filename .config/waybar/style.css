@@ -5,7 +5,11 @@
     border: none;
     border-radius: 0px;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 10px;
+}
+
+*:hover {
+  font-size: 20px;
 }
 
 window#waybar {
@@ -252,4 +256,17 @@ label:focus {
 	padding: 0px 5px;
     border-radius: 5px;
 	margin: 5px 0px;
+}
+
+#custom-notification {
+  font-family: "Iosevka SemiBold";
+  font-size: 10px;
+}
+
+#custom-notification:hover {
+  font-family: "Iosevka Light";
+  border: none;
+  border-radius: 0px;
+  font-weight: normal;
+  font-size: 10px;
 }

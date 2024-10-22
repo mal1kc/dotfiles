@@ -2,9 +2,9 @@
 # alias fd=fdfind
 
 if command -v trash &>/dev/null; then
-    alias rm="trash"
+	alias rm="trash"
 else
-    alias rm="rm -i -v"
+	alias rm="rm -i -v"
 fi
 
 alias mv="mv -v"

@@ -8,7 +8,7 @@ cd "$HOME/dotfiles" || exit 1
 truncate -s 0 "$pkg_list_file"
 # Populate package list file with package name and description
 yay -Qet | gawk '{print $1}' | while read -r pkg; do
-  yay -Qi "$pkg" | grep -E '^(Name|Description)' >>"$pkg_list_file"
+	yay -Qi "$pkg" | grep -E '^(Name|Description)' >>"$pkg_list_file"
 done
 
 # Modify package list file
@@ -19,5 +19,5 @@ nix profile list | rg "legacyPackages.x86" | sed -n '/legacyPackages\.x86_64-lin
 
 # Add files to git if git is initialized
 if [ -d .git ]; then
-  git add "$nix_profile_pkg_list_file" "$pkg_list_file" -f
+	git add "$nix_profile_pkg_list_file" "$pkg_list_file" -f
 fi

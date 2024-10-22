@@ -1,0 +1,115 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "positionX": "right",
+  "positionY": "top",
+  "control-center-margin-top": 2,
+  "control-center-margin-bottom": 2,
+  "control-center-margin-right": 2,
+  "notification-icon-size": 24,
+  "notification-2fa-action": true,
+  "notification-body-image-height": 200,
+  "notification-body-image-width": 400,
+  "timeout": 10,
+  "timeout-low": 5,
+  "timeout-critical": 0,
+  "fit-to-screen": true,
+  "control-center-width": 400,
+  "control-center-height": 300,
+  "notification-window-width": 500,
+  "keyboard-shortcuts": true,
+  "image-visibility": "when-available",
+  "transition-time": 110,
+  "hide-on-clear": false,
+  "hide-on-action": true,
+  "script-fail-notify": true,
+  "widgets": [
+    "dnd",
+    "volume",
+    "menubar",
+    "notifications",
+    "mpris",
+    "title"
+  ],
+  "widget-config": {
+    "menubar": {
+      "menu#power-buttons": {
+        "label": " 󰐥 powermenu",
+        "position": "left",
+        "actions": [
+          {
+            "label": "󰐥",
+            "command": "sh -c '$HOME/.config/hypr/scripts/poweroff'"
+          },
+          {
+            "label": "󰜉",
+            "command": "sh -c '$HOME/.config/hypr/scripts/reboot'"
+          },
+          {
+            "label": "󰌾",
+            "command": "sh -c '$HOME/.config/hypr/scripts/lock'"
+          },
+          {
+            "label": "󰍃",
+            "command": "sh -c '$HOME/.config/hypr/scripts/close_session'"
+          }
+        ]
+      },
+      "menu#audio": {
+        "label": " 󰕾 audio",
+        "position": "right",
+        "actions": [
+          {
+            "label": "open wofi audio",
+            "command": "wofi_json.py audio"
+          },
+          {
+            "label": "󰕾",
+            "command": "wpctl  set-mute  @DEFAULT_AUDIO_SINK@ toggle",
+            "type": "toggle"
+          },
+          {
+            "label": "󰍬",
+            "command": "wpctl  set-mute  @DEFAULT_AUDIO_SOURCE@ toggle",
+            "type": "toggle"
+          }
+        ]
+      },
+      "menu#screenshot-buttons": {
+        "label": "   screenshot ",
+        "position": "left",
+        "actions": [
+          {
+            "label": "selection",
+            "command": "sh -c '$HOME/.local/bin/screenshot --notify'"
+          },
+          {
+            "label": "fullscreen",
+            "command": "sh -c '$HOME/.local/bin/screenshot_fullscreen --notify'"
+          }
+        ]
+      }
+    },
+    "title": {
+      "text": "Notification Center",
+      "clear-all-button": true,
+      "button-text": "󰆴 Clear"
+    },
+    "dnd": {
+      "text": "Do Not Disturb"
+    },
+    "label": {
+      "max-lines": 1,
+      "text": "Notification's"
+    },
+    "mpris": {
+      "image-size": 128,
+      "image-radius": 12
+    },
+    "volume": {
+      "label": "󰕾 "
+    },
+    "buttons-grid": {
+      "actions": []
+    }
+  }
+}

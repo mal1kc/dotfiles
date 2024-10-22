@@ -34,6 +34,7 @@ gen_colorscheme() {
 	wallust run -a 82 -w "$target"
 	xrdb -merge ~/.cache/wallust/.Xresources
 	restart_waybar
+	swaync-client --reload-css
 }
 
 # get random file from wallpaper folder
