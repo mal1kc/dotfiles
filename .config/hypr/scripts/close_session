@@ -1,0 +1,3 @@
+#!/bin/env sh
+
+python ~/.local/bin/confirm_dialog.py 'do you want logout' && notify-send 'Logging out'  &&  loginctl terminate-session "${XDG_SESSION_ID}"

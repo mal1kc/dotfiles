@@ -16,7 +16,7 @@ if [ -n "$WAYLAND_DISPLAY" ]; then
 		# notify-send "Waybar restarted with SIGUSR2 :)"
 	else
 		# notify-send "started waybar"
-		exec tmux new-session -s "start_waybar" -d waybar
+		exec tmux new-session -s "start_waybar" -d waybar || echo "exiting tmux"
 		# disown is necessary to prevent the service from blocking
 	fi
 fi
