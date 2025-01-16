@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # """BSD 3-Clause License
 #
-# Copyright (c) 2024-2025, mal1kc
+# Copyright (c) 2024-2026, mal1kc
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -69,13 +69,20 @@ BACKUP_TMP_DIR: tempfile.TemporaryDirectory = (
     tempfile.TemporaryDirectory()
 )  # for creating tar_file
 
+# logging.basicConfig(
+#     level=logging.INFO,  # non-verbose
+#     # level=logging.DEBUG,  # verbose
+#     format="%(asctime)s - %(levelname)s - %(message)s",  # Log message format
+#     filename=LOGFILE.absolute(),
+#     filemode="w",  # Overwrite the log file each time the script runs
+# )
+
 LOGGER = logging.Logger("main")
-LOGGER.basicConfig(
-    level=logging.INFO,  # non-verbose
-    # level=logging.DEBUG,  # verbose
-    format="%(asctime)s - %(levelname)s - %(message)s",  # Log message format
-    filename=LOGFILE.absolute(),
-    filemode="w",  # Overwrite the log file each time the script runs
+LOGGER.setLevel(logging.INFO)
+LOGGER.addHandler(logging.FileHandler(LOGFILE.absolute(), "w", "utf-8"))
+assert LOGGER.hasHandlers()
+LOGGER.handlers[0].formatter = logging.Formatter(
+    "%(asctime)s - %(levelname)s - %(message)s"
 )
 
 
@@ -87,7 +94,6 @@ DOTFILE_LIST: list[Path] = [
         ".Xresources",
         ".bashrc",
         ".gitconfig",
-        ".gtkrc-2.0",
         ".inputrc",
         ".zshrc",
     ]
@@ -169,9 +175,11 @@ def reorder_old_backup_files() -> None:
     new_childs = []
     if len(childs) >= BACKUP_MAX_LMT:
         last_backup_file = childs.pop()
-        LOGGER.debug(f"backup: remove oldest backup file {last_backup_file}.")
+        LOGGER.debug(
+            f"backup: remove oldest backup file {last_backup_file.absolute()}."
+        )
         if not global_options.dry_run:
-            os.remove(last_backup_file)
+            os.remove(last_backup_file.absolute())
 
     for indx, ch in enumerate(childs):
         # change last part 1.tar.gz => 2.tar.gz
@@ -191,10 +199,10 @@ def reorder_old_backup_files() -> None:
             ), "Panic!: iterative move of old backups has directory bug."
             new_childs.append(new_ch)
         LOGGER.debug(f"backup: mov old backup {ch} to {new_ch_name}")
-
-    assert (
-        childs[0].absolute() != new_childs[0].absolute()
-    ), "Panic!: iterative move of old backups has a bug probably."
+    if len(childs) > 0:
+        assert (
+            childs[0].absolute() != new_childs[0].absolute()
+        ), "Panic!: iterative move of old backups has a bug probably."
 
 
 def create_archive(
@@ -205,16 +213,20 @@ def create_archive(
     """
     reorder_old_backup_files()
     backup_file_name = BACKUP_TAR_BASE_NAME + ".1"
-    LOGGER.info(f"backup: backup tar creating at {BACKUPS_DIR}.")
-    archive_res = archive_res = shutil.make_archive(
+    LOGGER.info(f"backup: backup tar creating at '{BACKUPS_DIR}' .")
+    BACKUPS_DIR.mkdir(exist_ok=True)
+    archive_res = shutil.make_archive(
         base_name=backup_file_name,
         format=BACKUP_TAR_FILE_FORMAT[1],
-        root_dir=BACKUPS_DIR,
+        root_dir=BACKUPS_DIR.absolute(),
         base_dir=dir_to_archive,
         dry_run=global_options.dry_run,
     )
+    dst_path = BACKUPS_DIR.joinpath(backup_file_name + "." + BACKUP_TAR_FILE_FORMAT[0])
     LOGGER.info(f"backup: backup tar created at {archive_res}.")
-    return archive_res
+    os.rename(archive_res, dst_path)
+    LOGGER.info(f"backup: backup tar moved to {dst_path}.")
+    return dst_path
 
 
 def move_to_backup_dir(dotfile: Path):
@@ -226,20 +238,38 @@ def move_to_backup_dir(dotfile: Path):
     assert (
         tmp_dir.exists() and tmp_dir.is_dir()
     ), f"{BACKUP_TMP_DIR=} must be exists and must be dir"
-    assert HOME_DIR in dotfile.parents, "dfile must be relative_to HOME_DIR"
+    #  must be in this format : .config/hypr/hyprland.conf
+    #  not in this format : /home/mal1kc/.config/hypr/hyprland.conf
+    assert (
+        HOME_DIR not in dotfile.parents
+    ), f"{dotfile=} must be relative_to {HOME_DIR=}"
 
     LOGGER.info(f"move_to_backup_dir: backuping {dotfile.absolute()}")
     dst = Path(BACKUP_TMP_DIR.name).joinpath(dotfile)
     src = HOME_DIR.joinpath(dotfile)
+    if not src.exists():
+        LOGGER.info(f"move_to_backup_dir: {src} not exits not doing backup for {src}")
+        return
 
-    assert src.exists(), "src must be existsed on move_to_backup_dir"
+    assert src.exists(
+        follow_symlinks=False
+    ), "src must be existsed on move_to_backup_dir"
     assert src.is_file(), "src must be file on move_to_backup_dir"
-    assert not dst.exists(), "dst must be not existed on move_to_backup_dir"
-    LOGGER.info(f"move_to_backup_dir: {src} backed up to {dst.parent.absolute()}")
+
+    assert not dst.exists(
+        follow_symlinks=False
+    ), f"{dst=} must be not existed on move_to_backup_dir"
+    LOGGER.info(f"move_to_backup_dir: {src} backed up as {dst}")
     if not global_options.dry_run:
-        shutil.move(src, dst)
+        if not dst.parent.exists():
+            LOGGER.debug(f"move_to_backup_dir: {dst.parent} not exists creating dir")
+            dst.parent.mkdir(parents=True, exist_ok=True)
         assert (
-            dst.exists()
+            dst.parent.exists()
+        ), f"{dst.parent} must be existed on move_to_backup_dir"
+        shutil.move(src.absolute(), dst.absolute())
+        assert dst.exists(
+            follow_symlinks=False
         ), "after a move of src , dst must be existed on move_to_backup_dir"
 
 
@@ -251,14 +281,14 @@ def install_dotfile(dfile: Path) -> bool:
     src = DOTFILES_DIR.joinpath(dfile)
     dst = HOME_DIR.joinpath(dfile)
 
-    LOGGER.debug(f"install_dotfile: {src} to {dst}")
+    LOGGER.debug(f"install_dotfile: {src.absolute()} to {dst.absolute()}")
 
     # -- checks_start
-    if not src.exists():
+    if not src.exists(follow_symlinks=False):
         LOGGER.error(f"install_dotfile: {src} not exists")
         return False
 
-    if dst.exists():
+    if dst.exists(follow_symlinks=False):
         if not dst.is_symlink():
             if dst.is_dir():
                 for subfile in dst.iterdir():
@@ -271,20 +301,27 @@ def install_dotfile(dfile: Path) -> bool:
                 if global_options().do_backup:
                     move_to_backup_dir(dst.relative_to(HOME_DIR))
                 else:
-                    logging.debug(f"install_dotfile: removing {dst}")
+                    logging.debug(f"install_dotfile: removing {dst.absolute()}")
                     if not global_options.dry_run:
-                        os.remove(dst)
+                        os.remove(dst.absolute())
+                assert not dst.exists(
+                    follow_symlinks=False
+                ), f"{dst=} needs be not exists anymore."
         else:
-            LOGGER.debug(f"install_dotfile: found a symlink at {dst} unlinking it.")
+            LOGGER.debug(
+                f"install_dotfile: found a symlink at {dst.absolute()} unlinking it."
+            )
             if not global_options.dry_run:
-                os.unlink(dst)
-        assert dst.exists(), f"{dst=} needs be not exists anymore."
+                os.unlink(dst.absolute())
+            assert not dst.exists(
+                follow_symlinks=False
+            ), f"{dst=} needs be not exists anymore."
     if src.is_dir():
         LOGGER.info(
             f"install_dotfile: {src=} is directory creating dir at destination."
         )
         if not global_options.dry_run:
-            dst.mkdir(dst, parents=True, exists=True)
+            dst.mkdir(parents=True, exist_ok=True)
             assert dst.is_dir(), "directory must be created"
         for subfile in src.iterdir():
             if not install_dotfile(subfile.relative_to(DOTFILES_DIR)):
@@ -309,9 +346,16 @@ def cli_install_dotfiles() -> None:
     for dfile in global_options.dotfiles:
         if not install_dotfile(dfile):
             LOGGER.debug(f"cli_uninstall_dotfiles: can't install {dfile.absolute()}")
+
+    dir_to_archive = Path(BACKUP_TMP_DIR.name)
+    assert dir_to_archive.is_dir(), "dir_to_archive must be dir"
+    assert dir_to_archive.is_absolute(), "dir_to_archive must be absolute"
     if global_options.do_backup:
-        archive_file = create_archive(BACKUP_TMP_DIR)
-        assert archive_file is None, "backup: can't created backup tar file"
+        archive_file = create_archive(dir_to_archive)
+        LOGGER.debug(f"cli_install_dotfiles: create_archive returned {archive_file=}")
+        assert archive_file.exists(
+            follow_symlinks=False
+        ), "backup: can't created backup tar file"
     BACKUP_TMP_DIR.cleanup()
 
 
@@ -320,10 +364,10 @@ def cli_check_exists() -> None:
     give state about non-existed dotfiles and already existed files
     """
     for dfile in global_options.dotfiles:
-        if not DOTFILES_DIR.joinpath(dfile).exists():
+        if not DOTFILES_DIR.joinpath(dfile).exists(follow_symlinks=False):
             LOGGER.error(f"cli_check_exists: {dfile} not exists")
             continue
-        LOGGER.info("cli_check_exists: {dfile} exists")
+        LOGGER.info(f"cli_check_exists: {dfile} exists")
 
 
 def get_actions() -> list[dict[str, str | (Callable[..., None]) | dict[str, bool]]]:
@@ -337,7 +381,7 @@ def get_actions() -> list[dict[str, str | (Callable[..., None]) | dict[str, bool
         {
             "name": "check_exists",
             "help": "give state about non-existed dotfiles and already existed files",
-            "func": cli_check_exists(),
+            "func": cli_check_exists,
             "args": {},
         },
     ]
@@ -379,6 +423,7 @@ def main() -> None:
     if args.verbose:  # pyright: ignore[reportAny]
         global_options.verbose = True
         LOGGER.setLevel(logging.DEBUG)
+        LOGGER.addHandler(logging.StreamHandler(sys.stderr))  # sys.stderr
 
     if args.x11:  # pyright: ignore[reportAny]
         global_options.dotfiles += OTHER_DOTFILES["x11"]
@@ -398,7 +443,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    print("THIS SCRIPT IS NOT NOT_IMPLEMENTED | NOT_FINISHED failing to execute")
-    print("*********** NOT FINISHED *****************")
-    exit(1)
     main()  # pyright: ignore[reportUnreachable]
