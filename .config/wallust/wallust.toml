@@ -112,8 +112,8 @@ palette = "dark"
 #  var.blue:   Output the blue value.
 #
 # Where `var` can be colors from `color0` to `color15`, `background`, `foreground` and `cursor`.
-colors_gtk3 = { src= 'templates/custom-gtk3.css', dst= '~/.cache/wallust/custom-gtk3.css' }
-# xresources = { src= 'templates/.Xresources', dst= '~/.cache/wallust/.Xresources' }
-kitty = { src= 'templates/kitty.conf', dst= '~/.cache/wallust/kitty.conf' }
-colors = { src= 'templates/colors.css', dst= '~/.cache/wallust/colors.css' }
-waybar = { src= 'templates/waybar.css', dst= '~/.cache/wallust/waybar.css' }
+colors_gtk3 = { src= 'custom-gtk3.css', dst= '~/.cache/wallust/custom-gtk3.css' }
+# xresources = { src= '.Xresources', dst= '~/.cache/wallust/.Xresources' }
+kitty = { src= 'kitty.conf', dst= '~/.cache/wallust/kitty.conf' }
+colors = { src= 'colors.css', dst= '~/.cache/wallust/colors.css' }
+waybar = { src= 'waybar.css', dst= '~/.cache/wallust/waybar.css' }

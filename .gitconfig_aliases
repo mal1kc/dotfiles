@@ -44,12 +44,6 @@
 	# todo: maybe use `git commit --date=X` to set a past date. would need to pick one, tho.
 	commitwip = !"git commit -am \"WIP changes from a while ago. Last modified on:\n$(( git diff --name-only --cached; git ls-files --modified ) | uniq | xargs gstat -c '- %.19y %N')\""
 
-
-[credential]
-	helper = store
-[user]
-	email = 59576495+mal1kc@users.noreply.github.com
-	name = mal1kc
 [core]
 	editor = nvim
 	pager = diff-so-fancy | less --tabs=4 -RFX

@@ -89,11 +89,23 @@ LOGGER.handlers[0].formatter = logging.Formatter(
 DOTFILE_LIST: list[Path] = [
     Path(config)
     for config in [
+        ".config/fish",
+        ".config/nnn",
+        ".config/bat",
+        ".config/wallust",
+        ".config/zsh",
+        ".config/sounds",
+        ".config/kanata",
+        ".config/nsxiv",
+        ".config/systemd",
+        ".config/gamemode.ini",
         ".local/bin",
         ".local/share/applications",
-        ".Xresources",
         ".bashrc",
-        ".gitconfig",
+        ".gitconfig_aliases",
+        # gitconfig aliases
+        # [includeIf "gitdir:~/dotfiles/"]
+        #      path = ~/.gitconfig_aliases
         ".inputrc",
         ".zshrc",
     ]
@@ -135,6 +147,7 @@ OTHER_DOTFILES: dict[str, list[Path]] = {
         Path(x11config)
         for x11config in [
             ".xinitrc",
+            ".Xresources",
             ".xprofile",
             # ".config/picom.conf",
             # ".config/rofi",
@@ -144,6 +157,7 @@ OTHER_DOTFILES: dict[str, list[Path]] = {
     "wayland": [
         Path(waylandconfig)
         for waylandconfig in [
+            ".config/swaync",
             ".config/foot",
             ".config/hypr",
             ".config/river",
@@ -167,42 +181,58 @@ def mkdirs(fpath: str | Path) -> None:
 
 
 def reorder_old_backup_files() -> None:
+    # FIXLATER :  still has a bug if 2 old backups found
+    #               \ { 2.tar.gz , 3.tar.gz } trying to do incorrect movement
     glob_ptrn = f"*.[0-9].{BACKUP_TAR_FILE_FORMAT[0]}"
     LOGGER.debug("backup: globbing old backups files.")
     childs = [ch for ch in BACKUPS_DIR.glob(glob_ptrn)]
     LOGGER.debug(f"backup: found {len(childs)} old backup files.")
     childs.sort()
+    if len(childs) == 0:
+        return
     new_childs = []
+    suffix_indx = -1 * (3 + len(BACKUP_TAR_FILE_FORMAT[0]))
+    number_of_first = childs[0].name[suffix_indx + 1 : suffix_indx + 2]
+    if number_of_first != "1":
+        LOGGER.debug("backup: not found 1.tar.gz NOT DOING ANY REORDER THING")
+        return
+
     if len(childs) >= BACKUP_MAX_LMT:
         last_backup_file = childs.pop()
         LOGGER.debug(
-            f"backup: remove oldest backup file {last_backup_file.absolute()}."
+            f"backup: remove oldest backup file by checking indx num of file: {last_backup_file.absolute()}."
         )
         if not global_options.dry_run:
             os.remove(last_backup_file.absolute())
 
     for indx, ch in enumerate(childs):
-        # change last part 1.tar.gz => 2.tar.gz
+        LOGGER.debug(f"backup: trying to reorder file {indx}:{ch}")
+        # change last part 1.tar.gz => 2.tar.gz \ => 3.tar.gz
 
-        new_ch_name = ch.parent.joinpath(
-            ch.name[: -{3 + len(BACKUP_TAR_FILE_FORMAT[0])}] + str(indx + 2)
-        ).absolute()
         # absolute is necessary for rename in correct parent dir
-        # +2 because 0. index has 1 suffix, 1. index has 2 suffix
+        new_ch_name = ch.parent.joinpath(
+            ch.name[:suffix_indx] + f".{indx + 2}.{BACKUP_TAR_FILE_FORMAT[0]}"
+            # +2 because
+            # indx 0 is must be renamed to 2.tar.gz
+            # indx 1 is must be renamed to 3.tar.gz
+        ).absolute()
+
+        LOGGER.debug(f"backup: old to new = {ch.name} -> {new_ch_name.name}")
+
         if not global_options.dry_run:
             new_ch = ch.rename(new_ch_name)
-            assert (
-                new_ch != ch
-            ), "Panic!: iterative move of old backups has a bug with renaming."
-            assert (
-                new_ch.parent == ch.parent
-            ), "Panic!: iterative move of old backups has directory bug."
+            assert new_ch != ch, (
+                "Panic!: iterative move of old backups has a bug with renaming."
+            )
+            assert new_ch.parent == ch.parent, (
+                "Panic!: iterative move of old backups has directory bug."
+            )
             new_childs.append(new_ch)
         LOGGER.debug(f"backup: mov old backup {ch} to {new_ch_name}")
     if len(childs) > 0:
-        assert (
-            childs[0].absolute() != new_childs[0].absolute()
-        ), "Panic!: iterative move of old backups has a bug probably."
+        assert childs[0].absolute() != new_childs[0].absolute(), (
+            "Panic!: iterative move of old backups has a bug probably."
+        )
 
 
 def create_archive(
@@ -235,14 +265,14 @@ def move_to_backup_dir(dotfile: Path):
     - move current dotfile to BACKUPS_DIR
     """
     tmp_dir = Path(BACKUP_TMP_DIR.name)
-    assert (
-        tmp_dir.exists() and tmp_dir.is_dir()
-    ), f"{BACKUP_TMP_DIR=} must be exists and must be dir"
+    assert tmp_dir.exists() and tmp_dir.is_dir(), (
+        f"{BACKUP_TMP_DIR=} must be exists and must be dir"
+    )
     #  must be in this format : .config/hypr/hyprland.conf
     #  not in this format : /home/mal1kc/.config/hypr/hyprland.conf
-    assert (
-        HOME_DIR not in dotfile.parents
-    ), f"{dotfile=} must be relative_to {HOME_DIR=}"
+    assert HOME_DIR not in dotfile.parents, (
+        f"{dotfile=} must be relative_to {HOME_DIR=}"
+    )
 
     LOGGER.info(f"move_to_backup_dir: backuping {dotfile.absolute()}")
     dst = Path(BACKUP_TMP_DIR.name).joinpath(dotfile)
@@ -251,26 +281,26 @@ def move_to_backup_dir(dotfile: Path):
         LOGGER.info(f"move_to_backup_dir: {src} not exits not doing backup for {src}")
         return
 
-    assert src.exists(
-        follow_symlinks=False
-    ), "src must be existsed on move_to_backup_dir"
+    assert src.exists(follow_symlinks=False), (
+        "src must be existsed on move_to_backup_dir"
+    )
     assert src.is_file(), "src must be file on move_to_backup_dir"
 
-    assert not dst.exists(
-        follow_symlinks=False
-    ), f"{dst=} must be not existed on move_to_backup_dir"
+    assert not dst.exists(follow_symlinks=False), (
+        f"{dst=} must be not existed on move_to_backup_dir"
+    )
     LOGGER.info(f"move_to_backup_dir: {src} backed up as {dst}")
     if not global_options.dry_run:
         if not dst.parent.exists():
             LOGGER.debug(f"move_to_backup_dir: {dst.parent} not exists creating dir")
             dst.parent.mkdir(parents=True, exist_ok=True)
-        assert (
-            dst.parent.exists()
-        ), f"{dst.parent} must be existed on move_to_backup_dir"
+        assert dst.parent.exists(), (
+            f"{dst.parent} must be existed on move_to_backup_dir"
+        )
         shutil.move(src.absolute(), dst.absolute())
-        assert dst.exists(
-            follow_symlinks=False
-        ), "after a move of src , dst must be existed on move_to_backup_dir"
+        assert dst.exists(follow_symlinks=False), (
+            "after a move of src , dst must be existed on move_to_backup_dir"
+        )
 
 
 def install_dotfile(dfile: Path) -> bool:
@@ -304,18 +334,18 @@ def install_dotfile(dfile: Path) -> bool:
                     logging.debug(f"install_dotfile: removing {dst.absolute()}")
                     if not global_options.dry_run:
                         os.remove(dst.absolute())
-                assert not dst.exists(
-                    follow_symlinks=False
-                ), f"{dst=} needs be not exists anymore."
+                assert not dst.exists(follow_symlinks=False), (
+                    f"{dst=} needs be not exists anymore."
+                )
         else:
             LOGGER.debug(
                 f"install_dotfile: found a symlink at {dst.absolute()} unlinking it."
             )
             if not global_options.dry_run:
                 os.unlink(dst.absolute())
-            assert not dst.exists(
-                follow_symlinks=False
-            ), f"{dst=} needs be not exists anymore."
+            assert not dst.exists(follow_symlinks=False), (
+                f"{dst=} needs be not exists anymore."
+            )
     if src.is_dir():
         LOGGER.info(
             f"install_dotfile: {src=} is directory creating dir at destination."
@@ -353,9 +383,9 @@ def cli_install_dotfiles() -> None:
     if global_options.do_backup:
         archive_file = create_archive(dir_to_archive)
         LOGGER.debug(f"cli_install_dotfiles: create_archive returned {archive_file=}")
-        assert archive_file.exists(
-            follow_symlinks=False
-        ), "backup: can't created backup tar file"
+        assert archive_file.exists(follow_symlinks=False), (
+            "backup: can't created backup tar file"
+        )
     BACKUP_TMP_DIR.cleanup()
 
 
