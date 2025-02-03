@@ -12,7 +12,7 @@
   margin: 0;
   padding: 0px;
   /* BellotaText 13, Comfortaa 13, Jura 14, montserrat alternates 13 */
-  font: 1em shantell sans;
+  font: 1em Iosevka Term;
 }
 
 .notification-row:focus,
@@ -26,7 +26,7 @@
   font-size: 1.25rem;
   color: @foreground;
   letter-spacing: 2px;
-  font: bold 1em Megrim;
+  font: bold 1em Iosevka;
 }
 
 .notification-group-icon {
