@@ -69,14 +69,6 @@ BACKUP_TMP_DIR: tempfile.TemporaryDirectory = (
     tempfile.TemporaryDirectory()
 )  # for creating tar_file
 
-# logging.basicConfig(
-#     level=logging.INFO,  # non-verbose
-#     # level=logging.DEBUG,  # verbose
-#     format="%(asctime)s - %(levelname)s - %(message)s",  # Log message format
-#     filename=LOGFILE.absolute(),
-#     filemode="w",  # Overwrite the log file each time the script runs
-# )
-
 LOGGER = logging.Logger("main")
 LOGGER.setLevel(logging.INFO)
 LOGGER.addHandler(logging.FileHandler(LOGFILE.absolute(), "w", "utf-8"))
@@ -89,23 +81,25 @@ LOGGER.handlers[0].formatter = logging.Formatter(
 DOTFILE_LIST: list[Path] = [
     Path(config)
     for config in [
-        ".config/fish",
-        ".config/nnn",
+        # .config
         ".config/bat",
+        ".config/fish",
+        ".config/gamemode.ini",
+        ".config/kanata",
+        ".config/nnn",
+        ".config/nsxiv",
+        ".config/sounds",
+        ".config/systemd",
         ".config/wallust",
         ".config/zsh",
-        ".config/sounds",
-        ".config/kanata",
-        ".config/nsxiv",
-        ".config/systemd",
-        ".config/gamemode.ini",
+        # .local
         ".local/bin",
         ".local/share/applications",
         ".bashrc",
         ".gitconfig_aliases",
-        # gitconfig aliases
-        # [includeIf "gitdir:~/dotfiles/"]
-        #      path = ~/.gitconfig_aliases
+        # import gitconfig aliases
+        # [include]
+        #   path = ~/.gitconfig_aliases
         ".inputrc",
         ".zshrc",
     ]
@@ -117,17 +111,17 @@ IGNORE_FILES: list[Path] = [
     for ignr_config in [
         str(BACKUPS_DIR),
         str(LOGFILE),
+        ".firefox_scripts_configs",
         ".git",
         ".gitignore",
         ".gitmodules",
-        ".firefox_scripts_configs",
         ".pre-commit-config.yaml",
-        "scripts",
         "dotfiles_installers",
-        "pkg_list.txt",
-        "nix_profile_pkg_list.txt",
         "install.py",
+        "nix_profile_pkg_list.txt",
+        "pkg_list.txt",
         "readme.org",
+        "scripts",
     ]
 ]
 
@@ -146,24 +140,24 @@ OTHER_DOTFILES: dict[str, list[Path]] = {
     "x11": [
         Path(x11config)
         for x11config in [
-            ".xinitrc",
             ".Xresources",
+            ".config/i3",
+            ".xinitrc",
             ".xprofile",
             # ".config/picom.conf",
             # ".config/rofi",
-            ".config/i3",
         ]
     ],
     "wayland": [
         Path(waylandconfig)
         for waylandconfig in [
-            ".config/swaync",
             ".config/foot",
+            ".config/fuzzel",
             ".config/hypr",
             ".config/river",
+            ".config/swaync",
             ".config/waybar",
             # ".config/wofi",
-            ".config/fuzzel",
         ]
     ],
 }
@@ -473,4 +467,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()  # pyright: ignore[reportUnreachable]
+    main()

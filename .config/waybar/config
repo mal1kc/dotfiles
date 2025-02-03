@@ -91,7 +91,7 @@
   },
   "clock": {
     "timezone": "Europe/Istanbul",
-    "format": "{:%H:%M}",
+    "format": "{:%H : %M}",
     "format-alt": "{:%d.%m.%Y}",
     "tooltip-format": "\n<tt><small>{calendar}</small></tt>",
     "calendar": {
