@@ -1,9 +1,9 @@
 # screenshots of desktop branch
 
-[desktop screenshot 0](./desktop_screenshot0.png)
-[desktop screenshot 1](./desktop_screenshot1.png)
-[desktop screenshot 2](./desktop_screenshot2.png)
-[desktop screenshot 3](./desktop_screenshot3.png)
+[desktop screenshot 0](./desktop_screenshot0.jpg)
+[desktop screenshot 1](./desktop_screenshot1.jpg)
+[desktop screenshot 2](./desktop_screenshot2.jpg)
+[desktop screenshot 3](./desktop_screenshot3.jpg)
 
 ## screenshots of laptop branch
 
