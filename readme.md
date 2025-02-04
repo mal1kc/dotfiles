@@ -38,7 +38,8 @@ this config is my main setup config for archlinux desktop experience, for person
 * media-player : mpv
 * browser : firefox , librewolf
 * text/code editor : nvim + neovide --> [configs for nvim is are here](https://github.com/mal1kc/nvim-config)
-* walpaper color theme generator : sww
+* walpaper color theme generator : wallust
+* walpaper daemon : sww
 * screenshot utility : grim + slurp + [my screenshot script](./.local/bin/screenshot)
 * launcher : fuzzel
 * notification-daemon : swaync
