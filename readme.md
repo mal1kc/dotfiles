@@ -1,54 +1,74 @@
-# my config files for laptop
+# mal1kc's dotfiles (laptop branch)
 
-| :zap: i forget to edit readme.md every time i push to github. so old read commit messages for changes. |
-|--------------------------------------------------------------------------------------------------------|
+## about this config
 
-* wallpapers are randomly selected via fish script on startup from `~/Pictures/wallpapers` or `~/pictures/wallpapers` folder
+this config is my main setup config for archlinux laptop experience, for personal use
 
-## system info
-all program version are latest (what available on arch packages)
-|           |                                                                                            |
-|-----------|--------------------------------------------------------------------------------------------|
-| OS:       | Arch Linux x86_64                                                                          |
-| Shell:    | fish                                                                                       |
-| DE:       | [Hyprland](https://github.com/hyprwm/Hyprland)                                             |
-| Theme     | Arc-Dark [GTK2/3]                                                                          |
-| Icons     | Papirus-Dark [GTK2/3]                                                                      |
-| Terminal: | [kitty](https://github.com/kovidgoyal/kitty/)                                              |
-| Font:     | [Iosevka](https://typeof.net/Iosevka)                                                      |
-|           |                                                                                            |
+> [!CAUTION]
+> :zap: i forget to edit readme file every time i push to github. so old read commit messages for changes.
+> :zap: i also forget to remove old unused tools configs be aware if you spot one notify me.
+>
+> wallpapers are randomly selected via fish script on startup from `~/Pictures/wallpapers` or `~/pictures/wallpapers` folder 
+>
+> these paths are not exists or has no images some apps are not work properly
+> for learn about additional info about this check this [script](./.local/bin/ch_wallpaper.sh)
 
-## programs
+> [!WARNING]
+> i prefer to write scripts for single use things mostly write and mostly used 1 time
 
-* file manager: nnn,pcmanfm
-* media-player: mpv
-* music-player: cmus
-* editor: neovim (config is in another repo)
-* browser: librewolf,ungoogled-chromium (sites that doesn't work in librewolf)
-* image viewer: nsxiv, kitty icat,
-* pdf viewer: zathura
-* launcher: [wofi](https://sr.ht/~scoopta/wofi/) / [rofi wayland fork](https://github.com/lbonn/rofi) (x11 stuff)
+## config and used system info table
 
-*  [all program list](./program_list.txt)
-*  [nix program list](./nix_program_list.txt)
+| | |
+|--- |--- |
+| os : | archlinux x86_64  |
+| user shell : | fish :fish: |
+| window manager/compositor : | Hyprland |
+| theme : | Arc-Dark [GTK-2/3] |
+| icons : | Papirus-Dark [GTK-2/3] |
+| font : | Iosevka (most used) , Hack Nerd Font, Fira Code |
+| term emulator: | (wayland) foot,(x11) kitty |
 
-## TODO
+<details>
+<summary>about files and folders</summary>
+  
+  > [!NOTE]
+  > feel free to ask questions to me  about files & folders
 
-* turn nsxiv key-handler to wayland compatible
+</details>
 
-## screenshots gallery
+<details>
+<summary>programs i use</summary>
 
-[ screenshots are in diffrent branch ]: #
+### programs 
 
-![screenshot0](../dotfiles_screenshots/laptop_screenshot0.png)
+* file manager : pcmanfm , nnn
+* media-player : mpv
+* browser : firefox , librewolf
+* text/code editor : nvim + neovide --> [configs for nvim is are here](https://github.com/mal1kc/nvim-config)
+* wallpaper color theme generator : wallust
+* wallpaper daemon : swww
+* screenshot utility : grim + slurp + [my screenshot script](./.local/bin/screenshot)
+* launcher : fuzzel
+* notification-daemon : fnott
+
+* [other apps lists are here](./dotfiles_installers/) 
+
+</details>
+
+
+
+### images gallery
+
+screenshots are in different branch 
+
+> [!CAUTION]
+> probably not up to date
+
+![screenshot0](../dotfiles_screenshots/laptop_screenshot0.jpg)
 <br>
-![screenshot1](../dotfiles_screenshots/laptop_screenshot1.png)
+![screenshot1](../dotfiles_screenshots/laptop_screenshot1.jpg)
 <br>
-![screenshot2](../dotfiles_screenshots/laptop_screenshot2.png)
+![screenshot2](../dotfiles_screenshots/laptop_screenshot2.jpg)
 <br>
-![screenshot3](../dotfiles_screenshots/laptop_screenshot3.png)
+![screenshot3](../dotfiles_screenshots/laptop_screenshot3.jpg)
 <br>
-![screenshot4](../dotfiles_screenshots/laptop_screenshot4.png)
-<br>
-![screenshot5](../dotfiles_screenshots/laptop_screenshot5.png)
-
