@@ -24,5 +24,6 @@ repos:
         require_serial: true
         additional_dependencies: [mvdan.cc/sh/v3/cmd/shfmt@v3.4.3]
         entry: shfmt
-        args: ["-l", "-w", "-i", "4", "-ci", "./.local/bin"]
+        args: ["-l","-w", "./.local/bin"]
         types: [shell]
+

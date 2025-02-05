@@ -8,11 +8,11 @@
 VID_DOWN_DIR=$2
 
 if [ -z "$VID_DOWN_DIR" ]; then
-    VID_DOWN_DIR=~/videos
+	VID_DOWN_DIR=~/videos
 fi
 
 if [ ! -d "$VID_DOWN_DIR" ]; then
-    mkdir -p "$VID_DOWN_DIR"
+	mkdir -p "$VID_DOWN_DIR"
 fi
 
 cd "$2" && yt-dlp -S "ext" "$1"

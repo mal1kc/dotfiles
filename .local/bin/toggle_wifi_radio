@@ -5,9 +5,9 @@
 # network manager toggle wifi radio
 
 if [ ""$(
-    echo $(nmcli radio wifi)
+	echo $(nmcli radio wifi)
 ) = 'enabled' ]; then
-    nmcli radio wifi off
+	nmcli radio wifi off
 else
-    nmcli radio wifi on
+	nmcli radio wifi on
 fi

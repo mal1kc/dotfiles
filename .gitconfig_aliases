@@ -1,76 +1,21 @@
-[credential]
-	helper = store
-[user]
-	email = 59576495+mal1kc@users.noreply.github.com
-	name = mal1kc
-[core]
-	editor = nvim
-	pager = diff-so-fancy | less --tabs=4 -RFX
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-[init]
-	defaultBranch = main
-
-[difftool]
-	prompt = false
-	trustExitCode = true
-
-[interactive]
-	diffFilter = diff-so-fancy --patch
-
-[color]
-	ui = true
-
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighLight = green bold 22
-
-[color "diff"]
-	meta = 11
-	frag = magenta bold
-	func = 146 bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
-
 [alias]
+	# mostly from https://github.com/paulirish/dotfiles/blob/main/.gitconfig
 	c = commit
 	fpush = push --force
 	sts = status --short
 	st = status
-
-  sclone = clone --depth=1
-  barec = clone --bare
+	sclone = clone --depth=1
 	amend = commit --amend --all --no-edit
 	undocommit = reset HEAD~
 	hreset = reset --hard
 	co = checkout
 	df = diff --color-words --abbrev
-
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
 	cp = cherry-pick
-
-	aa = add --all
-	ap = add --patch
-
-	branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
-	ci = commit -v
 
   git = !exec git
 
 	mergeorigin = !"git merge origin/$(git mainormaster)"
-
-	diffbranch = !"git diff $(git diffbase)"
-
-	diffbranch-that = !"git diff origin/$(git mainormaster)...\"$1\" #"
-
-	diffcommitsfrommain = !"git log --no-merges origin/$(git mainormaster).."
 
 	# Essentially GitHub's compare view: show all 'ahead' changes (incl working tree) vs the merge-base
 	diffbranch = !"git diff $(git diffbase)"
@@ -94,3 +39,37 @@
 
 	# fyi to change a git checkout from master to main.. (gh's suggested commands:)
 	#    git branch -m master main; git fetch origin; git branch -u origin/main main; git remote set-head origin -a
+
+	# commit (past) WIP changes with a message stating when they happened. (Cuz I sometimes leave changes uncommitted for a while, but want the dates for reference)
+	# todo: maybe use `git commit --date=X` to set a past date. would need to pick one, tho.
+	commitwip = !"git commit -am \"WIP changes from a while ago. Last modified on:\n$(( git diff --name-only --cached; git ls-files --modified ) | uniq | xargs gstat -c '- %.19y %N')\""
+
+[core]
+	editor = nvim
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	autocrlf = false
+	eol = lf
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[init]
+	defaultBranch = main
+[interactive]
+	diffFilter = diff-so-fancy --patch
+[color]
+	ui = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = 11
+	frag = magenta bold
+	func = 146 bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse

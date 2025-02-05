@@ -18,15 +18,15 @@ set -e
 #
 
 if [ -x /usr/bin/fd ]; then
-    /usr/bin/fd -iIHL "$@"
+	/usr/bin/fd -iIHL "$@"
 elif [ -x /usr/bin/fdfind ]; then
-    /usr/bin/fdfind -iIHL "$@"
+	/usr/bin/fdfind -iIHL "$@"
 elif [ -x /usr/bin/find ]; then
-    /usr/bin/find . -iname -L -type f -name "$@"
+	/usr/bin/find . -iname -L -type f -name "$@"
 else
-    printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
-    printf "you dont installed fd find"
-    printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
-    echo ''
-    exit
+	printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
+	printf "you dont installed fd find"
+	printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
+	echo ''
+	exit
 fi

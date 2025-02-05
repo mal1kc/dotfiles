@@ -2,118 +2,118 @@
 log_file="/tmp/.screenshot_script.log"
 
 if [ -f "$log_file" ]; then
-    rm "$log_file"
-    touch "$log_file"
+	rm "$log_file"
+	touch "$log_file"
 fi
 
 if [ -z "$WAYLAND_DISPLAY" ]; then
-    notify-send "WAYLAND_DISPLAY is not set"
-    echo "WAYLAND_DISPLAY is not set" | tee -a "$log_file"
-    exit 1
+	notify-send "WAYLAND_DISPLAY is not set"
+	echo "WAYLAND_DISPLAY is not set" | tee -a "$log_file"
+	exit 1
 fi
 
 if [ -z "$XDG_RUNTIME_DIR" ]; then
-    notify-send "XDG_RUNTIME_DIR is not set"
-    echo "XDG_RUNTIME_DIR is not set" | tee -a "$log_file"
-    exit 1
+	notify-send "XDG_RUNTIME_DIR is not set"
+	echo "XDG_RUNTIME_DIR is not set" | tee -a "$log_file"
+	exit 1
 fi
 temp_save_path="$XDG_RUNTIME_DIR/screenshot.png"
 is_succesful_shot=false
 is_shot_taken=false
 
 check_deps() {
-    for cmd in wl-copy grim slurp xdg-open notify-send tee; do
-        if ! command -v "$cmd" >/dev/null; then
-            echo "$cmd not found in PATH. Exiting..." >>/tmp/.screenshot_script.log
-            exit 1
-        fi
-    done
-    echo "All dependencies found" | tee -a "$log_file"
-    exit 0
+	for cmd in wl-copy grim slurp xdg-open notify-send tee; do
+		if ! command -v "$cmd" >/dev/null; then
+			echo "$cmd not found in PATH. Exiting..." >>/tmp/.screenshot_script.log
+			exit 1
+		fi
+	done
+	echo "All dependencies found" | tee -a "$log_file"
+	exit 0
 }
 
 take_screenshot() {
-    if ! $is_shot_taken; then
-        is_shot_taken=true
-        is_succesful_shot=$(grim -g "$(slurp -w 0)" - | wl-copy --type image/png)
-    fi
+	if ! $is_shot_taken; then
+		is_shot_taken=true
+		is_succesful_shot=$(grim -g "$(slurp -w 0)" - | wl-copy --type image/png)
+	fi
 }
 
 take_screenshot_full() {
-    if ! $is_shot_taken; then
-        is_shot_taken=true
-        is_succesful_shot=$(grim - | wl-copy --type image/png)
-    fi
+	if ! $is_shot_taken; then
+		is_shot_taken=true
+		is_succesful_shot=$(grim - | wl-copy --type image/png)
+	fi
 }
 
 open_img() {
-    take_screenshot
-    xdg-open "$temp_save_path" 2>&1
+	take_screenshot
+	xdg-open "$temp_save_path" 2>&1
 }
 
 save_to_file() {
-    take_screenshot
-    if [ -e "$1" ]; then
-        rm "$1"
-    fi
-    wl-paste --type image/png >"$1"
+	take_screenshot
+	if [ -e "$1" ]; then
+		rm "$1"
+	fi
+	wl-paste --type image/png >"$1"
 }
 
 show_icat() {
-    take_screenshot
-    if $is_succesful_shot; then
+	take_screenshot
+	if $is_succesful_shot; then
 
-        if [ "$TERM" = "xterm-kitty" ]; then
-            wl-paste --type image/png | kitty +kitten icat >/dev/null 2>&1
-        fi
-    fi
+		if [ "$TERM" = "xterm-kitty" ]; then
+			wl-paste --type image/png | kitty +kitten icat >/dev/null 2>&1
+		fi
+	fi
 }
 
 show_notification() {
-    take_screenshot
-    if $is_succesful_shot; then
-        save_to_file "$temp_save_path"
-        if [ -x "$(command -v notify-send)" ]; then
-            # with greenish background
-            ACTION=$(notify-send "Screenshot" "Screenshot copied to clipboard" \
-                -i "$temp_save_path" \
-                -t 5000 \
-                --urgency=normal \
-                --app-name="screenshot" \
-                --hint=int:transient:1 \
-                --action="default,open_img" \
-                --urgency=normal)
-            case "$ACTION" in
-                "0")
-                    open_img
-                    ;;
-                *)
-                    echo "other action" | tee -a "$log_file"
-                    ;;
-            esac
-        else
-            echo "notify-send not found, cannot display notification." | tee -a "$log_file"
-        fi
-    else
-        if [ -x "$(command -v notify-send)" ]; then
-            # with redish background
-            notify-send "Error" "Error taking screenshot" \
-                -t 5000 \
-                --urgency=normal \
-                --app-name="screenshot" \
-                --hint=int:transient:1
-        else
-            echo "notify-send not found, cannot display error notification." | tee -a "$log_file"
-        fi
-        exit 1
-    fi
+	take_screenshot
+	if $is_succesful_shot; then
+		save_to_file "$temp_save_path"
+		if [ -x "$(command -v notify-send)" ]; then
+			# with greenish background
+			ACTION=$(notify-send "Screenshot" "Screenshot copied to clipboard" \
+				-i "$temp_save_path" \
+				-t 5000 \
+				--urgency=normal \
+				--app-name="screenshot" \
+				--hint=int:transient:1 \
+				--action="default,open_img" \
+				--urgency=normal)
+			case "$ACTION" in
+			"0")
+				open_img
+				;;
+			*)
+				echo "other action" | tee -a "$log_file"
+				;;
+			esac
+		else
+			echo "notify-send not found, cannot display notification." | tee -a "$log_file"
+		fi
+	else
+		if [ -x "$(command -v notify-send)" ]; then
+			# with redish background
+			notify-send "Error" "Error taking screenshot" \
+				-t 5000 \
+				--urgency=normal \
+				--app-name="screenshot" \
+				--hint=int:transient:1
+		else
+			echo "notify-send not found, cannot display error notification." | tee -a "$log_file"
+		fi
+		exit 1
+	fi
 }
 
 if [ "$#" -eq 0 ]; then
-    # no arguments
-    show_notification
-    show_icat
-    exit 0
+	# no arguments
+	show_notification
+	show_icat
+	exit 0
 fi
 
 # if any of the arguments is -f or --full first take full screenshot
@@ -122,46 +122,46 @@ fi
 
 echo "$@"
 for arg in "$@"; do
-    case $arg in
-        "-f" | "--full")
-            take_screenshot_full
-            ;;
-    esac
+	case $arg in
+	"-f" | "--full")
+		take_screenshot_full
+		;;
+	esac
 done
 
 for arg in "$@"; do
-    case $arg in
-        "--check-deps" | "check-deps" | "check_deps")
-            check_deps
-            exit 0
-            ;;
-        "-s" | "--save")
-            save_to_file "$temp_save_path"
-            ;;
-        "-h" | "--help")
-            echo "Usage: screenshot [OPTION]..."
-            echo "Take screenshot and copy it to clipboard"
-            echo ""
-            echo "  -f, --full     Take full screenshot"
-            echo "  -s, --save     Save screenshot to file"
-            echo "  -h, --help     Show this help"
-            exit 0
-            ;;
-        "--show")
-            show_icat
-            ;;
-        "--open")
-            open_img
-            ;;
-        "--notify")
-            show_notification
-            ;;
+	case $arg in
+	"--check-deps" | "check-deps" | "check_deps")
+		check_deps
+		exit 0
+		;;
+	"-s" | "--save")
+		save_to_file "$temp_save_path"
+		;;
+	"-h" | "--help")
+		echo "Usage: screenshot [OPTION]..."
+		echo "Take screenshot and copy it to clipboard"
+		echo ""
+		echo "  -f, --full     Take full screenshot"
+		echo "  -s, --save     Save screenshot to file"
+		echo "  -h, --help     Show this help"
+		exit 0
+		;;
+	"--show")
+		show_icat
+		;;
+	"--open")
+		open_img
+		;;
+	"--notify")
+		show_notification
+		;;
 
-        *)
-            # unknown option
-            # do nothing
-            ;;
-    esac
+	*)
+		# unknown option
+		# do nothing
+		;;
+	esac
 done
 
 exit 0

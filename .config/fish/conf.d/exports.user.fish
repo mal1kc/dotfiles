@@ -4,7 +4,7 @@ export XCURSOR_SIZE=24
 export EDITOR='/sbin/nvim'
 export SUDO_EDITOR=$EDITOR
 
-export MANPAGER="sh -c 'col -bx | bat -l man'"
+export MANPAGER="bat -l man"
 # export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export XDG_DATA_DIRS="/usr/share:$XDG_DATA_DIRS"
