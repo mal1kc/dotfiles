@@ -87,7 +87,7 @@ def is_night_time(latitude, longitude):
     sunset = datetime.datetime.fromtimestamp(sunset)
     # print(sunrise, sunset, now)
     # Check if current time is after sunset or before sunrise
-    return now >= sunset or now < sunrise
+    return now >= sunset and now < sunrise
 
 
 def main():
