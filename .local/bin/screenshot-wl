@@ -23,13 +23,12 @@ is_shot_taken=false
 
 check_deps() {
 	for cmd in wl-copy grim slurp xdg-open notify-send tee; do
-		if ! command -v "$cmd" >/dev/null; then
+		if ! command -v "$cmd" &>/dev/null; then
 			echo "$cmd not found in PATH. Exiting..." >>/tmp/.screenshot_script.log
 			exit 1
 		fi
 	done
 	echo "All dependencies found" | tee -a "$log_file"
-	exit 0
 }
 
 take_screenshot() {
@@ -84,12 +83,12 @@ show_notification() {
 				--action="default,open_img" \
 				--urgency=normal)
 			case "$ACTION" in
-				"0")
-					open_img
-					;;
-				*)
-					echo "other action" | tee -a "$log_file"
-					;;
+			"0")
+				open_img
+				;;
+			*)
+				echo "other action" | tee -a "$log_file"
+				;;
 			esac
 		else
 			echo "notify-send not found, cannot display notification." | tee -a "$log_file"
@@ -123,44 +122,44 @@ fi
 echo "$@"
 for arg in "$@"; do
 	case $arg in
-		"-f" | "--full")
-			take_screenshot_full
-			;;
+	"-f" | "--full")
+		take_screenshot_full
+		;;
 	esac
 done
 
 for arg in "$@"; do
 	case $arg in
-		"--check-deps" | "check-deps" | "check_deps")
-			check_deps
-			exit 0
-			;;
-		"-s" | "--save")
-			save_to_file "$temp_save_path"
-			;;
-		"-h" | "--help")
-			echo "Usage: screenshot [OPTION]..."
-			echo "Take screenshot and copy it to clipboard"
-			echo ""
-			echo "  -f, --full     Take full screenshot"
-			echo "  -s, --save     Save screenshot to file"
-			echo "  -h, --help     Show this help"
-			exit 0
-			;;
-		"--show")
-			show_icat
-			;;
-		"--open")
-			open_img
-			;;
-		"--notify")
-			show_notification
-			;;
+	"--check-deps" | "check-deps" | "check_deps")
+		check_deps
+		exit 0
+		;;
+	"-s" | "--save")
+		save_to_file "$temp_save_path"
+		;;
+	"-h" | "--help")
+		echo "Usage: screenshot [OPTION]..."
+		echo "Take screenshot and copy it to clipboard"
+		echo ""
+		echo "  -f, --full     Take full screenshot"
+		echo "  -s, --save     Save screenshot to file"
+		echo "  -h, --help     Show this help"
+		exit 0
+		;;
+	"--show")
+		show_icat
+		;;
+	"--open")
+		open_img
+		;;
+	"--notify")
+		show_notification
+		;;
 
-		*)
-			# unknown option
-			# do nothing
-			;;
+	*)
+		# unknown option
+		# do nothing
+		;;
 	esac
 done
 
