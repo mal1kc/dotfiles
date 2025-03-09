@@ -4,7 +4,8 @@ export XCURSOR_SIZE=24
 export EDITOR='/sbin/nvim'
 export SUDO_EDITOR=$EDITOR
 
-export MANPAGER="bat -l man"
+# https://github.com/sharkdp/bat/issues/2219#issuecomment-1645456156
+export MANPAGER="sh -c 'sed -r \"s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g\" | bat --language man'"
 # export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export XDG_DATA_DIRS="/usr/share:$XDG_DATA_DIRS"
