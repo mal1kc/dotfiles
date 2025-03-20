@@ -6,7 +6,7 @@ Documentation=https://github.com/jtroo/kanata
 Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
 Environment=DISPLAY=:0
 ExecStart=%h/.cargo/bin/kanata --cfg %h/.config/kanata/config.kbd
-Restart=never
+Restart=on-abort
 
 [Install]
 WantedBy=default.target
