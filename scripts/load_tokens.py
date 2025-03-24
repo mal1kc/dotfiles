@@ -1,6 +1,5 @@
 #!/bin/env python3
 import os
-from typing import List
 import re
 
 
@@ -8,7 +7,7 @@ def get_all_envs(env_file_path: str) -> dict[str, str]:
     pattern = re.compile("([\S]+=[\"'].+[\"']|[\S]+=[\S]+)")
     with open(env_file_path) as env_file:
         lines = env_file.read()
-    raw: List = pattern.findall(lines)
+    raw: list[str] = pattern.findall(lines)
     envs = {}
     for i in raw:
         splitted_env = i.split("=")

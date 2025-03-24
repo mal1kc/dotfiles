@@ -1,0 +1,27 @@
+{
+  "globals": {
+    "script": "~/dotfiles/.config/selection_tool/scripts/audio.sh"
+  },
+  "options": [
+    {
+      "name": "\traise volume",
+      "command": "raise-submenu"
+    },
+    {
+      "name": "\tlower volume",
+      "command": "lower-submenu"
+    },
+    {
+      "name": "\ttoggle mute",
+      "command": "toggle"
+    },
+    {
+      "name": "⤳\tswitch audio sink",
+      "command": "switch"
+    },
+    {
+      "name": "⚙\topen qpwgraph",
+      "command": "qpwgraph"
+    }
+  ]
+}

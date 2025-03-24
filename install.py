@@ -92,6 +92,7 @@ DOTFILE_LIST: list[Path] = [
         ".config/systemd",
         ".config/wallust",
         ".config/zsh",
+        ".config/selection_tool",
         # .local
         ".local/bin",
         ".local/share/applications",
@@ -318,7 +319,7 @@ def install_dotfile(dfile: Path) -> bool:
                 for subfile in dst.iterdir():
                     if not install_dotfile(subfile.relative_to(HOME_DIR)):
                         LOGGER.error(
-                            "install_dotfile: failed install_dotfile",
+                            "install_dotfile: failed install_dotfile %s",
                             subfile.relative_to(HOME_DIR),
                         )
             else:
@@ -350,7 +351,7 @@ def install_dotfile(dfile: Path) -> bool:
         for subfile in src.iterdir():
             if not install_dotfile(subfile.relative_to(DOTFILES_DIR)):
                 LOGGER.error(
-                    "install_dotfile: failed install_dotfile",
+                    "install_dotfile: failed install_dotfile %s",
                     subfile.relative_to(HOME_DIR),
                 )
         return True

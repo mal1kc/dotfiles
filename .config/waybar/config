@@ -153,7 +153,7 @@
         ""
       ]
     },
-    "on-click": "$HOME/.local/bin/wofi_json.py audio"
+    "on-click": "$HOME/.local/bin/select_tool_json.py audio"
   },
   "mpris": {
     "player": "playerctld",
