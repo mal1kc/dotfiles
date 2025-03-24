@@ -4,3 +4,4 @@
 *.old
 *.env
 .dotfiles_backups
+dotfiles_installer.log
