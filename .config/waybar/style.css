@@ -16,6 +16,7 @@ window#waybar {
     /* background: @base; */
     background: transparent;
     color: white;
+    /*margin-right: 8px;*/ /* desktop */
     margin-right:8px;
 }
 
@@ -23,6 +24,10 @@ tooltip {
 	color: @color2;
 	background: @color0;
 	opacity: 0.8;
+	/*border-radius: 5px;*/ /* desktop */
+	/*border-width: 1px;*//* desktop */
+	/*border-style: solid;*//* desktop */
+	/*border-color: @color15;*//* desktop */
 	border-radius: 2.5px;
 	border-width: 1px;
 	border-style: solid;
@@ -47,7 +52,8 @@ tooltip {
 }
 
 workspaces button {
-    margin: 0.5px 5px 5px 5px;
+    /*margin: 5px 5px 5px 5px;*/
+    margin: 0.5px 5px 5px 5px;/* desktop */
     color: @color2;
     box-shadow: none;
     text-shadow: none;
@@ -85,6 +91,7 @@ workspaces button {
 
 #disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network {
 	padding: 0px 8px;
+	/*margin: 8px 0px;*/ /*desktop*/
 	margin: 0.5px 0px;
 }
 
@@ -95,12 +102,16 @@ workspaces button {
 #custom-power {
 	color: @overlay1;
 	border-radius: 5px;
+	/*margin-top: 5px; *//* desktop */
+	/*margin-bottom: 5px; *//* desktop */
+	/* margin-left: 0px; */
 	margin-top: 0.5px;
 	margin-bottom: 5px;
 	padding: 0px 5px;
 }
 
 #clock {
+    /*color: @maroon;*//* desktop */
     color: @crust;
     background-color: @sapphire;
     border-radius: 0px 5px 5px 0px;
@@ -125,11 +136,18 @@ workspaces button {
     margin-left: 0px;
 }
 
-/* If workspaces is the rightmost module, omit right margin */
+/* desktop  - -- -- - -- - - --*/
+/*.modules-right > widget:last-child > #workspaces {*/
+/*    margin-right: 1px;*/
+/*}*/
+/**/
+/*#clock {*/
+/*    background-color: #64727D;*/
+/*}*/
+
 .modules-right > widget:last-child > #workspaces {
     margin-right: 0px;
 }
-
 
 
 #battery {
@@ -188,6 +206,8 @@ label:focus {
     border-radius: 0px 5px 5px 0px;
 }
 
+/*#backlight {*/
+/*    background-color: #90b1b1;*/
 #backlight-slider slider {
     min-height: 0px;
     min-width: 0px;
@@ -236,6 +256,9 @@ label:focus {
 
 #tray {
     background-color: @background;
+    /*margin: 5px;*/
+    /*padding-left: 10px;*/
+    /*padding-right: 10px;*/
     margin: 0.5px;
     padding: 5px;
 }
@@ -262,10 +285,28 @@ label:focus {
     color: #bebebe;
 	padding: 0px 5px;
     border-radius: 5px;
+	/*margin: 5px 0px;*/
 }
 
 #mpris {
 	background-color: @crust;
+/*    color: #bebebe;*/
+/*	padding: 0px 5px;*/
+/*    border-radius: 5px;*/
+/*	margin: 5px 0px;*/
+/*}*/
+/**/
+/*#custom-notification {*/
+/*  font-family: "Iosevka SemiBold";*/
+/*  font-size: 10px;*/
+/*}*/
+/**/
+/*#custom-notification:hover {*/
+/*  font-family: "Iosevka Light";*/
+/*  border: none;*/
+/*  border-radius: 0px;*/
+/*  font-weight: normal;*/
+/*  font-size: 10px;*/
   color: #bebebe;
 	padding: 0px 5px;
   border-radius: 5px;

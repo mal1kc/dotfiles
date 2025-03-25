@@ -41,25 +41,22 @@ this config is my main setup config for archlinux laptop experience, for persona
 
 ### programs 
 
-* file manager : pcmanfm , nnn
+* file manager : nautilus , pcmanfm , nnn
 * media-player : mpv
 * browser : firefox , librewolf
 * text/code editor : nvim + neovide --> [configs for nvim is are here](https://github.com/mal1kc/nvim-config)
-* wallpaper color theme generator : wallust
-* wallpaper daemon : swww
+* color theme generator : wallust
+* walpaper daemon : sww
 * screenshot utility : grim + slurp + [my screenshot script](./.local/bin/screenshot)
 * launcher : fuzzel
-* notification-daemon : fnott
-
+* notification-daemon : swaync(Desktop) /  fnott (laptop)
 * [other apps lists are here](./dotfiles_installers/) 
 
 </details>
 
-
-
 ### images gallery
 
-screenshots are in different branch 
+screenshot are in different branch 
 
 > [!CAUTION]
 > probably not up to date

@@ -3,11 +3,10 @@ Description=Kanata keyboard remapper
 Documentation=https://github.com/jtroo/kanata
 
 [Service]
+Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:%h/.cargo/bin/
 Environment=DISPLAY=:0
-Environment=HOME=/home/mal1kc
-Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/home/mal1kc/.cargo/bin/
+ExecStart=%h/.cargo/bin/kanata --cfg %h/.config/kanata/config.kbd
 Type=simple
-ExecStart=/home/mal1kc/.cargo/bin/kanata -c /home/mal1kc/.config/kanata/config.kbd
 Restart=never
 
 [Install]

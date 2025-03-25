@@ -51,157 +51,157 @@ PAGER=${PAGER:-"vim -R"}
 NUKE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins/nuke"
 
 if type xterm >/dev/null 2>&1; then
-    TERMINAL="xterm -into"
+	TERMINAL="xterm -into"
 elif type urxvt >/dev/null 2>&1; then
-    TERMINAL="urxvt -embed"
+	TERMINAL="urxvt -embed"
 elif type st >/dev/null 2>&1; then
-    TERMINAL="st -w"
+	TERMINAL="st -w"
 else
-    echo "No xembed term found" >&2
+	echo "No xembed term found" >&2
 fi
 
 term_nuke() {
-    # $1 -> $XID, $2 -> $FILE
-    $TERMINAL "$1" -e "$NUKE" "$2" &
+	# $1 -> $XID, $2 -> $FILE
+	$TERMINAL "$1" -e "$NUKE" "$2" &
 }
 
 start_tabbed() {
-    FIFO="$(mktemp -u)"
-    mkfifo "$FIFO"
+	FIFO="$(mktemp -u)"
+	mkfifo "$FIFO"
 
-    tabbed >"$FIFO" &
+	tabbed >"$FIFO" &
 
-    jobs # Get rid of the "Completed" entries
+	jobs # Get rid of the "Completed" entries
 
-    TABBEDPID="$(jobs -p %%)"
+	TABBEDPID="$(jobs -p %%)"
 
-    if [ -z "$TABBEDPID" ]; then
-        echo "Can't start tabbed"
-        exit 1
-    fi
+	if [ -z "$TABBEDPID" ]; then
+		echo "Can't start tabbed"
+		exit 1
+	fi
 
-    read -r XID <"$FIFO"
+	read -r XID <"$FIFO"
 
-    rm "$FIFO"
+	rm "$FIFO"
 }
 
 get_viewer_pid() {
-    VIEWERPID="$(jobs -p %%)"
+	VIEWERPID="$(jobs -p %%)"
 }
 
 kill_viewer() {
-    if [ -n "$VIEWERPID" ] && jobs -p | grep "$VIEWERPID"; then
-        kill "$VIEWERPID"
-    fi
+	if [ -n "$VIEWERPID" ] && jobs -p | grep "$VIEWERPID"; then
+		kill "$VIEWERPID"
+	fi
 }
 
 sigint_kill() {
-    kill_viewer
-    kill "$TABBEDPID"
-    exit 0
+	kill_viewer
+	kill "$TABBEDPID"
+	exit 0
 }
 
 previewer_loop() {
-    unset -v NNN_FIFO
-    # mute from now
-    exec >/dev/null 2>&1
+	unset -v NNN_FIFO
+	# mute from now
+	exec >/dev/null 2>&1
 
-    MAINWINDOW="$(xdotool getactivewindow)"
+	MAINWINDOW="$(xdotool getactivewindow)"
 
-    start_tabbed
-    trap sigint_kill SIGINT
+	start_tabbed
+	trap sigint_kill SIGINT
 
-    xdotool windowactivate "$MAINWINDOW"
+	xdotool windowactivate "$MAINWINDOW"
 
-    # Bruteforce focus stealing prevention method,
-    # works well in floating window managers like XFCE
-    # but make interaction with the preview window harder
-    # (uncomment to use):
-    #xdotool behave "$XID" focus windowactivate "$MAINWINDOW" &
+	# Bruteforce focus stealing prevention method,
+	# works well in floating window managers like XFCE
+	# but make interaction with the preview window harder
+	# (uncomment to use):
+	#xdotool behave "$XID" focus windowactivate "$MAINWINDOW" &
 
-    while read -r FILE; do
+	while read -r FILE; do
 
-        jobs # Get rid of the "Completed" entries
+		jobs # Get rid of the "Completed" entries
 
-        if ! jobs | grep tabbed; then
-            break
-        fi
+		if ! jobs | grep tabbed; then
+			break
+		fi
 
-        if [ ! -e "$FILE" ]; then
-            continue
-        fi
+		if [ ! -e "$FILE" ]; then
+			continue
+		fi
 
-        kill_viewer
+		kill_viewer
 
-        MIME="$(file -bL --mime-type "$FILE")"
+		MIME="$(file -bL --mime-type "$FILE")"
 
-        case "$MIME" in
-            video/*)
-                if type mpv >/dev/null 2>&1; then
-                    mpv --force-window=immediate --loop-file --wid="$XID" "$FILE" &
-                else
-                    term_nuke "$XID" "$FILE"
-                fi
-                ;;
-            audio/*)
-                if type mpv >/dev/null 2>&1; then
-                    mpv --force-window=immediate --loop-file --wid="$XID" "$FILE" &
-                else
-                    term_nuke "$XID" "$FILE"
-                fi
-                ;;
-            image/*)
-                if type sxiv >/dev/null 2>&1; then
-                    sxiv -ae "$XID" "$FILE" &
-                elif type nsxiv >/dev/null 2>&1; then
-                    nsxiv -ae "$XID" "$FILE" &
-                else
-                    term_nuke "$XID" "$FILE"
-                fi
-                ;;
-            application/pdf)
-                if type zathura >/dev/null 2>&1; then
-                    zathura -e "$XID" "$FILE" &
-                else
-                    term_nuke "$XID" "$FILE"
-                fi
-                ;;
-            inode/directory)
-                $TERMINAL "$XID" -e nnn "$FILE" &
-                ;;
-            text/*)
-                if [ -x "$NUKE" ]; then
-                    term_nuke "$XID" "$FILE"
-                else
-                    # shellcheck disable=SC2086
-                    $TERMINAL "$XID" -e $PAGER "$FILE" &
-                fi
-                ;;
-            *)
-                if [ -x "$NUKE" ]; then
-                    term_nuke "$XID" "$FILE"
-                else
-                    $TERMINAL "$XID" -e sh -c "file '$FILE' | $PAGER -" &
-                fi
-                ;;
-        esac
-        get_viewer_pid
+		case "$MIME" in
+		video/*)
+			if type mpv >/dev/null 2>&1; then
+				mpv --force-window=immediate --loop-file --wid="$XID" "$FILE" &
+			else
+				term_nuke "$XID" "$FILE"
+			fi
+			;;
+		audio/*)
+			if type mpv >/dev/null 2>&1; then
+				mpv --force-window=immediate --loop-file --wid="$XID" "$FILE" &
+			else
+				term_nuke "$XID" "$FILE"
+			fi
+			;;
+		image/*)
+			if type sxiv >/dev/null 2>&1; then
+				sxiv -ae "$XID" "$FILE" &
+			elif type nsxiv >/dev/null 2>&1; then
+				nsxiv -ae "$XID" "$FILE" &
+			else
+				term_nuke "$XID" "$FILE"
+			fi
+			;;
+		application/pdf)
+			if type zathura >/dev/null 2>&1; then
+				zathura -e "$XID" "$FILE" &
+			else
+				term_nuke "$XID" "$FILE"
+			fi
+			;;
+		inode/directory)
+			$TERMINAL "$XID" -e nnn "$FILE" &
+			;;
+		text/*)
+			if [ -x "$NUKE" ]; then
+				term_nuke "$XID" "$FILE"
+			else
+				# shellcheck disable=SC2086
+				$TERMINAL "$XID" -e $PAGER "$FILE" &
+			fi
+			;;
+		*)
+			if [ -x "$NUKE" ]; then
+				term_nuke "$XID" "$FILE"
+			else
+				$TERMINAL "$XID" -e sh -c "file '$FILE' | $PAGER -" &
+			fi
+			;;
+		esac
+		get_viewer_pid
 
-        # following lines are not needed with the bruteforce xdotool method
-        ACTIVE_XID="$(xdotool getactivewindow)"
-        if [ $((ACTIVE_XID == XID)) -ne 0 ]; then
-            xdotool windowactivate "$MAINWINDOW"
-        else
-            timeout "$XDOTOOL_TIMEOUT" xdotool behave "$XID" focus windowactivate "$MAINWINDOW" &
-        fi
-    done
-    kill "$TABBEDPID"
-    kill_viewer
+		# following lines are not needed with the bruteforce xdotool method
+		ACTIVE_XID="$(xdotool getactivewindow)"
+		if [ $((ACTIVE_XID == XID)) -ne 0 ]; then
+			xdotool windowactivate "$MAINWINDOW"
+		else
+			timeout "$XDOTOOL_TIMEOUT" xdotool behave "$XID" focus windowactivate "$MAINWINDOW" &
+		fi
+	done
+	kill "$TABBEDPID"
+	kill_viewer
 }
 
 if [ ! -r "$NNN_FIFO" ]; then
-    echo "Can't read \$NNN_FIFO ('$NNN_FIFO')"
-    exit 1
+	echo "Can't read \$NNN_FIFO ('$NNN_FIFO')"
+	exit 1
 fi
 
 previewer_loop <"$NNN_FIFO" &

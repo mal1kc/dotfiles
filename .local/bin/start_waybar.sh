@@ -2,7 +2,7 @@
 # this script called by ~/.config/systemd/user/waybar.service
 
 for cmd in waybar tmux; do
-  if [ command -v $cmd ] >/dev/null 2>&1; then
+  if ! command -v "$cmd" >/dev/null 2>&1; then
     echo "\"$cmd\" not found"
     exit 1
   fi
@@ -16,7 +16,7 @@ if [ -n "$WAYLAND_DISPLAY" ]; then
     # notify-send "Waybar restarted with SIGUSR2 :)"
   else
     # notify-send "started waybar"
-    exec tmux new-session -s "start_waybar" -d waybar
+    exec tmux new-session -s "$tmux_session_name" -d waybar || echo "exiting tmux"
     # disown is necessary to prevent the service from blocking
   fi
 fi

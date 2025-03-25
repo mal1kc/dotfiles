@@ -1,3 +1,12 @@
+# WARN: DEsktop and laptop packages are mixed in this list
+# android-file-transfer # Android MTP client with minimalistic UI
+# android-tools # Android platform tools
+# arandr # Provide a simple visual front end for XRandR 1.2.
+# blueman # GTK+ Bluetooth Manager
+# bluez-utils # Development and debugging utilities for the bluetooth protocol stack
+# nvidia-container-toolkit # NVIDIA container toolkit
+# nvidia-dkms # NVIDIA kernel modules - module sources
+# thunderbird # Standalone mail and news reader from mozilla.org
 acpilight # a backward-compatible xbacklight replacement based on ACPI
 amd-ucode # Microcode update image for AMD CPUs
 android-file-transfer # Android MTP client with minimalistic UI
@@ -5,21 +14,26 @@ android-tools # Android platform tools
 arc-gtk-theme # A flat theme with transparent elements for GTK 2,3,4 and Gnome-Shell
 arch-wiki-lite # Arch Wiki without HTML. 1/9 as big, easily searched & viewable on console
 ark # Archiving Tool
+aspell-en # English dictionary for aspell
 axel # Light command line download accelerator
 base # Minimal package set to define a basic Arch Linux installation
 bat # Cat clone with syntax highlighting and git integration
+bc # An arbitrary precision calculator language
 blueman # GTK+ Bluetooth Manager
 bluez-utils # Development and debugging utilities for the bluetooth protocol stack
 bmon # Portable bandwidth monitor and rate estimator
 btop # A monitor of system resources, bpytop ported to C++
 cmus # Feature-rich ncurses-based music player
 cuda # NVIDIA's GPU programming toolkit
+cython # C-Extensions for Python
 dash # POSIX compliant shell that aims to be as small as possible
 dex # Program to generate and execute DesktopEntry files of type Application
 diff-so-fancy # Good-looking diffs with diff-highlight and more
+dmenu # Generic menu for X
 evtest # Input device event monitor and query tool
 expac # alpm data (pacman database) extraction utility
 fastfetch # A feature-rich and performance oriented neofetch like system information tool
+fastfetch # An actively maintained, feature-rich and performance oriented, neofetch like system information tool
 fd # Simple, fast and user-friendly alternative to find
 flatpak # Linux application sandboxing and distribution framework (formerly xdg-app)
 fnott # Keyboard driven and lightweight Wayland notification daemon
@@ -30,11 +44,14 @@ git-crypt # Transparent file encryption in Git
 git-filter-repo # Quickly rewrite git repository history (filter-branch replacement)
 git-lfs # Git extension for versioning large files
 glow # Command-line markdown renderer
+gnome-disk-utility # Disk Management Utility for GNOME
 go # Core compiler tools for the Go programming language
 gpg-tui # A terminal user interface for GnuPG
 grim # Screenshot utility for Wayland
 gstreamer-vaapi # Multimedia graph framework - vaapi plugin
 guvcview # Simple GTK+ interface for capturing and viewing video from v4l2 devices
+handlr-regex # Powerful alternative to xdg-utils written in Rust
+htop # Interactive process viewer
 hypridle # hyprland’s idle daemon
 hyprland # a highly customizable dynamic tiling Wayland compositor
 hyprlock # hyprland’s GPU-accelerated screen locking utility
@@ -42,23 +59,43 @@ i3-wm # Improved dynamic tiling window manager
 i3status-rust # Resourcefriendly and feature-rich replacement for i3status, written in pure Rust
 iperf3 # TCP, UDP, and SCTP network bandwidth measurement tool
 jq # Command-line JSON processor
+kdeconnect # Adds communication between KDE and your smartphone
 kitty # A modern, hackable, featureful, OpenGL-based terminal emulator
 kmon # Linux kernel manager and activity monitor
+lazygit # Simple terminal UI for git commands
+libguestfs # Access and modify virtual machine disk images
+libnetfilter_queue # Userspace API to packets that have been queued by the kernel packet filter
 librewolf-bin # Community-maintained fork of Firefox, focused on privacy, security and freedom.
+libva-nvidia-driver # VA-API implementation that uses NVDEC as a backend
+libva-utils # Intel VA-API Media Applications and Scripts for libva
+linux-firmware-qlogic # Firmware files for Linux - qlogic / Firmware for QLogic devices
+linux-zen # The Linux ZEN kernel and modules
 lsd # Modern ls with a lot of pretty colors and awesome icons
 lshw # A small tool to provide detailed information on the hardware configuration of the machine.
+luarocks # Deployment and management system for Lua modules
+lxappearance # Feature-rich GTK+ theme switcher of the LXDE Desktop
+ly # TUI display manager
+mako # Lightweight notification daemon for Wayland
+man-db # A utility for reading man pages
 mangohud # A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more.
+marked # A markdown parser built for speed
 minicom # A serial communication program
+mold # A Modern Linker
 mpv # a free, open source, and cross-platform media player
+musl # Lightweight implementation of C standard library
 ncdu # Disk usage analyzer with an ncurses interface
 neovide # No Nonsense Neovim Client in Rust
+nethogs # A net top tool which displays traffic used per process instead of per IP or interface
 network-manager-applet # Applet for managing network connections
+networkmanager-openvpn # NetworkManager VPN plugin for OpenVPN
 nix # A purely functional package manager
 nmap # Utility for network discovery and security auditing
 nnn # The fastest terminal file manager ever written.
+nvme-cli # NVM-Express user space tooling for Linux
 nvtop # GPUs process monitoring for AMD, Intel and NVIDIA
 nwg-look # GTK settings editor adapted to work on wlroots-based compositors
 obs-studio # Free, open source software for live streaming and recording
+papirus-icon-theme # Papirus icon theme
 partitionmanager # A KDE utility that allows you to manage disks, partitions, and file systems
 pcmanfm-gtk3 # Extremely fast and lightweight file manager (GTK+ 3 version)
 polkit-kde-agent # Daemon providing a polkit authentication UI for KDE
@@ -66,14 +103,22 @@ powertop # A tool to diagnose issues with power consumption and power management
 progress # Shows running coreutils basic commands and displays stats
 python-virtualenv # Virtual Python Environment builder
 qpwgraph # PipeWire Graph Qt GUI Interface
+qt5-tools # A cross-platform application and UI framework (Development Tools, QtHelp)
 qt5ct # Qt5 Configuration Utility
+ranger # Simple, vim-like file manager
+refind # An EFI boot manager
 reflector # A Python 3 module and script to retrieve and filter the latest Pacman mirror list.
 remmina # Remote desktop client written in GTK+
 ripgrep # A search tool that combines the usability of ag with the raw speed of grep
 river # A dynamic tiling wayland compositor
+rustup # The Rust toolchain installer
+screen # Full-screen window manager that multiplexes a physical terminal
+shellcheck # Shell script analysis tool
+shfmt # Format shell programs
 steam # Valve's digital software delivery system
 swayidle # Idle management daemon for Wayland
 swaylock # Screen locker for Wayland
+swaync # A simple GTK based notification daemon for Sway
 swww # A Solution to your Wayland Wallpaper Woes
 syncthing # Open Source Continuous Replication / Cluster Synchronization Thing
 task # Taskwarrior, a command-line todo list manager
@@ -86,8 +131,11 @@ timeshift # A system restore utility for Linux
 tree-sitter-bash # Bash grammar for tree-sitter
 tree-sitter-python # Python grammar for tree-sitter
 ttc-iosevka # Typeface family designed for coding, terminal use and technical documents.
+ttf-bitstream-vera-mono-nerd # Patched font Bitstream Vera Mono from nerd fonts library
 ttf-firacode-nerd # Patched font Fira (Fura) Code from nerd fonts library
 ttf-hack-nerd # Patched font Hack from nerd fonts library
+ttf-joypixels # Emoji as a Service (formerly EmojiOne)
+ttf-victor-mono-nerd # Patched font Victor Mono from nerd fonts library
 turbostat # Report processor frequency and idle statistics
 udiskie # Removable disk automounter using udisks
 unicode-emoji # Unicode Emoji Data Files
@@ -97,8 +145,10 @@ waybar # Highly customizable Wayland bar for Sway and Wlroots based compositors
 wireless_tools # Tools allowing to manipulate the Wireless Extensions
 wlsunset # Day/night gamma adjustments for Wayland compositors
 woff-fira-code # Monospaced font with programming ligatures
+wofi # launcher for wlroots-based wayland compositors
 wol # Wake On LAN functionality in a small program. It wakes up hardware that is Magic Packet compliant
 xcompmgr # Composite window effect manager for X.org
+xdg-user-dirs # Manage user directories like ~/Desktop and ~/Music
 xkeycaps # A graphical front-end to xmodmap
 xorg-xev # Print contents of X events
 xorg-xinit # X.Org initialisation program
@@ -107,5 +157,6 @@ xorg-xsetroot # Classic X utility to set your root window background to a given 
 xorg-xwininfo # Command-line utility to print information about windows on an X server
 xwallpaper # Wallpaper setting utility for X
 yay # Yet another yogurt. Pacman wrapper and AUR helper written in go.
+ydotool # Generic command-line automation tool (no X!)
 zig # a general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software
 zoxide # A smarter cd command for your terminal

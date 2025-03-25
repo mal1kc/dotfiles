@@ -1,43 +1,43 @@
 #!/bin/dash
 reattach() {
-    check_libvirtd_status
-    sudo virsh nodedev-reattach pci_0000_01_00_0
-    sudo rmmod vfio_pci vfio_pci_core vfio_iommu_type1
-    sudo modprobe nvidia_modeset nvidia_uvm nvidia
+	check_libvirtd_status
+	sudo virsh nodedev-reattach pci_0000_01_00_0
+	sudo rmmod vfio_pci vfio_pci_core vfio_iommu_type1
+	sudo modprobe nvidia_modeset nvidia_uvm nvidia
 }
 
 deattach() {
-    check_libvirtd_status
-    # sudo rmmod nvidia_drm nvidia_modeset nvidia_uvm nvidia
-    sudo rmmod nvidia_modeset nvidia_uvm nvidia
-    sudo modprobe vfio_pci vfio_pci_core vfio_iommu_type1
-    sudo virsh nodedev-detach pci_0000_01_00_0
+	check_libvirtd_status
+	# sudo rmmod nvidia_drm nvidia_modeset nvidia_uvm nvidia
+	sudo rmmod nvidia_modeset nvidia_uvm nvidia
+	sudo modprobe vfio_pci vfio_pci_core vfio_iommu_type1
+	sudo virsh nodedev-detach pci_0000_01_00_0
 }
 
 check_libvirtd_status() {
-    if systemctl is-active --quiet libvirtd.service; then
-        echo "libvirtd socket is already active \n  continuing operation \n"
-    else
-        read -p "libvirtd socket is not active, do you wish to active [Y\n] ?" yn
-        case $yn in
-            [Yn]* | [.]) sudo systemctl start libvirtd.service --quiet ;;
-            [Nn]*) exit ;;
-            *) echo "answer not understanded" ;;
-        esac
-    fi
+	if systemctl is-active --quiet libvirtd.service; then
+		echo "libvirtd socket is already active \n  continuing operation \n"
+	else
+		read -p "libvirtd socket is not active, do you wish to active [Y\n] ?" yn
+		case $yn in
+		[Yn]* | [.]) sudo systemctl start libvirtd.service --quiet ;;
+		[Nn]*) exit ;;
+		*) echo "answer not understanded" ;;
+		esac
+	fi
 }
 
 toggle_vfio() {
-    if lspci -nnk | rg -o vfio >/dev/null; then
-        # if card controlled by vfio driver
-        echo "gpu card is controlled by vfio-pci driver"
-        echo "requesting sudo for reattaching gpu card"
-        reattach
-    else
-        echo "gpu card is not controlled by vfio-pci driver"
-        echo "requesting sudo for deattaching gpu card"
-        deattach
-    fi
+	if lspci -nnk | rg -o vfio >/dev/null; then
+		# if card controlled by vfio driver
+		echo "gpu card is controlled by vfio-pci driver"
+		echo "requesting sudo for reattaching gpu card"
+		reattach
+	else
+		echo "gpu card is not controlled by vfio-pci driver"
+		echo "requesting sudo for deattaching gpu card"
+		deattach
+	fi
 }
 
 toggle_vfio

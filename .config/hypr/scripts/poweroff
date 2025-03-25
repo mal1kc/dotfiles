@@ -1,0 +1,3 @@
+#!/bin/env sh
+
+python ~/.local/bin/confirm_dialog.py 'do you want poweroff' && notify-send 'Powering off' && sleep 1 && systemctl poweroff

@@ -1,21 +1,29 @@
 cpufetch
-direnv
 dos2unix
 gitleaks
 gping
-lazygit
-navi
 nixos-icons
 nodejs
-nomacs
 nsxiv
 onefetch
 pnpm
-pre-commit
-procs
-shellcheck
-shfmt
 taskwarrior-tui
 tokei
 ueberzugpp
 wallust
+
+# DEsktop
+# ------
+# editorconfig-checker
+# fdupes
+# platformio
+# =======
+# laptop
+# ------
+# direnv
+# lazygit
+# navi
+# nomacs
+# pre-commit
+# shellcheck
+# shfmt

@@ -19,6 +19,10 @@ Xft.hintstyle: hintslight
 Xft.rgba: rgb
 Xft.lcdfilter: lcddefault
 
+/*Desktop*/
+/**.font: Iosevka:style=medium:pixelsize=14*/
+
+/*laptop*/
 *.font: Iosevka:style:medium:pixelsize=16
 
 Nsxiv.*.background: #000000
@@ -26,7 +30,3 @@ Nsxiv.*.foreground: #ffffff
 
 st.borderpx: 2
 st.alpha: 0.9
-st.font: Iosevka:style:medium:pixelsize=13
-
-/*xautolock.locker: slock*/
-/*xautolock.nowlocker: slock*/

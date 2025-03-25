@@ -6,12 +6,22 @@
     "cpu",
     "memory",
     "disk#root",
+//     "disk#home",  // desktop
     "hyprland/window"
   ],
   "modules-center": [
     "hyprland/workspaces",
     "tray"
   ],
+// Desktop
+    // "modules-right":["custom/media","bluetooth","wireplumber","clock","gamemode"],
+    //  "modules-right": [
+    //    "systemd-failed-units",
+    //    "mpris",
+    //    "wireplumber",
+    //    "clock",
+    //    "custom/notification",
+    //    "gamemode"
   "modules-right": [
     "mpris",
     "backlight/slider",
@@ -83,6 +93,8 @@
     }
   },
   "tray": {
+//  "icon-size": 16, // desktop
+//  "spacing": 5 // desktop
     "icon-size": 12,
     "spacing": 2
   },
@@ -122,7 +134,31 @@
       ""
     ]
   },
+
+// Desktop
+// "disk#root"{
+//        "interval": 30,        
+//        "format": "{percentage_used}% {used} > /",
+//        "path": "/",
+//      },
+//      "disk#home": {
+//        "interval": 30,
+//        "format": "{percentage_used}% {used} > home",
+//        "path": "/home",
+//      },
+//      "network": {
+//        "format-wifi": "{essid} ({signalStrength}%) ",
+//        "format-ethernet": "{ipaddr}/{cidr} ",
+//        "tooltip-format": "{ifname} via {gwaddr} ",
+//        "format-linked": "{ifname} (No IP) ",
+//        "format-disconnected": "Disconnected ⚠",
+//        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+//      },
+//      }
+
+
   "disk#root": {
+
     "interval": 120,
     "format": "{percentage_used}% {used} > /",
     "path": "/",
@@ -142,7 +178,7 @@
         ""
       ]
     },
-    "on-click": "~/.local/bin/wofi_json.py audio"
+    "on-click": "$HOME/.local/bin/select_tool_json.py audio"
   },
   "mpris": {
     "player": "playerctld",
@@ -166,6 +202,48 @@
     "format": "👉 {}",
     "separate-outputs": true
   },
+// DEsktop
+//   "custom/media": {
+//     "format": "{icon} {}",
+//     "return-type": "json",
+//     "max-length": 40,
+//     "on-click": "playerctl play-pause",
+//     "on-click-right": "playerctl stop",
+//     "format-icons": {
+//       "spotify": "",
+//       "default": "🎜"
+//     },
+//     "escape": true,
+//     "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
+//     "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+//   },
+//   "systemd-failed-units": {
+//     "hide-on-ok": true, // Do not hide if there is zero failed units.
+//     "format": "✗ {nr_failed}",
+//     "format-ok": "✓",
+//     "system": true, // Monitor failed systemwide units.
+//     "user": true
+//   },
+//   "custom/notification": {
+//     "tooltip": false,
+//     "format": " {icon}",
+//     "format-icons": {
+//       "notification": "  <span foreground='red'><sup> </sup></span>",
+//       "none": " ",
+//       "dnd-notification": "  <span foreground='red'><sup> </sup></span>",
+//       "dnd-none": "  ",
+//       "inhibited-notification": " <span foreground='red'><sup> </sup></span>",
+//       "inhibited-none": " ",
+//       "dnd-inhibited-notification": "  <span foreground='red'><sup> </sup></span>",
+//       "dnd-inhibited-none": "  "
+//     },
+//     "return-type": "json",
+//     "exec-if": "which swaync-client",
+//     "exec": "swaync-client -swb",
+//     "on-click": "swaync-client -t -sw",
+//     "on-click-right": "swaync-client -d -sw",
+//     "escape": true
+//   },
   "battery": {
     "bat": "BAT0",
     "interval": 60,

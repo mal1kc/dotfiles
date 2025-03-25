@@ -1,0 +1,9 @@
+[Unit]
+Description=(re)start waybar
+
+[Service]
+Type=oneshot
+
+Environment="DISPLAY=:0"
+ExecStart=%h/.local/bin/start_waybar.sh
+

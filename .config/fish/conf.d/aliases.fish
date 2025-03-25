@@ -36,8 +36,8 @@ if not test -n "$aliases_initialized"
     alias vim="nvim"
 
     # prints all info about package fuzzy yay search installed "Q" and non-installed "S" database
-    alias fzf_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% "
-    alias fzf_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10% "
+    alias fzf_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
+    alias fzf_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
 
     alias docker="podman"
 
@@ -45,12 +45,12 @@ if not test -n "$aliases_initialized"
         alias xdg-open="handlr open"
     end
 
-
     function _termdown
         ignore_title_change countdown "termdown $argv"
     end
 
-    alias bat_status="upower -i (upower -e | rg 'BAT')"
-
+    if command -v upower >/dev/null
+        alias bat_status="upower -i (upower -e | rg 'BAT')"
+    end
     set -x aliases_initialized true
 end

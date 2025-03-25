@@ -31,29 +31,29 @@ nnnpluginsdir="$HOME/.config/nnn/plugins"
 
 # Preview with bat if installed
 if type bat >/dev/null; then
-    BAT="bat --terminal-width='$(tput cols)' --decorations=always --color=always --style='${BAT_STYLE:-header,numbers}'"
+	BAT="bat --terminal-width='$(tput cols)' --decorations=always --color=always --style='${BAT_STYLE:-header,numbers}'"
 fi
 
 plugin=$(find "$nnnpluginsdir" "$CUSTOMDIR1" "$CUSTOMDIR2" \
-    -maxdepth 3 -perm -111 -type f 2>/dev/null | fzf --ansi --preview \
-    "${BAT:-cat} {}" --preview-window="right:66%:wrap" --delimiter / \
-    --with-nth -1 --bind="?:toggle-preview")
+	-maxdepth 3 -perm -111 -type f 2>/dev/null | fzf --ansi --preview \
+	"${BAT:-cat} {}" --preview-window="right:66%:wrap" --delimiter / \
+	--with-nth -1 --bind="?:toggle-preview")
 
 # Try running the script on the hovered file, and abort
 # abort if no plugin was selected (ESC or ^C pressed).
 err=0
 if ! [ "$plugin" = "" ]; then
-    "$plugin" "$1" || err=1
+	"$plugin" "$1" || err=1
 fi
 
 # If attempt with hovered file fails, try without any target
 # (nnn selections should still be passed to the script in that case)
 if [ "$err" -eq "1" ]; then
-    clear && "$plugin" || err=2
+	clear && "$plugin" || err=2
 fi
 
 # Abort and show error if both fail
 if [ "$err" -eq "2" ]; then
-    sep="\n---\n"
-    printf "$sep""Failed to execute '%s'. See error above or try without fzfplug. Press return to continue. " "$plugin" && read -r _ && clear
+	sep="\n---\n"
+	printf "$sep""Failed to execute '%s'. See error above or try without fzfplug. Press return to continue. " "$plugin" && read -r _ && clear
 fi

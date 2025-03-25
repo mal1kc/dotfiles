@@ -1,537 +1,471 @@
-print("ERROR:This script is not work as exppected, needs rewrite")
-exit(1)
-##!/usr/bin/env python
-# import os
-# import shutil
-# import subprocess
-# import sys
-# import argparse
-# import tempfile
-#
-# from datetime import datetime
-# from pathlib import Path
-# from typing import List, Callable, Any
-#
-# DRY_RUN: bool = True
-# VERBOSE: bool = False
-#
-# HOME_DIR: Path = Path.home()
-#
-# DOTFILES_DIR: Path = HOME_DIR / "dotfiles"
-# BACKUPS_DIR: Path = HOME_DIR / ".dotfiles_backups"
-#
-#
-# INSTALLER_DIR: Path | None = DOTFILES_DIR / "dotfiles_installers"
-#
-# BACKUP_TMP_DIR: Path = Path(tempfile.mkdtemp())
-#
-# DOTFILE_LIST: list[os.PathLike] = [
-#    Path(config)
-#    for config in [
-#        ".local/bin",
-#        ".local/share/applications",
-#        ".Xresources",
-#        ".bashrc",
-#        ".gitconfig",
-#        ".gtkrc-2.0",
-#        ".inputrc",
-#        ".zshrc",
-#    ]
-#    + [
-#        f".config/{dotconfig}"
-#        for dotconfig in [
-#            "bat",
-#            "dunst",
-#            "fish",
-#            "gtk-3.0",
-#            "kitty",
-#            "mpv",
-#            "my_extra_configs",
-#            "nnn",
-#            "nsxiv",
-#            "pcmanfm",
-#            "systemd",
-#            "tmux",
-#            "wal",
-#            "zathura",
-#            "zsh",
-#            "mimeapps.list",
-#            "user-dirs.dirs",
-#        ]
-#    ]
-# ]
-#
-#
-# IGNORE_FILES: List[os.PathLike] = [
-#    Path(ignr_config)
-#    for ignr_config in [
-#        ".git",
-#        ".gitignore",
-#        ".gitmodules",
-#        ".firefox_scripts_configs",
-#        ".pre-commit-config.yaml",
-#        "scripts",
-#        "dotfiles_installers",
-#        "pkg_list.txt",
-#        "nix_profile_pkg_list.txt",
-#        "install.py",
-#        "readme.org",
-#    ]
-# ]
-#
-## create a list of dotfiles without the ignored files and not existing files/directories
-#
-# DOTFILES = [dfile for dfile in DOTFILE_LIST if dfile not in IGNORE_FILES]
-#
-#
-# IGNORE_SCRIPTS: List[str] = ["archlinux_and_aur_install.sh"]  # TODO: fix script
-#
-# OTHER_DOTFILES: dict[str, List[os.PathLike]] = {
-#    "x11": [
-#        Path(x11config)
-#        for x11config in [
-#            ".xinitrc",
-#            ".xprofile",
-#            ".config/picom.conf",
-#            ".config/rofi",
-#            ".config/i3",
-#        ]
-#    ],
-#    "wayland": [
-#        Path(waylandconfig)
-#        for waylandconfig in [
-#            ".config/foot",
-#            ".config/hypr",
-#            ".config/river",
-#            ".config/waybar",
-#            ".config/wofi",
-#        ]
-#    ],
-#    # i don't use emacs anymore
-#    #
-#    # "emacs": [
-#    #     Path(emacs_config)
-#    #     for emacs_config in [
-#    #         ".doom.d",
-#    #         ".emacs-profiles.el",
-#    #     ]
-#    # ],
-# }
-#
-#
-# def write_stderr(msg: str) -> None:
-#    sys.stderr.write(msg + "\n")
-#    sys.stderr.flush()
-#
-#
-# def write_stdout(msg: str) -> None:
-#    sys.stdout.write(msg + "\n")
-#    sys.stdout.flush()
-#
-#
-# def do_job(
-#    msg: str,
-#    callable: Callable,
-#    callable_args: dict[str, Any],
-# ) -> Any:
-#    """
-#    if dry_run is False, do the job with the callable and the callable_args
-#    else print the msg and the callable_args
-#    """
-#    global DRY_RUN
-#    global VERBOSE
-#    if DRY_RUN:
-#        write_stdout(f"[Dry Run] {msg} with call of {callable} with {callable_args}")
-#        return None
-#    else:
-#        if VERBOSE:
-#            write_stdout(
-#                f"[Verbose] {msg} with call of {callable} with {callable_args}"
-#            )
-#        return callable(**callable_args)
-#
-#
-# def check_dirs() -> None:
-#    for directry in [DOTFILES_DIR, INSTALLER_DIR]:
-#        if directry is None:
-#            write_stdout(f"ignoring {directry} dir.")
-#            continue
-#        if not directry.exists():
-#            write_stderr(f"Error: {directry} does not exist.")
-#            sys.exit(1)
-#        else:
-#            directry.mkdir()
-#    if not BACKUPS_DIR.exists():
-#        BACKUPS_DIR.mkdir()
-#
-#
-# def create_archive(
-#    archive_name: str,
-#    archive_store_folder: Path,
-#    dir_to_archive: Path,
-#    arch_format: str = "gztar",
-# ) -> Path:
-#    """
-#    Create a archive of files.
-#    """
-#    global DRY_RUN
-#
-#    files = [f for f in dir_to_archive.iterdir()]
-#
-#    archive_file = (
-#        archive_store_folder
-#        / f"{archive_name}_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}__{len(files)}"
-#    )
-#    for possible_archive in archive_store_folder.iterdir():
-#        if possible_archive.name.startswith(archive_file.name):
-#            write_stderr(f"Warning: Archive {possible_archive} already exists.")
-#            exit(1)
-#
-#    return do_job(
-#        f"Archive {archive_name} created",
-#        shutil.make_archive,
-#        {
-#            "base_name": str(archive_file),
-#            "format": arch_format,
-#            "root_dir": HOME_DIR,
-#            "base_dir": dir_to_archive,
-#            "dry_run": DRY_RUN,
-#        },
-#    )
-#
-#
-# def install_dotfile(dfile: os.PathLike, do_backup: bool = True) -> bool:
-#    """
-#    Install a dotfile (symlink) and create a backup if the file already exists.
-#    """
-#    # TODO: still creates self links dirs why??
-#    src = DOTFILES_DIR / dfile
-#    dst = HOME_DIR / dfile
-#
-#    if not src.exists():
-#        write_stderr(f"Error: {dfile} not found in dotfiles directory.")
-#        return False
-#
-#    if dst.exists():
-#        if not dst.is_symlink():
-#            if do_backup:
-#                backup_dotfile(dfile)
-#            if dst.is_dir():
-#                for subfile in dst.iterdir():
-#                    if not install_dotfile(subfile.relative_to(HOME_DIR), do_backup):
-#                        write_stderr(f"failed during installation of {subfile}")
-#            else:
-#                do_job(
-#                    f"File {dst} removed",
-#                    os.remove,
-#                    {"path": dst},
-#                )
-#    if src.is_dir():
-#        do_job(
-#            f"Directory {dst} created",
-#            Path.mkdir,
-#            {
-#                "self": dst,
-#                "parents": True,
-#                "exist_ok": True,
-#            },
-#        )
-#        for subfile in src.iterdir():
-#            if not install_dotfile(subfile.relative_to(DOTFILES_DIR), do_backup):
-#                write_stderr(f"failed during installation of {subfile}")
-#        return True
-#    do_job(
-#        f"Symlink {dfile} created",
-#        os.symlink,
-#        {
-#            "src": src.resolve(),
-#            "dst": dst.resolve(),
-#        },
-#    )
-#    return True
-#
-#
-# def install_scripts() -> None:
-#    """
-#    runs executables with arg 'install' from  INSTALLER_DIR
-#    """
-#
-#    if not INSTALLER_DIR:
-#        return
-#
-#    scripts = [
-#        script
-#        for script in INSTALLER_DIR.iterdir()
-#        if script.is_file() and script.stat().st_mode & 0o111
-#    ]
-#
-#    for script in scripts:
-#        if script in IGNORE_SCRIPTS:
-#            write_stdout(f"Script {script} ignored")
-#            continue
-#
-#        do_job(
-#            f"Script {script} installed",
-#            subprocess.run,
-#            {"args": [INSTALLER_DIR / script, "install"], "check": True},
-#        )
-#
-#
-# def backup_dotfile(dfile: os.PathLike) -> None:
-#    """
-#    move current dotfiles to BACKUPS_DIR
-#    """
-#    do_job(
-#        f"Directory {BACKUP_TMP_DIR} created",
-#        Path.mkdir,
-#        {
-#            "self": BACKUP_TMP_DIR,
-#            "parents": True,
-#            "exist_ok": True,
-#        },
-#    )
-#
-#    src = HOME_DIR / dfile
-#    dst = BACKUP_TMP_DIR / dfile
-#    write_stdout(f"Backing up {src}")
-#    if src.exists():
-#        if not src.is_symlink():
-#            # main backup logic happens here
-#            if not dst.parent.exists() and dst.parent != BACKUP_TMP_DIR:
-#                do_job(
-#                    f"Directory {dst.parent} created",
-#                    Path.mkdir,
-#                    {
-#                        "self": dst.parent,
-#                        "parents": True,
-#                        "exist_ok": True,
-#                    },
-#                )
-#            if src.is_file():
-#                do_job(
-#                    f"File {src} backed up to {BACKUP_TMP_DIR}",
-#                    shutil.move,
-#                    {
-#                        "src": src,
-#                        "dst": BACKUP_TMP_DIR / src.relative_to(HOME_DIR),
-#                    },
-#                )
-#            else:
-#                do_job(
-#                    f"Directory {dst} created at {BACKUP_TMP_DIR}",
-#                    Path.mkdir,
-#                    {
-#                        "self": dst,
-#                        "parents": True,
-#                        "exist_ok": True,
-#                    },
-#                )
-#                for subfile in src.iterdir():
-#                    backup_dotfile(subfile.relative_to(HOME_DIR))
-#                write_stdout(f"Backup of dotfiles created in {BACKUP_TMP_DIR}")
-#        else:
-#            do_job(
-#                f"Symlink {src} removed",
-#                os.unlink,
-#                {"path": src},
-#            )
-#
-#
-# def cli_install_dotfiles_and_scripts(
-#    do_pre_backup: bool = True,
-#    do_after_backup: bool = True,
-#    do_install_scripts: bool = True,
-# ) -> None:
-#    """
-#    Install dotfiles with
-#    optionally create backups and install scripts.
-#    """
-#    do_job("Check directories existence", check_dirs, {})
-#    if do_pre_backup:
-#        for dfile in DOTFILES:
-#            backup_dotfile(dfile)
-#        archive_file = do_job(
-#            "Create backup archive",
-#            create_archive,
-#            {
-#                "archive_name": "backup_pre_install",
-#                "archive_store_folder": BACKUPS_DIR,
-#                "dir_to_archive": BACKUP_TMP_DIR,
-#            },
-#        )
-#        if archive_file:
-#            write_stdout(f"Backup archive created in {archive_file}")
-#        do_job(
-#            "Remove backup tmp dir",
-#            shutil.rmtree,
-#            {
-#                "path": BACKUP_TMP_DIR,
-#            },
-#        )
-#
-#    for dfile in DOTFILES:
-#        if not install_dotfile(dfile):
-#            write_stderr(f"failed during installation of {dfile}")
-#
-#    if do_install_scripts and INSTALLER_DIR:
-#        if not INSTALLER_DIR.exists():
-#            return
-#        install_scripts()
-#
-#
-# def cli_uninstall_dotfiles(do_restore_backup: bool = True) -> None:
-#    """
-#    Uninstall dotfiles and optionally restore backups (only normal backups).
-#    """
-#    raise NotImplementedError("cli_uninstall_dotfiles not implemented")
-#
-#
-# def cli_backup_dotfiles() -> None:
-#    """
-#    Create a backup of dotfiles.
-#    show menu of backups from BACKUPS_DIR
-#    choose backup to restore
-#    restore backup
-#    """
-#    raise NotImplementedError("cli_backup_dotfiles not implemented.")
-#
-#
-# def check_exists() -> None:
-#    """
-#    give state about non-existed dotfiles and already existed files
-#    """
-#    for dfile in DOTFILES:
-#        if not (DOTFILES_DIR / dfile).exists():
-#            write_stderr(f"Error: {dfile} not found in dotfiles directory.")
-#        if (HOME_DIR / dfile).exists():
-#            write_stderr(f"Error: {dfile} already exists in home directory.")
-#
-#
-# def get_actions() -> list[dict[str, str | Callable | dict[str, bool]]]:
-#    return [
-#        {
-#            "name": "install",
-#            "help": "Install dotfiles and scripts.",
-#            "func": cli_install_dotfiles_and_scripts,
-#            "args": {
-#                "do_pre_backup": True,
-#                "do_after_backup": True,
-#                "do_install_scripts": True,
-#            },
-#        },
-#        {
-#            "name": "onlydotfiles",
-#            "help": "Install dotfiles",
-#            "func": cli_install_dotfiles_and_scripts,
-#            "args": {
-#                "do_pre_backup": False,
-#                "do_after_backup": False,
-#                "do_install_scripts": False,
-#            },
-#        },
-#        {
-#            "name": "uninstall",
-#            "help": "NOT_IMPLEMENTED Uninstall dotfiles",
-#            "func": cli_uninstall_dotfiles,
-#            "args": {
-#                "do_restore_backup": True,
-#            },
-#        },
-#        {
-#            "name": "nobcuninstall",
-#            "help": "Uninstall dotfiles without restoring backups.",
-#            "func": cli_uninstall_dotfiles,
-#            "args": {
-#                "do_restore_backup": False,
-#            },
-#        },
-#        {
-#            "name": "backup",
-#            "help": "NOT_IMPLEMENTED Backup dotfiles and scripts.",
-#            "func": cli_backup_dotfiles,
-#            "args": {},
-#        },
-#        {
-#            "name": "check_exists",
-#            "help": "give state about non-existed dotfiles and already existed files",
-#            "func": check_exists,
-#            "args": {},
-#        },
-#    ]
-#
-#
-# def main() -> None:
-#    global DRY_RUN
-#    global VERBOSE
-#    global DOTFILES
-#    global INSTALLER_DIR
-#    parser = argparse.ArgumentParser(description="Install dotfiles.")
-#    parser.add_argument(
-#        "action",
-#        choices=[action["name"] for action in get_actions()],
-#        help="Action to perform.",
-#    )
-#    parser.add_argument(
-#        "--x11",
-#        action="store_true",
-#        help="Install X11 related dotfiles.",
-#    )
-#    parser.add_argument(
-#        "--no-scripts",
-#        action="store_true",
-#        help="Do not install scripts.",
-#    )
-#
-#    # parser.add_argument(
-#    #     "--emacs",
-#    #     action="store_true",
-#    #     help="install .emacs-profiles.el and .doom.d &"
-#    #     " you need manualy clone https://github.com/plexus/chemacs2.git in order to use .emacs-profiles.el",
-#    # )
-#
-#    parser.add_argument(
-#        "--wayland",
-#        action="store_true",
-#        help="Install Wayland related dotfiles.",
-#    )
-#    parser.add_argument(
-#        "--dry-run",
-#        action="store_true",
-#        help="Do not perform any action. Just print what would be done. have too much verbosity",
-#    )
-#    parser.add_argument(
-#        "--verbose",
-#        action="store_true",
-#        help="Print more information.",
-#    )
-#    args = parser.parse_args()
-#
-#    if not args.dry_run:
-#        DRY_RUN = False
-#    if args.verbose:
-#        VERBOSE = True
-#
-#    if args.x11:
-#        DOTFILES = DOTFILES + OTHER_DOTFILES["x11"]
-#    if args.wayland:
-#        DOTFILES = DOTFILES + OTHER_DOTFILES["wayland"]
-#    # if args.emacs:
-#    #     DOTFILES = DOTFILES + OTHER_DOTFILES["emacs"]
-#
-#    if args.no_scripts:
-#        INSTALLER_DIR = None
-#
-#    action = next(
-#        (action for action in get_actions() if action["name"] == args.action),
-#        None,
-#    )
-#    if action:
-#        action["func"](**action["args"])  # type: ignore
-#    else:
-#        write_stderr(f"Error: Action {args.action} not found.")
-#
-#    sys.exit(0)
-#
-#
-# if __name__ == "__main__":
-#    main()
+#!/usr/bin/env python
+# """BSD 3-Clause License
+#
+# Copyright (c) 2024-2026, mal1kc
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+#
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+#
+# 3. Neither the name of the copyright holder nor the names of its
+#    contributors may be used to endorse or promote products derived from
+#    this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."""
+# this script's main functionality can be achieven with gnu stow
+# but still writed this script because i don't understand perl
+#
+# this script has this features
+# - dotfiles location is hardcoded as $HOME/dotfiles
+# - has abilitiy to with verbose toggle (-v or --verbose) also has abilitiy to show change diff (--diff)
+# - has abilitiy to run in dry mode (--dry)
+#
+# - if crash or die while creating symlinks non tar backups can be located uner /tmp with some rundtime defined folder
+#
+# - it will modify home folders listed in DOTFILE_LIST and not in IGNORE_FILES
+#
+# - in nondry run:
+#    - will create recursive symlinks files based of hardcoded directory of files : you can edit it via DOTFILE_LIST constant
+#    - will create a backup tar file of replaced files for last 3 runs (oldest is higher num) under dotfiles dir
+#    - will create log file of  excuted operations dotfiles_installer.log at dotfiles dir
+#
+import argparse
+import os
+import shutil
+import sys
+import tempfile
+import logging
+from pathlib import Path
+from typing import Callable
+
+# from difflib import Differ
+
+HOME_DIR: Path = Path.home()
+
+DOTFILES_DIR: Path = HOME_DIR.joinpath("dotfiles")
+LOGFILE: Path = DOTFILES_DIR.joinpath("dotfiles_installer.log")
+BACKUPS_DIR: Path = DOTFILES_DIR.joinpath(".dotfiles_backups")
+BACKUP_TAR_BASE_NAME = "dotfiles_bckp"
+BACKUP_MAX_LMT = 3
+BACKUP_TAR_FILE_FORMAT = ("tar.gz", "gztar")
+
+BACKUP_TMP_DIR: tempfile.TemporaryDirectory = (
+    tempfile.TemporaryDirectory()
+)  # for creating tar_file
+
+LOGGER = logging.Logger("main")
+LOGGER.setLevel(logging.INFO)
+LOGGER.addHandler(logging.FileHandler(LOGFILE.absolute(), "w", "utf-8"))
+assert LOGGER.hasHandlers()
+LOGGER.handlers[0].formatter = logging.Formatter(
+    "%(asctime)s - %(levelname)s - %(message)s"
+)
+
+
+DOTFILE_LIST: list[Path] = [
+    Path(config)
+    for config in [
+        # .config
+        ".config/bat",
+        ".config/fish",
+        ".config/gamemode.ini",
+        ".config/kanata",
+        ".config/nnn",
+        ".config/nsxiv",
+        ".config/sounds",
+        ".config/systemd",
+        ".config/wallust",
+        ".config/zsh",
+        ".config/selection_tool",
+        # .local
+        ".local/bin",
+        ".local/share/applications",
+        ".bashrc",
+        ".gitconfig_aliases",
+        # import gitconfig aliases
+        # [include]
+        #   path = ~/.gitconfig_aliases
+        ".inputrc",
+        ".zshrc",
+    ]
+]
+
+
+IGNORE_FILES: list[Path] = [
+    Path(ignr_config)
+    for ignr_config in [
+        str(BACKUPS_DIR),
+        str(LOGFILE),
+        ".firefox_scripts_configs",
+        ".git",
+        ".gitignore",
+        ".gitmodules",
+        ".pre-commit-config.yaml",
+        "dotfiles_installers",
+        "install.py",
+        "nix_profile_pkg_list.txt",
+        "pkg_list.txt",
+        "readme.org",
+        "scripts",
+    ]
+]
+
+
+class global_options:
+    dry_run: bool = True
+    verbose: bool = False
+    do_backup: bool = True
+    exit_on_err: bool = True
+    dotfiles: list[Path] = [
+        dfile for dfile in DOTFILE_LIST if dfile not in IGNORE_FILES
+    ]
+
+
+OTHER_DOTFILES: dict[str, list[Path]] = {
+    "x11": [
+        Path(x11config)
+        for x11config in [
+            ".Xresources",
+            ".config/i3",
+            ".xinitrc",
+            ".xprofile",
+            # ".config/picom.conf",
+            # ".config/rofi",
+        ]
+    ],
+    "wayland": [
+        Path(waylandconfig)
+        for waylandconfig in [
+            ".config/foot",
+            ".config/fuzzel",
+            ".config/hypr",
+            ".config/river",
+            ".config/swaync",
+            ".config/waybar",
+            # ".config/wofi",
+        ]
+    ],
+}
+
+
+def mkdirs(fpath: str | Path) -> None:
+    if isinstance(fpath, Path):
+        fpath.mkdir(parents=True)
+    elif isinstance(fpath, str):
+        fpath_p = Path(fpath)
+        fpath_p.mkdir(parents=True)
+    else:
+        LOGGER.debug(f"Missuse of mkdirs with {fpath}")
+        exit(1)
+
+
+def reorder_old_backup_files() -> None:
+    # FIXLATER :  still has a bug if 2 old backups found
+    #               \ { 2.tar.gz , 3.tar.gz } trying to do incorrect movement
+    glob_ptrn = f"*.[0-9].{BACKUP_TAR_FILE_FORMAT[0]}"
+    LOGGER.debug("backup: globbing old backups files.")
+    childs = [ch for ch in BACKUPS_DIR.glob(glob_ptrn)]
+    LOGGER.debug(f"backup: found {len(childs)} old backup files.")
+    childs.sort()
+    if len(childs) == 0:
+        return
+    new_childs = []
+    suffix_indx = -1 * (3 + len(BACKUP_TAR_FILE_FORMAT[0]))
+    number_of_first = childs[0].name[suffix_indx + 1 : suffix_indx + 2]
+    if number_of_first != "1":
+        LOGGER.debug("backup: not found 1.tar.gz NOT DOING ANY REORDER THING")
+        return
+
+    if len(childs) >= BACKUP_MAX_LMT:
+        last_backup_file = childs.pop()
+        LOGGER.debug(
+            f"backup: remove oldest backup file by checking indx num of file: {last_backup_file.absolute()}."
+        )
+        if not global_options.dry_run:
+            os.remove(last_backup_file.absolute())
+
+    for indx, ch in enumerate(childs):
+        LOGGER.debug(f"backup: trying to reorder file {indx}:{ch}")
+        # change last part 1.tar.gz => 2.tar.gz \ => 3.tar.gz
+
+        # absolute is necessary for rename in correct parent dir
+        new_ch_name = ch.parent.joinpath(
+            ch.name[:suffix_indx] + f".{indx + 2}.{BACKUP_TAR_FILE_FORMAT[0]}"
+            # +2 because
+            # indx 0 is must be renamed to 2.tar.gz
+            # indx 1 is must be renamed to 3.tar.gz
+        ).absolute()
+
+        LOGGER.debug(f"backup: old to new = {ch.name} -> {new_ch_name.name}")
+
+        if not global_options.dry_run:
+            new_ch = ch.rename(new_ch_name)
+            assert new_ch != ch, (
+                "Panic!: iterative move of old backups has a bug with renaming."
+            )
+            assert new_ch.parent == ch.parent, (
+                "Panic!: iterative move of old backups has directory bug."
+            )
+            new_childs.append(new_ch)
+        LOGGER.debug(f"backup: mov old backup {ch} to {new_ch_name}")
+    if len(childs) > 0:
+        assert childs[0].absolute() != new_childs[0].absolute(), (
+            "Panic!: iterative move of old backups has a bug probably."
+        )
+
+
+def create_archive(
+    dir_to_archive: Path,
+) -> Path:
+    """
+    Create a archive of files.
+    """
+    reorder_old_backup_files()
+    backup_file_name = BACKUP_TAR_BASE_NAME + ".1"
+    LOGGER.info(f"backup: backup tar creating at '{BACKUPS_DIR}' .")
+    BACKUPS_DIR.mkdir(exist_ok=True)
+    archive_res = shutil.make_archive(
+        base_name=backup_file_name,
+        format=BACKUP_TAR_FILE_FORMAT[1],
+        root_dir=BACKUPS_DIR.absolute(),
+        base_dir=dir_to_archive,
+        dry_run=global_options.dry_run,
+    )
+    dst_path = BACKUPS_DIR.joinpath(backup_file_name + "." + BACKUP_TAR_FILE_FORMAT[0])
+    LOGGER.info(f"backup: backup tar created at {archive_res}.")
+    os.rename(archive_res, dst_path)
+    LOGGER.info(f"backup: backup tar moved to {dst_path}.")
+    return dst_path
+
+
+def move_to_backup_dir(dotfile: Path):
+    """
+    - dfile must be relative_to HOME_DIR
+    - move current dotfile to BACKUPS_DIR
+    """
+    tmp_dir = Path(BACKUP_TMP_DIR.name)
+    assert tmp_dir.exists() and tmp_dir.is_dir(), (
+        f"{BACKUP_TMP_DIR=} must be exists and must be dir"
+    )
+    #  must be in this format : .config/hypr/hyprland.conf
+    #  not in this format : /home/mal1kc/.config/hypr/hyprland.conf
+    assert HOME_DIR not in dotfile.parents, (
+        f"{dotfile=} must be relative_to {HOME_DIR=}"
+    )
+
+    LOGGER.info(f"move_to_backup_dir: backuping {dotfile.absolute()}")
+    dst = Path(BACKUP_TMP_DIR.name).joinpath(dotfile)
+    src = HOME_DIR.joinpath(dotfile)
+    if not src.exists():
+        LOGGER.info(f"move_to_backup_dir: {src} not exits not doing backup for {src}")
+        return
+
+    assert src.exists(follow_symlinks=False), (
+        "src must be existsed on move_to_backup_dir"
+    )
+    assert src.is_file(), "src must be file on move_to_backup_dir"
+
+    assert not dst.exists(follow_symlinks=False), (
+        f"{dst=} must be not existed on move_to_backup_dir"
+    )
+    LOGGER.info(f"move_to_backup_dir: {src} backed up as {dst}")
+    if not global_options.dry_run:
+        if not dst.parent.exists():
+            LOGGER.debug(f"move_to_backup_dir: {dst.parent} not exists creating dir")
+            dst.parent.mkdir(parents=True, exist_ok=True)
+        assert dst.parent.exists(), (
+            f"{dst.parent} must be existed on move_to_backup_dir"
+        )
+        shutil.move(src.absolute(), dst.absolute())
+        assert dst.exists(follow_symlinks=False), (
+            "after a move of src , dst must be existed on move_to_backup_dir"
+        )
+
+
+def install_dotfile(dfile: Path) -> bool:
+    """
+    - This is recursive for folders
+    - Install a dotfile (symlink) if file exists on symlinked location move that file to BACKUP_TMP_DIR
+    """
+    src = DOTFILES_DIR.joinpath(dfile)
+    dst = HOME_DIR.joinpath(dfile)
+
+    LOGGER.debug(f"install_dotfile: {src.absolute()} to {dst.absolute()}")
+
+    # -- checks_start
+    if not src.exists(follow_symlinks=False):
+        LOGGER.error(f"install_dotfile: {src} not exists")
+        return False
+
+    if dst.exists(follow_symlinks=False):
+        if not dst.is_symlink():
+            if dst.is_dir():
+                for subfile in dst.iterdir():
+                    if not install_dotfile(subfile.relative_to(HOME_DIR)):
+                        LOGGER.error(
+                            "install_dotfile: failed install_dotfile %s",
+                            subfile.relative_to(HOME_DIR),
+                        )
+            else:
+                if global_options().do_backup:
+                    move_to_backup_dir(dst.relative_to(HOME_DIR))
+                else:
+                    logging.debug(f"install_dotfile: removing {dst.absolute()}")
+                    if not global_options.dry_run:
+                        os.remove(dst.absolute())
+                assert not dst.exists(follow_symlinks=False), (
+                    f"{dst=} needs be not exists anymore."
+                )
+        else:
+            LOGGER.debug(
+                f"install_dotfile: found a symlink at {dst.absolute()} unlinking it."
+            )
+            if not global_options.dry_run:
+                os.unlink(dst.absolute())
+            assert not dst.exists(follow_symlinks=False), (
+                f"{dst=} needs be not exists anymore."
+            )
+    if src.is_dir():
+        LOGGER.info(
+            f"install_dotfile: {src=} is directory creating dir at destination."
+        )
+        if not global_options.dry_run:
+            dst.mkdir(parents=True, exist_ok=True)
+            assert dst.is_dir(), "directory must be created"
+        for subfile in src.iterdir():
+            if not install_dotfile(subfile.relative_to(DOTFILES_DIR)):
+                LOGGER.error(
+                    "install_dotfile: failed install_dotfile %s",
+                    subfile.relative_to(HOME_DIR),
+                )
+        return True
+
+    # -- checks_end
+    LOGGER.info(f"install_dotfile: linkink files {src.absolute()}  {dst.absolute()} ")
+    if not global_options.dry_run:
+        os.symlink(src, dst)
+        assert dst.is_symlink(), "dst must be symlink"
+    return True
+
+
+def cli_install_dotfiles() -> None:
+    """
+    Install dotfiles
+    """
+    for dfile in global_options.dotfiles:
+        if not install_dotfile(dfile):
+            LOGGER.debug(f"cli_uninstall_dotfiles: can't install {dfile.absolute()}")
+
+    dir_to_archive = Path(BACKUP_TMP_DIR.name)
+    assert dir_to_archive.is_dir(), "dir_to_archive must be dir"
+    assert dir_to_archive.is_absolute(), "dir_to_archive must be absolute"
+    if global_options.do_backup:
+        archive_file = create_archive(dir_to_archive)
+        LOGGER.debug(f"cli_install_dotfiles: create_archive returned {archive_file=}")
+        assert archive_file.exists(follow_symlinks=False), (
+            "backup: can't created backup tar file"
+        )
+    BACKUP_TMP_DIR.cleanup()
+
+
+def cli_check_exists() -> None:
+    """
+    give state about non-existed dotfiles and already existed files
+    """
+    for dfile in global_options.dotfiles:
+        if not DOTFILES_DIR.joinpath(dfile).exists(follow_symlinks=False):
+            LOGGER.error(f"cli_check_exists: {dfile} not exists")
+            continue
+        LOGGER.info(f"cli_check_exists: {dfile} exists")
+
+
+def get_actions() -> list[dict[str, str | (Callable[..., None]) | dict[str, bool]]]:
+    return [
+        {
+            "name": "install",
+            "help": "Install dotfiles and scripts.",
+            "func": cli_install_dotfiles,
+            "args": {},
+        },
+        {
+            "name": "check_exists",
+            "help": "give state about non-existed dotfiles and already existed files",
+            "func": cli_check_exists,
+            "args": {},
+        },
+    ]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Install dotfiles.")
+    _ = parser.add_argument(
+        "action",
+        choices=[action["name"] for action in get_actions()],
+        help="Action to perform.",
+    )
+    _ = parser.add_argument(
+        "--x11",
+        action="store_true",
+        help="include X11 related dotfiles to dotfiles_list",
+    )
+
+    _ = parser.add_argument(
+        "--wayland",
+        action="store_true",
+        help="include Wayland related dotfiles to dotfiles_list",
+    )
+    _ = parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Do not perform desctructive (delete,move) action .Just print what would be done.CAN BE FAIL",
+    )
+    _ = parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print more information.",
+    )
+
+    args = parser.parse_args()
+
+    if not args.dry_run:  # pyright: ignore[reportAny]
+        global_options.dry_run = False
+    if args.verbose:  # pyright: ignore[reportAny]
+        global_options.verbose = True
+        LOGGER.setLevel(logging.DEBUG)
+        LOGGER.addHandler(logging.StreamHandler(sys.stderr))  # sys.stderr
+
+    if args.x11:  # pyright: ignore[reportAny]
+        global_options.dotfiles += OTHER_DOTFILES["x11"]
+    if args.wayland:  # pyright: ignore[reportAny]
+        global_options.dotfiles += OTHER_DOTFILES["wayland"]
+
+    action = next(
+        (action for action in get_actions() if action["name"] == args.action),  # pyright: ignore[reportAny]
+        None,
+    )
+    if action:
+        action["func"](**action["args"])  # type: ignore
+    else:
+        LOGGER.error(f"main: Action {args.action} not found.")  # pyright: ignore[reportAny]
+
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()
