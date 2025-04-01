@@ -1,8 +1,10 @@
 if not test -n "$dotnet_conf_initialized"
     if test -f "$XDG_DATA_HOME/dotnet/dotnet"
         set -f dotnet_loc "$XDG_DATA_HOME/dotnet"
-    end
-    if test -x "$HOME/.dotnet/dotnet"
+        if ! test -L "$HOME/.dotnet"
+            ln -s "$dotnet_loc" "$HOME/.dotnet"
+        end
+    else if test -x "$HOME/.dotnet/dotnet"
         set -f dotnet_loc "$HOME/.dotnet"
     end
     if test -n "$dotnet_loc"

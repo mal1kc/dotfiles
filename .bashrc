@@ -41,8 +41,8 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases
+if [ -f "$HOME"/.bash_aliases ]; then
+	. "$HOME"/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -183,12 +183,12 @@ generate_prompt() {
 
 PS1='$(highlight_exit_code)$(generate_prompt)'
 
-if [ -x $HOME/.dotnet/dotnet ]; then
-	DOTNET_ROOT="$HOME/.dotnet"
+if [ -x "$HOME"/.dotnet/dotnet ]; then
+	export DOTNET_ROOT="$HOME/.dotnet"
 	if ! rg dotnet PATH &>/dev/null; then
 		PATH="$PATH:$HOME/.dotnet/:$HOME/.dotnet/tools"
 	fi
-	DOTNET_CLI_TELEMETRY_OPTOUT=1
+	export DOTNET_CLI_TELEMETRY_OPTOUT=1
 fi
 
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
