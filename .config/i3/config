@@ -71,7 +71,6 @@ tiling_drag modifier titlebar
 bindsym $mod+Shift+Return exec $terminal
 
 bindsym $mod+b exec librewolf
-bindsym $mod+e exec emacsclient -c -a 'emacs'
 
 bindsym $mod+shift+e exec pcmanfm
 
@@ -80,7 +79,7 @@ bindsym $mod+Shift+c kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id dmenu_run
-bindsym mod1+space exec  --no-startup-id  rofi -show drun -show-emojis
+bindsym mod1+space exec  --no-startup-id rofi -show drun -show-emojis
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a

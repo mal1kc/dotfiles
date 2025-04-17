@@ -1,8 +1,9 @@
-# mal1kc's dotfiles (laptop branch)
+# mal1kc's dotfiles (DEsktop branch)
 
 ## about this config
 
-this config is my main setup config for archlinux laptop experience, for personal use
+this config is my main setup config for archlinux desktop experience, for personal use
+
 
 > [!CAUTION]
 > :zap: i forget to edit readme file every time i push to github. so old read commit messages for changes.
@@ -14,7 +15,7 @@ this config is my main setup config for archlinux laptop experience, for persona
 > for learn about additional info about this check this [script](./.local/bin/ch_wallpaper.sh)
 
 > [!WARNING]
-> i prefer to write scripts for single use things mostly write and mostly used 1 time
+> i prefer to write scripts for single use things 
 
 ## config and used system info table
 
@@ -25,16 +26,8 @@ this config is my main setup config for archlinux laptop experience, for persona
 | window manager/compositor : | Hyprland |
 | theme : | Arc-Dark [GTK-2/3] |
 | icons : | Papirus-Dark [GTK-2/3] |
-| font : | Iosevka (most used) , Hack Nerd Font, Fira Code |
-| term emulator: | (wayland) foot,(x11) kitty |
-
-<details>
-<summary>about files and folders</summary>
-  
-  > [!NOTE]
-  > feel free to ask questions to me  about files & folders
-
-</details>
+| font : | Iosevka, Hack Nerd Font, Fira Code |
+| term emulator: | (waylandl) foot,(x11) kitty |
 
 <details>
 <summary>programs i use</summary>
@@ -45,27 +38,30 @@ this config is my main setup config for archlinux laptop experience, for persona
 * media-player : mpv
 * browser : firefox , librewolf
 * text/code editor : nvim + neovide --> [configs for nvim is are here](https://github.com/mal1kc/nvim-config)
-* color theme generator : wallust
+* walpaper color theme generator : wallust
 * walpaper daemon : sww
 * screenshot utility : grim + slurp + [my screenshot script](./.local/bin/screenshot)
 * launcher : fuzzel
-* notification-daemon : swaync(Desktop) /  fnott (laptop)
+* notification-daemon : swaync
+
 * [other apps lists are here](./dotfiles_installers/) 
 
 </details>
 
+
+
 ### images gallery
 
-screenshot are in different branch 
+images are in different branch 
 
 > [!CAUTION]
 > probably not up to date
 
-![screenshot0](../dotfiles_screenshots/laptop_screenshot0.jpg)
+![screenshot0](../dotfiles_screenshots/desktop_screenshot0.jpg)
 <br>
-![screenshot1](../dotfiles_screenshots/laptop_screenshot1.jpg)
+![screenshot1](../dotfiles_screenshots/desktop_screenshot1.jpg)
 <br>
-![screenshot2](../dotfiles_screenshots/laptop_screenshot2.jpg)
+![screenshot2](../dotfiles_screenshots/desktop_screenshot2.jpg)
 <br>
-![screenshot3](../dotfiles_screenshots/laptop_screenshot3.jpg)
+![screenshot3](../dotfiles_screenshots/desktop_screenshot3.jpg)
 <br>
