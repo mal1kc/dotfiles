@@ -186,7 +186,7 @@ PS1='$(highlight_exit_code)$(generate_prompt)'
 if [ -x "$HOME"/.dotnet/dotnet ]; then
 	export DOTNET_ROOT="$HOME/.dotnet"
 	if ! rg dotnet PATH &>/dev/null; then
-		PATH="$PATH:$HOME/.dotnet/:$HOME/.dotnet/tools"
+		PATH="$PATH:$HOME/.dotnet/:$HOME/.dotnet/.dotnet/tools"
 	fi
 	export DOTNET_CLI_TELEMETRY_OPTOUT=1
 fi

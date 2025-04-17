@@ -10,7 +10,7 @@ if not test -n "$dotnet_conf_initialized"
     if test -n "$dotnet_loc"
         export DOTNET_ROOT="$dotnet_loc"
         export DOTNET_CLI_HOME="$dotnet_loc"
-        export PATH="$PATH:$dotnet_loc/:$dotnet_loc/tools"
+        export PATH="$PATH:$dotnet_loc/:$dotnet_loc/.dotnet/tools"
         export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
         complete -f -c dotnet -a "(dotnet complete (commandline -cp))"
