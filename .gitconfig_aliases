@@ -50,6 +50,7 @@
 	autocrlf = false
 	eol = lf
   compression = 5
+
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f

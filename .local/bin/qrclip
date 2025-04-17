@@ -11,7 +11,7 @@ clip_paste_cmd=""
 
 # check x11 or wayland
 if [ -n "$WAYLAND_DISPLAY" ]; then
-	clip_paste_cmd="wl-paste -n -p" # -n: no newline, -p: plain text
+	clip_paste_cmd="wl-paste -n -t text/plain" # -n: no newline
 	check_deps "wl-paste"
 elif [ -n "$DISPLAY" ]; then
 	clip_paste_cmd="xclip -selection clipboard -o -t text/plain" # -o: output, -t: type
@@ -25,5 +25,5 @@ for cmd in zbarimg qrencode nsxiv; do
 	check_deps "$cmd"
 done
 
-qrencode -t PNG -s 8 -o /tmp/qrenclip.png "$clip_paste_cmd" >/dev/null 2>&1
+qrencode -t PNG -s 8 -o /tmp/qrenclip.png "$($clip_paste_cmd)" >/dev/null 2>&1
 zbarimg /tmp/qrenclip.png >/dev/null 2>&1 && nsxiv /tmp/qrenclip.png >&2

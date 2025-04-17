@@ -31,18 +31,18 @@ selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 start_cmus() {
 	type xdotool >/dev/null && nnnwindow="$(xdotool getactivewindow)"
 	case "$TERMINAL" in
-		kitty | gnome-terminal | st)
-			nohup "$TERMINAL" -- cmus &
-			;;
-		havoc)
-			nohup "$TERMINAL" cmus &
-			;;
-		"")
-			nohup x-terminal-emulator -e cmus &
-			;;
-		*)
-			nohup "$TERMINAL" -e cmus &
-			;;
+	kitty | gnome-terminal | st)
+		nohup "$TERMINAL" -- cmus &
+		;;
+	havoc)
+		nohup "$TERMINAL" cmus &
+		;;
+	"")
+		nohup x-terminal-emulator -e cmus &
+		;;
+	*)
+		nohup "$TERMINAL" -e cmus &
+		;;
 	esac
 	# Give the new terminal some time to open
 	until cmus-remote -C; do sleep 0.1; done

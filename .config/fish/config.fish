@@ -8,19 +8,6 @@ function fish_title
     pwd
 end
 
-function notify
-    set -l job (jobs -l -g)
-    or begin
-        echo "There are no jobs" >&2
-        return 1
-    end
-
-    function _notify_job_$job --on-job-exit $job --inherit-variable job
-        echo -n \a # beep
-        functions -e _notify_job_$job
-    end
-end
-
 # functions -e fish_greeting
 set -l nix_shell_info (
   if test -n "$IN_NIX_SHELL"
@@ -30,10 +17,8 @@ set -l nix_shell_info (
 function fish_greeting
     echo 'hello friend,' this machine is called (set_color cyan;echo $hostname; set_color normal) and you are (set_color green;echo $USER;set_color normal)
     echo the time is (set_color yellow; date +%T; set_color normal)
-
     if string match --ignore-case --quiet "$TERM" foot
-        set TERM xterm-256color
-        #set TERM screen-256color
+        set TERM xterm-256color # for tmux to work properly
         if test -f ~/.cache/wallust/sequences
             cat ~/.cache/wallust/sequences
         end
@@ -112,7 +97,6 @@ set -U XDG_DATA_HOME "$HOME/.local/share"
 set -U XDG_CONFIG_HOME "$HOME/.config"
 set -U XDG_STATE_HOME "$HOME/.local/state"
 set -U XDG_CACHE_HOME "$HOME/.cache"
-
 
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"

@@ -2,7 +2,7 @@
 # this script called by ~/.config/systemd/user/waybar.service
 
 for cmd in waybar tmux; do
-  if ! command -v $cmd >/dev/null 2>&1; then
+  if ! command -v "$cmd" >/dev/null 2>&1; then
     echo "\"$cmd\" not found"
     exit 1
   fi

@@ -1,4 +1,5 @@
 if not test -n "$aliases_initialized"
+    #echo aliases_initialized
     alias py=python
 
     alias create_ghub_repo="python ~/scripts/create-github-repo.py"
@@ -34,15 +35,9 @@ if not test -n "$aliases_initialized"
     alias v="nvim"
     alias vim="nvim"
 
-    # prints only description for pacman search installed and non-installed database
-
-    #alias fuzzy_pacQs="pacman -Qs | paste -d '' - - | fzf | awk '{\$1=\$2=\"\";print \$0}'"
-    #
-    #alias fuzzy_pacSs="pacman -Ss | paste -d '' - - | fzf | awk '{\$1=\$2=\"\";print \$0}'"
-
     # prints all info about package fuzzy yay search installed "Q" and non-installed "S" database
-    alias fzy_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
-    alias fzy_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
+    alias fzf_yaySs="yay -Ss | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
+    alias fzf_yayQs="yay -Qs | paste -d '' - - | fzf --preview 'echo {}' --preview-window down,10%"
 
     alias docker="podman"
 
@@ -50,10 +45,12 @@ if not test -n "$aliases_initialized"
         alias xdg-open="handlr open"
     end
 
-
     function _termdown
         ignore_title_change countdown "termdown $argv"
     end
 
+    if command -v upower >/dev/null
+        alias bat_status="upower -i (upower -e | rg 'BAT')"
+    end
     set -x aliases_initialized true
 end

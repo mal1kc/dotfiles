@@ -38,24 +38,24 @@ make_thumbs() {
 		[ -d "$target" ] && exit_prompt "$1 can only display a single image"
 		mime="$(file -bL --mime-type -- "$target")"
 		case "$mime" in
-			audio/*)
-				ffmpeg -i "$target" "$NNN_PREVIEWDIR$target.jpg" -y >/dev/null 2>&1
-				ret="$NNN_PREVIEWDIR/$target.jpg"
-				;;
-			video/*)
-				ffmpegthumbnailer -i "$target" -o "$NNN_PREVIEWDIR$target.jpg" 2>/dev/null
-				ret="$NNN_PREVIEWDIR/$target.jpg"
-				;;
-			*) ret="$target" ;;
+		audio/*)
+			ffmpeg -i "$target" "$NNN_PREVIEWDIR$target.jpg" -y >/dev/null 2>&1
+			ret="$NNN_PREVIEWDIR/$target.jpg"
+			;;
+		video/*)
+			ffmpegthumbnailer -i "$target" -o "$NNN_PREVIEWDIR$target.jpg" 2>/dev/null
+			ret="$NNN_PREVIEWDIR/$target.jpg"
+			;;
+		*) ret="$target" ;;
 		esac
 	fi
 	for file in "$dir"/*; do
 		if [ ! -f "$NNN_PREVIEWDIR$file.jpg" ]; then
 			case "$(file -bL --mime-type -- "$file")" in
-				audio/*) [ "$1" != "sxiv" ] &&
-					ffmpeg -i "$file" "$NNN_PREVIEWDIR$file.jpg" -y >/dev/null 2>&1 ;;
-				video/*) [ "$1" != "ucollage" ] &&
-					ffmpegthumbnailer -i "$file" -o "$NNN_PREVIEWDIR$file.jpg" 2>/dev/null ;;
+			audio/*) [ "$1" != "sxiv" ] &&
+				ffmpeg -i "$file" "$NNN_PREVIEWDIR$file.jpg" -y >/dev/null 2>&1 ;;
+			video/*) [ "$1" != "ucollage" ] &&
+				ffmpegthumbnailer -i "$file" -o "$NNN_PREVIEWDIR$file.jpg" 2>/dev/null ;;
 			esac
 		fi
 	done
@@ -72,9 +72,9 @@ listimages() {
 view_files() {
 	[ -f "$target" ] && count="-n $(listimages | grep -a -m 1 -ZznF "$target" | cut -d: -f1)"
 	case "$1" in
-		nsxiv) listimages | xargs -0 nsxiv -a "${count:--t}" -- ;;
-		sxiv) listimages | xargs -0 sxiv -a "${count:--t}" -- ;;
-		imv*) listimages | xargs -0 "$1" "${count:-}" -- ;;
+	nsxiv) listimages | xargs -0 nsxiv -a "${count:--t}" -- ;;
+	sxiv) listimages | xargs -0 sxiv -a "${count:--t}" -- ;;
+	imv*) listimages | xargs -0 "$1" "${count:-}" -- ;;
 	esac
 }
 

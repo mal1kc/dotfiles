@@ -1,10 +1,11 @@
-;; Kanata configuration for caps to esc+ctrl
+;; kanata configuration for caps to esc+lctrl
 (defsrc
   caps
 )
 
-(defalias 
-  escctrl (tap-hold 200 200 esc lctrl)
+(defalias
+ ;; escctrl (tap-hold 200 200 esc lctrl) ;; desktop
+  escctrl (tap-hold 100 100 esc lctrl) ;; laptop
 )
 
 (deflayer base

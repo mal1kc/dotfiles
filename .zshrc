@@ -1,8 +1,14 @@
+#!/usr/bin/env zsh
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+
+# Get the current username
+# current_user="${(%):-%n}"
+current_user="${USER}"
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${current_user}.zsh" ]]; then
+	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${current_user}.zsh"
 fi
 
 HISTFILE=~/.histfile
@@ -28,15 +34,15 @@ compinit
 
 # if $ZSHDOTDIR/antidote dir is not exist then clone it from github
 if [[ ! -d ${ZSHDOTDIR}/antidote ]]; then
-  git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZSHDOTDIR}/antidote
+	git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZSHDOTDIR}/antidote
 fi
 # Lazy-load antidote and generate the static load file only when needed
 zsh_plugins=${ZSHDOTDIR}/zsh_plugins
 if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
-  (
-    source $ZSHDOTDIR/antidote/antidote.zsh
-    antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
-  )
+	(
+		source $ZSHDOTDIR/antidote/antidote.zsh
+		antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
+	)
 fi
 source ${zsh_plugins}.zsh
 
@@ -52,10 +58,11 @@ eval "$(register-python-argcomplete pipx)"
 
 autoload -U edit-command-line
 zle -N edit-command-line
+
 bindkey "^E" edit-command-line
-bindkey  "^[[H"   beginning-of-line
-bindkey  "^[[F"   end-of-line
-bindkey  "^[[3~"  delete-char
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[[3~" delete-char
 
 source $ZSHDOTDIR/alias.zsh
 source $ZSHDOTDIR/mkfileP.zsh

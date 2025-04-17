@@ -1,17 +1,5 @@
-user_pref("browser.bookmarks.defaultLocation", "toolbar_____");
-user_pref("browser.bookmarks.showMobileBookmarks", true);
-user_pref("browser.contentblocking.category", "strict");
-user_pref("browser.download.save_converter_index", 0);
-user_pref("browser.download.viewableInternally.typeWasRegistered.avif", true);
-user_pref("browser.download.viewableInternally.typeWasRegistered.webp", true);
-user_pref("browser.engagement.ctrlTab.has-used", true);
-user_pref("browser.engagement.downloads-button.has-used", true);
-user_pref("browser.engagement.fxa-toolbar-menu-button.has-used", true);
-user_pref("browser.firefox-view.view-count", 5);
-user_pref("browser.formfill.enable", true);
-user_pref("browser.newtabpage.activity-stream.feeds.topsites", true);
-user_pref("browser.newtabpage.activity-stream.topSitesRows", 2);
-user_pref("browser.newtabpage.storageVersion", 1);
+user_pref("accessibility.typeaheadfind.flashBar", 0);
+user_pref("beacon.enabled", false);
 user_pref(
     "browser.pageActions.persistedActions",
     '{"ids":["bookmark"],"idsInUrlbar":["bookmark"],"idsInUrlbarPreProton":[],"version":1}');
@@ -49,8 +37,8 @@ user_pref("privacy.partition.network_state.ocsp_cache", true);
 user_pref("privacy.query_stripping.enabled", true);
 user_pref("privacy.query_stripping.enabled.pbmode", true);
 user_pref("privacy.sanitize.sanitizeOnShutdown", false);
-user_pref("privacy.trackingprotection.enabled", true);
 user_pref("privacy.spoof_english", 2);
+user_pref("privacy.trackingprotection.enabled", true);
 user_pref("privacy.trackingprotection.socialtracking.enabled", true);
 // new things
 // disable native vertical-tabs tabs because userChrome.css

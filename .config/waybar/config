@@ -1,27 +1,34 @@
 {
   "layer": "top", // Waybar at top layer
-  "height": 26, // Waybar height (to be removed for auto height)
-  "spacing": 1, // Gaps between modules (4px)
-  // Choose the order of the modules
+ // "height": 24, // Waybar height (to be removed for auto height)
+  "spacing": 2, // Gaps between modules (4px)
   "modules-left": [
     "cpu",
     "memory",
     "disk#root",
-    "disk#home",
+//     "disk#home",  // desktop
     "hyprland/window"
   ],
   "modules-center": [
     "hyprland/workspaces",
     "tray"
   ],
-  // "modules-right":["custom/media","bluetooth","wireplumber","clock","gamemode"],
+// Desktop
+    // "modules-right":["custom/media","bluetooth","wireplumber","clock","gamemode"],
+    //  "modules-right": [
+    //    "systemd-failed-units",
+    //    "mpris",
+    //    "wireplumber",
+    //    "clock",
+    //    "custom/notification",
+    //    "gamemode"
   "modules-right": [
-    "systemd-failed-units",
     "mpris",
+    "backlight/slider",
+    "battery",
+    "network",
     "wireplumber",
     "clock",
-    "custom/notification",
-    "gamemode"
   ],
   // Modules configuration
   "hyprland/workspaces": {
@@ -37,7 +44,7 @@
       "3": "",
       "4": "",
       "5": "",
-      "special": "¿",
+      "special":"¿",
       "urgent": "",
       "focused": "",
       "default": ""
@@ -86,14 +93,16 @@
     }
   },
   "tray": {
-    "icon-size": 16,
-    "spacing": 5
+//  "icon-size": 16, // desktop
+//  "spacing": 5 // desktop
+    "icon-size": 12,
+    "spacing": 2
   },
   "clock": {
     "timezone": "Europe/Istanbul",
-    "format": "{:%H : %M}",
-    "format-alt": "{:%d.%m.%Y}",
-    "tooltip-format": "\n<tt><small>{calendar}</small></tt>",
+    "format": "{:%H:%M}",
+    "format-alt": "{:%Y-%m-%d}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "month",
       "mode-mon-col": 3,
@@ -125,24 +134,40 @@
       ""
     ]
   },
+
+// Desktop
+// "disk#root"{
+//        "interval": 30,        
+//        "format": "{percentage_used}% {used} > /",
+//        "path": "/",
+//      },
+//      "disk#home": {
+//        "interval": 30,
+//        "format": "{percentage_used}% {used} > home",
+//        "path": "/home",
+//      },
+//      "network": {
+//        "format-wifi": "{essid} ({signalStrength}%) ",
+//        "format-ethernet": "{ipaddr}/{cidr} ",
+//        "tooltip-format": "{ifname} via {gwaddr} ",
+//        "format-linked": "{ifname} (No IP) ",
+//        "format-disconnected": "Disconnected ⚠",
+//        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+//      },
+//      }
+
+
   "disk#root": {
-    "interval": 30,
+
+    "interval": 120,
     "format": "{percentage_used}% {used} > /",
     "path": "/",
   },
-  "disk#home": {
-    "interval": 30,
-    "format": "{percentage_used}% {used} > home",
-    "path": "/home",
-  },
-  "network": {
-    "format-wifi": "{essid} ({signalStrength}%) ",
-    "format-ethernet": "{ipaddr}/{cidr} ",
-    "tooltip-format": "{ifname} via {gwaddr} ",
-    "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "Disconnected ⚠",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}"
-  },
+  // "disk#home": {
+  //   "interval": 120,
+  //   "format": "{percentage_used}% {used} > home",
+  //   "path": "/home",
+  // },
   "wireplumber": {
     "format": "{volume}% {icon} {node_name}",
     "format-muted": " {node_name}",
@@ -177,45 +202,78 @@
     "format": "👉 {}",
     "separate-outputs": true
   },
-  "custom/media": {
-    "format": "{icon} {}",
-    "return-type": "json",
-    "max-length": 40,
-    "on-click": "playerctl play-pause",
-    "on-click-right": "playerctl stop",
-    "format-icons": {
-      "spotify": "",
-      "default": "🎜"
+// DEsktop
+//   "custom/media": {
+//     "format": "{icon} {}",
+//     "return-type": "json",
+//     "max-length": 40,
+//     "on-click": "playerctl play-pause",
+//     "on-click-right": "playerctl stop",
+//     "format-icons": {
+//       "spotify": "",
+//       "default": "🎜"
+//     },
+//     "escape": true,
+//     "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
+//     "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+//   },
+//   "systemd-failed-units": {
+//     "hide-on-ok": true, // Do not hide if there is zero failed units.
+//     "format": "✗ {nr_failed}",
+//     "format-ok": "✓",
+//     "system": true, // Monitor failed systemwide units.
+//     "user": true
+//   },
+//   "custom/notification": {
+//     "tooltip": false,
+//     "format": " {icon}",
+//     "format-icons": {
+//       "notification": "  <span foreground='red'><sup> </sup></span>",
+//       "none": " ",
+//       "dnd-notification": "  <span foreground='red'><sup> </sup></span>",
+//       "dnd-none": "  ",
+//       "inhibited-notification": " <span foreground='red'><sup> </sup></span>",
+//       "inhibited-none": " ",
+//       "dnd-inhibited-notification": "  <span foreground='red'><sup> </sup></span>",
+//       "dnd-inhibited-none": "  "
+//     },
+//     "return-type": "json",
+//     "exec-if": "which swaync-client",
+//     "exec": "swaync-client -swb",
+//     "on-click": "swaync-client -t -sw",
+//     "on-click-right": "swaync-client -d -sw",
+//     "escape": true
+//   },
+  "battery": {
+    "bat": "BAT0",
+    "interval": 60,
+    "states": {
+      "warning": 30,
+      "critical": 15,
     },
-    "escape": true,
-    "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
-    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+    "format": "{capacity}% {icon} ",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "max-length": 25
   },
-  "systemd-failed-units": {
-    "hide-on-ok": true, // Do not hide if there is zero failed units.
-    "format": "✗ {nr_failed}",
-    "format-ok": "✓",
-    "system": true, // Monitor failed systemwide units.
-    "user": true
+  "backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal",
   },
-  "custom/notification": {
-    "tooltip": false,
-    "format": " {icon}",
-    "format-icons": {
-      "notification": "  <span foreground='red'><sup> </sup></span>",
-      "none": " ",
-      "dnd-notification": "  <span foreground='red'><sup> </sup></span>",
-      "dnd-none": "  ",
-      "inhibited-notification": " <span foreground='red'><sup> </sup></span>",
-      "inhibited-none": " ",
-      "dnd-inhibited-notification": "  <span foreground='red'><sup> </sup></span>",
-      "dnd-inhibited-none": "  "
-    },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
-  },
+  "network": {
+  "format-wifi": "{essid} ({signalStrength}%)  ",
+    "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ {ipaddr}/{cidr}   ",
+        "tooltip-format": "{ifname} via {ipaddr} 󰱔 ",
+        "tooltip-format-wifi": "{essid} on {ifname} via {ipaddr} 󰱔 ",
+        "format-linked": "{ifname} (No IP) 󰲚 ",
+        "format-disconnected": "Disconnected 󰌙 ",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+  //  "on-click-right": "~/.local/bin/rofi-network-manager.sh",
+  }
 }

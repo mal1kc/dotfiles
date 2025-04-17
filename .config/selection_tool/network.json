@@ -1,0 +1,19 @@
+{
+  "globals": {
+    "script": "~/dotfiles/.config/selection_tool/scripts/network.sh"
+  },
+  "options": [
+    {
+      "name": "🛜  wifi toggle",
+      "command": "wifi-toggle"
+    },
+    {
+      "name": "📜  wifi list",
+      "command": "wifi-list"
+    },
+    {
+      "name": "⚙️  open network manager window",
+      "command": "open-nm"
+    }
+  ]
+}
