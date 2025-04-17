@@ -7,7 +7,7 @@ alias flpak_updt="flatpak update -y ; \
 
 alias sys_updt="yay -Syu --noconfirm"
 
-alias nix_updt="nix-collect-garbage --delete-older-than $NIX_GC_CLEAN_OLD_AGE ; \
+alias nix_updt="\
   nix-channel --update -v ; \
   nix profile upgrade --all -v ; \
   nix-collect-garbage --delete-older-than $NIX_GC_CLEAN_OLD_AGE"
