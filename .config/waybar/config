@@ -6,7 +6,7 @@
     "cpu",
     "memory",
     "disk#root",
-    //     "disk#home",  // desktop
+    "disk#home",  // desktop
     "hyprland/window"
   ],
   "modules-center": [
@@ -157,7 +157,6 @@
   //   "format-linked": "{ifname} (No IP) 󰲚 ",
   //   "format-disconnected": "Disconnected 󰌙 ",
   //   "format-alt": "{ifname}: {ipaddr}/{cidr}",
-  //   //  "on-click-right": "~/.local/bin/rofi-network-manager.sh",
   // }
   // laptop
   // "disk#root": {

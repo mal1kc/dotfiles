@@ -12,7 +12,7 @@ if [[ $# -eq 1 ]]; then
 		;;
 	esac
 else
-	selected=$(fd -H -L -t d .git ~/projects++/ ~/projcs_linux/ ~/projeler/ ~/git-clones/ | xargs -I {} dirname {} | uniq | fzf)
+	selected=$(fd -H -L -t d .git ~/projects++/ ~/gecici/ ~/projeler/ ~/git-clones/ | xargs -I {} dirname {} | uniq | fzf)
 fi
 
 if [[ -z $selected ]]; then
