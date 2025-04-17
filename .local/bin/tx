@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 
 if [[ $# -eq 1 ]]; then
-	selected=$1
+	case "$1" in
+	"h" | "help" | "-h" | "--help")
+		echo "tmux-sessionizer script; creates tmux session for selected git folder /
+        and attaches"
+		exit 0
+		;;
+	*)
+		selected=$1
+		;;
+	esac
 else
-	selected=$(fd -H -L -t d .git ~/projects++/ ~/projcs_linux/ ~/projeler/ ~/git-clones/ | xargs -I {} dirname {} | fzf)
+	selected=$(fd -H -L -t d .git ~/projects++/ ~/projcs_linux/ ~/projeler/ ~/git-clones/ | xargs -I {} dirname {} | uniq | fzf)
 fi
 
 if [[ -z $selected ]]; then
@@ -22,4 +31,4 @@ if ! tmux has-session -t=$selected_name 2>/dev/null; then
 	tmux new-session -ds $selected_name -c $selected
 fi
 
-tmux switch-client -t $selected_name
+tmux attach-session -t "$selected_name"

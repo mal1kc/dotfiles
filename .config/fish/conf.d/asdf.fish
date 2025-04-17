@@ -1,5 +1,6 @@
 if not test -n "$asdf_initialized"
-    #echo asdf_initialized
+    # include go first && because i installed asdf via go
+    source ~/.config/fish/conf.d/go.fish
     # my custom loc
     if command -av asdf >/dev/null
         set -f asdf_loc "$XDG_DATA_HOME/asdf"
