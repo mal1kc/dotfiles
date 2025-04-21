@@ -46,7 +46,7 @@
 
 [core]
 	editor = nvim
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = riff
 	autocrlf = false
 	eol = lf
   compression = 5
@@ -59,7 +59,7 @@
 [init]
 	defaultBranch = main
 [interactive]
-	diffFilter = diff-so-fancy --patch
+	diffFilter = riff
 [color]
 	ui = true
 [color "diff-highlight"]
