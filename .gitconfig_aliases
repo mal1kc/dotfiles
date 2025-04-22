@@ -37,7 +37,7 @@
 	pager = riff
 	autocrlf = false
 	eol = lf
-  compression = 5
+  compression = 2
 
 [filter "lfs"]
 	required = true
