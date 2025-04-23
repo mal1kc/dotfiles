@@ -47,8 +47,10 @@ tooltip {
 }
 
 workspaces button {
-    /*margin: 5px 5px 5px 5px;*/
-    margin: 0.5px 5px 5px 5px;/* desktop */
+    /* laptop */
+    margin: 5px 5px 5px 5px; 
+    /* desktop */
+    /* margin: 0.5px 5px 5px 5px; */
     color: @color2;
     box-shadow: none;
     text-shadow: none;
@@ -86,8 +88,10 @@ workspaces button {
 
 #disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network {
 	padding: 0px 8px;
-	margin: 8px 0px; /*desktop */
-	/* margin: 0.5px 0px; */
+  /*desktop */
+	/* margin: 8px 0px;  */
+  /* laptop */
+	margin: 0.5px 0px;
 }
 
 #custom-date {
@@ -97,8 +101,8 @@ workspaces button {
 #custom-power {
 	color: @overlay1;
 	border-radius: 5px;
-	/*margin-top: 5px; *//* desktop */
-	margin-left: 0px; /*desktop*/
+  /*desktop*/
+	margin-left: 0px; 
 	margin-top: 0.5px;
 	margin-bottom: 5px;
 	padding: 0px 5px;
@@ -130,13 +134,13 @@ workspaces button {
 }
 
 /* desktop  - -- -- - -- - - --*/
-.modules-right > widget:last-child > #workspaces {
-    margin-right: 1px;
-}
-
-#clock {
-    background-color: #64727D;
-}
+/* .modules-right > widget:last-child > #workspaces { */
+/*     margin-right: 1px; */
+/* } */
+/**/
+/* #clock { */
+/*     background-color: #64727D; */
+/* } */
 /* desktop ------------------*/
 
 .modules-right > widget:last-child > #workspaces {

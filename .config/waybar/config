@@ -6,7 +6,7 @@
     "cpu",
     "memory",
     "disk#root",
-    "disk#home",  // desktop
+    // "disk#home", // desktop
     "hyprland/window"
   ],
   "modules-center": [
@@ -16,13 +16,14 @@
   "modules-right": [
     "systemd-failed-units",
     "mpris",
-    //   "backlight/slider", // laptop
-    //   "battery", // laptop
-    //   "network", // laptop
+    "backlight/slider", // laptop
+    "battery", // laptop
+    "network", // laptop
     "wireplumber",
-    "clock",
-    "custom/notification", // desktop
-    "gamemode" // desktop
+    "clock"
+    // ,
+    // "custom/notification", // desktop
+    // "gamemode" // desktop
   ],
   // Modules configuration
   "hyprland/workspaces": {
@@ -42,7 +43,7 @@
       "urgent": "",
       "focused": "",
       "default": ""
-    },
+    }
   },
   "bluetooth": {
     "format": " {status}",
@@ -87,10 +88,10 @@
     }
   },
   "tray": {
-    "icon-size": 16, // desktop
-    "spacing": 5 // desktop
-    // "icon-size": 12, // laptop
-    // "spacing": 2 // laptop
+    // "icon-size": 16, // desktop
+    // "spacing": 5 // desktop
+    "icon-size": 12, // laptop
+    "spacing": 2 // laptop
   },
   "clock": {
     "timezone": "Europe/Istanbul",
@@ -129,41 +130,40 @@
     ]
   },
   // Desktop
-  "disk#root": {
-    "interval": 30,
-    "format": "{percentage_used}% {used} > /",
-    "path": "/",
-  },
-  "disk#home": {
-    "interval": 30,
-    "format": "{percentage_used}% {used} > home",
-    "path": "/home",
-  },
-  // desktop
-  "network": {
-    "format-wifi": "{essid} ({signalStrength}%) ",
-    "format-ethernet": "{ipaddr}/{cidr} ",
-    "tooltip-format": "{ifname} via {gwaddr} ",
-    "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "Disconnected ⚠",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}"
-  },
-  // laptop
-  //  "network": {
-  //   "format-wifi": "{essid} ({signalStrength}%)  ",
-  //   "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ {ipaddr}/{cidr}   ",
-  //   "tooltip-format": "{ifname} via {ipaddr} 󰱔 ",
-  //   "tooltip-format-wifi": "{essid} on {ifname} via {ipaddr} 󰱔 ",
-  //   "format-linked": "{ifname} (No IP) 󰲚 ",
-  //   "format-disconnected": "Disconnected 󰌙 ",
-  //   "format-alt": "{ifname}: {ipaddr}/{cidr}",
-  // }
-  // laptop
   // "disk#root": {
-  //   "interval": 120,
+  //   "interval": 30,
   //   "format": "{percentage_used}% {used} > /",
   //   "path": "/",
   // },
+  // "disk#home": {
+  //   "interval": 30,
+  //   "format": "{percentage_used}% {used} > home",
+  //   "path": "/home",
+  // },
+  // desktop
+  // "network": {
+  //   "format-wifi": "{essid} ({signalStrength}%) ",
+  //   "format-ethernet": "{ipaddr}/{cidr} ",
+  //   "tooltip-format": "{ifname} via {gwaddr} ",
+  //   "format-linked": "{ifname} (No IP) ",
+  //   "format-disconnected": "Disconnected ⚠",
+  //   "format-alt": "{ifname}: {ipaddr}/{cidr}"
+  // },
+  // laptop
+  "network": {
+    "format-wifi": "{essid} ({signalStrength}%)  ",
+    "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ {ipaddr}/{cidr}   ",
+    "tooltip-format": "{ifname} via {ipaddr} 󰱔 ",
+    "tooltip-format-wifi": "{essid} on {ifname} via {ipaddr} 󰱔 ",
+    "format-linked": "{ifname} (No IP) 󰲚 ",
+    "format-disconnected": "Disconnected 󰌙 ",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+  },
+  "disk#root": {
+    "interval": 120,
+    "format": "{percentage_used}% {used} > /",
+    "path": "/",
+  },
   "wireplumber": {
     "format": "{volume}% {icon} {node_name}",
     "format-muted": " {node_name}",
@@ -221,26 +221,27 @@
     "user": true
   },
   // desktop
-  "custom/notification": {
-    "tooltip": false,
-    "format": " {icon}",
-    "format-icons": {
-      "notification": "  <span foreground='red'><sup> </sup></span>",
-      "none": " ",
-      "dnd-notification": "  <span foreground='red'><sup> </sup></span>",
-      "dnd-none": "  ",
-      "inhibited-notification": " <span foreground='red'><sup> </sup></span>",
-      "inhibited-none": " ",
-      "dnd-inhibited-notification": "  <span foreground='red'><sup> </sup></span>",
-      "dnd-inhibited-none": "  "
-    },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
-  },
+  // "custom/notification": {
+  //   "tooltip": false,
+  //   "format": " {icon}",
+  //   "format-icons": {
+  //     "notification": "  <span foreground='red'><sup> </sup></span>",
+  //     "none": " ",
+  //     "dnd-notification": "  <span foreground='red'><sup> </sup></span>",
+  //     "dnd-none": "  ",
+  //     "inhibited-notification": " <span foreground='red'><sup> </sup></span>",
+  //     "inhibited-none": " ",
+  //     "dnd-inhibited-notification": "  <span foreground='red'><sup> </sup></span>",
+  //     "dnd-inhibited-none": "  "
+  //   },
+  //   "return-type": "json",
+  //   "exec-if": "which swaync-client",
+  //   "exec": "swaync-client -swb",
+  //   "on-click": "swaync-client -t -sw",
+  //   "on-click-right": "swaync-client -d -sw",
+  //   "escape": true
+  // },
+  // laptop
   "battery": {
     "bat": "BAT0",
     "interval": 60,
