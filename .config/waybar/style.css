@@ -1,15 +1,17 @@
 @import "colors.css";
 
 * {
-    font-family: "Iosevka Light";
-    border: none;
-    border-radius: 0px;
-    font-weight: normal;
-    font-size: 10px;
+  font-family: "Iosevka Light";
+  border: none;
+  border-radius: 0px;
+  font-weight: normal;
+  font-size: 10px;
+  transition: 0.2s;
 }
 
 *:hover {
-  font-size: 20px;
+  font-size: 30px;
+  transition: 0.1s;
 }
 
 window#waybar {
@@ -109,7 +111,7 @@ workspaces button {
 }
 
 #clock {
-    color: @crost;
+    color: @crust;
     background-color: @sapphire;
     border-radius: 0px 5px 5px 0px;
 }
@@ -192,14 +194,17 @@ label:focus {
 }
 
 #memory {
+    color: @crust;
     background-color: @lavender;
 }
 
 #disk.root {
+    color: @crust;
     background-color: @red;
     border-radius: 0px;
 }
 #disk.home {
+    color: @crust;
     background-color: @mauve;
     border-radius: 0px 5px 5px 0px;
 }
@@ -280,31 +285,31 @@ label:focus {
 
 #custom-media {
 	background-color: @crust;
-    color: #bebebe;
+  color: #bebebe;
 	padding: 0px 5px;
-    border-radius: 5px;
+  border-radius: 5px;
 	/*margin: 5px 0px;*/
 }
 
 #mpris {
 	background-color: @crust;
-/*    color: #bebebe;*/
-/*	padding: 0px 5px;*/
-/*    border-radius: 5px;*/
-/*	margin: 5px 0px;*/
-/*}*/
-/**/
-/*#custom-notification {*/
-/*  font-family: "Iosevka SemiBold";*/
-/*  font-size: 10px;*/
-/*}*/
-/**/
-/*#custom-notification:hover {*/
-/*  font-family: "Iosevka Light";*/
-/*  border: none;*/
-/*  border-radius: 0px;*/
-/*  font-weight: normal;*/
-/*  font-size: 10px;*/
+  color: #bebebe;
+	padding: 0px 5px;
+  border-radius: 5px;
+	margin: 5px 0px;
+}
+
+#custom-notification {
+  font-family: "Iosevka SemiBold";
+  font-size: 10px;
+}
+
+#custom-notification:hover {
+  font-family: "Iosevka Light";
+  border: none;
+  border-radius: 0px;
+  font-weight: normal;
+  font-size: 10px;
   color: #bebebe;
 	padding: 0px 5px;
   border-radius: 5px;
