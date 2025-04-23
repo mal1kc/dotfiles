@@ -6,7 +6,7 @@
     "cpu",
     "memory",
     "disk#root",
-    "disk#home",  // desktop
+    "disk#home", // desktop
     "hyprland/window"
   ],
   "modules-center": [
@@ -16,9 +16,9 @@
   "modules-right": [
     "systemd-failed-units",
     "mpris",
-    //   "backlight/slider", // laptop
-    //   "battery", // laptop
-    //   "network", // laptop
+    // "backlight/slider", // laptop
+    // "battery", // laptop
+    // "network", // laptop
     "wireplumber",
     "clock",
     "custom/notification", // desktop
@@ -42,7 +42,7 @@
       "urgent": "",
       "focused": "",
       "default": ""
-    },
+    }
   },
   "bluetooth": {
     "format": " {status}",
@@ -139,17 +139,16 @@
     "format": "{percentage_used}% {used} > home",
     "path": "/home",
   },
-  // desktop
   "network": {
     "format-wifi": "{essid} ({signalStrength}%) ",
-    "format-ethernet": "{ipaddr}/{cidr} ",
+    "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ {ipaddr}/{cidr} ",
     "tooltip-format": "{ifname} via {gwaddr} ",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "Disconnected ⚠",
     "format-alt": "{ifname}: {ipaddr}/{cidr}"
   },
   // laptop
-  //  "network": {
+  // "network": {
   //   "format-wifi": "{essid} ({signalStrength}%)  ",
   //   "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ {ipaddr}/{cidr}   ",
   //   "tooltip-format": "{ifname} via {ipaddr} 󰱔 ",
@@ -157,8 +156,7 @@
   //   "format-linked": "{ifname} (No IP) 󰲚 ",
   //   "format-disconnected": "Disconnected 󰌙 ",
   //   "format-alt": "{ifname}: {ipaddr}/{cidr}",
-  // }
-  // laptop
+  // },
   // "disk#root": {
   //   "interval": 120,
   //   "format": "{percentage_used}% {used} > /",
@@ -241,26 +239,27 @@
     "on-click-right": "swaync-client -d -sw",
     "escape": true
   },
-  "battery": {
-    "bat": "BAT0",
-    "interval": 60,
-    "states": {
-      "warning": 30,
-      "critical": 15,
-    },
-    "format": "{capacity}% {icon} ",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "max-length": 25
-  },
-  "backlight/slider": {
-    "min": 0,
-    "max": 100,
-    "orientation": "horizontal",
-  }
+  // laptop
+  // "battery": {
+  //   "bat": "BAT0",
+  //   "interval": 60,
+  //   "states": {
+  //     "warning": 30,
+  //     "critical": 15,
+  //   },
+  //   "format": "{capacity}% {icon} ",
+  //   "format-icons": [
+  //     "",
+  //     "",
+  //     "",
+  //     "",
+  //     ""
+  //   ],
+  //   "max-length": 25
+  // },
+  // "backlight/slider": {
+  //   "min": 0,
+  //   "max": 100,
+  //   "orientation": "horizontal",
+  // }
 }

@@ -1,22 +1,29 @@
 @import "colors.css";
 
 * {
-    font-family: "Iosevka Light";
-    border: none;
-    border-radius: 0px;
-    font-weight: normal;
-    font-size: 10px;
+  font-family: "Iosevka Light";
+  border: none;
+  border-radius: 0px;
+  font-weight: normal;
+  font-size: 10px;
+  transition: 0.2s;
 }
 
 *:hover {
   font-size: 20px;
+  transition: 0.1s;
 }
 
 window#waybar {
-    /* background: @base; */
     background: transparent;
-    color: white;
+    color: @text;
     margin-right:8px;
+}
+
+/* make window module transparent when no windows present */
+window#waybar.empty #window {
+    opacity: 0;
+    background-color: transparent;
 }
 
 tooltip {
@@ -47,8 +54,10 @@ tooltip {
 }
 
 workspaces button {
-    /*margin: 5px 5px 5px 5px;*/
-    margin: 0.5px 5px 5px 5px;/* desktop */
+    /* laptop */
+    /* margin: 5px 5px 5px 5px;  */
+    /* desktop */
+    margin: 0.5px 5px 5px 5px;
     color: @color2;
     box-shadow: none;
     text-shadow: none;
@@ -78,7 +87,7 @@ workspaces button {
 #workspaces button:hover {
     color: @color4;
     text-shadow:3px 0px @color9;
-    animation: gradient_f 20s ease-in infinite;
+    animation: gradient_f 0.9s ease-in infinite;
     font-size: 20px;
     font-weight: lighter;
 }
@@ -86,7 +95,9 @@ workspaces button {
 
 #disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network {
 	padding: 0px 8px;
-	margin: 8px 0px; /*desktop */
+  /*desktop */
+	margin: 8px 0px; 
+  /* laptop */
 	/* margin: 0.5px 0px; */
 }
 
@@ -97,15 +108,14 @@ workspaces button {
 #custom-power {
 	color: @overlay1;
 	border-radius: 5px;
-	/*margin-top: 5px; *//* desktop */
-	margin-left: 0px; /*desktop*/
+	margin-left: 0px; 
 	margin-top: 0.5px;
 	margin-bottom: 5px;
 	padding: 0px 5px;
 }
 
 #clock {
-    color: @crost;
+    color: @crust;
     background-color: @sapphire;
     border-radius: 0px 5px 5px 0px;
 }
@@ -132,10 +142,6 @@ workspaces button {
 /* desktop  - -- -- - -- - - --*/
 .modules-right > widget:last-child > #workspaces {
     margin-right: 1px;
-}
-
-#clock {
-    background-color: #64727D;
 }
 /* desktop ------------------*/
 
@@ -188,14 +194,17 @@ label:focus {
 }
 
 #memory {
+    color: @crust;
     background-color: @lavender;
 }
 
 #disk.root {
+    color: @crust;
     background-color: @red;
     border-radius: 0px;
 }
 #disk.home {
+    color: @crust;
     background-color: @mauve;
     border-radius: 0px 5px 5px 0px;
 }
@@ -219,7 +228,7 @@ label:focus {
 #backlight-slider highlight {
     min-width: 0px;
     border-radius: 5px;
-    background-color: white;
+    background-color: @text;
 }
 
 #network {
@@ -276,31 +285,31 @@ label:focus {
 
 #custom-media {
 	background-color: @crust;
-    color: #bebebe;
+  color: #bebebe;
 	padding: 0px 5px;
-    border-radius: 5px;
+  border-radius: 5px;
 	/*margin: 5px 0px;*/
 }
 
 #mpris {
 	background-color: @crust;
-/*    color: #bebebe;*/
-/*	padding: 0px 5px;*/
-/*    border-radius: 5px;*/
-/*	margin: 5px 0px;*/
-/*}*/
-/**/
-/*#custom-notification {*/
-/*  font-family: "Iosevka SemiBold";*/
-/*  font-size: 10px;*/
-/*}*/
-/**/
-/*#custom-notification:hover {*/
-/*  font-family: "Iosevka Light";*/
-/*  border: none;*/
-/*  border-radius: 0px;*/
-/*  font-weight: normal;*/
-/*  font-size: 10px;*/
+  color: #bebebe;
+	padding: 0px 5px;
+  border-radius: 5px;
+	margin: 5px 0px;
+}
+
+#custom-notification {
+  font-family: "Iosevka SemiBold";
+  font-size: 10px;
+}
+
+#custom-notification:hover {
+  font-family: "Iosevka Light";
+  border: none;
+  border-radius: 0px;
+  font-weight: normal;
+  font-size: 10px;
   color: #bebebe;
 	padding: 0px 5px;
   border-radius: 5px;
