@@ -152,12 +152,8 @@
   // laptop
   "network": {
     "format-wifi": "{essid} ({signalStrength}%)  ",
-    "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ {ipaddr}/{cidr}   ",
-    "tooltip-format": "{ifname} via {ipaddr} 󰱔 ",
-    "tooltip-format-wifi": "{essid} on {ifname} via {ipaddr} 󰱔 ",
-    "format-linked": "{ifname} (No IP) 󰲚 ",
-    "format-disconnected": "Disconnected 󰌙 ",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ at {ipaddr} 󰱔 ",
+    "format-disconnected": "Disconnected 󰌙 "
   },
   "disk#root": {
     "interval": 120,
