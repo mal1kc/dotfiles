@@ -24,13 +24,34 @@ See the above repository for updates as well as full license text. */
   max-width: var(--uc-sidebar-width) !important;
   z-index: var(--browser-area-z-index-sidebar,3);
 }
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend]{ direction: rtl }
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] > *{ direction: ltr }
-
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend]:-moz-locale-dir(rtl){ direction: ltr }
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend]:-moz-locale-dir(rtl) > *{ direction: rtl }
-
-#main-window[sizemode="fullscreen"] #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]{ --uc-sidebar-width: 1px; }
+:where(#main-window) #browser{
+  --uc-sidebar-width: 40px;
+  --uc-sidebar-hover-width: 210px;
+}
+#main-window[sizemode="fullscreen"] #browser{
+  --uc-sidebar-width: 1px;
+}
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]{
+  --uc-autohide-sidebar-delay: 600ms; /* Wait 0.6s before hiding sidebar */
+  --uc-autohide-transition-duration: 115ms;
+  --uc-autohide-transition-type: linear;
+  --browser-area-z-index-sidebar: 3;
+  position: relative;
+  min-width: var(--uc-sidebar-width) !important;
+  width: var(--uc-sidebar-width) !important;
+  max-width: var(--uc-sidebar-width) !important;
+  z-index: var(--browser-area-z-index-sidebar,3);
+  background-color: inherit;
+  /* This directionality flipper is played so that sidebar "grows" into the right direction */
+  direction: ltr;
+  &:is([positionend],[sidebar-positionend]):not(:-moz-locale-dir(rtl)){
+    direction: rtl;
+  }
+}
+.sidebar-browser-stack{
+  background: inherit;
+}
+#main-window[sizemode="fullscreen"] #browser{ --uc-sidebar-width: 1px; }
 
 #sidebar-splitter{ display: none }
 
@@ -52,9 +73,14 @@ See the above repository for updates as well as full license text. */
   transition: min-width var(--uc-autohide-transition-duration) var(--uc-autohide-transition-type) var(--uc-autohide-sidebar-delay) !important;
   min-width: var(--uc-sidebar-width) !important;
   will-change: min-width;
+  direction: ltr;
+  &:-moz-locale-dir(rtl){
+    direction: rtl;
+  }
 }
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover > #sidebar-header,
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover > #sidebar{
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover > #sidebar,
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover > .sidebar-browser-stack > #sidebar{
   min-width: var(--uc-sidebar-hover-width) !important;
   transition-delay: 0ms !important;
 }
@@ -79,17 +105,54 @@ See the above repository for updates as well as full license text. */
   border-inline-width: 0px 1px;
 }
 
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([positionend]) > :-moz-locale-dir(rtl),
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][positionend] > *{
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([positionend],[sidebar-positionend]) > :-moz-locale-dir(rtl),
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:is([positionend],[sidebar-positionend]) > *{
   border-inline-width: 1px 0px;
 }
-
+@media -moz-pref("sidebar.revamp") {
+  #sidebar, #sidebar-header{ border-style: none }
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]{ padding: 0 !important; }
+}
 /* Move statuspanel to the other side when sidebar is hovered so it doesn't get covered by sidebar */
 
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([positionend]):hover ~ #appcontent #statuspanel{
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([positionend],[sidebar-positionend]):hover ~ #appcontent #statuspanel{
   inset-inline: auto 0px !important;
 }
-#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([positionend]):hover ~ #appcontent #statuspanel-label{
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([positionend],[sidebar-positionend]):hover ~ #appcontent #statuspanel-label{
   margin-inline: 0px !important;
   border-left-style: solid !important; 
+}
+@media -moz-pref("userchrome.autohide-sidebar.static-layout.enabled"){
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]{
+    min-width: var(--uc-sidebar-width) !important;
+    contain: size;
+    box-shadow: var(--content-area-shadow);
+  }
+  #sidebar{
+    min-width: var(--uc-sidebar-hover-width) !important;
+  }
+  .sidebar-browser-stack{
+    overflow: hidden;
+    width: 100%;
+    transition: width var(--uc-autohide-transition-duration) var(--uc-autohide-transition-type) var(--uc-autohide-sidebar-delay);
+    direction: ltr;
+    &:hover{
+      transition-delay: 0ms;
+      width: var(--uc-sidebar-hover-width);
+    }
+    &:-moz-locale-dir(rtl){
+      transition-property: transform,width !important;
+    }
+  }
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][sidebar-positionend]:hover :is(#sidebar-header,#sidebar):-moz-locale-dir(ltr){
+    transform: translateX(0);
+    transition-delay: 0ms !important;
+  }
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([sidebar-positionend]):hover .sidebar-browser-stack:-moz-locale-dir(rtl){
+    transform: translateX(calc(-1 * var(--uc-sidebar-hover-width) + var(--uc-sidebar-width)));
+  }
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"][sidebar-positionend]:hover > .sidebar-browser-stack:-moz-locale-dir(rtl){
+    transform: translateX(calc(var(--uc-sidebar-hover-width) - var(--uc-sidebar-width)));
+    transition-delay: 0ms !important;
+  }
 }

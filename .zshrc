@@ -21,14 +21,14 @@ setopt extendedglob nomatch notify
 unsetopt beep
 
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="/home/mal1kc/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export KEYTIMEOUT=1
 # prompt_pwd ()
 #   psvar[1]="${(@j[/]M)${(@s[/]M)PWD##*/}#?}$PWD:t"
 #
 # precmd_functions+=( prompt_pwd )
 
-zstyle :compinstall filename '/home/mal1kc/.zshrc'
+zstyle :compinstall filename '$HOME/.zshrc'
 autoload -Uz compinit
 compinit
 

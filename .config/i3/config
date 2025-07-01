@@ -72,7 +72,8 @@ bindsym $mod+Shift+Return exec $terminal
 
 bindsym $mod+b exec librewolf
 
-bindsym $mod+shift+e exec pcmanfm
+# bindsym $mod+shift+e exec pcmanfm
+bindsym $mod+shift+e exec $terminal yazi
 
 # kill focused window
 bindsym $mod+Shift+c kill
