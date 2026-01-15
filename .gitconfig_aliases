@@ -58,7 +58,7 @@
 [push]
   autoSetupRemote = true
 [rebase]
-  updateRefs = tru
+  updateRefs = true
 [interactive]
 	diffFilter = riff
 [color]
