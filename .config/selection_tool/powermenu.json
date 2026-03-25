@@ -2,7 +2,7 @@
   "options": [
     {
       "name": " logout",
-      "command": "python ~/.local/bin/confirm_dialog.py 'do you want logout' && notify-send 'Logging out'  &&  loginctl terminate-session {calculated_var}",
+      "command": "python ~/.local/bin/confirm_dialog.py 'do you want logout' &&  loginctl terminate-session {calculated_var}",
       "calculated_var": "echo '${XDG_SESSION_ID}'"
     },
     {
