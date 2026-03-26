@@ -13,9 +13,9 @@ restart_waybar() {
 }
 
 set_wall_wl() {
-  if pgrep swww-daemon >/dev/null; then
+  if pgrep awww-daemon >/dev/null; then
     printf "sww: set image %s\n" "$1"
-    swww img "$1" --transition-type random --resize fit
+    awww img "$1" --transition-type random --resize fit
   elif pgrep hyprpaper >/dev/null; then
     hyprctl hyprpaper unload all
     hyprctl hyprpaper preload "$1"
@@ -72,8 +72,8 @@ check_deps() {
   standard_commands="fd rg shuf cp rg"
 
   if [ -n "$WAYLAND_DISPLAY" ]; then
-    if [ "$1" = "swww" ]; then
-      standard_commands="$standard_commands swww"
+    if [ "$1" = "awww" ]; then
+      standard_commands="$standard_commands awww"
     elif [ "$1" = "hyprpaper" ]; then
       standard_commands="$standard_commands hyprctl hyprpaper"
     fi
