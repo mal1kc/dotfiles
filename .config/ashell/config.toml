@@ -1,0 +1,41 @@
+[modules]
+left = [ "appLauncher", [ "WindowTitle" ] ]
+center = [ "Workspaces" ]
+right = [ [ "MediaPlayer" ], ["Tray",  "Privacy" ], [ "Settings", "Clock" ] ]
+
+[settings]
+
+# The default value is the following, the items are shown in this order:
+indicators = ["IdleInhibitor", "PowerProfile", "Audio", "Bluetooth", "Network", "Vpn", "Battery"]
+
+[workspaces]
+enable_workspace_filling = true
+
+[[CustomModule]]
+name = "appLauncher"
+icon = "󱗼"
+command = "fuzzel"
+
+[clock]
+format = "%R"
+
+[appearance]
+font_name = "Iosevka Term"
+style = "Gradient"
+primary_color = "#7aa2f7"
+success_color = "#9ece6a"
+text_color = "#a9b1d6"
+
+workspace_colors = [ "#7aa2f7", "#9ece6a" ]
+
+[appearance.danger_color]
+base = "#f7768e"
+weak = "#e0af68"
+
+[appearance.background_color]
+base = "#1a1b26"
+weak = "#24273a"
+strong = "#414868"
+
+[appearance.secondary_color]
+base = "#0c0d14"

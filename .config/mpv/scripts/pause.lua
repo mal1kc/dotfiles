@@ -1,0 +1,14 @@
+-- function toggle_effect(pause)
+-- 	if pause then
+-- 		-- Apply grayscale filter
+-- 		mp.set_property("vf", "format=gray")
+-- 	else
+-- 		-- Remove grayscale filter
+-- 		mp.set_property("vf", "")
+-- 	end
+-- end
+
+-- Observe the pause property and call toggle_effect when it changes
+-- mp.observe_property("pause", "bool", function(name, value)
+-- 	toggle_effect(value)
+-- end)
