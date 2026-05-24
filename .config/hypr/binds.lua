@@ -21,31 +21,31 @@ local screenshot_cmd = home_dir .. "/.local/bin/screenshot --notify"
 local screenshot_cmd_full = home_dir .. "/.local/bin/screenshot_fullscreen --notify"
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(term))
-local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
+-- hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(term))
+-- local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 
 -- app bindings g1
 hl.bind(mainMod .. " + SHIFT +  Return", hl.dsp.exec_cmd(term))
-hl.bind(mainMod .. " + SHIFT +  Q", hl.dsp.exec_cmd("systemclt --user exit"))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd(interactive_powermenu))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(term .. " yazi"))
-hl.bind(mainMod .. " + E ", hl.dsp.exec_cmd(term .. "+ neovide"))
-hl.bind(mainMod .. " + B ", hl.dsp.exec_cmd(term .. "+ librewolf"))
+hl.bind(mainMod .. " + E ", hl.dsp.exec_cmd("neovide"))
+hl.bind(mainMod .. " + B ", hl.dsp.exec_cmd("librewolf"))
 
 --main bindings
-hl.bind(mainMod .. " + SHIFT +  C", hl.dsp.window.kill("activewindow"))
+hl.bind(mainMod .. " + SHIFT +  Q", hl.dsp.exit())
+hl.bind(mainMod .. " + SHIFT +  Q", hl.dsp.exec_cmd("systemclt --user exit"))
+
+hl.bind(mainMod .. " + SHIFT +  C", hl.dsp.window.close("activewindow"))
 hl.bind(mainMod .. " + V ", hl.dsp.window.float({}))
 hl.bind(mainMod .. " + V ", hl.dsp.window.center())
 -- hl.bind(mainMod .. " + SHIFT" .. " +  Q", hl.dsp.exit())
 
 hl.bind("F11", hl.dsp.window.fullscreen_state({ internal = 1, client = 1 }))
 
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen_state({ internal = 0, client = 1 }))
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen_state({ internal = 1, client = 0 }))
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen_state({ internal = 0, client = 3 }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen(), { long_press = true })
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen_state({ internal = 0, client = 3 })) -- that shit is powerfull
 
 hl.bind(mainMod .. " + scedilla", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + scedilla", hl.dsp.window.pin())
@@ -101,27 +101,71 @@ hl.bind(mainMod .. " + mouse_down", hl.dsp.layout("move -col"))
 
 hl.bind(mainMod .. " + page_up", hl.dsp.layout("move +col"))
 hl.bind(mainMod .. " + page_down", hl.dsp.layout("move -col"))
+-- ö, ç
+
+hl.bind(mainMod .. " +  odiaeresis", hl.dsp.layout("swapcol l"))
+hl.bind(mainMod .. " +  ccedilla", hl.dsp.layout("swapcol r"))
+hl.bind(mainMod .. " +  period", hl.dsp.layout("promote"))
+-- gestures
+hl.gesture({
+	fingers = 3,
+	direction = "up",
+	action = function()
+		hl.dsp.layout("move +col")
+	end,
+})
+hl.gesture({
+	fingers = 3,
+	direction = "down",
+	action = function()
+		hl.dsp.layout("move -col")
+	end,
+})
+
+hl.gesture({
+	fingers = 2,
+	direction = "pinch",
+	mods = mainMod,
+	action = "resize",
+})
+
+hl.gesture({
+	fingers = 3,
+	direction = "swipe",
+	mods = mainMod,
+	action = "fullscreen",
+	mode = "maximize",
+})
+hl.gesture({
+	fingers = 3,
+	direction = "swipe",
+	mods = mainMod .. " + SHIFT",
+	action = "fullscreen",
+})
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
+-- will switch to a submap called resize
+hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
+
+-- Start a submap called "resize".
+hl.define_submap("resize", function()
+	-- Set repeating binds for resizing the active window.
+	hl.bind("right", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
+	hl.bind("left", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
+	hl.bind("up", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
+	hl.bind("down", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
+
+	-- Use `reset` to go back to the global submap
+	hl.bind("escape", hl.dsp.submap("reset"))
+end)
+
 -- Laptop multimedia keys for volume and LCD brightness
-hl.bind(
-	"XF86AudioRaiseVolume",
-	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
-	{ locked = true, repeating = true }
-)
-hl.bind(
-	"XF86AudioLowerVolume",
-	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
-	{ locked = true, repeating = true }
-)
-hl.bind(
-	"XF86AudioMute",
-	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
-	{ locked = true, repeating = true }
-)
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(up_vol), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(down_vol), { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd(toggle_vol), { locked = true, repeating = true })
 hl.bind(
 	"XF86AudioMicMute",
 	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
