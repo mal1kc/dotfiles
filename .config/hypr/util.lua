@@ -6,7 +6,8 @@ local function gethostname()
 	if f == nil then
 		hl.notification.create({
 			text = "can't read out of hostnamectl for reading hostname",
-			timeout = 1200,
+			timeout = 3200,
+			color = "rgba(255,0,0,1)",
 		})
 		return "desktop"
 	end
@@ -19,21 +20,53 @@ local function gethostname()
 	else
 		hl.notification.create({
 			text = "can't read hostname via hostnamectl," .. " using 'desktop' for use default configurations",
-			timeout = 1200,
+			timeout = 3200,
+			color = "rgba(255,0,0,1)",
 		})
 		return "desktop"
 	end
 end
 
-function M.MachineSpecificConfig(cfg_fn, cfg_table, device_name)
-	if string.match(gethostname(), device_name) then
+local init_hostname = gethostname()
+
+local function contains_ci(haystack, needle)
+	if not (haystack and needle) then
+		return false
+	end
+	return string.find(string.lower(haystack), string.lower(needle), 1, true) ~= nil
+end
+
+-- is_array(t): true if t is a sequence (integer keys 1..n without holes)
+local function is_array(t)
+	if type(t) ~= "table" then
+		return false
+	end
+	local n = 0
+	for k in pairs(t) do
+		if type(k) ~= "number" or k <= 0 or k % 1 ~= 0 then
+			return false
+		end
+		n = n + 1
+	end
+	return #t == n
+end
+
+function M.MachineSpecificCfg(cfg_fn, cfg_table, device_name)
+	if contains_ci(init_hostname, device_name) then
+		if is_array(cfg_table) then
+			cfg_fn(table.unpack(cfg_table))
+		else
+			cfg_fn(cfg_table)
+		end
 		hl.notification.create({
-			text = device_name .. "specific config" .. debug.getinfo(hl.exec_cmd, "n").name
-				or tostring(hl.exec_cmd)
-				or "unkown" .. tostring(cfg_table),
-			timeout = 1200,
+			text = init_hostname
+				.. " specific config "
+				.. (debug.getinfo(cfg_fn, "n").name or "unkown")
+				.. "("
+				.. "...)",
+			timeout = 3200,
+			color = "rgba(0,255,0,1)",
 		})
-		cfg_fn(cfg_table)
 	end
 end
 

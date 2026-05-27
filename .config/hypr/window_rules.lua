@@ -1,6 +1,6 @@
 -- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
 -- Desktop
-Util.MachineSpecificConfig(hl.layer_rule, {
+Util.MachineSpecificCfg(hl.layer_rule, {
 	name = "swaync_layer_center",
 	match = {
 		namespace = "swaync-control-center",
@@ -9,7 +9,7 @@ Util.MachineSpecificConfig(hl.layer_rule, {
 	ignore_alpha = 0.3,
 }, "desktop")
 
-Util.MachineSpecificConfig(hl.layer_rule, {
+Util.MachineSpecificCfg(hl.layer_rule, {
 	name = "swaync_layer_window",
 	match = {
 		namespace = "swaync-notification-window",

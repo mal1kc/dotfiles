@@ -46,5 +46,5 @@ local function laptop_monitors()
 	})
 end
 
-Util.MachineSpecificConfig(desktop_monitors, nil, "desktop_monitors")
-Util.MachineSpecificConfig(laptop_monitors, nil, "laptop")
+Util.MachineSpecificCfg(desktop_monitors, nil, "desktop_monitors")
+Util.MachineSpecificCfg(laptop_monitors, nil, "laptop")
