@@ -13,12 +13,14 @@
 --   hl.exec_cmd("waybar & hyprpaper & firefox")
 -- end)
 
-local function autostart_desktop()
+hl.on("hyprland.start", function()
 	hl.exec_cmd("awww-daemon")
 	hl.exec_cmd("kdeconnect-indicator & keepassxc")
 	hl.exec_cmd("nm-applet")
+	Util.MachineSpecificConfig(hl.exec_cmd, "fnott", "laptop")
 	Util.MachineSpecificConfig(hl.exec_cmd, "qs -c noctalia-shell", "desktop")
-	Util.MachineSpecificConfig(hl.exec_cmd, "ashell", "laptop")
+	Util.MachineSpecificConfig(hl.exec_cmd, "/usr/bin/ashell", "laptop")
+
 	-- hl.exec_cmd("pcmanfm -d")
 	hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
@@ -33,8 +35,4 @@ local function autostart_desktop()
 	)
 	Util.MachineSpecificConfig(hl.exec_cmd, "udiskie -At", "desktop")
 	Util.MachineSpecificConfig(hl.exec_cmd, "~/.config/hypr/scripts/hypr_blfilter_shader_man.py", "desktop")
-
-	Util.MachineSpecificConfig(hl.exec_cmd, "fnott", "laptop")
-end
-
-hl.on("hyprland.start", autostart_desktop)
+end)

@@ -1,7 +1,7 @@
 [modules]
 left = [ "appLauncher", [ "WindowTitle" ] ]
 center = [ "Workspaces" ]
-right = [ [ "MediaPlayer" ], ["Tray",  "Privacy" ], [ "Settings", "Clock" ] ]
+right = [ [ "MediaPlayer" ], ["Tray",  "Privacy" ], [ "Settings", "Tempo" ] ]
 
 [settings]
 
@@ -16,8 +16,16 @@ name = "appLauncher"
 icon = "󱗼"
 command = "fuzzel"
 
-[clock]
-format = "%R"
+[tempo]
+clock_format = "%R"
+formats = [
+  "%R",                  # 13:19
+  "%a %d %b %R",         # Mon 23 Dec 14:30
+  "%Y-%m-%d %H:%M:%S",   # 2024-12-23 14:30:45
+  "%d/%m/%Y %I:%M %p",   # 23/12/2024 02:30 PM
+  "%A, %B %d, %Y",       # Monday, December 23, 2024
+  "%H:%M:%S",            # 14:30:45 (updates every second)
+]
 
 [appearance]
 font_name = "Iosevka Term"
