@@ -51,3 +51,7 @@ end
 if command -v upower >/dev/null
     alias bat_status="upower -i (upower -e | rg 'BAT')"
 end
+
+function find_broken_symlinks
+    fd --hidden --follow --type l --exec sh -c 'for f; do if [ ! -e "$f" ]; then printf "%s -> %s\n" "$f" "$(readlink "$f")"; fi; done' _ {}
+end
