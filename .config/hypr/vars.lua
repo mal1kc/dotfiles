@@ -35,9 +35,9 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 -- TODO: make toggle while using nvidia card \
 --        & manual or outomatic
 -- Nvidia specific settings
-Util.MachineSpecificCfg(hl.env, { "LIBVA_DRIVER_NAME", "nvidia" }, "laptop")
-Util.MachineSpecificCfg(hl.env, { "GBM_BACKEND", "nvidia-drm" }, "laptop")
-Util.MachineSpecificCfg(hl.env, { "__GLX_VENDOR_LIBRARY_NAME", "nvidia" }, "laptop")
+-- Util.MachineSpecificCfg(hl.env, { "LIBVA_DRIVER_NAME", "nvidia" }, "laptop")
+-- Util.MachineSpecificCfg(hl.env, { "GBM_BACKEND", "nvidia-drm" }, "laptop")
+-- Util.MachineSpecificCfg(hl.env, { "__GLX_VENDOR_LIBRARY_NAME", "nvidia" }, "laptop")
 -- -- for va-api hardware accel
 Util.MachineSpecificCfg(hl.env, { "NVD_BACKEND", "direct" }, "laptop")
 
