@@ -46,7 +46,7 @@ user_pref("sidebar.revamp", false);
 user_pref("browser.toolbarbuttons.introduced.sidebar-button", true);
 user_pref("browser.download.autohideButton", true);
 user_pref("browser.tabs.firefox-view.ui-state.tab-pickup.open", true);
-user_pref("browser.tabs.inTitlebar", 0);
+user_pref("browser.tabs.inTitlebar", 1);
 user_pref("browser.tabs.loadBookmarksInTabs", true);
 user_pref("browser.tabs.warnOnClose", true);
 user_pref("browser.theme.content-theme", 0);

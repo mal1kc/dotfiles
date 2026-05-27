@@ -9,6 +9,11 @@ hl.workspace_rule({
 	layout = "monocle",
 })
 
+Util.MachineSpecificCfg(hl.workspace_rule, {
+	workspace = "6",
+	layout = "master",
+}, "laptop")
+
 hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
 hl.curve("md_3_decel", { type = "bezier", points = { { 0.05, 0.7 }, { 0.1, 1 } } })
 hl.curve("md_3_accel", { type = "bezier", points = { { 0.3, 0 }, { 0.8, 0.15 } } })
@@ -22,18 +27,59 @@ hl.device({
 })
 
 -- desktop
-hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
-hl.env("XDG_SESSION_TYPE", "wayland")
-hl.env("XDG_SESSION_DESKTOP", "Hyprland")
+Util.MachineSpecificCfg(hl.env, { "XDG_CURRENT_DESKTOP", "Hyprland" }, "desktop")
+Util.MachineSpecificCfg(hl.env, { "XDG_SESSION_TYPE", "wayland" }, "desktop")
+Util.MachineSpecificCfg(hl.env, { "XDG_SESSION_DESKTOP", "Hyprland" }, "desktop")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
--- laptop
--- # laptop
+
+-- TODO: make toggle while using nvidia card \
+--        & manual or outomatic
 -- Nvidia specific settings
--- hl.env("LIBVA_DRIVER_NAME", "nvidia")
--- hl.env("GBM_BACKEND", "nvidia-drm")
--- hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+-- Util.MachineSpecificCfg(hl.env, { "LIBVA_DRIVER_NAME", "nvidia" }, "laptop")
+-- Util.MachineSpecificCfg(hl.env, { "GBM_BACKEND", "nvidia-drm" }, "laptop")
+-- Util.MachineSpecificCfg(hl.env, { "__GLX_VENDOR_LIBRARY_NAME", "nvidia" }, "laptop")
 -- -- for va-api hardware accel
--- hl.env("NVD_BACKEND", "direct")
+Util.MachineSpecificCfg(hl.env, { "NVD_BACKEND", "direct" }, "laptop")
+
+Util.MachineSpecificCfg(hl.config, {
+	input = {
+		scroll_factor = 1,
+	},
+	decoration = {
+		shadow = {
+			enabled = true,
+		},
+	},
+	general = {
+		gaps_out = 8,
+	},
+	scrolling = {
+		column_width = 0.7,
+		follow_min_visible = 0.1,
+	},
+}, "desktop")
+
+Util.MachineSpecificCfg(hl.config, {
+	input = {
+		scroll_factor = 2.0,
+	},
+	decoration = {
+		shadow = {
+			enabled = false,
+		},
+	},
+	general = {
+		gaps_out = 7,
+	},
+	misc = {
+		animate_mouse_windowdragging = false,
+	},
+	scrolling = {
+		focus_fit_method = 1,
+		column_width = 0.85,
+		follow_min_visible = 0.15,
+	},
+}, "laptop")
 
 hl.config({
 	debug = {
@@ -47,18 +93,14 @@ hl.config({
 		kb_model = "",
 		kb_options = "",
 		kb_rules = "",
-		-- scroll_factor = 2.0 # laptop
 		follow_mouse = 1,
 		touchpad = {
-			natural_scroll = false, -- desktop
-			-- natural_scroll = true # laptop
+			natural_scroll = true,
 		},
 		-- sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
 	},
-	-- laptop
 	general = {
 		gaps_in = 3,
-		gaps_out = 8,
 		border_size = 2,
 		col = {
 			active_border = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
@@ -69,8 +111,6 @@ hl.config({
 	},
 	scrolling = {
 		direction = "down",
-		column_width = 0.7,
-		follow_min_visible = 0.1,
 	},
 	decoration = {
 		rounding = 2,
@@ -82,8 +122,6 @@ hl.config({
 			xray = true,
 		},
 		shadow = {
-			enabled = true, -- desktop
-			-- enabled = false # laptop
 			range = 4,
 			render_power = 3,
 			color = "rgba(1a1a1aee)",
@@ -105,7 +143,6 @@ hl.config({
 		swallow_exception_regex = "^(wev)$",
 		on_focus_under_fullscreen = 2, -- unfullscreen/unmaximize
 		focus_on_activate = true,
-		animate_mouse_windowdragging = true, -- laptop is off
 		animate_manual_resizes = true,
 	},
 	cursor = {

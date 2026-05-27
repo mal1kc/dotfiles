@@ -1,5 +1,8 @@
 {
-    "diagnostics.globals": [
-        "hl"
-    ]
+  "diagnostics.globals": [
+    "hl"
+  ],
+  "workspace.library": [
+    "~/git-clones/hyprland/meta/hl.meta.lua"
+  ]
 }
