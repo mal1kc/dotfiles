@@ -1,9 +1,3 @@
-hl.gesture({
-	fingers = 3,
-	direction = "horizontal",
-	action = "workspace",
-})
-
 hl.workspace_rule({
 	workspace = "5",
 	layout = "monocle",

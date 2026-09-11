@@ -20,7 +20,7 @@ Util.MachineSpecificCfg(hl.layer_rule, {
 
 -- laptop-desktop
 hl.window_rule({
-	name = "rofi_window_rl",
+	name = "rofi_wrl",
 	match = {
 		class = "^(Rofi)$",
 		title = "^(rofi - drun)$",
@@ -29,7 +29,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "btop_window_rl",
+	name = "btop_wrl",
 	match = {
 		class = "^(foot)$",
 		title = "^(btop)|(btop).[~/Z-a]$",
@@ -38,7 +38,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "countdown_window_rl",
+	name = "countdown_wrl",
 	match = {
 		class = "^(foot)$",
 		title = "^(countdown)|(termdown)$",
@@ -47,7 +47,7 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "godot_window_rl",
+	name = "godot_wrl",
 	match = {
 		class = "^(org.godotengine.Editor)|(org.godotengine.ProjectManager)$",
 	},
@@ -56,7 +56,23 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "steam_window_rl",
+	name = "kde_connect_wrl",
+	match = {
+		class = "^(org.kde.kdeconnect.daemon)$",
+	},
+	float = true,
+})
+
+hl.window_rule({
+	name = "steam_game_wrl",
+	match = {
+		class = "^steam_app_.[0-9]*$",
+	},
+	content = "game",
+})
+
+hl.window_rule({
+	name = "steam_wrl",
 	match = {
 		title = "^()$",
 		class = "^(steam)$",
@@ -64,3 +80,5 @@ hl.window_rule({
 	no_focus = true,
 	min_size = { 10, 10 },
 })
+
+hl.window_rule({ match = { content = "game", fullscreen = true }, confine_pointer = true })
