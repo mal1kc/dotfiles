@@ -1,15 +1,31 @@
+[logging]
+# level = "warn"             # (default) "error", "warn", "info", or "debug"; supports per-module filters
+# target = "file"            # (default) "file", "stdout", or "stderr"
+# directory = "~/.local/log" # (default: $XDG_RUNTIME_DIR) supports ~ and $VAR
+level = "error"
+target = "stdout"
+
+
 [modules]
-left = [ "appLauncher", [ "WindowTitle" ] ]
-center = [ "Workspaces" ]
-right = [ [ "MediaPlayer" ], ["Tray",  "Privacy" ], [ "Settings", "Tempo" ] ]
+left = ["appLauncher", ["WindowTitle"]]
+center = ["Workspaces"]
+right = [["MediaPlayer"], ["Tray", "Privacy"], ["Settings", "Tempo"]]
 
 [settings]
 
 # The default value is the following, the items are shown in this order:
 indicators = ["IdleInhibitor", "PowerProfile", "Audio", "Bluetooth", "Network", "Vpn", "Battery"]
 
+[window_title]
+mode = "Class"
+truncate_title_after_length = 50
+
 [workspaces]
 enable_workspace_filling = true
+visibility_mode = "All"
+group_by_monitor = true
+enable_virtual_desktops = true
+indicator_format = "Name"
 
 [[CustomModule]]
 name = "appLauncher"
@@ -19,22 +35,21 @@ command = "fuzzel"
 [tempo]
 clock_format = "%R"
 formats = [
-  "%R",                  # 13:19
-  "%a %d %b %R",         # Mon 23 Dec 14:30
-  "%Y-%m-%d %H:%M:%S",   # 2024-12-23 14:30:45
-  "%d/%m/%Y %I:%M %p",   # 23/12/2024 02:30 PM
-  "%A, %B %d, %Y",       # Monday, December 23, 2024
-  "%H:%M:%S",            # 14:30:45 (updates every second)
+  "%R", # 13:19
+  "%a %d %b %R", # Mon 23 Dec 14:30
+  "%Y-%m-%d %H:%M:%S", # 2024-12-23 14:30:45
+  "%d/%m/%Y %I:%M %p", # 23/12/2024 02:30 PM
+  "%A, %B %d, %Y", # Monday, December 23, 2024
+  "%H:%M:%S", # 14:30:45 (updates every second)
 ]
 
 [appearance]
 font_name = "Iosevka Term"
-style = "Gradient"
 primary_color = "#7aa2f7"
 success_color = "#9ece6a"
 text_color = "#a9b1d6"
 
-workspace_colors = [ "#7aa2f7", "#9ece6a" ]
+workspace_colors = ["#7aa2f7", "#9ece6a"]
 
 [appearance.danger_color]
 base = "#f7768e"
@@ -44,6 +59,3 @@ weak = "#e0af68"
 base = "#1a1b26"
 weak = "#24273a"
 strong = "#414868"
-
-[appearance.secondary_color]
-base = "#0c0d14"

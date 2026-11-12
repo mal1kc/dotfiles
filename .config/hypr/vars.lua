@@ -72,6 +72,7 @@ Util.MachineSpecificCfg(hl.config, {
 		focus_fit_method = 1,
 		column_width = 0.85,
 		follow_min_visible = 0.15,
+		fullscreen_on_one_column = true,
 	},
 }, "laptop")
 
@@ -87,7 +88,8 @@ hl.config({
 		kb_model = "",
 		kb_options = "",
 		kb_rules = "",
-		follow_mouse = 1,
+		follow_mouse = 2,
+		mouse_refocus = false,
 		touchpad = {
 			natural_scroll = true,
 		},
@@ -136,7 +138,7 @@ hl.config({
 		swallow_regex = "^(St)$",
 		swallow_exception_regex = "^(wev)$",
 		on_focus_under_fullscreen = 2, -- unfullscreen/unmaximize
-		focus_on_activate = true,
+		focus_on_activate = false,
 		animate_manual_resizes = true,
 	},
 	cursor = {

@@ -51,7 +51,7 @@ hl.bind(mainMod .. " + scedilla", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + scedilla", hl.dsp.window.pin())
 
 -- group binds
-hl.bind(mainMod .. " + T", hl.dsp.group.move_window({ forward = true }))
+hl.bind(mainMod .. " + T", hl.dsp.group.next({ forward = true }))
 hl.bind(mainMod .. " + Y", hl.dsp.window.move({ out_of_group = true }))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.group.toggle())
 
@@ -70,10 +70,10 @@ hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 hl.bind(mainMod .. " + Return", hl.dsp.window.cycle_next(""))
 
-hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "l" }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r" }))
-hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u" }))
-hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d" }))
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "l", group_aware = true }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r", group_aware = true }))
+hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u", group_aware = true }))
+hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d", group_aware = true }))
 
 hl.bind(mainMod .. " + ALT + left", hl.dsp.window.move({ monitor = "-1" }))
 hl.bind(mainMod .. " + ALT + right", hl.dsp.window.move({ monitor = "+1" }))

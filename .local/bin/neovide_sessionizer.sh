@@ -28,8 +28,16 @@ if [[ -z $1 ]]; then
   help
 fi
 
+# If session_name is a directory (e.g. Godot's {project}), make one session per project
+session_name=$2
+project_dir=""
+if [[ -n $2 && -d $2 ]]; then
+  project_dir="$(cd "$2" && pwd -P)"
+  session_name="$(basename "$project_dir")-$(printf %s "$project_dir" | md5sum | cut -c1-8)"
+fi
+
 # Define the Neovide session path
-neovide_session_path="/tmp/neovide-$(whoami)-$2"
+neovide_session_path="/tmp/neovide-$(whoami)-$session_name"
 
 # List existing Neovide sessions
 if [[ $1 == "_list" ]]; then
@@ -64,9 +72,18 @@ if [[ $1 == "_open" ]]; then
 
   # Check if the Neovide session is already running
   if [[ ! -S "$neovide_session_path" ]]; then
-    # Start a new Neovide session in the background
-    neovide -- --listen "$neovide_session_path" &
-    sleep 1 # Wait for Neovide to start
+    # Godot started with `--lsp-port N` -> tell nvim's gdscript LSP (GDScript_Port) to use it
+    if [[ -z $GDScript_Port && -r /proc/$PPID/cmdline ]]; then
+      GDScript_Port="$(tr '\0' '\n' </proc/$PPID/cmdline | grep -x -A1 -- --lsp-port | sed -n 2p)"
+      [[ -n $GDScript_Port ]] && export GDScript_Port
+    fi
+
+    # Start a new Neovide session in the background (in the project dir if known)
+    (cd "${project_dir:-.}" && neovide -- --listen "$neovide_session_path" &>/dev/null &)
+    for _ in {1..50}; do # Wait up to 5s for the socket
+      [[ -S "$neovide_session_path" ]] && break
+      sleep 0.1
+    done
   fi
 
   # If a file is provided, open it in Neovide

@@ -18,7 +18,34 @@ Util.MachineSpecificCfg(hl.layer_rule, {
 	ignore_alpha = 0.3,
 }, "desktop")
 
+-- laptop
+Util.MachineSpecificCfg(hl.layer_rule, {
+	name = "fnott-blur",
+	match = { namespace = "fnott" },
+	blur = true,
+	ignore_alpha = 0.0,
+}, "laptop")
+
+Util.MachineSpecificCfg(
+	-- optional: snappier notification animation
+	hl.layer_rule,
+	{
+		name = "fnott-anim",
+		match = { namespace = "fnott" },
+		animation = "slide right",
+	},
+	"laptop"
+)
+
 -- laptop-desktop
+hl.window_rule({
+	name = "notif_wrl",
+	match = {
+		class = "^(.*notification.*)$",
+	},
+	no_focus = true,
+})
+
 hl.window_rule({
 	name = "rofi_wrl",
 	match = {
