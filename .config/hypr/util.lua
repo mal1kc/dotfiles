@@ -14,7 +14,7 @@ local function gethostname()
 	local hostname = f:read("*a") or ""
 	f:close()
 	hostname = string.gsub(hostname, "\n$", "")
-	if string.len(hostname) >= 0 then
+	if string.len(hostname) > 0 then
 		-- hl.notification.create({ text = "aa " .. hostname .. " aa", timeout = 3000 })
 		return hostname
 	else
@@ -59,11 +59,8 @@ function M.MachineSpecificCfg(cfg_fn, cfg_table, device_name)
 			cfg_fn(cfg_table)
 		end
 		hl.notification.create({
-			text = init_hostname
-				.. " specific config "
-				.. (debug.getinfo(cfg_fn, "n").name or "unkown")
-				.. "("
-				.. "...)",
+			-- debug.getinfo(fn, "n") never has a name for a function value, so it always said "unkown"
+			text = init_hostname .. ": applied '" .. device_name .. "' specific config",
 			timeout = 3200,
 			color = "rgba(0,255,0,1)",
 		})

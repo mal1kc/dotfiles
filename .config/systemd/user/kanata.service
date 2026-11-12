@@ -7,7 +7,6 @@ Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:%h/.cargo/bin/
 Environment=DISPLAY=:0
 ExecStart=%h/.cargo/bin/kanata --cfg %h/.config/kanata/config.kbd
 Type=simple
-Restart=never
 
 [Install]
 WantedBy=default.target

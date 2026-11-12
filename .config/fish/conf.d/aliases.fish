@@ -1,7 +1,7 @@
 #echo aliases_initialized
 alias py=python
 
-alias create_ghub_repo="python ~/scripts/create-github-repo.py"
+alias create_ghub_repo="python ~/scripts/create-remote-git-repo.py"
 alias show_sys_info="python ~/scripts/system_hardware_info.py"
 
 if command -v lsd >/dev/null

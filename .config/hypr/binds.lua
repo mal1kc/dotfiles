@@ -51,7 +51,7 @@ hl.bind(mainMod .. " + scedilla", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + scedilla", hl.dsp.window.pin())
 
 -- group binds
-hl.bind(mainMod .. " + T", hl.dsp.group.move_window({ forward = true }))
+hl.bind(mainMod .. " + T", hl.dsp.group.next({ forward = true }))
 hl.bind(mainMod .. " + Y", hl.dsp.window.move({ out_of_group = true }))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.group.toggle())
 
@@ -70,10 +70,10 @@ hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 hl.bind(mainMod .. " + Return", hl.dsp.window.cycle_next(""))
 
-hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "l" }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r" }))
-hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u" }))
-hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d" }))
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "l", group_aware = true }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r", group_aware = true }))
+hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u", group_aware = true }))
+hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d", group_aware = true }))
 
 hl.bind(mainMod .. " + ALT + left", hl.dsp.window.move({ monitor = "-1" }))
 hl.bind(mainMod .. " + ALT + right", hl.dsp.window.move({ monitor = "+1" }))
@@ -100,24 +100,45 @@ hl.bind(mainMod .. " + mouse_down", hl.dsp.layout("move -col"))
 
 hl.bind(mainMod .. " + page_up", hl.dsp.layout("move +col"))
 hl.bind(mainMod .. " + page_down", hl.dsp.layout("move -col"))
+
 -- ö, ç
 
 hl.bind(mainMod .. " +  odiaeresis", hl.dsp.layout("swapcol l"))
 hl.bind(mainMod .. " +  ccedilla", hl.dsp.layout("swapcol r"))
 hl.bind(mainMod .. " +  period", hl.dsp.layout("promote"))
 -- gestures
+
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
+hl.gesture({ fingers = 3, direction = "down", mods = "ALT", action = "close" })
+hl.gesture({ fingers = 3, direction = "up", mods = mainMod, scale = 1.5, action = "fullscreen" })
+
+hl.gesture({ fingers = 3, direction = "left", mods = mainMod, scale = 1.5, action = "resize" })
+hl.gesture({ fingers = 3, direction = "right", mods = mainMod, scale = 1.5, action = "resize" })
+
 hl.gesture({
 	fingers = 3,
 	direction = "up",
+	scale = 1.5,
 	action = function()
-		hl.dsp.layout("move +col")
+		hl.dispatch(hl.dsp.focus({ direction = "up" }))
 	end,
 })
+
 hl.gesture({
 	fingers = 3,
 	direction = "down",
+	scale = 1.5,
 	action = function()
-		hl.dsp.layout("move -col")
+		hl.dispatch(hl.dsp.focus({ direction = "down" }))
+	end,
+})
+
+hl.gesture({
+	fingers = 4,
+	direction = "down",
+	action = function()
+		hl.dispatch(hl.dsp.window.cycle_next())
 	end,
 })
 
@@ -128,13 +149,6 @@ hl.gesture({
 	action = "resize",
 })
 
-hl.gesture({
-	fingers = 3,
-	direction = "swipe",
-	mods = mainMod,
-	action = "fullscreen",
-	mode = "maximize",
-})
 hl.gesture({
 	fingers = 3,
 	direction = "swipe",
