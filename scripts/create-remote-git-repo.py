@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import argparse
+import os
 import load_tokens
 import requests
 
@@ -18,14 +19,18 @@ parser.add_argument(
     help="specify the repository description if not given description same as name",
 )
 parser.add_argument(
-    "-p", "--is-private", help="repository visibility status:[True/False]", type=bool
+    "-p",
+    "--is-private",
+    help="repository visibility status:[True/False]",
+    # type=bool turned "False" into True
+    type=lambda v: v.strip().lower() in ("1", "true", "yes", "y"),
 )
 parser.add_argument(
     "-f",
     "--env-file-location",
     type=str,
     help="env file location that contains token",
-    default="/home/mal1kc/scripts/.env",
+    default=os.path.expanduser("~/scripts/.env"),
 )
 parser.add_argument(
     "-o",
@@ -61,15 +66,15 @@ if __name__ == "__main__":
     # print("remote name - ", remote_name)
 
     match remote_name:
-        case ["gitdemlik" | "homelab"]:
+        case "gitdemlik" | "homelab":
             token_key = "GDEMLIK_TOKEN"
             endpoint = "http://homelab:3000"
             print("using homelab endpoint")
-        case ["wdesktop" | "wdesktop-gitdemlik" | "wgitdemlik"]:
+        case "wdesktop" | "wdesktop-gitdemlik" | "wgitdemlik":
             token_key = "WGDEMLIK_TOKEN"
             endpoint = "http://wdesktop:3000"
             print("using wdesktop endpoint")
-        case ["github" | "gthub" | "ghub"]:
+        case "github" | "gthub" | "ghub":
             token_key = "GITHUB_TOKEN"
             endpoint = "https://api.github.com"
             print("using github endpoint")
@@ -82,19 +87,26 @@ if __name__ == "__main__":
     #     f" username - {parsed_args.username}\n repo name - {parsed_args.repo_name}\n repo description - {parsed_args.repo_desc}"
     # )
     token = get_token(token_key)
+    # GitHub's REST API has no /api/v1 prefix (that's Gitea/Forgejo)
+    api_url = "{remote_url}/user/repos" if "api.github.com" in endpoint else API_URL
+    api_url_org = (
+        "{remote_url}/orgs/{org}/repos" if "api.github.com" in endpoint else API_URL_ORG
+    )
 
     is_private_repo = get_repo_visibility()
 
     data = {
         "name": parsed_args.repo_name,
         "description": (
-            parsed_args.repo_desc if parsed_args is not None else parsed_args.repo_name
+            parsed_args.repo_desc
+            if parsed_args.repo_desc is not None
+            else parsed_args.repo_name
         ),
         "private": is_private_repo,
     }
     if parsed_args.organisation is None:
         r = requests.post(
-            API_URL.format(remote_url=endpoint),
+            api_url.format(remote_url=endpoint),
             json=data,
             auth=(parsed_args.username, token),
         )
@@ -106,7 +118,7 @@ if __name__ == "__main__":
             print(f"operation status code : {r.status_code}")
     else:
         r = requests.post(
-            API_URL_ORG.format(remote_url=endpoint, org=parsed_args.organisation),
+            api_url_org.format(remote_url=endpoint, org=parsed_args.organisation),
             json=data,
             auth=(parsed_args.username, token),
         )

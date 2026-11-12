@@ -1,6 +1,6 @@
 #!/bin/env dash
 
-set -eufC # exit on error, undefined variable, noclobber, failglob
+set -eufC # exit on error, undefined variable, no globbing, noclobber
 
 WALLPAPER_FOLDER="$HOME/pictures/wallpapers"
 
@@ -13,9 +13,9 @@ restart_waybar() {
 }
 
 set_wall_wl() {
-  if pgrep swww-daemon >/dev/null; then
+  if pgrep awww-daemon >/dev/null; then
     printf "sww: set image %s\n" "$1"
-    swww img "$1" --transition-type random --resize fit
+    awww img "$1" --transition-type random --resize fit
   elif pgrep hyprpaper >/dev/null; then
     hyprctl hyprpaper unload all
     hyprctl hyprpaper preload "$1"
@@ -44,9 +44,14 @@ gen_colorscheme() {
 set_wall() {
   # select random file from wallpaper folder using fd and shuf
   rand_wfile=$(fd -e png -e jpeg -e jpg -e webp -e gif -t f . "$WALLPAPER_FOLDER" -u | shuf -n 1)
+  if [ -z "$rand_wfile" ]; then
+    echo "no wallpapers found in $WALLPAPER_FOLDER"
+    exit 1
+  fi
   # -u allow ignored files
   # get file extension
-  wfile_ext=$(echo "$rand_wfile" | rg -o '(png|jpeg|jpg|webp|gif)')
+  # take the real extension (rg -o also matched folder names like "jpg_walls/")
+  wfile_ext="${rand_wfile##*.}"
 
   printf "selected_file: %s\n" "$rand_wfile"
   # set target file
@@ -69,15 +74,15 @@ set_wall() {
 }
 
 check_deps() {
-  standard_commands="fd rg shuf cp rg"
+  standard_commands="fd shuf cp wallust xrdb"
 
-  if [ -n "$WAYLAND_DISPLAY" ]; then
-    if [ "$1" = "swww" ]; then
-      standard_commands="$standard_commands swww"
+  if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    if [ "$1" = "awww" ]; then
+      standard_commands="$standard_commands awww"
     elif [ "$1" = "hyprpaper" ]; then
       standard_commands="$standard_commands hyprctl hyprpaper"
     fi
-  elif [ -n "$DISPLAY" ]; then
+  elif [ -n "${DISPLAY:-}" ]; then
     standard_commands="$standard_commands xwallpaper"
   else
     echo "no display found"
@@ -99,11 +104,13 @@ main() {
 
 # check arguments call function based on argument
 
-if echo "$*" | rg -q 'd|debug'; then
-  set -x
-fi
+for arg in "$@"; do
+  case "$arg" in
+  -d | --debug | debug) set -x ;;
+  esac
+done
 
-if [ "$#" -eq 0 ] || [ "$1" = "set" ]; then
+if [ "$#" -eq 0 ] || [ "$1" = "set" ] || [ "$1" = "-d" ] || [ "$1" = "--debug" ] || [ "$1" = "debug" ]; then
   main
 elif [ "$#" -gt 1 ] && [ "$1" = "check" ]; then
   check_deps "$2"

@@ -30,3 +30,7 @@ Nsxiv.*.foreground: #ffffff
 
 st.borderpx: 2
 st.alpha: 0.9
+Xcursor.theme: black
+Xcursor.size:  20
+Xcursor.theme: black
+Xcursor.size: 64

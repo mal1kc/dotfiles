@@ -3,12 +3,12 @@
 pkg_list_file="./dotfiles_installers/pkg_list.txt.ignore"
 nix_profile_pkg_list_file="./dotfiles_installers/nix_profile_pkg_list.txt.ignore"
 
-printf "getting current systems package list with yay and nix profile"
+printf "getting current systems package list with yay and nix profile\n"
 
 cd "$HOME/dotfiles" || exit 1
 
 # check if basedir exist if not exit with 1
-if ! [ -d "$(dirname "$pkg_list_file")" ] && [ -d "$(dirname "$nix_profile_pkg_list_file")" ]; then
+if ! [ -d "$(dirname "$pkg_list_file")" ] || ! [ -d "$(dirname "$nix_profile_pkg_list_file")" ]; then
   exit 1
 fi
 

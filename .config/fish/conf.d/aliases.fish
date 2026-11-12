@@ -1,7 +1,7 @@
 #echo aliases_initialized
 alias py=python
 
-alias create_ghub_repo="python ~/scripts/create-github-repo.py"
+alias create_ghub_repo="python ~/scripts/create-remote-git-repo.py"
 alias show_sys_info="python ~/scripts/system_hardware_info.py"
 
 if command -v lsd >/dev/null
@@ -50,4 +50,8 @@ end
 
 if command -v upower >/dev/null
     alias bat_status="upower -i (upower -e | rg 'BAT')"
+end
+
+function find_broken_symlinks
+    fd --hidden --follow --type l --exec sh -c 'for f; do if [ ! -e "$f" ]; then printf "%s -> %s\n" "$f" "$(readlink "$f")"; fi; done' _ {}
 end

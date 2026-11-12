@@ -17,10 +17,11 @@ fi
 # install packages from pkg_list.txt using finded aur helper
 AUR_HELPER=""
 install() {
-  pkg_list_data=$(cat "$PKGLST" | sed 's/^\([^ ]*\) .*$/\1/')
+  # skip comment/blank lines, keep only the package name (first word)
+  mapfile -t pkg_list_data < <(sed -e 's/#.*$//' -e 's/^[[:space:]]*//' "$PKGLST" | awk 'NF { print $1 }')
 
   # if pkg_list_data is empty exit with 1
-  if [ -z "$pkg_list_data" ]; then
+  if [ "${#pkg_list_data[@]}" -eq 0 ]; then
     echo "No packages to install"
     exit 1
   fi
@@ -37,8 +38,8 @@ install() {
   fi
 
   echo "Installing packages using $AUR_HELPER"
-  echo "calling $AUR_HELPER $INSTALL_CMD "
-  $AUR_HELPER -S "$pkg_list_data" --needed --noconfirm
+  # quoted "$pkg_list_data" passed the whole list as ONE package name
+  "$AUR_HELPER" -S --needed --noconfirm "${pkg_list_data[@]}"
 }
 
 if [ "$1" = "install" ]; then

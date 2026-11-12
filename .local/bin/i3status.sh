@@ -1,13 +1,14 @@
 #!/bin/sh
-source ~/.local/bin/tmp_backlight
-source ~/.local/bin/tmp_uptime
+# `source` is a bashism; /bin/sh (dash) only knows `.`
+. ~/.local/bin/tmp_backlight
+. ~/.local/bin/tmp_uptime
 
 tmp_delayed_uptime() {
 
   while true; do
 
     tmp_uptime
-    sleep 10 # 30 min
+    sleep 10 # seconds
 
   done
 }

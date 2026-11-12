@@ -176,8 +176,6 @@ def mkdirs(fpath: str | Path) -> None:
 
 
 def reorder_old_backup_files() -> None:
-    # FIXLATER :  still has a bug if 2 old backups found
-    #               \ { 2.tar.gz , 3.tar.gz } trying to do incorrect movement
     glob_ptrn = f"*.[0-9].{BACKUP_TAR_FILE_FORMAT[0]}"
     LOGGER.debug("backup: globbing old backups files.")
     childs = [ch for ch in BACKUPS_DIR.glob(glob_ptrn)]
@@ -200,7 +198,9 @@ def reorder_old_backup_files() -> None:
         if not global_options.dry_run:
             os.remove(last_backup_file.absolute())
 
-    for indx, ch in enumerate(childs):
+    # rename from the highest number down (2->3 before 1->2), otherwise
+    # 1->2 silently overwrote the existing .2 backup
+    for indx, ch in reversed(list(enumerate(childs))):
         LOGGER.debug(f"backup: trying to reorder file {indx}:{ch}")
         # change last part 1.tar.gz => 2.tar.gz \ => 3.tar.gz
 
@@ -224,8 +224,8 @@ def reorder_old_backup_files() -> None:
             )
             new_childs.append(new_ch)
         LOGGER.debug(f"backup: mov old backup {ch} to {new_ch_name}")
-    if len(childs) > 0:
-        assert childs[0].absolute() != new_childs[0].absolute(), (
+    if len(childs) > 0 and new_childs:  # new_childs is empty in dry run
+        assert childs[0].absolute() != new_childs[-1].absolute(), (
             "Panic!: iterative move of old backups has a bug probably."
         )
 
@@ -249,7 +249,11 @@ def create_archive(
     )
     dst_path = BACKUPS_DIR.joinpath(backup_file_name + "." + BACKUP_TAR_FILE_FORMAT[0])
     LOGGER.info(f"backup: backup tar created at {archive_res}.")
-    os.rename(archive_res, dst_path)
+    if global_options.dry_run:
+        # make_archive(dry_run=True) creates nothing, so there is nothing to move
+        LOGGER.info(f"backup: (dry run) would move {archive_res} to {dst_path}.")
+        return dst_path
+    shutil.move(archive_res, dst_path)
     LOGGER.info(f"backup: backup tar moved to {dst_path}.")
     return dst_path
 
@@ -323,24 +327,25 @@ def install_dotfile(dfile: Path) -> bool:
                             subfile.relative_to(HOME_DIR),
                         )
             else:
-                if global_options().do_backup:
+                if global_options.do_backup:
                     move_to_backup_dir(dst.relative_to(HOME_DIR))
                 else:
-                    logging.debug(f"install_dotfile: removing {dst.absolute()}")
+                    LOGGER.debug(f"install_dotfile: removing {dst.absolute()}")
                     if not global_options.dry_run:
                         os.remove(dst.absolute())
-                assert not dst.exists(follow_symlinks=False), (
-                    f"{dst=} needs be not exists anymore."
-                )
+                # in dry run nothing was moved, so dst still exists
+                assert global_options.dry_run or not dst.exists(
+                    follow_symlinks=False
+                ), f"{dst=} needs be not exists anymore."
         else:
             LOGGER.debug(
                 f"install_dotfile: found a symlink at {dst.absolute()} unlinking it."
             )
             if not global_options.dry_run:
                 os.unlink(dst.absolute())
-            assert not dst.exists(follow_symlinks=False), (
-                f"{dst=} needs be not exists anymore."
-            )
+            assert global_options.dry_run or not dst.exists(
+                follow_symlinks=False
+            ), f"{dst=} needs be not exists anymore."
     if src.is_dir():
         LOGGER.info(
             f"install_dotfile: {src=} is directory creating dir at destination."
@@ -378,7 +383,7 @@ def cli_install_dotfiles() -> None:
     if global_options.do_backup:
         archive_file = create_archive(dir_to_archive)
         LOGGER.debug(f"cli_install_dotfiles: create_archive returned {archive_file=}")
-        assert archive_file.exists(follow_symlinks=False), (
+        assert global_options.dry_run or archive_file.exists(follow_symlinks=False), (
             "backup: can't created backup tar file"
         )
     BACKUP_TMP_DIR.cleanup()
