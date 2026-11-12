@@ -1,20 +1,22 @@
-# make temp working directory
-mkdir /tmp/proton-ge-custom
-cd /tmp/proton-ge-custom
+#!/usr/bin/env bash
+# download latest GE-Proton and install it into steam compatibilitytools.d
+set -euo pipefail
 
-# download  tarball
-curl -sLOJ "$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .tar.gz)"
+workdir="$(mktemp -d /tmp/proton-ge-custom.XXXXXX)"
+trap 'rm -rf "$workdir"' EXIT
+cd "$workdir"
 
-# download checksum
-curl -sLOJ "$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .sha512sum)"
+release_json="$(curl -fsS https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest)"
+tarball_url="$(printf '%s' "$release_json" | grep browser_download_url | cut -d'"' -f4 | grep '\.tar\.gz$')"
+checksum_url="$(printf '%s' "$release_json" | grep browser_download_url | cut -d'"' -f4 | grep '\.sha512sum$')"
 
-# check tarball with checksum
+# download tarball and checksum
+curl -fsSLOJ "$tarball_url"
+curl -fsSLOJ "$checksum_url"
+
+# stop here (set -e) if the checksum does not match
 sha512sum -c ./*.sha512sum
-# if result is ok, continue
 
-# make steam directory if it does not exist
 mkdir -p ~/.steam/root/compatibilitytools.d
-
-# extract proton tarball to steam directory
 tar -xf GE-Proton*.tar.gz -C ~/.steam/root/compatibilitytools.d/
 echo "All done :)"
