@@ -46,5 +46,6 @@ local function laptop_monitors()
 	})
 end
 
-Util.MachineSpecificCfg(desktop_monitors, nil, "desktop_monitors")
+-- device name is matched against the hostname, "desktop_monitors" never matched
+Util.MachineSpecificCfg(desktop_monitors, nil, "desktop")
 Util.MachineSpecificCfg(laptop_monitors, nil, "laptop")

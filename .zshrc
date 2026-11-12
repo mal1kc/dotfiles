@@ -28,7 +28,7 @@ export KEYTIMEOUT=1
 #
 # precmd_functions+=( prompt_pwd )
 
-zstyle :compinstall filename '$HOME/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc" # single quotes kept $HOME literal
 autoload -Uz compinit
 compinit
 
