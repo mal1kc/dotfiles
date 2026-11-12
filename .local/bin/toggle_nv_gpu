@@ -20,9 +20,12 @@ check_libvirtd_status() {
 	else
 		read -p "libvirtd socket is not active, do you wish to active [Y\n] ?" yn
 		case $yn in
-		[Yn]* | [.]) sudo systemctl start libvirtd.service --quiet ;;
-		[Nn]*) exit ;;
-		*) echo "answer not understanded" ;;
+		[Yy]* | "") sudo systemctl start libvirtd.service --quiet ;; # was [Yn]*: "n" started it
+		[Nn]*) exit 0 ;;
+		*)
+			echo "answer not understood"
+			exit 1
+			;;
 		esac
 	fi
 }

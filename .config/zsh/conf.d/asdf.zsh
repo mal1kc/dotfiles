@@ -4,7 +4,7 @@ if [[ -z "$asdf_initialized" ]]; then
 
 	# My custom location
 	if command -v asdf >/dev/null; then
-		asdf_loc="$XDG_DATA_HOME/asdf"
+		asdf_loc="${XDG_DATA_HOME:-$HOME/.local/share}/asdf" # was "/asdf" when XDG_DATA_HOME unset
 		mkdir -p "$asdf_loc"
 		export ASDF_DATA_DIR="$asdf_loc"
 

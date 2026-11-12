@@ -38,6 +38,10 @@ Util.MachineSpecificCfg(hl.env, { "NVD_BACKEND", "direct" }, "laptop")
 Util.MachineSpecificCfg(hl.config, {
 	input = {
 		scroll_factor = 1,
+		follow_mouse = 1,
+	},
+	misc = {
+		focus_on_activate = true,
 	},
 	decoration = {
 		shadow = {
@@ -56,6 +60,8 @@ Util.MachineSpecificCfg(hl.config, {
 Util.MachineSpecificCfg(hl.config, {
 	input = {
 		scroll_factor = 2.0,
+		follow_mouse = 2,
+		mouse_refocus = false,
 	},
 	decoration = {
 		shadow = {
@@ -67,6 +73,7 @@ Util.MachineSpecificCfg(hl.config, {
 	},
 	misc = {
 		animate_mouse_windowdragging = false,
+		focus_on_activate = false,
 	},
 	scrolling = {
 		focus_fit_method = 1,
@@ -88,8 +95,7 @@ hl.config({
 		kb_model = "",
 		kb_options = "",
 		kb_rules = "",
-		follow_mouse = 2,
-		mouse_refocus = false,
+		-- follow_mouse / mouse_refocus: machine specific (see above)
 		touchpad = {
 			natural_scroll = true,
 		},
@@ -138,7 +144,7 @@ hl.config({
 		swallow_regex = "^(St)$",
 		swallow_exception_regex = "^(wev)$",
 		on_focus_under_fullscreen = 2, -- unfullscreen/unmaximize
-		focus_on_activate = false,
+		-- focus_on_activate: machine specific (see above)
 		animate_manual_resizes = true,
 	},
 	cursor = {
