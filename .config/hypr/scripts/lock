@@ -2,5 +2,5 @@
 if command -v hyprlock >/dev/null; then
 	hyprlock >/tmp/hyprlock_log.txt
 else
-	swaylock -e -f -i ~/.config/c_lock_screen.jpg -k -l
+	swaylock -e -f -i ~/.config/c_lock_screen.png -k -l
 fi

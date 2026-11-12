@@ -20,7 +20,7 @@ help() {
   echo "  $0 _list"
   echo "  $0 _kill mysession"
   echo "  $0 _open mysession myfile.txt 1,1"
-  exit 0
+  exit "${1:-0}"
 }
 
 # If no arguments are provided, display help
@@ -42,7 +42,9 @@ neovide_session_path="/tmp/neovide-$(whoami)-$session_name"
 # List existing Neovide sessions
 if [[ $1 == "_list" ]]; then
   echo "Running Neovide sessions:"
-  ls /tmp/neovide-$(whoami)-* 2>/dev/null | sed 's|/tmp/||'
+  for sock in /tmp/neovide-"$(whoami)"-*; do
+    [[ -S $sock ]] && echo "${sock#/tmp/}"
+  done
   exit 0
 fi
 
@@ -50,11 +52,10 @@ fi
 if [[ $1 == "_kill" ]]; then
   if [[ -z $2 ]]; then
     echo "Error: session_name is required for _kill command."
-    help
-    exit 1
+    help 1
   fi
   if [[ -S "$neovide_session_path" ]]; then
-    neovide -- --server "$neovide_session_path" --remote-expr "exit" &>/dev/null
+    nvim --server "$neovide_session_path" --remote-send '<C-\><C-N>:qa<CR>' &>/dev/null
     rm -f "$neovide_session_path" # Remove the socket file
     echo "Killed Neovide session '$2'."
   else
@@ -67,7 +68,7 @@ fi
 if [[ $1 == "_open" ]]; then
   if [[ -z $2 ]]; then
     echo "Error: session_name is required for _open command."
-    help
+    help 1
   fi
 
   # Check if the Neovide session is already running

@@ -17,18 +17,18 @@ get_img_id() {
 
 git_tip() {
 	if [ -n "$img_id" ]; then
-		"$container_man" run -it --rm "$($container_man images -q $git_tip_img_name)" 'git-tip' "${@}"
+		"$container_man" run -it --rm "$img_id" 'git-tip' "$@"
 	else
 		if [ "$container_man" = "podman" ]; then
 			"$container_man" run -it --rm 'docker.io/djoudix/git-tip' 'git-tip' "${@}"
 		else
-			"$container_man" run -it -rm 'djoudix/git-tip' 'git-tip' "${@}"
+			"$container_man" run -it --rm 'djoudix/git-tip' 'git-tip' "$@"
 		fi
 	fi
 }
 
 git_tip_update_img() {
-	if [ -n "$img" ]; then
+	if [ -n "$img_id" ]; then
 		"$container_man" image rm "$img_id"
 	fi
 	case "$container_man" in
@@ -42,7 +42,11 @@ git_tip_update_img() {
 }
 
 git_tip_img_name="git-tip"
-container_man="$(podman_or_docker)"
+# `exit 1` inside $(...) only left the subshell
+if ! container_man="$(podman_or_docker)"; then
+	echo "git-tip: podman or docker is required" >&2
+	exit 1
+fi
 img_id="$(get_img_id "$container_man" "$git_tip_img_name")"
 
 case "$1" in

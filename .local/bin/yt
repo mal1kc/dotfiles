@@ -15,4 +15,10 @@ if [ ! -d "$VID_DOWN_DIR" ]; then
 	mkdir -p "$VID_DOWN_DIR"
 fi
 
-cd "$2" && yt-dlp -S "ext" "$1"
+if [ -z "$1" ]; then
+	echo "usage: yt <url> [dir]" >&2
+	exit 1
+fi
+
+# was `cd "$2"`, which ignored the ~/videos default
+cd "$VID_DOWN_DIR" && yt-dlp -S "ext" "$1"
