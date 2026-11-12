@@ -21,16 +21,17 @@
 	#    git reset --soft (git merge-base Other_Branch_Name HEAD)
 
 
-	# # Two utils:
-	# #   What's the ancestor commit this branch shares with main?
-	# diffbase = !"git merge-base origin/$(git mainormaster) HEAD"
+	# What's the ancestor commit this branch shares with main?
+	# (diffbranch depends on this; it was commented out)
+	mainormaster = !"git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1"
+	diffbase = !"git merge-base origin/$(git mainormaster) HEAD"
 
 	# fyi to change a git checkout from master to main.. (gh's suggested commands:)
 	#    git branch -m master main; git fetch origin; git branch -u origin/main main; git remote set-head origin -a
 
 	# commit (past) WIP changes with a message stating when they happened.
 	# todo: maybe use `git commit --date=X` to set a past date. would need to pick one, tho.
-	commitwip = !"git commit -am \"WIP changes from a while ago. Last modified on:\n$(( git diff --name-only --cached; git ls-files --modified ) | uniq | xargs gstat -c '- %.19y %N')\""
+	commitwip = !"git commit -am \"WIP changes from a while ago. Last modified on:\n$(( git diff --name-only --cached; git ls-files --modified ) | uniq | xargs stat -c '- %.19y %N')\""
 
 [core]
 	editor = nvim
