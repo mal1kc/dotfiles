@@ -2,37 +2,101 @@
 --[[
   -- hyprwinwrap { ... }
   -- Desktop
-  -- hyprexpo { ... }
   -- hyprbars { ... }
 ]]
 
-hl.bind("SUPER + TAB", hl.plugin.overview.toggle)
-
 -- all windows
-hl.bind("SUPER + SHIFT + A", function()
-	hl.plugin.overview.toggle("all")
-end)
-hl.bind("SUPER + A", function()
-	hl.plugin.overview.open("onlycurrentworkspace")
-end)
-hl.bind("SUPER + Escape", hl.plugin.overview.close)
+hl.bind("SUPER + TAB", hl.plugin.gloview.toggle)
+hl.bind("SUPER + SHIFT + TAB", hl.plugin.gloview.desktop)
+hl.bind("SUPER + CTRL + TAB", hl.plugin.gloview.allworkspaces)
+
+hl.bind("SUPER +  less", hl.plugin.gloview.prev)
+
+for i = 1, 7 do
+	local key = i % 10
+	hl.bind("SUPER + " .. key, function()
+		hl.plugin.gloview.setworkspace(key)
+	end)
+end
 
 hl.config({
 	plugin = {
-		overview = {
-			panelBorderColor = "#33ccff",
+		gloview = {
+			layout = "rows",
+			gap = 34,
+			padding = 80,
+			padding_top = 40,
+			padding_bottom = 70,
+			max_scale = 1.0,
+			preview_filter = "box4",
+			duration = 120,
+			preview_round = 12,
+			blur = 1,
 
-			onBottom = false,
-			autoDrag = false,
-			autoScroll = false,
-			showNewWorkspace = true,
-			switchOnDrop = true,
+			switch_animation = 1,
+			switch_duration = 20,
+			move_animation = 1,
+			move_duration = 20,
 
-			hideOverlayLayers = true,
-			hideBackgroundLayers = true,
+			anchor = "top",
+			strip_offset = 0,
+			strip_height = 150,
+			strip_margin = 22,
+			strip_gap = 18,
+			strip_card_round = 10,
 
-			hideRealLayers = true,
-			affectStrut = false,
+			focus_follows_mouse = 1,
+			scroll_switches_workspace = 1,
+			passthrough_keys = 1,
+			exit_on_click = 1,
+			exit_on_switch = 0,
+
+			key_close = "escape",
+			key_next_workspace = "tab",
+			key_prev_workspace = "shift+tab",
+			key_activate = "enter",
+			key_close_window = "d",
+			key_left = "left",
+			key_right = "right",
+			key_up = "up",
+			key_down = "down",
+			key_desktop = "shift",
+			key_all_workspaces = "a",
+			key_workspace = "1,2,3,4,5,6,7,8,9,0",
+
+			show_all_workspaces = 0,
+			show_empty = 1,
+			dynamic_workspaces = 1,
+			autodelete_empty = 1,
+			show_workspace_labels = 1,
+			show_window_labels = 1,
+			show_special = 0,
+			strip_all_card = 1,
+			drag_to_swap = 1,
+			switch_on_drop = 0,
+			switch_on_new_workspace = 1,
+
+			hide_top_layers = 0,
+			hide_overlay_layers = 0,
+			above_namespaces = "",
+			debug_logs = 0,
+
+			select_border_size = 3,
+			select_border = 0xf066ccff,
+			close_button_color = 0xe6e23b3b,
+			backdrop_color = 0x73070a10,
+			strip_band_color = 0x24ffffff,
+			strip_card_color = 0x3a0e131c,
+			strip_active_color = 0x4d1c2c44,
+			strip_active_border = 0xf0ffffff,
+			strip_hover_border = 0x80ffffff,
+			strip_active_border_size = 2,
+			strip_hover_border_size = 2,
+			strip_plus_color = 0xd0eef4ff,
+			preview_bg = 0xff14181f,
+			shadow_color = 0x70000000,
+			hover_border = 0xf0ffffff,
+			hover_border_size = 3,
 		},
 	},
 })
