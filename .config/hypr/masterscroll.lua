@@ -3,14 +3,16 @@
 --
 -- The stack scrolls vertically because windows placed past the left/right edge
 -- would show up on the monitor next to it.
--- Master side and width are per workspace and reset by a config reload.
--- Limit: Lua layouts don't get mouse resizes, use SUPER + minus / asterisk.
+-- Master side and sizes are per workspace and reset by a config reload.
+-- Hyprland doesn't tell lua layouts how far a resize goes, so mouse resizes
+-- follow the cursor (Util.mouse_resize, set in binds.lua) and the resize submap
+-- sends "resize <x> <y>".
 
 local NAME = "lua:masterscroll"
 local VISIBLE = 2 -- stack windows on screen
 local WIDTHS = { 0.4, 0.5, 0.6, 0.7, 0.8 } -- steps of colresize +conf/-conf
 
-local states = {} -- workspace name -> { mfact, top, side }
+local states = {} -- workspace name -> { name, mfact, ratio, top, side }
 
 local function state_of(ctx)
 	local name = ""
@@ -21,7 +23,8 @@ local function state_of(ctx)
 			break
 		end
 	end
-	states[name] = states[name] or { mfact = 0.6, top = 1, side = "left" }
+	-- ratio: height of the upper one of the two visible stack windows
+	states[name] = states[name] or { name = name, mfact = 0.6, ratio = 0.5, top = 1, side = "left" }
 	return states[name]
 end
 
@@ -35,8 +38,38 @@ local function focused_index(ctx)
 	end
 end
 
+local function clamp(value)
+	return math.max(0.2, math.min(0.8, value))
+end
+
+-- move the border between master and stack / between the two stack windows
+local function move_borders(ctx, state, dx, dy)
+	state.mfact = clamp(state.mfact + (state.side == "left" and dx or -dx) / ctx.area.w)
+	state.ratio = clamp(state.ratio + dy / ctx.area.h)
+end
+
+-- SUPER + right mouse button: the borders follow the cursor
+local function follow_mouse(ctx, state)
+	local drag = Util.mouse_resize
+	local pos = drag and drag.workspace == state.name and hl.get_cursor_pos()
+	if not pos then
+		return
+	end
+	-- sideways on the master, both directions on the stack
+	local on_stack = (pos.x - ctx.area.x) / ctx.area.w > state.mfact
+	if state.side == "right" then
+		on_stack = (pos.x - ctx.area.x) / ctx.area.w < 1 - state.mfact
+	end
+	if drag.on_stack == nil then
+		drag.on_stack = on_stack
+	end
+	move_borders(ctx, state, pos.x - drag.x, drag.on_stack and pos.y - drag.y or 0)
+	drag.x, drag.y = pos.x, pos.y
+end
+
 local function recalculate(ctx)
 	local state = state_of(ctx)
+	follow_mouse(ctx, state)
 	local master = ctx.targets[1]
 	if not master then
 		return
@@ -61,13 +94,19 @@ local function recalculate(ctx)
 
 	local stack_side = state.side == "left" and "right" or "left"
 	local side = ctx:split(ctx.area, stack_side, 1 - state.mfact)
-	local height = side.h / rows
+	-- upper: first visible one and those scrolled out above it, lower: the rest
+	local upper = rows > 1 and side.h * state.ratio or side.h
+	local lower = side.h - upper
+	if rows == 1 then
+		lower = side.h
+	end
 	for i = 1, count do
+		local offset = i - state.top
 		ctx.targets[i + 1]:place({
 			x = side.x,
-			y = side.y + (i - state.top) * height,
+			y = side.y + (offset <= 0 and offset * upper or upper + (offset - 1) * lower),
 			w = side.w,
-			h = height,
+			h = offset <= 0 and upper or lower,
 		})
 	end
 end
@@ -116,7 +155,7 @@ end
 local function layout_msg(ctx, msg)
 	local state = state_of(ctx)
 	local focused = focused_index(ctx) -- nil: a floating window
-	local command, arg = msg:match("^(%S+)%s*(%S*)")
+	local command, arg, arg2 = msg:match("^(%S+)%s*(%S*)%s*(%S*)")
 
 	if command == "colresize" then
 		if arg == "+conf" then
@@ -124,8 +163,17 @@ local function layout_msg(ctx, msg)
 		elseif arg == "-conf" then
 			state.mfact = next_width(state.mfact, -1)
 		elseif tonumber(arg) then
-			state.mfact = math.max(0.2, math.min(0.8, tonumber(arg)))
+			state.mfact = clamp(tonumber(arg))
 		end
+	elseif focused and command == "resize" then
+		-- grow the focused window by x, y pixels
+		local dx, dy = tonumber(arg) or 0, tonumber(arg2) or 0
+		local right_of_border = (focused > 1) == (state.side == "left")
+		local lower = focused - 1 > state.top
+		if focused == 1 then
+			dy = 0
+		end
+		move_borders(ctx, state, right_of_border and -dx or dx, lower and -dy or dy)
 	elseif command == "orientationleft" or command == "orientationright" then
 		state.side = command == "orientationleft" and "left" or "right"
 	elseif focused and command == "promote" then

@@ -6,15 +6,12 @@ hl.device({
 Util.MachineSpecificCfg(hl.config, {
 	input = {
 		scroll_factor = 1,
-		follow_mouse = 1,
 	},
 }, "desktop")
 
 Util.MachineSpecificCfg(hl.config, {
 	input = {
 		scroll_factor = 2.0,
-		follow_mouse = 2,
-		mouse_refocus = false,
 	},
 }, "laptop")
 
@@ -26,7 +23,9 @@ hl.config({
 		kb_model = "",
 		kb_options = "",
 		kb_rules = "",
-		-- follow_mouse / mouse_refocus: machine specific (see above)
+		-- hover focus, hover.lua delays it (both are needed for that)
+		follow_mouse = 1,
+		mouse_refocus = true,
 		touchpad = {
 			natural_scroll = true,
 		},

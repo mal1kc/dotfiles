@@ -38,6 +38,13 @@ hl.animation({
 	speed = 3,
 	bezier = "md_3_decel",
 })
+-- flash of hover.lua
+hl.animation({
+	leaf = "fadeSwitch",
+	enabled = true,
+	speed = 1.5,
+	bezier = "md_3_decel",
+})
 hl.animation({
 	leaf = "layersIn",
 	enabled = true,

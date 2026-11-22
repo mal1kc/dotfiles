@@ -30,6 +30,7 @@ use("bluelight")
 use("layout")
 use("anims")
 use("window_rules")
+use("hover")
 use("layer_rules")
 
 use("autostart")

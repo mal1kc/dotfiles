@@ -103,22 +103,29 @@ hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 hl.bind(mainMod .. " + Return", hl.dsp.window.cycle_next(""))
 
+-- the focused window if it is tiled by masterscroll
+local function masterscroll_window()
+	local window = hl.get_active_window()
+	local workspace = Util.layout_workspace()
+	if
+		window
+		and not window.floating
+		and workspace
+		and workspace.tiled_layout == "lua:masterscroll"
+		and window.workspace
+		and window.workspace.name == workspace.name
+	then
+		return window
+	end
+end
+
 -- Move the window. Towards the master: become master (master and masterscroll).
 -- Lua layouts only know previous/next, so masterscroll gets a layout message.
 local function move_window(direction)
 	local move = hl.dsp.window.move({ direction = direction, group_aware = true })
 	return function()
-		local window = hl.get_active_window()
-		local workspace = Util.layout_workspace()
-		if
-			window
-			and not window.floating
-			and not window.group
-			and workspace
-			and workspace.tiled_layout == "lua:masterscroll"
-			and window.workspace
-			and window.workspace.name == workspace.name
-		then
+		local window = masterscroll_window()
+		if window and not window.group then
 			hl.dispatch(hl.dsp.layout("move " .. direction))
 		else
 			hl.dispatch(move)
@@ -224,18 +231,43 @@ hl.bind(mainMod .. " + comma", layout_msg({ scrolling = "consume_or_expel prev" 
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+-- Called at press and again at release. Lua layouts aren't told how far the mouse
+-- went, masterscroll reads it from Util.mouse_resize.
+hl.bind(mainMod .. " + mouse:273", function()
+	local pos = hl.get_cursor_pos()
+	local workspace = Util.layout_workspace()
+	if Util.mouse_resize then
+		Util.mouse_resize = nil
+	else
+		-- workspace stays nil on floating windows: nothing in the layout moves
+		local tiled = pos and workspace and not Util.floating_at(pos)
+		Util.mouse_resize = { x = pos and pos.x, y = pos and pos.y, workspace = tiled and workspace.name }
+	end
+	-- its result asks Hyprland for the release call
+	return hl.dispatch(hl.dsp.window.resize())
+end, { mouse = true })
 
 -- will switch to a submap called resize
 hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
 
+local function resize(x, y)
+	local dispatcher = hl.dsp.window.resize({ x = x, y = y, relative = true })
+	return function()
+		if masterscroll_window() then
+			hl.dispatch(hl.dsp.layout("resize " .. x .. " " .. y))
+		else
+			hl.dispatch(dispatcher)
+		end
+	end
+end
+
 -- Start a submap called "resize".
 hl.define_submap("resize", function()
 	-- Set repeating binds for resizing the active window.
-	hl.bind("right", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
-	hl.bind("left", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
-	hl.bind("up", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
-	hl.bind("down", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
+	hl.bind("right", resize(10, 0), { repeating = true })
+	hl.bind("left", resize(-10, 0), { repeating = true })
+	hl.bind("up", resize(0, 10), { repeating = true })
+	hl.bind("down", resize(0, -10), { repeating = true })
 
 	-- Use `reset` to go back to the global submap
 	hl.bind("escape", hl.dsp.submap("reset"))
