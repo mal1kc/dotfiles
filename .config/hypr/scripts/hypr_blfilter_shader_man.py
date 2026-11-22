@@ -1,6 +1,7 @@
 #!/bin/env python3
 import datetime
 import math
+import os
 import subprocess
 import time
 
@@ -90,31 +91,37 @@ def is_night_time(latitude, longitude):
     return now >= sunset and now < sunrise
 
 
+def set_screen_shader(path: str) -> None:
+    # `hyprctl keyword` doesn't exist with the lua config
+    subprocess.run(
+        [
+            "hyprctl",
+            "eval",
+            f'hl.config({{ decoration = {{ screen_shader = "{path}" }} }})',
+        ]
+    )
+
+
 def main():
     # Replace with your latitude and longitude
     latitude = 40.92
     longitude = 29.92
     filter_enabled = False  # to not call every update frame
     is_night = is_night_time(latitude, longitude)
-    subprocess.run(["hyprctl", "keyword", "decoration:screen_shader", ""])
+    set_screen_shader("")
     while True:
         is_night = is_night_time(latitude, longitude)
         if is_night and not filter_enabled:
             filter_enabled = True
             print("blueLightFilter enabled")
-            subprocess.run(
-                [
-                    "hyprctl",
-                    "keyword",
-                    "decoration:screen_shader",
-                    "~/.config/hypr/shaders/blueLightFilter.frag",
-                ]
+            set_screen_shader(
+                os.path.expanduser("~/.config/hypr/shaders/blueLightFilter.frag")
             )
         if filter_enabled and not is_night:
             filter_enabled = False
             print("blueLightFilter disabled")
             # Run command to disable blue light filter
-            subprocess.run(["hyprctl", "keyword", "decoration:screen_shader", ""])
+            set_screen_shader("")
 
         time.sleep(10 * 60)
 

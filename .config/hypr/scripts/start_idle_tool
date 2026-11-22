@@ -13,9 +13,9 @@ else
           
           if [ $ret -eq 0 ]	
       then
-        hyprctl dispatch dpms off DP-1
+        hyprctl dispatch "hl.dsp.dpms({ monitor = \"DP-1\", action = \"disable\" })"
       else
-        hyprctl dispatch dpms off eDP-1
+        hyprctl dispatch "hl.dsp.dpms({ monitor = \"eDP-1\", action = \"disable\" })"
       fi
 
           systemctl suspend' \
@@ -25,9 +25,9 @@ else
 
       if [ $ret -eq 0 ]	
       then
-        hyprctl dispatch dpms on DP-1
+        hyprctl dispatch "hl.dsp.dpms({ monitor = \"DP-1\", action = \"enable\" })"
       else
-        hyprctl dispatch dpms on eDP-1
+        hyprctl dispatch "hl.dsp.dpms({ monitor = \"eDP-1\", action = \"enable\" })"
       fi
       ' \
 		before-sleep "$HOME/.config/hypr/scripts/lock" \

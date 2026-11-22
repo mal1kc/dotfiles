@@ -9,6 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# Mod key of every bind: Mod4 (super), or Mod1 for left alt
 set $mod Mod4
 
 set $terminal kitty
@@ -18,8 +19,8 @@ set $media_prev playerctl previous
 set $media_playpause playerctl play-pause
 
 # pipewire wireplumber -> shortcuts
-set $up_vol wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-set $down_vol wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+set $up_vol wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+set $down_vol wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-
 set $toggle_vol wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -48,9 +49,6 @@ exec --no-startup-id nm-applet
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -72,7 +70,10 @@ bindsym $mod+Shift+Return exec $terminal
 
 bindsym $mod+b exec librewolf
 
-bindsym $mod+shift+e exec pcmanfm
+bindsym $mod+Shift+e exec $terminal yazi
+bindsym $mod+e exec neovide
+bindsym Control+Shift+Escape exec $terminal -T btop btop
+bindsym $mod+l exec --no-startup-id ~/.local/bin/select_tool_json.py powermenu
 
 # kill focused window
 bindsym $mod+Shift+c kill
@@ -97,6 +98,7 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
+bindsym $mod+Return focus next
 # move focused window
 bindsym $mod+z focus child
 
@@ -105,28 +107,43 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# both mods written out, so it doesn't depend on $mod
+bindsym Mod4+Mod1+Left move container to output left
+bindsym Mod4+Mod1+Right move container to output right
+
 # split in horizontal orientation
 bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+Control+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+# (no maximize / fake fullscreen in i3, so $mod+f stays free)
+bindsym $mod+Shift+f fullscreen toggle
+bindsym F11 fullscreen toggle
+
+# narrower / wider
+bindsym $mod+minus resize shrink width 5 px or 5 ppt
+bindsym $mod+asterisk resize grow width 5 px or 5 ppt
+
+# scratchpad
+bindsym $mod+x move scratchpad
+bindsym $mod+c scratchpad show
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+bindsym $mod+Control+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+Shift+s layout default
+bindsym $mod+Control+Shift+s layout default
 bindsym $mod+j layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+v floating toggle
+bindsym $mod+scedilla floating toggle, sticky toggle
 # win+tab for opened windows across workspaces
 bindsym $mod+Tab exec rofi -show window
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Control+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -176,7 +193,7 @@ bindsym $mod+0 sticky toggle
 # reload the configuration file
 bindsym $mod+Shift+r reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+Mod1+r restart
+bindsym $mod+Control+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
@@ -200,7 +217,9 @@ bindsym XF86MonBrightnessDown       exec --no-startup-id  xbacklight -dec 5
 
 # screenshot with maim
 
-bindsym Print exec "~/.local/bin/screenshot-full --notify"
+bindsym Print exec "~/.local/bin/screenshot --notify"
+bindsym $mod+s exec "~/.local/bin/screenshot --notify"
+bindsym $mod+Shift+s exec "~/.local/bin/screenshot_fullscreen --notify"
 bindsym $mod+Print exec "~/.local/bin/screenshot --open"
 
 # resize window (you can also use the mouse for that)

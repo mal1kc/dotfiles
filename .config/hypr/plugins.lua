@@ -6,23 +6,18 @@
 ]]
 
 -- all windows
-hl.bind("SUPER + TAB", hl.plugin.gloview.toggle)
-hl.bind("SUPER + SHIFT + TAB", hl.plugin.gloview.desktop)
-hl.bind("SUPER + CTRL + TAB", hl.plugin.gloview.allworkspaces)
+hl.bind(MainMod .. " + TAB", hl.plugin.gloview.toggle)
+hl.bind(MainMod .. " + SHIFT + TAB", hl.plugin.gloview.desktop)
+hl.bind(MainMod .. " + CTRL + TAB", hl.plugin.gloview.allworkspaces)
 
-hl.bind("SUPER +  less", hl.plugin.gloview.prev)
+hl.bind(MainMod .. " + less", hl.plugin.gloview.prev)
 
-for i = 1, 7 do
-	local key = i % 10
-	hl.bind("SUPER + " .. key, function()
-		hl.plugin.gloview.setworkspace(key)
-	end)
-end
+-- SUPER + 1..7 are in binds.lua; inside the overview plain 1..0 work (key_workspace)
 
 hl.config({
 	plugin = {
 		gloview = {
-			layout = "rows",
+			layout = "natural",
 			gap = 34,
 			padding = 80,
 			padding_top = 40,
@@ -38,7 +33,7 @@ hl.config({
 			move_animation = 1,
 			move_duration = 20,
 
-			anchor = "top",
+			anchor = "left",
 			strip_offset = 0,
 			strip_height = 150,
 			strip_margin = 22,
@@ -64,7 +59,7 @@ hl.config({
 			key_all_workspaces = "a",
 			key_workspace = "1,2,3,4,5,6,7,8,9,0",
 
-			show_all_workspaces = 0,
+			show_all_workspaces = 1,
 			show_empty = 1,
 			dynamic_workspaces = 1,
 			autodelete_empty = 1,

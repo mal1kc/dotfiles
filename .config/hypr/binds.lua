@@ -2,7 +2,7 @@
 ---- KEYBINDINGS ----
 ---------------------
 
-local mainMod = "SUPER" -- Sets "Windows" key as main modifier
+local mainMod = MainMod -- set in hyprland.lua
 local home_dir = os.getenv("HOME")
 local up_vol = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
 local down_vol = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-"
@@ -20,6 +20,30 @@ local interactive_powermenu = home_dir .. "/.local/bin/select_tool_json.py power
 local screenshot_cmd = home_dir .. "/.local/bin/screenshot --notify"
 local screenshot_cmd_full = home_dir .. "/.local/bin/screenshot_fullscreen --notify"
 
+local palette = home_dir .. "/.local/bin/select_tool_json.py hyprland"
+
+-- one bind, several dispatchers (two binds on a key are easy to overlook)
+local function run_all(...)
+	local dispatchers = { ... }
+	return function()
+		for _, dispatcher in ipairs(dispatchers) do
+			hl.dispatch(dispatcher)
+		end
+	end
+end
+
+-- send a layout message chosen by the layout of the active workspace,
+-- layouts that aren't listed get nothing
+local function layout_msg(messages)
+	return function()
+		local workspace = Util.layout_workspace()
+		local msg = workspace and messages[workspace.tiled_layout]
+		if msg then
+			hl.dispatch(hl.dsp.layout(msg))
+		end
+	end
+end
+
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 -- hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(term))
 -- local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
@@ -28,27 +52,34 @@ local screenshot_cmd_full = home_dir .. "/.local/bin/screenshot_fullscreen --not
 -- app bindings g1
 hl.bind(mainMod .. " + SHIFT +  Return", hl.dsp.exec_cmd(term))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd(interactive_powermenu))
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(palette))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(home_dir .. "/.local/bin/notifs list"))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(term .. " yazi"))
 hl.bind(mainMod .. " + E ", hl.dsp.exec_cmd("neovide"))
 hl.bind(mainMod .. " + B ", hl.dsp.exec_cmd("librewolf"))
 
 --main bindings
 hl.bind(mainMod .. " + SHIFT +  Q", hl.dsp.exit())
-hl.bind(mainMod .. " + SHIFT +  Q", hl.dsp.exec_cmd("systemclt --user exit"))
 
 hl.bind(mainMod .. " + SHIFT +  C", hl.dsp.window.close("activewindow"))
-hl.bind(mainMod .. " + V ", hl.dsp.window.float({}))
-hl.bind(mainMod .. " + V ", hl.dsp.window.center())
+hl.bind(mainMod .. " + V ", run_all(hl.dsp.window.float({}), hl.dsp.window.center()))
 -- hl.bind(mainMod .. " + SHIFT" .. " +  Q", hl.dsp.exit())
 
-hl.bind("F11", hl.dsp.window.fullscreen_state({ internal = 1, client = 1 }))
+-- fullscreen: internal = what hyprland does, client = what the app is told
+-- (0 none, 1 maximized, 2 fullscreen)
+local function fullscreen(internal, client)
+	return hl.dsp.window.fullscreen_state({ internal = internal, client = client, action = "toggle" })
+end
 
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen_state({ internal = 1, client = 0 }))
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen_state({ internal = 0, client = 3 }))
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen(), { long_press = true })
+-- maximize
+hl.bind(mainMod .. " + F", fullscreen(1, 0))
+-- fake: app thinks it's fullscreen, window keeps its size and float state
+hl.bind(mainMod .. " + CTRL + F", fullscreen(0, 2))
+-- real
+hl.bind(mainMod .. " + SHIFT + F", fullscreen(2, 2))
+hl.bind("F11", fullscreen(2, 2))
 
-hl.bind(mainMod .. " + scedilla", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + scedilla", hl.dsp.window.pin())
+hl.bind(mainMod .. " + scedilla", run_all(hl.dsp.window.float({ action = "toggle" }), hl.dsp.window.pin()))
 
 -- group binds
 hl.bind(mainMod .. " + T", hl.dsp.group.next({ forward = true }))
@@ -75,8 +106,8 @@ hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r", gro
 hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u", group_aware = true }))
 hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d", group_aware = true }))
 
-hl.bind(mainMod .. " + ALT + left", hl.dsp.window.move({ monitor = "-1" }))
-hl.bind(mainMod .. " + ALT + right", hl.dsp.window.move({ monitor = "+1" }))
+hl.bind(mainMod .. " + " .. AltMod .. " + left", hl.dsp.window.move({ monitor = "-1" }))
+hl.bind(mainMod .. " + " .. AltMod .. " + right", hl.dsp.window.move({ monitor = "+1" }))
 
 hl.bind(mainMod .. " + SHIFT + n", hl.dsp.window.cycle_next(""))
 
@@ -106,55 +137,25 @@ hl.bind(mainMod .. " + page_down", hl.dsp.layout("move -col"))
 hl.bind(mainMod .. " +  odiaeresis", hl.dsp.layout("swapcol l"))
 hl.bind(mainMod .. " +  ccedilla", hl.dsp.layout("swapcol r"))
 hl.bind(mainMod .. " +  period", hl.dsp.layout("promote"))
--- gestures
 
-hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
-
-hl.gesture({ fingers = 3, direction = "down", mods = "ALT", action = "close" })
-hl.gesture({ fingers = 3, direction = "up", mods = mainMod, scale = 1.5, action = "fullscreen" })
-
-hl.gesture({ fingers = 3, direction = "left", mods = mainMod, scale = 1.5, action = "resize" })
-hl.gesture({ fingers = 3, direction = "right", mods = mainMod, scale = 1.5, action = "resize" })
-
-hl.gesture({
-	fingers = 3,
-	direction = "up",
-	scale = 1.5,
-	action = function()
-		hl.dispatch(hl.dsp.focus({ direction = "up" }))
-	end,
-})
-
-hl.gesture({
-	fingers = 3,
-	direction = "down",
-	scale = 1.5,
-	action = function()
-		hl.dispatch(hl.dsp.focus({ direction = "down" }))
-	end,
-})
-
-hl.gesture({
-	fingers = 4,
-	direction = "down",
-	action = function()
-		hl.dispatch(hl.dsp.window.cycle_next())
-	end,
-})
-
-hl.gesture({
-	fingers = 2,
-	direction = "pinch",
-	mods = mainMod,
-	action = "resize",
-})
-
-hl.gesture({
-	fingers = 3,
-	direction = "swipe",
-	mods = mainMod .. " + SHIFT",
-	action = "fullscreen",
-})
+-- narrower / wider (the two keys right of 0 on TR-Q are asterisk and minus)
+hl.bind(
+	mainMod .. " + minus",
+	layout_msg({ scrolling = "colresize -conf", ["lua:masterscroll"] = "colresize -conf", master = "mfact -0.05" })
+)
+hl.bind(
+	mainMod .. " + asterisk",
+	layout_msg({ scrolling = "colresize +conf", ["lua:masterscroll"] = "colresize +conf", master = "mfact +0.05" })
+)
+-- master sized column
+hl.bind(
+	mainMod .. " + M",
+	layout_msg({ scrolling = "colresize 0.6", ["lua:masterscroll"] = "colresize 0.6", master = "mfact exact 0.6" })
+)
+-- visible columns share the screen
+hl.bind(mainMod .. " + G", layout_msg({ scrolling = "fit visible" }))
+-- stack into the previous column / take out again
+hl.bind(mainMod .. " + comma", layout_msg({ scrolling = "consume_or_expel prev" }))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })

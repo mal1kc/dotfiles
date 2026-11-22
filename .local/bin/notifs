@@ -1,0 +1,243 @@
+#!/usr/bin/env python
+"""Notification list for fnott (any daemon for the history).
+
+notifs watch    record notifications, started by the compositor
+notifs list     pick one: open / dismiss active ones, copy older ones
+notifs dismiss  dismiss all
+notifs pause | resume   do not disturb
+notifs clear    forget the history
+
+The history stays in $XDG_RUNTIME_DIR: in RAM, only readable by you, gone
+after logout.
+"""
+
+import fcntl
+import html
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+from pathlib import Path
+from typing import Any
+
+RUNTIME_DIR = Path(os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}")
+HISTORY = RUNTIME_DIR / "notifs.jsonl"
+LOCK = RUNTIME_DIR / "notifs.lock"
+MAX_ENTRIES = 100
+MATCH = (
+    "type='method_call',interface='org.freedesktop.Notifications',member='Notify'"
+)
+
+
+def one_line(text: str, limit: int = 110) -> str:
+    text = " ".join(text.split())
+    return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
+def plain(text: str) -> str:
+    """Body without markup."""
+    return html.unescape(re.sub(r"</?(b|i|u|a|img)\b[^>]*>", "", text))
+
+
+# -- history
+
+
+def load() -> list[dict[str, Any]]:
+    entries = []
+    try:
+        lines = HISTORY.read_text().splitlines()
+    except OSError:
+        return []
+    for line in lines:
+        try:
+            entries.append(json.loads(line))
+        except ValueError:
+            continue
+    return entries
+
+
+def locked() -> Any:
+    """Held while the history changes (the watcher and `clear` both do)."""
+    file = open(RUNTIME_DIR / "notifs.write.lock", "w")
+    fcntl.flock(file, fcntl.LOCK_EX)
+    return file
+
+
+def save(entries: list[dict[str, Any]]) -> None:
+    tmp = HISTORY.with_suffix(".tmp")
+    fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "w") as file:
+        file.writelines(json.dumps(e) + "\n" for e in entries[-MAX_ENTRIES:])
+    os.replace(tmp, HISTORY)
+
+
+def entry_of(line: str) -> dict[str, Any] | None:
+    """Entry of a `busctl monitor --json=short` line."""
+    try:
+        message = json.loads(line)
+        app, replaces, _icon, summary, body, _actions, hints = message["payload"][
+            "data"
+        ][:7]
+    except (ValueError, KeyError, TypeError):
+        return None
+    if not isinstance(hints, dict):
+        hints = {}
+
+    def hint(name: str) -> Any:
+        value = hints.get(name)
+        return value.get("data") if isinstance(value, dict) else value
+
+    # progress (volume, brightness) and transient ones aren't worth keeping
+    if hint("value") is not None or hint("transient"):
+        return None
+    return {
+        "time": int(time.time()),
+        "app": str(app),
+        "replaces": bool(replaces),
+        "summary": plain(str(summary)),
+        "body": plain(str(body)),
+    }
+
+
+def watch() -> int:
+    lock = open(LOCK, "w")
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        print("notifs: already watching", file=sys.stderr)
+        return 0
+    if not shutil.which("busctl"):
+        print("notifs: busctl not found", file=sys.stderr)
+        return 1
+    cmd = ["busctl", "--user", "--json=short", "monitor", f"--match={MATCH}"]
+    if shutil.which("stdbuf"):
+        cmd = ["stdbuf", "-oL", *cmd]
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, text=True) as process:
+        assert process.stdout is not None
+        for line in process.stdout:
+            entry = entry_of(line)
+            if entry is None:
+                continue
+            with locked():
+                entries = load()
+                # an update of the last one, not a new one
+                if entry["replaces"] and entries:
+                    if entries[-1]["app"] == entry["app"]:
+                        entries.pop()
+                save([*entries, entry])
+    return process.returncode
+
+
+# -- daemon
+
+
+def running(name: str) -> bool:
+    return (
+        subprocess.run(["pgrep", "-x", name], stdout=subprocess.DEVNULL).returncode
+        == 0
+    )
+
+
+def fnottctl(*cmd: str) -> str:
+    result = subprocess.run(["fnottctl", *cmd], capture_output=True, text=True)
+    return result.stdout if result.returncode == 0 else ""
+
+
+def control(fnott: list[str], swaync: list[str]) -> int:
+    if running("fnott"):
+        return subprocess.run(["fnottctl", *fnott]).returncode
+    if running("swaync"):
+        return subprocess.run(["swaync-client", *swaync]).returncode
+    print("notifs: neither fnott nor swaync is running", file=sys.stderr)
+    return 1
+
+
+# -- list
+
+
+def pick(lines: list[str], prompt: str) -> int | None:
+    """Index of the picked line."""
+    result = subprocess.run(
+        ["fuzzel", "--dmenu", "--index", "--width", "90", "-p", prompt],
+        input="\n".join(lines),
+        capture_output=True,
+        text=True,
+    )
+    try:
+        index = int(result.stdout.strip())
+    except ValueError:
+        return None
+    return index if 0 <= index < len(lines) else None
+
+
+def show_active(notif_id: str) -> None:
+    choices = ["open", "dismiss", "actions"]
+    index = pick(choices, "notification: ")
+    if index is None:
+        return
+    command = ["dismiss-with-default-action", "dismiss", "actions"][index]
+    fnottctl(command, notif_id)
+
+
+def show_old(entry: dict[str, Any]) -> None:
+    text = "\n".join(t for t in (entry["summary"], entry["body"]) if t)
+    if shutil.which("wl-copy"):
+        subprocess.run(["wl-copy"], input=text, text=True)
+    else:
+        print(text)
+
+
+def list_notifs() -> int:
+    lines: list[str] = []
+    targets: list[Any] = []
+    if running("fnott"):
+        for line in fnottctl("list").splitlines():
+            found = re.match(r"(\d+): ?(.*)$", line)
+            if found:
+                lines.append("● " + one_line(plain(found[2])))
+                targets.append(found[1])
+    for entry in reversed(load()):
+        when = time.strftime("%H:%M", time.localtime(entry["time"]))
+        text = " — ".join(t for t in (entry["summary"], entry["body"]) if t)
+        lines.append(one_line(f"{when}  {entry['app']}: {text}"))
+        targets.append(entry)
+
+    if not lines:
+        pick(["no notifications"], "notifications: ")
+        return 0
+    index = pick(lines, "notifications: ")
+    if index is None:
+        return 0
+    target = targets[index]
+    if isinstance(target, str):
+        show_active(target)
+    else:
+        show_old(target)
+    return 0
+
+
+def main() -> int:
+    action = sys.argv[1] if len(sys.argv) == 2 else ""
+    if action == "watch":
+        return watch()
+    if action == "list":
+        return list_notifs()
+    if action == "dismiss":
+        return control(["dismiss", "all"], ["-C"])
+    if action == "pause":
+        return control(["pause"], ["-dn"])
+    if action == "resume":
+        return control(["unpause"], ["-df"])
+    if action == "clear":
+        with locked():
+            HISTORY.unlink(missing_ok=True)
+        return 0
+    print(__doc__, file=sys.stderr)
+    return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

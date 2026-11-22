@@ -1,0 +1,317 @@
+@import "colors.css";
+
+* {
+  font-family: "Iosevka Light";
+  border: none;
+  border-radius: 0px;
+  font-weight: normal;
+  font-size: 10px;
+  transition: 0.2s;
+}
+
+*:hover {
+  font-size: 20px;
+  transition: 0.1s;
+}
+
+window#waybar {
+    background: transparent;
+    color: @text;
+    margin-right:8px;
+}
+
+/* make window module transparent when no windows present */
+window#waybar.empty #window {
+    opacity: 0;
+    background-color: transparent;
+}
+
+tooltip {
+	color: @color2;
+	background: @color0;
+	opacity: 0.8;
+	border-radius: 2.5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: @color15;
+  font-size: 32px;
+}
+
+/*-----module groups----*/
+.modules-left, .modules-right, .modules-center {
+	opacity: 0.92;
+	background-color: @color0;
+	border: 0.25px solid @color15;
+	border-radius: 5px;
+	padding-top: 0.5px;
+	padding-bottom: 0.5px;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+#waybar.empty, #waybar.tiled, #waybar.floating {
+	background-color: transparent;
+}
+
+workspaces button {
+    /* laptop */
+    /* margin: 5px 5px 5px 5px;  */
+    /* desktop */
+    margin: 0.5px 5px 5px 5px;
+    color: @color2;
+    box-shadow: none;
+    text-shadow: none;
+    padding: 2px;
+    border-radius: 9px;
+    padding-left: 4px;
+    padding-right: 4px;
+    animation: gradient_f 20s ease-in infinite;
+}
+
+#workspaces button.active {
+    color: @foreground;
+    background-color: @color2;
+    animation: gradient_f 20s ease-in infinite;
+}
+
+#workspaces button.focused {
+    color: @color4;
+    text-decoration: underline;
+    animation: gradient_f 20s ease-in infinite;
+}
+
+#workspaces button.urgent {
+    color: @color11;
+}
+
+#workspaces button:hover {
+    color: @color4;
+    text-shadow:3px 0px @color9;
+    animation: gradient_f 0.9s ease-in infinite;
+    font-size: 20px;
+    font-weight: lighter;
+}
+
+
+#disk,#memory,#cpu,#bluetooth,#custom-date, #clock, #battery, #audio, #wireplumber, #network {
+	padding: 0px 8px;
+  /*desktop */
+	margin: 8px 0px; 
+  /* laptop */
+	/* margin: 0.5px 0px; */
+}
+
+#custom-date {
+	color: #8fbcbb;
+}
+
+#custom-power {
+	color: @overlay1;
+	border-radius: 5px;
+	margin-left: 0px; 
+	margin-top: 0.5px;
+	margin-bottom: 5px;
+	padding: 0px 5px;
+}
+
+#clock {
+    color: @crust;
+    background-color: @sapphire;
+    border-radius: 0px 5px 5px 0px;
+}
+
+
+#network {
+	color: black;
+}
+
+#audio, #wireplumber {
+	color: #ebcb8b;
+	border-radius: 0px 0px 0px 0px;
+}
+
+#window{
+    margin-left: 5px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0px;
+}
+
+/* desktop  - -- -- - -- - - --*/
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 1px;
+}
+/* desktop ------------------*/
+
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0px;
+}
+
+
+#battery {
+  color: #1B1D2B;
+  background-color: #82AAFF;
+  border-radius: 5px 0px 0px 5px;
+}
+
+#battery.charging {
+    color: #64727D;
+    background-color: #CEE0C5
+}
+
+#battery.plugged {
+    color: #ffffff;
+    background-color: #26A65B;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#cpu {
+    background-color: #2ecc71;
+    color: #000000;
+    border-radius: 5px 0px 0px 5px;
+}
+
+#memory {
+    color: @crust;
+    background-color: @lavender;
+}
+
+#disk.root {
+    color: @crust;
+    background-color: @red;
+    border-radius: 0px;
+}
+#disk.home {
+    color: @crust;
+    background-color: @mauve;
+    border-radius: 0px 5px 5px 0px;
+}
+
+/*#backlight {*/
+/*    background-color: #90b1b1;*/
+#backlight-slider slider {
+    min-height: 0px;
+    min-width: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+#backlight-slider trough {
+    min-height: 0.5px;
+    min-width: 50px;
+    border-radius: 5px;
+    background-color: @color0;
+}
+#backlight-slider highlight {
+    min-width: 0px;
+    border-radius: 5px;
+    background-color: @text;
+}
+
+#network {
+    background-color: #2980b9;
+}
+
+#network.disconnected {
+    background-color: #f53c3c;
+}
+
+#audio, #wireplumber {
+    background-color: #f1c40f;
+    color: #000000;
+}
+
+#audio.muted, #wireplumber.muted {
+    background-color: @color1;
+}
+
+
+#temperature {
+    background-color: #f0932b;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#tray {
+    background-color: @background;
+    /*margin: 5px;*/
+    /*padding-left: 10px;*/
+    /*padding-right: 10px;*/
+    margin: 0.5px;
+    padding: 5px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+#scratchpad {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad.empty {
+	background-color: transparent;
+}
+
+#custom-media {
+	background-color: @crust;
+  color: #bebebe;
+	padding: 0px 5px;
+  border-radius: 5px;
+	/*margin: 5px 0px;*/
+}
+
+#mpris {
+	background-color: @crust;
+  color: #bebebe;
+	padding: 0px 5px;
+  border-radius: 5px;
+	margin: 5px 0px;
+}
+
+#custom-notification {
+  font-family: "Iosevka SemiBold";
+  font-size: 10px;
+}
+
+#custom-notification:hover {
+  font-family: "Iosevka Light";
+  border: none;
+  border-radius: 0px;
+  font-weight: normal;
+  font-size: 10px;
+  color: #bebebe;
+	padding: 0px 5px;
+  border-radius: 5px;
+	margin: 0.5px 0px;
+}

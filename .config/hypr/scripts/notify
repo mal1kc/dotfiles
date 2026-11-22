@@ -1,0 +1,22 @@
+#!/bin/sh
+# notify MSG [ICON] [MS]
+# hyprctl notify when a Hyprland socket exists, notify-send otherwise.
+# ICON: 0 warning, 1 info, 2 hint, 3 error, 4 confused, 5 ok, -1 none
+
+if [ -z "${1:-}" ]; then
+  echo "usage: notify MSG [ICON] [MS]" >&2
+  exit 2
+fi
+
+msg=$1
+icon=${2:-1}
+ms=${3:-2500}
+sock="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr/${HYPRLAND_INSTANCE_SIGNATURE:-}/.socket.sock"
+
+if [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ] && [ -S "$sock" ] && command -v hyprctl >/dev/null; then
+  # color 0 = default color of the icon
+  hyprctl notify "$icon" "$ms" 0 "fontsize:16 $msg" >/dev/null && exit 0
+fi
+command -v notify-send >/dev/null && notify-send -t "$ms" "$msg"
+# callers chain this with &&: a missing notification must not block them
+exit 0

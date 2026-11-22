@@ -1,0 +1,182 @@
+// niri v26.04, binds follow ../hypr/binds.lua
+// check: niri validate -c ~/.config/niri/config.kdl
+
+input {
+    // Mod key of every bind: "Super", or "Alt" for left alt
+    mod-key "Super"
+
+    keyboard {
+        xkb {
+            layout "tr"
+        }
+    }
+    touchpad {
+        tap
+        natural-scroll
+    }
+    warp-mouse-to-focus
+}
+
+cursor {
+    hide-when-typing
+    hide-after-inactive-ms 20000
+}
+
+// laptop
+output "eDP-1" {
+    mode "1920x1080"
+    scale 1
+    position x=0 y=0
+}
+
+// desktop
+output "DP-1" {
+    mode "2560x1440"
+    scale 1
+    position x=0 y=0
+}
+output "DP-2" {
+    mode "1600x900"
+    scale 1
+    position x=2560 y=300
+}
+
+layout {
+    gaps 7
+    center-focused-column "never"
+
+    // steps of Mod + minus / asterisk
+    preset-column-widths {
+        proportion 0.333
+        proportion 0.4
+        proportion 0.5
+        proportion 0.6
+        proportion 0.75
+        proportion 1.0
+    }
+    default-column-width { proportion 0.6; }
+
+    focus-ring {
+        off
+    }
+    border {
+        width 2
+        active-gradient from="#33ccffee" to="#00ff99ee" angle=45
+        inactive-color "#595959aa"
+    }
+}
+
+prefer-no-csd
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+spawn-at-startup "awww-daemon"
+spawn-at-startup "nm-applet"
+spawn-sh-at-startup "~/.local/bin/notifs watch"
+spawn-at-startup "keepassxc"
+spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
+spawn-sh-at-startup "~/.config/hypr/scripts/start_idle_tool"
+spawn-sh-at-startup "if [ \"$(~/.local/bin/machine_type)\" = laptop ]; then ashell; else qs -c noctalia-shell; fi"
+
+window-rule {
+    geometry-corner-radius 2
+    clip-to-geometry true
+}
+window-rule {
+    match app-id="^foot$" title="^(btop|countdown|termdown)"
+    match app-id=r#"^org\.godotengine\.(Editor|ProjectManager)$"#
+    match app-id=r#"^org\.kde\.kdeconnect\.daemon$"#
+    open-floating true
+}
+
+binds {
+    // apps
+    Mod+Shift+Return { spawn "foot"; }
+    Mod+L { spawn-sh "~/.local/bin/select_tool_json.py powermenu"; }
+    Mod+P { spawn-sh "~/.local/bin/select_tool_json.py niri"; }
+    Mod+N { spawn-sh "~/.local/bin/notifs list"; }
+    Mod+Shift+E { spawn "foot" "yazi"; }
+    Mod+E { spawn "neovide"; }
+    Mod+B { spawn "librewolf"; }
+    Ctrl+Shift+Escape { spawn "foot" "-T" "btop" "btop"; }
+    Alt+Space { spawn "fuzzel"; }
+
+    Print { spawn-sh "~/.local/bin/screenshot --notify"; }
+    Mod+S { spawn-sh "~/.local/bin/screenshot --notify"; }
+    Mod+Shift+S { spawn-sh "~/.local/bin/screenshot_fullscreen --notify"; }
+
+    // windows
+    Mod+Shift+Q { quit; }
+    Mod+Shift+C repeat=false { close-window; }
+    Mod+V { toggle-window-floating; }
+    Mod+Shift+T { toggle-column-tabbed-display; }
+
+    // fullscreen: maximize / fake (window keeps its size) / real
+    Mod+F { maximize-column; }
+    Mod+Ctrl+F { toggle-windowed-fullscreen; }
+    Mod+Shift+F { fullscreen-window; }
+    F11 { fullscreen-window; }
+
+    // focus and move
+    Mod+Left { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up { focus-window-up; }
+    Mod+Down { focus-window-down; }
+    Mod+Shift+Left { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Up { move-window-up; }
+    Mod+Shift+Down { move-window-down; }
+    // both mods written out, so it doesn't depend on mod-key
+    Super+Alt+Left { move-window-to-monitor-left; }
+    Super+Alt+Right { move-window-to-monitor-right; }
+
+    // columns
+    Mod+Minus { switch-preset-column-width-back; }
+    Mod+asterisk { switch-preset-column-width; }
+    Mod+M { set-column-width "60%"; }
+    Mod+Comma { consume-or-expel-window-left; }
+    Mod+Period { expel-window-from-column; }
+    Mod+odiaeresis { move-column-left; }
+    Mod+ccedilla { move-column-right; }
+    Mod+Page_Up { focus-column-right; }
+    Mod+Page_Down { focus-column-left; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-column-right; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-column-left; }
+
+    // workspaces and overview
+    Mod+Tab repeat=false { toggle-overview; }
+    Mod+less { focus-workspace-up; }
+    Mod+Shift+WheelScrollUp cooldown-ms=150 { focus-workspace-down; }
+    Mod+Shift+WheelScrollDown cooldown-ms=150 { focus-workspace-up; }
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+Shift+1 { move-window-to-workspace 1; }
+    Mod+Shift+2 { move-window-to-workspace 2; }
+    Mod+Shift+3 { move-window-to-workspace 3; }
+    Mod+Shift+4 { move-window-to-workspace 4; }
+    Mod+Shift+5 { move-window-to-workspace 5; }
+    Mod+Shift+6 { move-window-to-workspace 6; }
+    Mod+Shift+7 { move-window-to-workspace 7; }
+
+    // media
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-"; }
+    XF86AudioMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "xbacklight" "-inc" "5"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "xbacklight" "-dec" "5"; }
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
+    Mod+XF86AudioMute allow-when-locked=true { spawn "playerctl" "previous"; }
+    Mod+XF86AudioLowerVolume allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    Mod+XF86AudioRaiseVolume allow-when-locked=true { spawn "playerctl" "next"; }
+}

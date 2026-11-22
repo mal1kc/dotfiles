@@ -10,10 +10,11 @@ from typing import Protocol, override, Any
 class select_tools(enum.Enum):
     wofi = enum.auto()
     fuzzel = enum.auto()
+    rofi = enum.auto()  # x11
 
 
 def execute_command(command: str) -> subprocess.Popen[bytes]:
-    print(f"EXCUTE: {command}")
+    print(f"EXECUTE: {command}")
     return subprocess.Popen(command, shell=True)
 
 
@@ -21,7 +22,7 @@ class select_tool_protocol(Protocol):
     process_cmd: list[str]
     option_names: list[str]
     commands: list[str]
-    process_outpt: subprocess.Popen[str]
+    process_out: subprocess.Popen[str]
 
     def __init__(self) -> None:
         return
@@ -30,7 +31,7 @@ class select_tool_protocol(Protocol):
         return
 
     def get_selection(self) -> str:
-        # start procees and get input
+        # start process and get input
         return ""
 
 
@@ -38,7 +39,7 @@ class tool_wofi(select_tool_protocol):
     process_cmd: list[str]
     option_names: list[str]
     commands: list[str]
-    process_outpt: subprocess.Popen[str]
+    process_out: subprocess.Popen[str]
 
     def __init__(self) -> None:
         super().__init__()
@@ -48,7 +49,7 @@ class tool_wofi(select_tool_protocol):
         self.process_cmd = ["wofi", "-d", "-p", "Select an option:"]
         self.option_names = [option["name"] for option in options]
 
-        self.process_outpt = subprocess.Popen(
+        self.process_out = subprocess.Popen(
             self.process_cmd,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
@@ -59,7 +60,7 @@ class tool_wofi(select_tool_protocol):
 
     @override
     def get_selection(self) -> str:
-        wofi_stdout, _ = self.process_outpt.communicate(
+        wofi_stdout, _ = self.process_out.communicate(
             input="\n".join(self.option_names)
         )
         return wofi_stdout.strip()
@@ -69,7 +70,7 @@ class tool_fuzzel(select_tool_protocol):
     process_cmd: list[str]
     option_names: list[str]
     commands: list[str]
-    process_outpt: subprocess.Popen[str]
+    process_out: subprocess.Popen[str]
 
     def __init__(self) -> None:
         super().__init__()
@@ -79,7 +80,7 @@ class tool_fuzzel(select_tool_protocol):
         self.process_cmd = ["fuzzel", "--dmenu", "-p", "Select an option:"]
         self.option_names = [option["name"] for option in options]
 
-        self.process_outpt = subprocess.Popen(
+        self.process_out = subprocess.Popen(
             self.process_cmd,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
@@ -90,10 +91,41 @@ class tool_fuzzel(select_tool_protocol):
 
     @override
     def get_selection(self) -> str:
-        fuzzel_stdout, _ = self.process_outpt.communicate(
+        fuzzel_stdout, _ = self.process_out.communicate(
             input="\n".join(self.option_names)
         )
         return fuzzel_stdout.strip()
+
+
+class tool_rofi(select_tool_protocol):
+    process_cmd: list[str]
+    option_names: list[str]
+    commands: list[str]
+    process_out: subprocess.Popen[str]
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    @override
+    def build_menu(self, options: list[dict[str, Any]]):
+        self.process_cmd = ["rofi", "-dmenu", "-p", "Select an option"]
+        self.option_names = [option["name"] for option in options]
+
+        self.process_out = subprocess.Popen(
+            self.process_cmd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        return
+
+    @override
+    def get_selection(self) -> str:
+        rofi_stdout, _ = self.process_out.communicate(
+            input="\n".join(self.option_names)
+        )
+        return rofi_stdout.strip()
 
 
 def build_tool_menu(
@@ -112,6 +144,8 @@ def build_tool_menu(
     # print(f"{select_tool=}")
     if select_tool == select_tools.fuzzel:
         select_tool_helper = tool_fuzzel()
+    elif select_tool == select_tools.rofi:
+        select_tool_helper = tool_rofi()
     else:
         select_tool_helper = tool_wofi()
 
@@ -153,12 +187,24 @@ def build_tool_menu(
             ).strip()
             submenu_options = submenu_command_output.split("\n")
             build_tool_menu(
-                [{"name": option} for option in submenu_options],
+                [
+                    {
+                        "name": option,
+                        "command": selected_option["dynamic_submenu_command"].replace(
+                            "{dynamic_submenu_selected_option}", option
+                        ),
+                    }
+                    for option in submenu_options
+                ],
                 script_pth,
                 select_tool,
             )
         elif "command" in selected_option:
-            command = selected_option["command"].format(**selected_option)
+            command = selected_option["command"]
+            # only then are there {placeholders}, other commands can contain
+            # braces (lua tables)
+            if "calculated_var" in selected_option:
+                command = command.format(**selected_option)
             _ = execute_command(command)
 
 
@@ -170,6 +216,9 @@ def main() -> None:
     args = parser.parse_args()
 
     select_tool_selection = select_tools.fuzzel
+    if not os.environ.get("WAYLAND_DISPLAY") and os.environ.get("DISPLAY"):
+        # fuzzel and wofi are wayland only
+        select_tool_selection = select_tools.rofi
 
     config_prefix = "~/.config/selection_tool/"
     # if file does not end with .json, assume it's in the wofi config folder and append .json
@@ -184,6 +233,17 @@ def main() -> None:
 
     with open(args.json) as file:
         menu_data = json.load(file)
+
+    # "include": ["custom"] puts the options of those menus first
+    for name in menu_data.get("include", []):
+        include_pth = os.path.join(os.path.dirname(args.json), name + ".json")
+        try:
+            with open(include_pth) as file:
+                included = json.load(file)["options"]
+        except (OSError, ValueError, KeyError) as err:
+            print(f"Error: can't include '{include_pth}': {err}")
+            continue
+        menu_data["options"] = included + menu_data["options"]
 
     if "globals" in menu_data:
         if "script" in menu_data["globals"]:

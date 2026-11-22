@@ -1,0 +1,150 @@
+{
+  "include": [
+    "custom"
+  ],
+  "options": [
+    {
+      "name": "Window >",
+      "submenu": [
+        {
+          "name": "float / tile",
+          "command": "niri msg action toggle-window-floating"
+        },
+        {
+          "name": "center",
+          "command": "niri msg action center-window"
+        },
+        {
+          "name": "close",
+          "command": "niri msg action close-window"
+        },
+        {
+          "name": "move to monitor >",
+          "submenu": [
+            {
+              "name": "left",
+              "command": "niri msg action move-window-to-monitor-left"
+            },
+            {
+              "name": "right",
+              "command": "niri msg action move-window-to-monitor-right"
+            }
+          ]
+        },
+        {
+          "name": "tabbed column",
+          "command": "niri msg action toggle-column-tabbed-display"
+        }
+      ]
+    },
+    {
+      "name": "Fullscreen >",
+      "submenu": [
+        {
+          "name": "maximize",
+          "command": "niri msg action maximize-column"
+        },
+        {
+          "name": "fake fullscreen",
+          "command": "niri msg action toggle-windowed-fullscreen"
+        },
+        {
+          "name": "real fullscreen",
+          "command": "niri msg action fullscreen-window"
+        }
+      ]
+    },
+    {
+      "name": "Layout >",
+      "submenu": [
+        {
+          "name": "column width >",
+          "submenu": [
+            {
+              "name": "33%",
+              "command": "niri msg action set-column-width 33.333%"
+            },
+            {
+              "name": "40%",
+              "command": "niri msg action set-column-width 40%"
+            },
+            {
+              "name": "50%",
+              "command": "niri msg action set-column-width 50%"
+            },
+            {
+              "name": "60%",
+              "command": "niri msg action set-column-width 60%"
+            },
+            {
+              "name": "75%",
+              "command": "niri msg action set-column-width 75%"
+            },
+            {
+              "name": "100%",
+              "command": "niri msg action set-column-width 100%"
+            }
+          ]
+        },
+        {
+          "name": "expand to free space",
+          "command": "niri msg action expand-column-to-available-width"
+        },
+        {
+          "name": "center column",
+          "command": "niri msg action center-column"
+        },
+        {
+          "name": "stack into previous column / take out",
+          "command": "niri msg action consume-or-expel-window-left"
+        },
+        {
+          "name": "swap column left",
+          "command": "niri msg action move-column-left"
+        },
+        {
+          "name": "swap column right",
+          "command": "niri msg action move-column-right"
+        }
+      ]
+    },
+    {
+      "name": "Workspace >",
+      "submenu": [
+        {
+          "name": "go to >",
+          "dynamic_submenu": true,
+          "dynamic_command": "niri msg -j workspaces | jq -r '[.[].idx] | unique[]'",
+          "dynamic_submenu_command": "niri msg action focus-workspace {dynamic_submenu_selected_option}"
+        },
+        {
+          "name": "move window to >",
+          "dynamic_submenu": true,
+          "dynamic_command": "seq 1 7",
+          "dynamic_submenu_command": "niri msg action move-window-to-workspace {dynamic_submenu_selected_option}"
+        }
+      ]
+    },
+    {
+      "name": "Overview",
+      "command": "niri msg action toggle-overview"
+    },
+    {
+      "name": "Session >",
+      "submenu": [
+        {
+          "name": "reload config",
+          "command": "niri msg action load-config-file"
+        },
+        {
+          "name": "show hotkeys",
+          "command": "niri msg action show-hotkey-overlay"
+        }
+      ]
+    },
+    {
+      "name": "Power >",
+      "command": "$HOME/.local/bin/select_tool_json.py powermenu"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "options": [
+    {
+      "name": "List notifications",
+      "command": "$HOME/.local/bin/notifs list"
+    },
+    {
+      "name": "Notifications >",
+      "submenu": [
+        {
+          "name": "dismiss all",
+          "command": "$HOME/.local/bin/notifs dismiss"
+        },
+        {
+          "name": "do not disturb on",
+          "command": "$HOME/.local/bin/notifs pause"
+        },
+        {
+          "name": "do not disturb off",
+          "command": "$HOME/.local/bin/notifs resume"
+        },
+        {
+          "name": "clear history",
+          "command": "$HOME/.local/bin/notifs clear"
+        }
+      ]
+    },
+    {
+      "name": "Audio >",
+      "command": "$HOME/.local/bin/select_tool_json.py audio"
+    },
+    {
+      "name": "Network >",
+      "command": "$HOME/.local/bin/select_tool_json.py network"
+    },
+    {
+      "name": "Screenshot >",
+      "submenu": [
+        {
+          "name": "region",
+          "command": "$HOME/.local/bin/screenshot --notify"
+        },
+        {
+          "name": "fullscreen",
+          "command": "$HOME/.local/bin/screenshot_fullscreen --notify"
+        }
+      ]
+    },
+    {
+      "name": "Next wallpaper",
+      "command": "$HOME/.local/bin/ch_wallpaper.sh"
+    }
+  ]
+}

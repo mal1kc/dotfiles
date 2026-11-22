@@ -1,0 +1,106 @@
+# river-classic, sourced by init. Binds follow ../hypr/binds.lua
+# No scrolling here: layout generators aren't told which view has focus.
+
+# Mod key of every bind: Super, or Alt for left alt
+mod=Super
+
+riverctl keyboard-layout tr
+riverctl set-repeat 50 300
+riverctl set-cursor-warp on-output-change
+riverctl hide-cursor when-typing enabled
+
+bin="$HOME/.local/bin"
+
+# apps
+riverctl map normal $mod+Shift Return spawn foot
+riverctl map normal $mod L spawn "$bin/select_tool_json.py powermenu"
+riverctl map normal $mod P spawn "$bin/select_tool_json.py custom"
+riverctl map normal $mod N spawn "$bin/notifs list"
+riverctl map normal $mod+Shift E spawn "foot yazi"
+riverctl map normal $mod E spawn neovide
+riverctl map normal $mod B spawn librewolf
+riverctl map normal Control+Shift Escape spawn "foot -T btop btop"
+riverctl map normal Alt Space spawn fuzzel
+riverctl map normal None Print spawn "$bin/screenshot --notify"
+riverctl map normal $mod S spawn "$bin/screenshot --notify"
+riverctl map normal $mod+Shift S spawn "$bin/screenshot_fullscreen --notify"
+
+# views
+riverctl map normal $mod+Shift Q exit
+riverctl map normal $mod+Shift C close
+riverctl map normal $mod V toggle-float
+riverctl map normal $mod+Shift F toggle-fullscreen
+riverctl map normal None F11 toggle-fullscreen
+
+riverctl map normal $mod Return focus-view next
+riverctl map normal $mod Left focus-view left
+riverctl map normal $mod Right focus-view right
+riverctl map normal $mod Up focus-view up
+riverctl map normal $mod Down focus-view down
+riverctl map normal $mod+Shift Left swap left
+riverctl map normal $mod+Shift Right swap right
+riverctl map normal $mod+Shift Up swap up
+riverctl map normal $mod+Shift Down swap down
+# both mods written out, so it doesn't depend on $mod
+riverctl map normal Super+Alt Left send-to-output previous
+riverctl map normal Super+Alt Right send-to-output next
+
+# master / stack
+riverctl map normal $mod minus send-layout-cmd rivertile "main-ratio -0.05"
+riverctl map normal $mod asterisk send-layout-cmd rivertile "main-ratio +0.05"
+riverctl map normal $mod M zoom
+
+riverctl map-pointer normal $mod BTN_LEFT move-view
+riverctl map-pointer normal $mod BTN_RIGHT resize-view
+
+# tags 1-7 as workspaces
+for i in 1 2 3 4 5 6 7; do
+  tags=$((1 << (i - 1)))
+  riverctl map normal $mod $i set-focused-tags $tags
+  riverctl map normal $mod+Shift $i set-view-tags $tags
+done
+
+# resize mode
+riverctl declare-mode resize
+riverctl map normal $mod R enter-mode resize
+riverctl map -repeat resize None Right resize horizontal 10
+riverctl map -repeat resize None Left resize horizontal -10
+riverctl map -repeat resize None Up resize vertical 10
+riverctl map -repeat resize None Down resize vertical -10
+riverctl map resize None Escape enter-mode normal
+
+# media
+for mode in normal locked; do
+  riverctl map -repeat $mode None XF86AudioRaiseVolume spawn 'wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+'
+  riverctl map -repeat $mode None XF86AudioLowerVolume spawn 'wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-'
+  riverctl map $mode None XF86AudioMute spawn 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle'
+  riverctl map $mode None XF86AudioMicMute spawn 'wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle'
+  riverctl map $mode None XF86MonBrightnessUp spawn 'xbacklight -inc 5'
+  riverctl map $mode None XF86MonBrightnessDown spawn 'xbacklight -dec 5'
+  riverctl map $mode None XF86AudioPlay spawn 'playerctl play-pause'
+  riverctl map $mode None XF86AudioPause spawn 'playerctl play-pause'
+  riverctl map $mode None XF86AudioPrev spawn 'playerctl previous'
+  riverctl map $mode None XF86AudioNext spawn 'playerctl next'
+  riverctl map $mode $mod XF86AudioMute spawn 'playerctl previous'
+  riverctl map $mode $mod XF86AudioLowerVolume spawn 'playerctl play-pause'
+  riverctl map $mode $mod XF86AudioRaiseVolume spawn 'playerctl next'
+done
+
+# look
+riverctl border-width 2
+riverctl border-color-focused 0x33ccff
+riverctl border-color-unfocused 0x595959
+
+riverctl rule-add -app-id 'foot' -title 'btop' float
+riverctl rule-add -app-id 'org.godotengine.Editor' float
+riverctl rule-add -app-id 'org.godotengine.ProjectManager' float
+riverctl rule-add -app-id 'org.kde.kdeconnect.daemon' float
+
+# autostart
+riverctl spawn awww-daemon
+riverctl spawn nm-applet
+riverctl spawn "$bin/notifs watch"
+riverctl spawn "$HOME/.config/hypr/scripts/start_idle_tool"
+
+riverctl default-layout rivertile
+rivertile -view-padding 3 -outer-padding 7 -main-ratio 0.6 &

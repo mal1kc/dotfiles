@@ -1,0 +1,247 @@
+{
+  "include": [
+    "custom"
+  ],
+  "options": [
+    {
+      "name": "Window >",
+      "submenu": [
+        {
+          "name": "float / tile",
+          "command": "hyprctl dispatch 'hl.dsp.window.float({ action = \"toggle\" })'"
+        },
+        {
+          "name": "pin (floating)",
+          "command": "hyprctl dispatch 'hl.dsp.window.pin()'"
+        },
+        {
+          "name": "center (floating)",
+          "command": "hyprctl dispatch 'hl.dsp.window.center()'"
+        },
+        {
+          "name": "close",
+          "command": "hyprctl dispatch 'hl.dsp.window.close()'"
+        },
+        {
+          "name": "move to monitor >",
+          "submenu": [
+            {
+              "name": "previous",
+              "command": "hyprctl dispatch 'hl.dsp.window.move({ monitor = \"-1\" })'"
+            },
+            {
+              "name": "next",
+              "command": "hyprctl dispatch 'hl.dsp.window.move({ monitor = \"+1\" })'"
+            }
+          ]
+        },
+        {
+          "name": "group >",
+          "submenu": [
+            {
+              "name": "group / ungroup",
+              "command": "hyprctl dispatch 'hl.dsp.group.toggle()'"
+            },
+            {
+              "name": "next in group",
+              "command": "hyprctl dispatch 'hl.dsp.group.next({ forward = true })'"
+            },
+            {
+              "name": "move out of group",
+              "command": "hyprctl dispatch 'hl.dsp.window.move({ out_of_group = true })'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fullscreen >",
+      "submenu": [
+        {
+          "name": "maximize",
+          "command": "hyprctl dispatch 'hl.dsp.window.fullscreen_state({ internal = 1, client = 0, action = \"toggle\" })'"
+        },
+        {
+          "name": "fake fullscreen",
+          "command": "hyprctl dispatch 'hl.dsp.window.fullscreen_state({ internal = 0, client = 2, action = \"toggle\" })'"
+        },
+        {
+          "name": "real fullscreen",
+          "command": "hyprctl dispatch 'hl.dsp.window.fullscreen_state({ internal = 2, client = 2, action = \"toggle\" })'"
+        }
+      ]
+    },
+    {
+      "name": "Layout >",
+      "submenu": [
+        {
+          "name": "column width >",
+          "submenu": [
+            {
+              "name": "33%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize 0.333\")'"
+            },
+            {
+              "name": "40%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize 0.4\")'"
+            },
+            {
+              "name": "50%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize 0.5\")'"
+            },
+            {
+              "name": "60%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize 0.6\")'"
+            },
+            {
+              "name": "75%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize 0.75\")'"
+            },
+            {
+              "name": "100%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize 1.0\")'"
+            }
+          ]
+        },
+        {
+          "name": "all columns >",
+          "submenu": [
+            {
+              "name": "33%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize all 0.333\")'"
+            },
+            {
+              "name": "50%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize all 0.5\")'"
+            },
+            {
+              "name": "60%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize all 0.6\")'"
+            },
+            {
+              "name": "100%",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"colresize all 1.0\")'"
+            }
+          ]
+        },
+        {
+          "name": "fit >",
+          "submenu": [
+            {
+              "name": "active",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"fit active\")'"
+            },
+            {
+              "name": "visible",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"fit visible\")'"
+            },
+            {
+              "name": "all",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"fit all\")'"
+            },
+            {
+              "name": "expand",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"fit expand\")'"
+            }
+          ]
+        },
+        {
+          "name": "stack into previous column / take out",
+          "command": "hyprctl dispatch 'hl.dsp.layout(\"consume_or_expel prev\")'"
+        },
+        {
+          "name": "move to own column",
+          "command": "hyprctl dispatch 'hl.dsp.layout(\"promote\")'"
+        },
+        {
+          "name": "swap column left",
+          "command": "hyprctl dispatch 'hl.dsp.layout(\"swapcol l\")'"
+        },
+        {
+          "name": "swap column right",
+          "command": "hyprctl dispatch 'hl.dsp.layout(\"swapcol r\")'"
+        }
+      ]
+    },
+    {
+      "name": "Workspace >",
+      "submenu": [
+        {
+          "name": "go to >",
+          "dynamic_submenu": true,
+          "dynamic_command": "hyprctl workspaces -j | jq -r 'map(select(.id > 0)) | sort_by(.id)[].id'",
+          "dynamic_submenu_command": "hyprctl dispatch 'hl.dsp.focus({ workspace = {dynamic_submenu_selected_option} })'"
+        },
+        {
+          "name": "move window to >",
+          "dynamic_submenu": true,
+          "dynamic_command": "seq 1 7",
+          "dynamic_submenu_command": "hyprctl dispatch 'hl.dsp.window.move({ workspace = {dynamic_submenu_selected_option} })'"
+        },
+        {
+          "name": "toggle scratchpad",
+          "command": "hyprctl dispatch 'hl.dsp.workspace.toggle_special(\"\")'"
+        },
+        {
+          "name": "move window to scratchpad",
+          "command": "hyprctl dispatch 'hl.dsp.window.move({ workspace = \"special\" })'"
+        }
+      ]
+    },
+    {
+      "name": "Overview >",
+      "submenu": [
+        {
+          "name": "overview",
+          "command": "hyprctl gloview"
+        },
+        {
+          "name": "all workspaces",
+          "command": "hyprctl gloviewall"
+        },
+        {
+          "name": "desktop",
+          "command": "hyprctl gloviewdesktop"
+        }
+      ]
+    },
+    {
+      "name": "Hyprland notifications >",
+      "submenu": [
+        {
+          "name": "dismiss all",
+          "command": "hyprctl dismissnotify"
+        },
+        {
+          "name": "dismiss oldest",
+          "command": "hyprctl dismissnotify 1"
+        }
+      ]
+    },
+    {
+      "name": "Session >",
+      "submenu": [
+        {
+          "name": "reload config",
+          "command": "hyprctl reload"
+        },
+        {
+          "name": "restart hypridle",
+          "command": "pkill -x hypridle; sleep 0.2; exec hypridle"
+        },
+        {
+          "name": "stop hypridle (stay awake)",
+          "command": "pkill -x hypridle"
+        },
+        {
+          "name": "show config errors",
+          "command": "foot -T configerrors sh -c 'hyprctl configerrors; read -r _'"
+        }
+      ]
+    },
+    {
+      "name": "Power >",
+      "command": "$HOME/.local/bin/select_tool_json.py powermenu"
+    }
+  ]
+}

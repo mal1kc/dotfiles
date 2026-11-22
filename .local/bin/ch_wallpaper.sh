@@ -17,11 +17,8 @@ set_wall_wl() {
     printf "sww: set image %s\n" "$1"
     awww img "$1" --transition-type random --resize fit
   elif pgrep hyprpaper >/dev/null; then
-    hyprctl hyprpaper unload all
-    hyprctl hyprpaper preload "$1"
     printf "hyprpaper: set image %s\n" "$1"
     for mon in $(hyprctl monitors -j | jq -r '.[].name'); do
-      hyprctl hyprpaper wallpaper "$mon,$1"
       hyprctl hyprpaper wallpaper "$mon,$1"
     done
   fi
