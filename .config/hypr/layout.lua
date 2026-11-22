@@ -22,8 +22,8 @@ hl.config({
 	},
 	scrolling = {
 		direction = "right",
-		-- a lone window keeps its column width
-		fullscreen_on_one_column = false,
+		-- a lone window fills the screen
+		fullscreen_on_one_column = true,
 		-- steps of SUPER + minus / asterisk
 		explicit_column_widths = "0.333, 0.4, 0.5, 0.6, 0.75, 1.0",
 	},
@@ -47,11 +47,13 @@ hl.workspace_rule({
 	layout = "master",
 })
 
--- pinned master + scrolling stack (trial)
+-- pinned master + scrolling stack
 local found, masterscroll = pcall(require, "masterscroll")
 if found and masterscroll then
-	hl.workspace_rule({
-		workspace = "7",
-		layout = masterscroll,
-	})
+	for _, workspace in ipairs({ "1", "2", "7" }) do
+		hl.workspace_rule({
+			workspace = workspace,
+			layout = masterscroll,
+		})
+	end
 end

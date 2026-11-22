@@ -16,6 +16,7 @@ riverctl map normal $mod+Shift Return spawn foot
 riverctl map normal $mod L spawn "$bin/select_tool_json.py powermenu"
 riverctl map normal $mod P spawn "$bin/select_tool_json.py custom"
 riverctl map normal $mod N spawn "$bin/notifs list"
+riverctl map normal $mod K spawn "foot -a show_binds nvim -R $HOME/.config/river/classic"
 riverctl map normal $mod+Shift E spawn "foot yazi"
 riverctl map normal $mod E spawn neovide
 riverctl map normal $mod B spawn librewolf
@@ -92,6 +93,7 @@ riverctl border-color-focused 0x33ccff
 riverctl border-color-unfocused 0x595959
 
 riverctl rule-add -app-id 'foot' -title 'btop' float
+riverctl rule-add -app-id 'show_binds' float
 riverctl rule-add -app-id 'org.godotengine.Editor' float
 riverctl rule-add -app-id 'org.godotengine.ProjectManager' float
 riverctl rule-add -app-id 'org.kde.kdeconnect.daemon' float

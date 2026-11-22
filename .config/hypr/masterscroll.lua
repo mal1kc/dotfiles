@@ -1,20 +1,16 @@
--- Master pinned on the left, stack on the right that scrolls up/down to keep
--- the focused window in view. Returns the layout name for workspace rules.
+-- Master pinned on one side (left at start), stack on the other one that scrolls
+-- up/down to keep the focused window in view. Returns the layout name for workspace rules.
 --
 -- The stack scrolls vertically because windows placed past the left/right edge
 -- would show up on the monitor next to it.
+-- Master side and width are per workspace and reset by a config reload.
 -- Limit: Lua layouts don't get mouse resizes, use SUPER + minus / asterisk.
 
 local NAME = "lua:masterscroll"
 local VISIBLE = 2 -- stack windows on screen
 local WIDTHS = { 0.4, 0.5, 0.6, 0.7, 0.8 } -- steps of colresize +conf/-conf
 
-local states = {} -- workspace name -> { mfact, top, master }
-
-local function target_id(target)
-	local window = target.window
-	return window and tostring(window.stable_id) or ("target" .. target.index)
-end
+local states = {} -- workspace name -> { mfact, top, side }
 
 local function state_of(ctx)
 	local name = ""
@@ -25,62 +21,49 @@ local function state_of(ctx)
 			break
 		end
 	end
-	states[name] = states[name] or { mfact = 0.6, top = 1 }
+	states[name] = states[name] or { mfact = 0.6, top = 1, side = "left" }
 	return states[name]
 end
 
--- master target, stack targets, index of the focused one in the stack
-local function arrange(ctx, state)
-	local master = ctx.targets[1]
-	for _, target in ipairs(ctx.targets) do
-		if target_id(target) == state.master then
-			master = target
-			break
+-- The first target is the master, the others are the stack from top to bottom.
+-- Replacing the master swaps targets, like the master layout does.
+local function focused_index(ctx)
+	for i, target in ipairs(ctx.targets) do
+		if target.window and target.window.active then
+			return i
 		end
 	end
-	if not master then
-		return nil, {}, nil
-	end
-
-	local stack, focused = {}, nil
-	local master_id = target_id(master)
-	for _, target in ipairs(ctx.targets) do
-		if target_id(target) ~= master_id then
-			stack[#stack + 1] = target
-			if target.window and target.window.active then
-				focused = #stack
-			end
-		end
-	end
-	return master, stack, focused
 end
 
 local function recalculate(ctx)
 	local state = state_of(ctx)
-	local master, stack, focused = arrange(ctx, state)
+	local master = ctx.targets[1]
 	if not master then
 		return
 	end
-	if #stack == 0 then
+	local count = #ctx.targets - 1 -- stack
+	if count == 0 then
 		master:place(ctx.area)
 		return
 	end
 
-	local rows = math.min(#stack, VISIBLE)
+	local rows = math.min(count, VISIBLE)
+	local focused = (focused_index(ctx) or 1) - 1 -- 0: not in the stack
 	local top = state.top
-	if focused and focused < top then
+	if focused > 0 and focused < top then
 		top = focused
-	elseif focused and focused > top + rows - 1 then
+	elseif focused > top + rows - 1 then
 		top = focused - rows + 1
 	end
-	state.top = math.max(1, math.min(top, #stack - rows + 1))
+	state.top = math.max(1, math.min(top, count - rows + 1))
 
-	master:place(ctx:split(ctx.area, "left", state.mfact))
+	master:place(ctx:split(ctx.area, state.side, state.mfact))
 
-	local side = ctx:split(ctx.area, "right", 1 - state.mfact)
+	local stack_side = state.side == "left" and "right" or "left"
+	local side = ctx:split(ctx.area, stack_side, 1 - state.mfact)
 	local height = side.h / rows
-	for i, target in ipairs(stack) do
-		target:place({
+	for i = 1, count do
+		ctx.targets[i + 1]:place({
 			x = side.x,
 			y = side.y + (i - state.top) * height,
 			w = side.w,
@@ -106,8 +89,33 @@ local function next_width(current, step)
 	return WIDTHS[1]
 end
 
+-- swap the focused window with another one, focus stays on it
+local function swap_with(target)
+	if target and target.window then
+		hl.dispatch(hl.dsp.window.swap({ target = target.window }))
+	end
+end
+
+-- index of the window to swap with when the focused one moves in a direction
+local function neighbor(state, focused, direction)
+	local to_master = state.side == "left" and "l" or "r"
+	if focused == 1 then
+		-- master: only towards the stack
+		local sideways = direction == "l" or direction == "r"
+		return sideways and direction ~= to_master and 1 + state.top or nil
+	end
+	if direction == to_master then
+		return 1
+	elseif direction == "u" and focused > 2 then
+		return focused - 1
+	elseif direction == "d" then
+		return focused + 1
+	end
+end
+
 local function layout_msg(ctx, msg)
 	local state = state_of(ctx)
+	local focused = focused_index(ctx) -- nil: a floating window
 	local command, arg = msg:match("^(%S+)%s*(%S*)")
 
 	if command == "colresize" then
@@ -118,13 +126,24 @@ local function layout_msg(ctx, msg)
 		elseif tonumber(arg) then
 			state.mfact = math.max(0.2, math.min(0.8, tonumber(arg)))
 		end
-	elseif command == "promote" then
-		-- focused stack window becomes master; on the master, swap it with
-		-- the first stack window
-		local _, stack, focused = arrange(ctx, state)
-		local target = stack[focused or 1]
-		if target then
-			state.master = target_id(target)
+	elseif command == "orientationleft" or command == "orientationright" then
+		state.side = command == "orientationleft" and "left" or "right"
+	elseif focused and command == "promote" then
+		-- become master; the master swaps with the first visible stack window
+		swap_with(ctx.targets[focused > 1 and 1 or 1 + state.top])
+	elseif focused and command == "swapcol" then
+		-- one place earlier / later
+		swap_with(ctx.targets[focused + (arg == "l" and -1 or 1)])
+	elseif focused and command == "move" then
+		if arg == "+col" or arg == "-col" then
+			-- wheel: focus goes through master and stack
+			local target = ctx.targets[focused + (arg == "+col" and 1 or -1)]
+			if target and target.window then
+				hl.dispatch(hl.dsp.focus({ window = target.window }))
+			end
+		else
+			local index = neighbor(state, focused, arg)
+			swap_with(index and ctx.targets[index])
 		end
 	end
 	-- "refresh" and scrolling-only messages: Hyprland recalculates anyway

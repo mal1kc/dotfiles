@@ -86,6 +86,7 @@ window-rule {
 }
 window-rule {
     match app-id="^foot$" title="^(btop|countdown|termdown)"
+    match app-id="^show_binds$"
     match app-id=r#"^org\.godotengine\.(Editor|ProjectManager)$"#
     match app-id=r#"^org\.kde\.kdeconnect\.daemon$"#
     open-floating true
@@ -97,6 +98,7 @@ binds {
     Mod+L { spawn-sh "~/.local/bin/select_tool_json.py powermenu"; }
     Mod+P { spawn-sh "~/.local/bin/select_tool_json.py niri"; }
     Mod+N { spawn-sh "~/.local/bin/notifs list"; }
+    Mod+K { spawn-sh "foot -a show_binds nvim -R ~/.config/niri/config.kdl"; }
     Mod+Shift+E { spawn "foot" "yazi"; }
     Mod+E { spawn "neovide"; }
     Mod+B { spawn "librewolf"; }

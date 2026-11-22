@@ -27,7 +27,7 @@ class select_tool_protocol(Protocol):
     def __init__(self) -> None:
         return
 
-    def build_menu(self, options: list[dict[str, Any]]):
+    def build_menu(self, options: list[dict[str, Any]], title: str):
         return
 
     def get_selection(self) -> str:
@@ -45,8 +45,8 @@ class tool_wofi(select_tool_protocol):
         super().__init__()
 
     @override
-    def build_menu(self, options: list[dict[str, Any]]):
-        self.process_cmd = ["wofi", "-d", "-p", "Select an option:"]
+    def build_menu(self, options: list[dict[str, Any]], title: str):
+        self.process_cmd = ["wofi", "-d", "-p", title]
         self.option_names = [option["name"] for option in options]
 
         self.process_out = subprocess.Popen(
@@ -76,9 +76,17 @@ class tool_fuzzel(select_tool_protocol):
         super().__init__()
 
     @override
-    def build_menu(self, options: list[dict[str, Any]]):
-        self.process_cmd = ["fuzzel", "--dmenu", "-p", "Select an option:"]
+    def build_menu(self, options: list[dict[str, Any]], title: str):
         self.option_names = [option["name"] for option in options]
+        # wide enough for the longest option and the prompt
+        width = max(map(len, [*self.option_names, title + " " * 12]), default=0)
+        self.process_cmd = [
+            "fuzzel",
+            "--dmenu",
+            "--minimal-lines",
+            f"--width={min(max(width + 2, 30), 80)}",
+            f"--prompt={title} ❯ ",
+        ]
 
         self.process_out = subprocess.Popen(
             self.process_cmd,
@@ -107,8 +115,8 @@ class tool_rofi(select_tool_protocol):
         super().__init__()
 
     @override
-    def build_menu(self, options: list[dict[str, Any]]):
-        self.process_cmd = ["rofi", "-dmenu", "-p", "Select an option"]
+    def build_menu(self, options: list[dict[str, Any]], title: str):
+        self.process_cmd = ["rofi", "-dmenu", "-p", title]
         self.option_names = [option["name"] for option in options]
 
         self.process_out = subprocess.Popen(
@@ -132,6 +140,7 @@ def build_tool_menu(
     options: list[dict[str, Any]],
     script_pth: str | None = None,
     select_tool: select_tools = select_tools.fuzzel,
+    title: str = "select",
 ) -> None:
     # type check
     if not isinstance(options, list):
@@ -153,7 +162,7 @@ def build_tool_menu(
         print("ERROR: can't create select_tool_helper")
         return
 
-    select_tool_helper.build_menu(options)
+    select_tool_helper.build_menu(options, title)
     selected_option_name = select_tool_helper.get_selection()
     # print(f"{selected_option_name=}")
     if not selected_option_name:
@@ -177,8 +186,13 @@ def build_tool_menu(
             ).strip()
             selected_option["calculated_var"] = calculated_var
 
+        # prompt of the submenu
+        subtitle = selected_option_name.removesuffix(">").strip()
+
         if "submenu" in selected_option:
-            build_tool_menu(selected_option["submenu"], script_pth, select_tool)
+            build_tool_menu(
+                selected_option["submenu"], script_pth, select_tool, subtitle
+            )
         elif (
             "dynamic_submenu" in selected_option and selected_option["dynamic_submenu"]
         ):
@@ -198,6 +212,7 @@ def build_tool_menu(
                 ],
                 script_pth,
                 select_tool,
+                subtitle,
             )
         elif "command" in selected_option:
             command = selected_option["command"]
@@ -245,6 +260,8 @@ def main() -> None:
             continue
         menu_data["options"] = included + menu_data["options"]
 
+    title = os.path.splitext(os.path.basename(args.json))[0]
+
     if "globals" in menu_data:
         if "script" in menu_data["globals"]:
             script = menu_data["globals"]["script"]
@@ -254,10 +271,15 @@ def main() -> None:
                 print(f"Error: Script '{script_pth}' not found.")
                 return
             build_tool_menu(
-                menu_data["options"], script_pth, select_tool=select_tool_selection
+                menu_data["options"],
+                script_pth,
+                select_tool=select_tool_selection,
+                title=title,
             )
     elif "options" in menu_data:
-        build_tool_menu(menu_data["options"], select_tool=select_tool_selection)
+        build_tool_menu(
+            menu_data["options"], select_tool=select_tool_selection, title=title
+        )
     else:
         print("Error: No options found in JSON file.")
         exit(1)

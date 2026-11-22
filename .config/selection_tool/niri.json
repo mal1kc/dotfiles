@@ -4,6 +4,10 @@
   ],
   "options": [
     {
+      "name": "Show keybinds",
+      "command": "foot -a show_binds nvim -R $HOME/.config/niri/config.kdl"
+    },
+    {
       "name": "Window >",
       "submenu": [
         {

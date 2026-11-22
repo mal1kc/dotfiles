@@ -59,6 +59,7 @@ super everywhere, one line to change it to left alt
 ### palette and notifications
 
 * `mod + P` command palette, own items go to [custom.json](./.config/selection_tool/custom.json)
+* `mod + K` show keybinds (opens the bind file read only)
 * `mod + N` notification list --> [notifs](./.local/bin/notifs), how long popups stay is in [fnott.ini](./.config/fnott/fnott.ini)
 
 > [!NOTE]

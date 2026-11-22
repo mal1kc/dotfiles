@@ -74,6 +74,8 @@ bindsym $mod+Shift+e exec $terminal yazi
 bindsym $mod+e exec neovide
 bindsym Control+Shift+Escape exec $terminal -T btop btop
 bindsym $mod+l exec --no-startup-id ~/.local/bin/select_tool_json.py powermenu
+bindsym $mod+k exec $terminal --class show_binds nvim -R ~/.config/i3/config
+for_window [class="^show_binds$"] floating enable
 
 # kill focused window
 bindsym $mod+Shift+c kill

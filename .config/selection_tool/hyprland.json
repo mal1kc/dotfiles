@@ -4,6 +4,10 @@
   ],
   "options": [
     {
+      "name": "Show keybinds",
+      "command": "foot -a show_binds nvim -R $HOME/.config/hypr/binds.lua"
+    },
+    {
       "name": "Window >",
       "submenu": [
         {
@@ -148,6 +152,27 @@
         {
           "name": "stack into previous column / take out",
           "command": "hyprctl dispatch 'hl.dsp.layout(\"consume_or_expel prev\")'"
+        },
+        {
+          "name": "master >",
+          "submenu": [
+            {
+              "name": "become master (masterscroll)",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"promote\")'"
+            },
+            {
+              "name": "become master (master)",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"swapwithmaster\")'"
+            },
+            {
+              "name": "master on the left",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"orientationleft\")'"
+            },
+            {
+              "name": "master on the right",
+              "command": "hyprctl dispatch 'hl.dsp.layout(\"orientationright\")'"
+            }
+          ]
         },
         {
           "name": "move to own column",

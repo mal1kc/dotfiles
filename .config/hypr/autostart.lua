@@ -36,5 +36,4 @@ hl.on("hyprland.start", function()
 		"desktop"
 	)
 	Util.MachineSpecificCfg(hl.exec_cmd, "udiskie -At", "desktop")
-	Util.MachineSpecificCfg(hl.exec_cmd, "~/.config/hypr/scripts/hypr_blfilter_shader_man.py", "desktop")
 end)

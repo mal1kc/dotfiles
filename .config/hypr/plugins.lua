@@ -12,12 +12,22 @@ hl.bind(MainMod .. " + CTRL + TAB", hl.plugin.gloview.allworkspaces)
 
 hl.bind(MainMod .. " + less", hl.plugin.gloview.prev)
 
+-- The overview doesn't follow the real workspace by itself (swipe, bar, palette).
+-- Closed, the workspace is already active and setworkspace does nothing.
+hl.on("workspace.active", function(workspace)
+	local gloview = hl.plugin.gloview -- nil after an unload
+	if gloview and workspace and workspace.id then
+		gloview.setworkspace(workspace.id)
+	end
+end)
+
 -- SUPER + 1..7 are in binds.lua; inside the overview plain 1..0 work (key_workspace)
 
 hl.config({
 	plugin = {
 		gloview = {
-			layout = "natural",
+			-- not "natural": it overlaps windows of different workspaces (all view, monocle)
+			layout = "rows",
 			gap = 34,
 			padding = 80,
 			padding_top = 40,
@@ -59,7 +69,7 @@ hl.config({
 			key_all_workspaces = "a",
 			key_workspace = "1,2,3,4,5,6,7,8,9,0",
 
-			show_all_workspaces = 1,
+			show_all_workspaces = 0, -- SUPER + CTRL + TAB or a
 			show_empty = 1,
 			dynamic_workspaces = 1,
 			autodelete_empty = 1,

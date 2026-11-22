@@ -54,6 +54,8 @@ hl.bind(mainMod .. " + SHIFT +  Return", hl.dsp.exec_cmd(term))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd(interactive_powermenu))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(palette))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(home_dir .. "/.local/bin/notifs list"))
+-- show this file (read only)
+hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("foot -a show_binds nvim -R " .. home_dir .. "/.config/hypr/binds.lua"))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(term .. " yazi"))
 hl.bind(mainMod .. " + E ", hl.dsp.exec_cmd("neovide"))
 hl.bind(mainMod .. " + B ", hl.dsp.exec_cmd("librewolf"))
@@ -101,10 +103,43 @@ hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 hl.bind(mainMod .. " + Return", hl.dsp.window.cycle_next(""))
 
-hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "l", group_aware = true }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r", group_aware = true }))
-hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u", group_aware = true }))
-hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d", group_aware = true }))
+-- Move the window. Towards the master: become master (master and masterscroll).
+-- Lua layouts only know previous/next, so masterscroll gets a layout message.
+local function move_window(direction)
+	local move = hl.dsp.window.move({ direction = direction, group_aware = true })
+	return function()
+		local window = hl.get_active_window()
+		local workspace = Util.layout_workspace()
+		if
+			window
+			and not window.floating
+			and not window.group
+			and workspace
+			and workspace.tiled_layout == "lua:masterscroll"
+			and window.workspace
+			and window.workspace.name == workspace.name
+		then
+			hl.dispatch(hl.dsp.layout("move " .. direction))
+		else
+			hl.dispatch(move)
+		end
+	end
+end
+
+hl.bind(mainMod .. " + SHIFT + left", move_window("l"))
+hl.bind(mainMod .. " + SHIFT + right", move_window("r"))
+hl.bind(mainMod .. " + SHIFT + up", move_window("u"))
+hl.bind(mainMod .. " + SHIFT + down", move_window("d"))
+
+-- master area on the left / right side
+hl.bind(
+	mainMod .. " + CTRL + left",
+	layout_msg({ master = "orientationleft", ["lua:masterscroll"] = "orientationleft" })
+)
+hl.bind(
+	mainMod .. " + CTRL + right",
+	layout_msg({ master = "orientationright", ["lua:masterscroll"] = "orientationright" })
+)
 
 hl.bind(mainMod .. " + " .. AltMod .. " + left", hl.dsp.window.move({ monitor = "-1" }))
 hl.bind(mainMod .. " + " .. AltMod .. " + right", hl.dsp.window.move({ monitor = "+1" }))
@@ -115,7 +150,14 @@ hl.bind(mainMod .. " + SHIFT + n", hl.dsp.window.cycle_next(""))
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 7 do
 	local key = i % 10 -- 10 maps to key 0
-	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
+	hl.bind(mainMod .. " + " .. key, function()
+		hl.dispatch(hl.dsp.focus({ workspace = i }))
+		-- an open overview may show another workspace than the real one
+		local gloview = hl.plugin.gloview
+		if gloview then
+			gloview.setworkspace(i)
+		end
+	end)
 	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
@@ -126,17 +168,40 @@ hl.bind(mainMod .. " + X", hl.dsp.window.move({ workspace = "special" }))
 hl.bind(mainMod .. " + SHIFT + mouse_up", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + SHIFT + mouse_down", hl.dsp.focus({ workspace = "e-1" }))
 
-hl.bind(mainMod .. " + mouse_up", hl.dsp.layout("move +col"))
-hl.bind(mainMod .. " + mouse_down", hl.dsp.layout("move -col"))
+-- next / previous column or window
+local next_col = layout_msg({
+	scrolling = "move +col",
+	["lua:masterscroll"] = "move +col",
+	master = "cyclenext",
+	monocle = "cyclenext",
+})
+local prev_col = layout_msg({
+	scrolling = "move -col",
+	["lua:masterscroll"] = "move -col",
+	master = "cycleprev",
+	monocle = "cycleprev",
+})
+hl.bind(mainMod .. " + mouse_up", next_col)
+hl.bind(mainMod .. " + mouse_down", prev_col)
 
-hl.bind(mainMod .. " + page_up", hl.dsp.layout("move +col"))
-hl.bind(mainMod .. " + page_down", hl.dsp.layout("move -col"))
+hl.bind(mainMod .. " + page_up", next_col)
+hl.bind(mainMod .. " + page_down", prev_col)
 
 -- ö, ç
 
-hl.bind(mainMod .. " +  odiaeresis", hl.dsp.layout("swapcol l"))
-hl.bind(mainMod .. " +  ccedilla", hl.dsp.layout("swapcol r"))
-hl.bind(mainMod .. " +  period", hl.dsp.layout("promote"))
+hl.bind(
+	mainMod .. " +  odiaeresis",
+	layout_msg({ scrolling = "swapcol l", ["lua:masterscroll"] = "swapcol l", master = "swapprev" })
+)
+hl.bind(
+	mainMod .. " +  ccedilla",
+	layout_msg({ scrolling = "swapcol r", ["lua:masterscroll"] = "swapcol r", master = "swapnext" })
+)
+-- scrolling: own column, master and masterscroll: become master
+hl.bind(
+	mainMod .. " +  period",
+	layout_msg({ scrolling = "promote", ["lua:masterscroll"] = "promote", master = "swapwithmaster" })
+)
 
 -- narrower / wider (the two keys right of 0 on TR-Q are asterisk and minus)
 hl.bind(
