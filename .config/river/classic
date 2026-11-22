@@ -7,6 +7,8 @@ mod=Super
 riverctl keyboard-layout tr
 riverctl set-repeat 50 300
 riverctl set-cursor-warp on-output-change
+# no delay like hover.lua
+riverctl focus-follows-cursor normal
 riverctl hide-cursor when-typing enabled
 
 bin="$HOME/.local/bin"
@@ -14,7 +16,7 @@ bin="$HOME/.local/bin"
 # apps
 riverctl map normal $mod+Shift Return spawn foot
 riverctl map normal $mod L spawn "$bin/select_tool_json.py powermenu"
-riverctl map normal $mod P spawn "$bin/select_tool_json.py custom"
+riverctl map normal $mod P spawn "$bin/select_tool_json.py river"
 riverctl map normal $mod N spawn "$bin/notifs list"
 riverctl map normal $mod K spawn "foot -a show_binds nvim -R $HOME/.config/river/classic"
 riverctl map normal $mod+Shift E spawn "foot yazi"
@@ -34,6 +36,9 @@ riverctl map normal $mod+Shift F toggle-fullscreen
 riverctl map normal None F11 toggle-fullscreen
 
 riverctl map normal $mod Return focus-view next
+riverctl map normal $mod+Shift N focus-view next
+riverctl map normal $mod Page_Up focus-view next
+riverctl map normal $mod Page_Down focus-view previous
 riverctl map normal $mod Left focus-view left
 riverctl map normal $mod Right focus-view right
 riverctl map normal $mod Up focus-view up
@@ -49,7 +54,14 @@ riverctl map normal Super+Alt Right send-to-output next
 # master / stack
 riverctl map normal $mod minus send-layout-cmd rivertile "main-ratio -0.05"
 riverctl map normal $mod asterisk send-layout-cmd rivertile "main-ratio +0.05"
-riverctl map normal $mod M zoom
+riverctl map normal $mod M send-layout-cmd rivertile "main-ratio 0.6"
+# become master
+riverctl map normal $mod period zoom
+riverctl map normal $mod odiaeresis swap previous
+riverctl map normal $mod ccedilla swap next
+# master area on the left / right side
+riverctl map normal $mod+Control Left send-layout-cmd rivertile "main-location left"
+riverctl map normal $mod+Control Right send-layout-cmd rivertile "main-location right"
 
 riverctl map-pointer normal $mod BTN_LEFT move-view
 riverctl map-pointer normal $mod BTN_RIGHT resize-view
@@ -60,6 +72,12 @@ for i in 1 2 3 4 5 6 7; do
   riverctl map normal $mod $i set-focused-tags $tags
   riverctl map normal $mod+Shift $i set-view-tags $tags
 done
+
+# scratchpad: a tag that new views never get
+scratch=$((1 << 20))
+riverctl spawn-tagmask $((((1 << 32) - 1) ^ scratch))
+riverctl map normal $mod C toggle-focused-tags $scratch
+riverctl map normal $mod X set-view-tags $scratch
 
 # resize mode
 riverctl declare-mode resize
@@ -94,15 +112,13 @@ riverctl border-color-unfocused 0x595959
 
 riverctl rule-add -app-id 'foot' -title 'btop' float
 riverctl rule-add -app-id 'show_binds' float
+riverctl rule-add -app-id 'show_binds' dimensions 1100 750
 riverctl rule-add -app-id 'org.godotengine.Editor' float
 riverctl rule-add -app-id 'org.godotengine.ProjectManager' float
 riverctl rule-add -app-id 'org.kde.kdeconnect.daemon' float
 
 # autostart
-riverctl spawn awww-daemon
-riverctl spawn nm-applet
-riverctl spawn "$bin/notifs watch"
-riverctl spawn "$HOME/.config/hypr/scripts/start_idle_tool"
+riverctl spawn "$bin/wm_autostart"
 
 riverctl default-layout rivertile
 rivertile -view-padding 3 -outer-padding 7 -main-ratio 0.6 &

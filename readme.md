@@ -58,7 +58,7 @@ super everywhere, one line to change it to left alt
 
 ### palette and notifications
 
-* `mod + P` command palette, own items go to [custom.json](./.config/selection_tool/custom.json)
+* `mod + P` command palette, own items go to [custom.json](./.config/selection_tool/custom.json) (i3 has its own [i3.json](./.config/selection_tool/i3.json))
 * `mod + K` show keybinds (opens the bind file read only)
 * `mod + N` notification list --> [notifs](./.local/bin/notifs), how long popups stay is in [fnott.ini](./.config/fnott/fnott.ini)
 
@@ -67,6 +67,8 @@ super everywhere, one line to change it to left alt
 
 > [!WARNING]
 > niri, river-classic and i3 follow hyprland binds but i mostly use hyprland, others are less tested
+>
+> master scroll, delayed hover focus + flash and gloview are only on hyprland, others don't have them
 >
 > `river` (0.4+) is not supported for now, only `river-classic`
 

@@ -9,21 +9,21 @@ self=$(readlink -f -- "$0") || self=$0
 repo=$(dirname -- "$(dirname -- "$(dirname -- "$self")")")
 
 from_hostname() {
-  name=$(hostnamectl hostname 2>/dev/null) || name=$(uname -n)
-  case $(printf '%s' "$name" | tr '[:upper:]' '[:lower:]') in
-  *laptop*) echo laptop ;;
-  *) echo desktop ;;
-  esac
+	name=$(hostnamectl hostname 2>/dev/null) || name=$(uname -n)
+	case $(printf '%s' "$name" | tr '[:upper:]' '[:lower:]') in
+	*laptop*) echo laptop ;;
+	*) echo desktop ;;
+	esac
 }
 
 if [ -e "$repo/.this_is_desktop" ] && [ -e "$repo/.this_is_laptop" ]; then
-  echo "machine_type: both .this_is_desktop and .this_is_laptop are in $repo" >&2
-  from_hostname
-  exit 2
+	echo "machine_type: both .this_is_desktop and .this_is_laptop are in $repo" >&2
+	from_hostname
+	exit 2
 elif [ -e "$repo/.this_is_desktop" ]; then
-  echo desktop
+	echo desktop
 elif [ -e "$repo/.this_is_laptop" ]; then
-  echo laptop
+	echo laptop
 else
-  from_hostname
+	from_hostname
 fi

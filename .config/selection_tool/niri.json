@@ -109,6 +109,14 @@
         {
           "name": "swap column right",
           "command": "niri msg action move-column-right"
+        },
+        {
+          "name": "make first column",
+          "command": "niri msg action move-column-to-first"
+        },
+        {
+          "name": "make last column",
+          "command": "niri msg action move-column-to-last"
         }
       ]
     },
@@ -139,6 +147,18 @@
         {
           "name": "reload config",
           "command": "niri msg action load-config-file"
+        },
+        {
+          "name": "restart hypridle",
+          "command": "pkill -x hypridle; sleep 0.2; exec hypridle"
+        },
+        {
+          "name": "stop hypridle (stay awake)",
+          "command": "pkill -x hypridle"
+        },
+        {
+          "name": "check config",
+          "command": "foot -T niri_validate sh -c 'niri validate; read -r _'"
         },
         {
           "name": "show hotkeys",

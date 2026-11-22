@@ -42,9 +42,8 @@ exec --no-startup-id dex --autostart --environment i3
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+# nm-applet, kdeconnect, keepassxc ... same as the other compositors
+exec --no-startup-id ~/.local/bin/wm_autostart
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -75,7 +74,8 @@ bindsym $mod+e exec neovide
 bindsym Control+Shift+Escape exec $terminal -T btop btop
 bindsym $mod+l exec --no-startup-id ~/.local/bin/select_tool_json.py powermenu
 bindsym $mod+k exec $terminal --class show_binds nvim -R ~/.config/i3/config
-for_window [class="^show_binds$"] floating enable
+for_window [class="^show_binds$"] floating enable, resize set 60 ppt 80 ppt, move position center
+bindsym $mod+p exec --no-startup-id ~/.local/bin/select_tool_json.py i3
 
 # kill focused window
 bindsym $mod+Shift+c kill
@@ -101,6 +101,11 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 bindsym $mod+Return focus next
+bindsym $mod+Shift+n focus next
+bindsym $mod+Prior focus right
+bindsym $mod+Next focus left
+bindsym --whole-window $mod+button4 focus right
+bindsym --whole-window $mod+button5 focus left
 # move focused window
 bindsym $mod+z focus child
 
@@ -108,6 +113,9 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+bindsym $mod+odiaeresis move left
+bindsym $mod+ccedilla move right
 
 # both mods written out, so it doesn't depend on $mod
 bindsym Mod4+Mod1+Left move container to output left
@@ -127,6 +135,7 @@ bindsym F11 fullscreen toggle
 # narrower / wider
 bindsym $mod+minus resize shrink width 5 px or 5 ppt
 bindsym $mod+asterisk resize grow width 5 px or 5 ppt
+bindsym $mod+m resize set width 60 ppt
 
 # scratchpad
 bindsym $mod+x move scratchpad
@@ -137,6 +146,10 @@ bindsym $mod+Control+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+Control+Shift+s layout default
 bindsym $mod+j layout toggle split
+
+# tabbed container = group
+bindsym $mod+Shift+t layout toggle tabbed split
+bindsym $mod+t focus next sibling
 
 # toggle tiling / floating
 bindsym $mod+v floating toggle
@@ -177,6 +190,10 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 #bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+less workspace prev_on_output
+bindsym --whole-window $mod+Shift+button4 workspace next_on_output
+bindsym --whole-window $mod+Shift+button5 workspace prev_on_output
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
