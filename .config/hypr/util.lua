@@ -85,7 +85,9 @@ end
 -- a visible floating window at that point, other than `except`
 function M.floating_at(pos, except)
 	for _, window in ipairs(hl.get_windows({ floating = true })) do
-		if window.visible and M.inside(window, pos) and not (except and window.address == except.address) then
+		-- `visible` is also true on workspaces that aren't shown
+		local shown = window.visible and (window.pinned or (window.workspace and window.workspace.active))
+		if shown and M.inside(window, pos) and not (except and window.address == except.address) then
 			return window
 		end
 	end

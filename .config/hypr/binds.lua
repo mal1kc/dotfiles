@@ -231,20 +231,36 @@ hl.bind(mainMod .. " + comma", layout_msg({ scrolling = "consume_or_expel prev" 
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
--- Called at press and again at release. Lua layouts aren't told how far the mouse
--- went, masterscroll reads it from Util.mouse_resize.
+-- Lua layouts aren't told how far the mouse went, so masterscroll moves its
+-- borders by Util.mouse_resize and the timer makes it look while the mouse moves.
+local follow = hl.timer(function()
+	local drag = Util.mouse_resize
+	local pos = drag and drag.workspace and hl.get_cursor_pos()
+	if pos and (pos.x ~= drag.x or pos.y ~= drag.y) then
+		hl.dispatch(hl.dsp.layout("refresh"))
+	end
+end, { timeout = 16, type = "repeat" })
+follow:set_enabled(false)
+
+-- called at press and again at release
 hl.bind(mainMod .. " + mouse:273", function()
-	local pos = hl.get_cursor_pos()
-	local workspace = Util.layout_workspace()
 	if Util.mouse_resize then
 		Util.mouse_resize = nil
-	else
-		-- workspace stays nil on floating windows: nothing in the layout moves
-		local tiled = pos and workspace and not Util.floating_at(pos)
-		Util.mouse_resize = { x = pos and pos.x, y = pos and pos.y, workspace = tiled and workspace.name }
+		follow:set_enabled(false)
+		return hl.dispatch(hl.dsp.window.resize())
 	end
-	-- its result asks Hyprland for the release call
-	return hl.dispatch(hl.dsp.window.resize())
+	-- focuses the window under the mouse, its result asks for the release call
+	local result = hl.dispatch(hl.dsp.window.resize())
+	local pos = hl.get_cursor_pos()
+	local window = pos and masterscroll_window()
+	if window then
+		Util.mouse_resize = { x = pos.x, y = pos.y, workspace = window.workspace.name }
+		follow:set_enabled(true)
+	else
+		-- other layouts and floating windows: hyprland does it
+		Util.mouse_resize = {}
+	end
+	return result
 end, { mouse = true })
 
 -- will switch to a submap called resize
