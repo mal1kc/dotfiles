@@ -5,31 +5,15 @@
 if command -v hypridle >/dev/null; then
 	hypridle
 else
+	# screens off; sleep only with a battery
 	swayidle -w \
 		timeout 900 "$HOME/.config/hypr/scripts/lock" \
 		timeout 1200 '
-      hyprctl monitors | grep HDMI
-      ret=$?
-          
-          if [ $ret -eq 0 ]	
-      then
-        hyprctl dispatch "hl.dsp.dpms({ monitor = \"DP-1\", action = \"disable\" })"
-      else
-        hyprctl dispatch "hl.dsp.dpms({ monitor = \"eDP-1\", action = \"disable\" })"
-      fi
-
-          systemctl suspend' \
-		resume '
-      hyprctl monitors | grep HDMI
-      ret=$?
-
-      if [ $ret -eq 0 ]	
-      then
-        hyprctl dispatch "hl.dsp.dpms({ monitor = \"DP-1\", action = \"enable\" })"
-      else
-        hyprctl dispatch "hl.dsp.dpms({ monitor = \"eDP-1\", action = \"enable\" })"
-      fi
-      ' \
+			hyprctl dispatch "hl.dsp.dpms({ action = \"disable\" })"
+			for battery in /sys/class/power_supply/BAT*; do
+				[ -e "$battery" ] && systemctl suspend && break
+			done' \
+		resume 'hyprctl dispatch "hl.dsp.dpms({ action = \"enable\" })"' \
 		before-sleep "$HOME/.config/hypr/scripts/lock" \
 		lock "$HOME/.config/hypr/scripts/lock"
 fi

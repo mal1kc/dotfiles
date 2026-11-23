@@ -43,7 +43,7 @@ exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # nm-applet, kdeconnect, keepassxc ... same as the other compositors
-exec --no-startup-id ~/.local/bin/wm_autostart
+exec --no-startup-id ~/.local/bin/wm_autostart i3
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status

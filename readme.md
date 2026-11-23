@@ -31,16 +31,49 @@ this config is my main setup config for archlinux laptop experience, for persona
 > after a manual `git pull` new files are not linked until install, hyprland can fall back to us keyboard layout until then. use `./install.py update` or do it in one line
 
 ```sh
-./install.py machine laptop          # or desktop, once per machine
+./install.py machine laptop          # or desktop, base or your own, once per machine
 ./install.py install --wayland       # and/or --x11, remembered for later
 ./install.py update                  # git pull, relink, remove dead links, reload hyprland
 ./install.py status                  # what is missing, wrong or dead
 ```
 
-* `machine` creates `.this_is_laptop` / `.this_is_desktop` in the repo (not tracked, only one of them), without one hostname decides --> [machine_type](./.local/bin/machine_type)
-* `machines/<laptop|desktop>/` mirrors `$HOME`, files in there win over shared ones
+* `machine` creates `.this_is_<name>` in the repo (not tracked, only one of them). without one a machine name in the hostname decides, otherwise it is `base`
+* `.config`, `.local` etc. in the repo root are the core, same on every machine. `machines/<name>/` mirrors `$HOME`, files in there win over core ones
+* `machines/base/` works on any hardware: monitors, mouse, gpu and location are not set in it. it is a start for new machines
+
 * `update` refuses if there are uncommitted changes (btop writes its own config, that counts too)
 * [sys_settings](./sys_settings/) is not installed, needs root
+
+### new machine
+
+```sh
+./install.py new work --from base    # or laptop, desktop, without --from the current one is copied
+./install.py install --wayland --prune --reload
+```
+
+or install one first, try it, then make yours from it
+
+```sh
+./install.py machine laptop && ./install.py install --wayland
+./install.py new work                # copy of laptop, this machine uses it now
+./install.py install --prune --reload
+```
+
+then edit and commit `machines/work/`, other machines don't change
+
+| file | what |
+|--- |--- |
+| `.config/hypr/machine.lua` | hyprland monitors and settings, loaded last so it can override everything |
+| `.config/niri/machine.kdl` | same for niri |
+| `.config/hypr/hypridle.conf` | what happens on idle (laptop suspends, others only notify) |
+| `.local/bin/machine_autostart` | bar and other programs, for every compositor |
+| `.config/fuzzel/fuzzel.ini`, `.config/hypr/hyprlock.conf`, `.config/kanata/config.kbd` | font size, lock screen, caps key timing |
+| any other file | copy it there with the same path to change it only for that machine (e.g. `.config/foot/foot.ini`) |
+
+> [!NOTE]
+> `base` has no wallpaper changer or blue light filter (commented, needs your location), its bar is `ashell`
+>
+> machines don't follow `base` after they are created, `install` and `status` only tell which files are missing
 
 <details>
 <summary>keybinds, palette and notifications</summary>

@@ -22,11 +22,9 @@ end
 use("binds")
 use("gestures")
 
-use("monitors")
 use("env")
 use("input")
 use("look")
-use("bluelight")
 use("layout")
 use("anims")
 use("window_rules")
@@ -35,3 +33,7 @@ use("layer_rules")
 
 use("autostart")
 use("plugins")
+
+-- machines/<name>/.config/hypr/machine.lua, last so it can override everything
+-- (full path: it is not next to the real hyprland.lua in the repo)
+use("~/.config/hypr/machine.lua")

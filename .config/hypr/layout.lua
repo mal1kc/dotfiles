@@ -1,20 +1,5 @@
 -- scrolling everywhere, except the workspaces below
 
-Util.MachineSpecificCfg(hl.config, {
-	scrolling = {
-		column_width = 0.5,
-		follow_min_visible = 0.1,
-	},
-}, "desktop")
-
-Util.MachineSpecificCfg(hl.config, {
-	scrolling = {
-		focus_fit_method = 1,
-		column_width = 0.6,
-		follow_min_visible = 0.15,
-	},
-}, "laptop")
-
 hl.config({
 	general = {
 		-- layout = dwindle

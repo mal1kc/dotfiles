@@ -1,0 +1,12 @@
+// Settings of this machine, included at the end of config.kdl
+
+output "DP-1" {
+    mode "2560x1440"
+    scale 1
+    position x=0 y=0
+}
+output "DP-2" {
+    mode "1600x900"
+    scale 1
+    position x=2560 y=300
+}

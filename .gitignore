@@ -9,6 +9,5 @@ dotfiles_installer.log
 __pycache__/
 
 # machine type and remembered install.py flags, different on every machine
-.this_is_desktop
-.this_is_laptop
+.this_is_*
 .install_profile

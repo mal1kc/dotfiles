@@ -24,25 +24,6 @@ cursor {
     hide-after-inactive-ms 20000
 }
 
-// laptop
-output "eDP-1" {
-    mode "1920x1080"
-    scale 1
-    position x=0 y=0
-}
-
-// desktop
-output "DP-1" {
-    mode "2560x1440"
-    scale 1
-    position x=0 y=0
-}
-output "DP-2" {
-    mode "1600x900"
-    scale 1
-    position x=2560 y=300
-}
-
 layout {
     gaps 7
     center-focused-column "never"
@@ -74,8 +55,7 @@ hotkey-overlay {
     skip-at-startup
 }
 
-spawn-sh-at-startup "~/.local/bin/wm_autostart"
-spawn-sh-at-startup "if [ \"$(~/.local/bin/machine_type)\" = laptop ]; then ashell; else qs -c noctalia-shell; fi"
+spawn-sh-at-startup "~/.local/bin/wm_autostart niri"
 
 window-rule {
     geometry-corner-radius 2
@@ -208,3 +188,6 @@ binds {
     Mod+XF86AudioLowerVolume allow-when-locked=true { spawn "playerctl" "play-pause"; }
     Mod+XF86AudioRaiseVolume allow-when-locked=true { spawn "playerctl" "next"; }
 }
+
+// machines/<name>/.config/niri/machine.kdl, last so it can override everything
+include optional=true "~/.config/niri/machine.kdl"

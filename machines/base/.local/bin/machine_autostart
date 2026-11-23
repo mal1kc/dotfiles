@@ -1,0 +1,19 @@
+#!/bin/sh
+# Programs only this machine starts. $1: hyprland, niri, river or i3.
+
+run() {
+	command -v "$1" >/dev/null && "$@" &
+}
+
+# bar
+case $1 in
+hyprland | niri) run ashell ;;
+esac
+
+# not set in base:
+# run udiskie -At
+# "$HOME/.config/hypr/scripts/change_wallpaper_after_n.sh" >"$HOME/.cache/ch_wallpaper.log" &
+# blue light filter (latitude, longitude), hyprland has its own (machine.lua)
+# [ "$1" = hyprland ] || run "$HOME/.local/bin/start_wlsunset.sh" 0 0
+
+exit 0
