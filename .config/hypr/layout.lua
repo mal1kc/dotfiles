@@ -47,10 +47,10 @@ hl.workspace_rule({
 	layout = "master",
 })
 
--- pinned master + scrolling stack
+-- pinned master + scrolling stack on 2 and 3, workspace 1 stays scrolling
 local found, masterscroll = pcall(require, "masterscroll")
 if found and masterscroll then
-	for _, workspace in ipairs({ "1", "2", "7" }) do
+	for _, workspace in ipairs({ "2", "3" }) do
 		hl.workspace_rule({
 			workspace = workspace,
 			layout = masterscroll,
