@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# dependecies is gtk4 and python bindings
+# dependencies is gtk4 and python bindings
 #
 import sys
 import gi

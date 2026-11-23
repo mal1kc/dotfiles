@@ -28,449 +28,551 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."""
-# this script's main functionality can be achieven with gnu stow
-# but still writed this script because i don't understand perl
 #
-# this script has this features
-# - dotfiles location is hardcoded as $HOME/dotfiles
-# - has abilitiy to with verbose toggle (-v or --verbose) also has abilitiy to show change diff (--diff)
-# - has abilitiy to run in dry mode (--dry)
+# Links the dotfiles of this repo into $HOME (could be done with gnu stow, but
+# i don't understand perl). See `install.py --help` and readme.md.
 #
-# - if crash or die while creating symlinks non tar backups can be located uner /tmp with some rundtime defined folder
-#
-# - it will modify home folders listed in DOTFILE_LIST and not in IGNORE_FILES
-#
-# - in nondry run:
-#    - will create recursive symlinks files based of hardcoded directory of files : you can edit it via DOTFILE_LIST constant
-#    - will create a backup tar file of replaced files for last 3 runs (oldest is higher num) under dotfiles dir
-#    - will create log file of  excuted operations dotfiles_installer.log at dotfiles dir
+# - files of DOTFILES + the remembered --wayland / --x11 groups are symlinked
+#   one by one, directories are real directories
+# - machines/<desktop|laptop>/ mirrors $HOME and wins over the shared file
+# - the machine comes from .this_is_desktop / .this_is_laptop in this repo
+# - replaced files go to .dotfiles_backups/, the last 3 archives are kept
+# - log of the last change: dotfiles_installer.log
 #
 import argparse
+import logging
 import os
 import shutil
+import socket
+import subprocess
 import sys
+import tarfile
 import tempfile
-import logging
+from collections import Counter
 from pathlib import Path
-from typing import Callable
-
-# from difflib import Differ
 
 HOME_DIR: Path = Path.home()
-
-DOTFILES_DIR: Path = HOME_DIR.joinpath("dotfiles")
-LOGFILE: Path = DOTFILES_DIR.joinpath("dotfiles_installer.log")
-BACKUPS_DIR: Path = DOTFILES_DIR.joinpath(".dotfiles_backups")
-BACKUP_TAR_BASE_NAME = "dotfiles_bckp"
+DOTFILES_DIR: Path = Path(__file__).resolve().parent
+LOGFILE: Path = DOTFILES_DIR / "dotfiles_installer.log"
+PROFILE_FILE: Path = DOTFILES_DIR / ".install_profile"
+BACKUPS_DIR: Path = DOTFILES_DIR / ".dotfiles_backups"
+BACKUP_BASE_NAME = "dotfiles_bckp"
 BACKUP_MAX_LMT = 3
-BACKUP_TAR_FILE_FORMAT = ("tar.gz", "gztar")
 
-BACKUP_TMP_DIR: tempfile.TemporaryDirectory = (
-    tempfile.TemporaryDirectory()
-)  # for creating tar_file
+MACHINES = ("desktop", "laptop")
+PROFILES = ("wayland", "x11")
+SKIP_NAMES = {"__pycache__", ".git"}
 
-LOGGER = logging.Logger("main")
-LOGGER.setLevel(logging.INFO)
-LOGGER.addHandler(logging.FileHandler(LOGFILE.absolute(), "w", "utf-8"))
-assert LOGGER.hasHandlers()
-LOGGER.handlers[0].formatter = logging.Formatter(
-    "%(asctime)s - %(levelname)s - %(message)s"
-)
-
-
-DOTFILE_LIST: list[Path] = [
-    Path(config)
-    for config in [
-        # .config
-        ".config/bat",
-        ".config/fish",
-        ".config/gamemode.ini",
-        ".config/kanata",
-        ".config/nnn",
-        ".config/nsxiv",
-        ".config/sounds",
-        ".config/systemd",
-        ".config/wallust",
-        ".config/zsh",
-        ".config/selection_tool",
-        # .local
-        ".local/bin",
-        ".local/share/applications",
-        ".bashrc",
-        ".gitconfig_aliases",
-        # import gitconfig aliases
-        # [include]
-        #   path = ~/.gitconfig_aliases
-        ".inputrc",
-        ".zshrc",
-    ]
+DOTFILES: list[str] = [
+    # .config
+    ".config/bat",
+    ".config/btop",
+    ".config/fish",
+    ".config/gamemode.ini",
+    ".config/kanata",
+    ".config/kitty",
+    ".config/mpv",
+    ".config/nnn",
+    ".config/nsxiv",
+    ".config/selection_tool",
+    ".config/sounds",
+    ".config/systemd",
+    ".config/tmux",
+    ".config/wallust",
+    ".config/yazi",
+    ".config/zsh",
+    # .local
+    ".local/bin",
+    ".local/share/applications",
+    ".bashrc",
+    ".gitconfig_aliases",
+    # import gitconfig aliases
+    # [include]
+    #   path = ~/.gitconfig_aliases
+    ".inputrc",
+    ".zshrc",
 ]
 
-
-IGNORE_FILES: list[Path] = [
-    Path(ignr_config)
-    for ignr_config in [
-        str(BACKUPS_DIR),
-        str(LOGFILE),
-        ".firefox_scripts_configs",
-        ".git",
-        ".gitignore",
-        ".gitmodules",
-        ".pre-commit-config.yaml",
-        "dotfiles_installers",
-        "install.py",
-        "nix_profile_pkg_list.txt",
-        "pkg_list.txt",
-        "readme.org",
-        "scripts",
-    ]
-]
-
-
-class global_options:
-    dry_run: bool = True
-    verbose: bool = False
-    do_backup: bool = True
-    exit_on_err: bool = True
-    dotfiles: list[Path] = [
-        dfile for dfile in DOTFILE_LIST if dfile not in IGNORE_FILES
-    ]
-
-
-OTHER_DOTFILES: dict[str, list[Path]] = {
+PROFILE_DOTFILES: dict[str, list[str]] = {
     "x11": [
-        Path(x11config)
-        for x11config in [
-            ".Xresources",
-            ".config/i3",
-            ".xinitrc",
-            ".xprofile",
-            # ".config/picom.conf",
-            # ".config/rofi",
-        ]
+        ".Xresources",
+        ".config/i3",
+        ".xinitrc",
+        ".xprofile",
+        # ".config/picom.conf",
+        # ".config/rofi",
     ],
     "wayland": [
-        Path(waylandconfig)
-        for waylandconfig in [
-            ".config/foot",
-            ".config/fuzzel",
-            ".config/hypr",
-            ".config/river",
-            ".config/swaync",
-            ".config/waybar",
-            # ".config/wofi",
-        ]
+        ".config/foot",
+        ".config/fuzzel",
+        ".config/hypr",
+        ".config/niri",
+        ".config/river",
+        ".config/waybar",
+        # ".config/wofi",
     ],
 }
 
+# only on that machine, together with that profile
+MACHINE_DOTFILES: dict[str, dict[str, list[str]]] = {
+    "desktop": {"wayland": [".config/noctalia", ".config/swaync"]},
+    "laptop": {"wayland": [".config/ashell", ".config/fnott"]},
+}
 
-def mkdirs(fpath: str | Path) -> None:
-    if isinstance(fpath, Path):
-        fpath.mkdir(parents=True)
-    elif isinstance(fpath, str):
-        fpath_p = Path(fpath)
-        fpath_p.mkdir(parents=True)
-    else:
-        LOGGER.debug(f"Missuse of mkdirs with {fpath}")
-        exit(1)
+# where links into this repo can be, for prune and status
+LINK_ROOTS = (".config", ".local/bin", ".local/share/applications")
+
+LOGGER = logging.getLogger("dotfiles")
 
 
-def reorder_old_backup_files() -> None:
-    glob_ptrn = f"*.[0-9].{BACKUP_TAR_FILE_FORMAT[0]}"
-    LOGGER.debug("backup: globbing old backups files.")
-    childs = [ch for ch in BACKUPS_DIR.glob(glob_ptrn)]
-    LOGGER.debug(f"backup: found {len(childs)} old backup files.")
-    childs.sort()
-    if len(childs) == 0:
+class InstallError(Exception):
+    pass
+
+
+# -- machine and profile
+
+
+def marker(machine: str) -> Path:
+    return DOTFILES_DIR / f".this_is_{machine}"
+
+
+def marked_machine() -> str | None:
+    found = [m for m in MACHINES if marker(m).exists()]
+    if len(found) > 1:
+        raise InstallError(
+            "both .this_is_desktop and .this_is_laptop exist, "
+            "keep one with: install.py machine <desktop|laptop>"
+        )
+    return found[0] if found else None
+
+
+def hostname_machine() -> str:
+    # same rule as .local/bin/machine_type
+    return "laptop" if "laptop" in socket.gethostname().lower() else "desktop"
+
+
+def set_machine(machine: str, dry_run: bool) -> None:
+    LOGGER.info("machine: %s", machine)
+    if dry_run:
         return
-    new_childs = []
-    suffix_indx = -1 * (3 + len(BACKUP_TAR_FILE_FORMAT[0]))
-    number_of_first = childs[0].name[suffix_indx + 1 : suffix_indx + 2]
-    if number_of_first != "1":
-        LOGGER.debug("backup: not found 1.tar.gz NOT DOING ANY REORDER THING")
-        return
-
-    if len(childs) >= BACKUP_MAX_LMT:
-        last_backup_file = childs.pop()
-        LOGGER.debug(
-            f"backup: remove oldest backup file by checking indx num of file: {last_backup_file.absolute()}."
-        )
-        if not global_options.dry_run:
-            os.remove(last_backup_file.absolute())
-
-    # rename from the highest number down (2->3 before 1->2), otherwise
-    # 1->2 silently overwrote the existing .2 backup
-    for indx, ch in reversed(list(enumerate(childs))):
-        LOGGER.debug(f"backup: trying to reorder file {indx}:{ch}")
-        # change last part 1.tar.gz => 2.tar.gz \ => 3.tar.gz
-
-        # absolute is necessary for rename in correct parent dir
-        new_ch_name = ch.parent.joinpath(
-            ch.name[:suffix_indx] + f".{indx + 2}.{BACKUP_TAR_FILE_FORMAT[0]}"
-            # +2 because
-            # indx 0 is must be renamed to 2.tar.gz
-            # indx 1 is must be renamed to 3.tar.gz
-        ).absolute()
-
-        LOGGER.debug(f"backup: old to new = {ch.name} -> {new_ch_name.name}")
-
-        if not global_options.dry_run:
-            new_ch = ch.rename(new_ch_name)
-            assert new_ch != ch, (
-                "Panic!: iterative move of old backups has a bug with renaming."
-            )
-            assert new_ch.parent == ch.parent, (
-                "Panic!: iterative move of old backups has directory bug."
-            )
-            new_childs.append(new_ch)
-        LOGGER.debug(f"backup: mov old backup {ch} to {new_ch_name}")
-    if len(childs) > 0 and new_childs:  # new_childs is empty in dry run
-        assert childs[0].absolute() != new_childs[-1].absolute(), (
-            "Panic!: iterative move of old backups has a bug probably."
-        )
+    for other in MACHINES:
+        if other != machine:
+            marker(other).unlink(missing_ok=True)
+    marker(machine).touch()
 
 
-def create_archive(
-    dir_to_archive: Path,
-) -> Path:
+def get_machine(ask: bool, dry_run: bool) -> str:
+    machine = marked_machine()
+    if machine:
+        return machine
+    guess = hostname_machine()
+    if not ask or not sys.stdin.isatty():
+        return guess
+    answer = input(f"which machine is this, desktop or laptop? [{guess}] ").strip()
+    machine = answer or guess
+    if machine not in MACHINES:
+        raise InstallError(f"unknown machine '{machine}'")
+    set_machine(machine, dry_run)
+    return machine
+
+
+def get_profiles(args: argparse.Namespace) -> list[str]:
+    given = [p for p in PROFILES if getattr(args, p)]
+    if given or not PROFILE_FILE.exists():
+        return given
+    saved = PROFILE_FILE.read_text().split()
+    return [p for p in PROFILES if p in saved]
+
+
+# -- what to link
+
+
+def selected_entries(machine: str, profiles: list[str]) -> list[str]:
+    entries = list(DOTFILES)
+    for profile in profiles:
+        entries += PROFILE_DOTFILES[profile]
+        entries += MACHINE_DOTFILES[machine].get(profile, [])
+    return entries
+
+
+def files_under(root: Path, entry: str) -> list[Path]:
+    """Paths of the files of an entry, relative to root."""
+    path = root / entry
+    if path.is_symlink() or path.is_file():
+        return [Path(entry)]
+    files: list[Path] = []
+    for dirpath, dirnames, filenames in os.walk(path):
+        dirnames[:] = sorted(d for d in dirnames if d not in SKIP_NAMES)
+        # a symlink to a directory is linked like a file
+        linked = [d for d in dirnames if Path(dirpath, d).is_symlink()]
+        dirnames[:] = [d for d in dirnames if d not in linked]
+        files += [
+            Path(dirpath, name).relative_to(root)
+            for name in sorted(filenames) + linked
+            if name not in SKIP_NAMES
+        ]
+    return files
+
+
+def wanted_links(machine: str, profiles: list[str]) -> dict[Path, Path]:
+    """{path relative to $HOME: file in this repo}"""
+    links: dict[Path, Path] = {}
+    overlay = DOTFILES_DIR / "machines" / machine
+    for entry in selected_entries(machine, profiles):
+        for root in (DOTFILES_DIR, overlay):  # the overlay wins
+            for rel in files_under(root, entry):
+                links[rel] = root / rel
+    return links
+
+
+def link_target(link: Path) -> Path:
+    """Absolute target of a symlink, without resolving further links."""
+    return Path(os.path.normpath(link.parent / os.readlink(link)))
+
+
+def in_repo(path: Path) -> bool:
+    return path.is_relative_to(DOTFILES_DIR)
+
+
+# -- backup
+
+
+class Backup:
+    """Keeps replaced files; makes an archive only if there were any."""
+
+    def __init__(self) -> None:
+        self.staging: Path | None = None
+
+    def add(self, path: Path) -> Path:
+        if self.staging is None:
+            BACKUPS_DIR.mkdir(exist_ok=True)
+            # kept if we crash, so nothing is ever lost
+            self.staging = Path(tempfile.mkdtemp(prefix="staging_", dir=BACKUPS_DIR))
+        kept = self.staging / path.relative_to(HOME_DIR)
+        kept.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(path, kept)
+        return kept
+
+    def archive(self) -> Path | None:
+        if self.staging is None:
+            return None
+        tmp = BACKUPS_DIR / f"{BACKUP_BASE_NAME}.new.tar.gz"
+        with tarfile.open(tmp, "w:gz") as tar:
+            for child in sorted(self.staging.iterdir()):
+                tar.add(child, arcname=child.name)
+        with tarfile.open(tmp) as tar:  # readable before the originals go
+            tar.getmembers()
+
+        def numbered(n: int) -> Path:
+            return BACKUPS_DIR / f"{BACKUP_BASE_NAME}.{n}.tar.gz"
+
+        for n in range(BACKUP_MAX_LMT - 1, 0, -1):  # 2->3 before 1->2
+            if numbered(n).exists():
+                os.replace(numbered(n), numbered(n + 1))
+        os.replace(tmp, numbered(1))
+        shutil.rmtree(self.staging)
+        self.staging = None
+        return numbered(1)
+
+
+# -- actions
+
+
+def prepare_parents(dst: Path, dry_run: bool) -> bool:
     """
-    Create a archive of files.
+    Make the parents of dst real directories. A parent that links into this
+    repo is replaced, otherwise we would create links inside the repo.
+    Returns True if there was one (then nothing of the user's is below it).
     """
-    reorder_old_backup_files()
-    backup_file_name = BACKUP_TAR_BASE_NAME + ".1"
-    LOGGER.info(f"backup: backup tar creating at '{BACKUPS_DIR}' .")
-    BACKUPS_DIR.mkdir(exist_ok=True)
-    archive_res = shutil.make_archive(
-        base_name=backup_file_name,
-        format=BACKUP_TAR_FILE_FORMAT[1],
-        root_dir=BACKUPS_DIR.absolute(),
-        base_dir=dir_to_archive,
-        dry_run=global_options.dry_run,
-    )
-    dst_path = BACKUPS_DIR.joinpath(backup_file_name + "." + BACKUP_TAR_FILE_FORMAT[0])
-    LOGGER.info(f"backup: backup tar created at {archive_res}.")
-    if global_options.dry_run:
-        # make_archive(dry_run=True) creates nothing, so there is nothing to move
-        LOGGER.info(f"backup: (dry run) would move {archive_res} to {dst_path}.")
-        return dst_path
-    shutil.move(archive_res, dst_path)
-    LOGGER.info(f"backup: backup tar moved to {dst_path}.")
-    return dst_path
+    replaced = False
+    for parent in reversed(dst.relative_to(HOME_DIR).parents):
+        path = HOME_DIR / parent
+        if path.is_symlink() and in_repo(link_target(path)):
+            LOGGER.info("unlink directory link %s", path)
+            if dry_run:
+                return True
+            path.unlink()
+            replaced = True
+        if path.exists() and not path.is_dir():
+            raise InstallError(f"{path} is not a directory")
+        if not dry_run:
+            path.mkdir(exist_ok=True)
+    return replaced
 
 
-def move_to_backup_dir(dotfile: Path):
-    """
-    - dfile must be relative_to HOME_DIR
-    - move current dotfile to BACKUPS_DIR
-    """
-    tmp_dir = Path(BACKUP_TMP_DIR.name)
-    assert tmp_dir.exists() and tmp_dir.is_dir(), (
-        f"{BACKUP_TMP_DIR=} must be exists and must be dir"
-    )
-    #  must be in this format : .config/hypr/hyprland.conf
-    #  not in this format : /home/mal1kc/.config/hypr/hyprland.conf
-    assert HOME_DIR not in dotfile.parents, (
-        f"{dotfile=} must be relative_to {HOME_DIR=}"
-    )
-
-    LOGGER.info(f"move_to_backup_dir: backuping {dotfile.absolute()}")
-    dst = Path(BACKUP_TMP_DIR.name).joinpath(dotfile)
-    src = HOME_DIR.joinpath(dotfile)
-    if not src.exists():
-        LOGGER.info(f"move_to_backup_dir: {src} not exits not doing backup for {src}")
-        return
-
-    assert src.exists(follow_symlinks=False), (
-        "src must be existsed on move_to_backup_dir"
-    )
-    assert src.is_file(), "src must be file on move_to_backup_dir"
-
-    assert not dst.exists(follow_symlinks=False), (
-        f"{dst=} must be not existed on move_to_backup_dir"
-    )
-    LOGGER.info(f"move_to_backup_dir: {src} backed up as {dst}")
-    if not global_options.dry_run:
-        if not dst.parent.exists():
-            LOGGER.debug(f"move_to_backup_dir: {dst.parent} not exists creating dir")
-            dst.parent.mkdir(parents=True, exist_ok=True)
-        assert dst.parent.exists(), (
-            f"{dst.parent} must be existed on move_to_backup_dir"
-        )
-        shutil.move(src.absolute(), dst.absolute())
-        assert dst.exists(follow_symlinks=False), (
-            "after a move of src , dst must be existed on move_to_backup_dir"
-        )
-
-
-def install_dotfile(dfile: Path) -> bool:
-    """
-    - This is recursive for folders
-    - Install a dotfile (symlink) if file exists on symlinked location move that file to BACKUP_TMP_DIR
-    """
-    src = DOTFILES_DIR.joinpath(dfile)
-    dst = HOME_DIR.joinpath(dfile)
-
-    LOGGER.debug(f"install_dotfile: {src.absolute()} to {dst.absolute()}")
-
-    # -- checks_start
-    if not src.exists(follow_symlinks=False):
-        LOGGER.error(f"install_dotfile: {src} not exists")
+def is_linked(dst: Path, src: Path) -> bool:
+    if not (dst.is_symlink() and link_target(dst) == src):
         return False
-
-    if dst.exists(follow_symlinks=False):
-        if not dst.is_symlink():
-            if dst.is_dir():
-                for subfile in dst.iterdir():
-                    if not install_dotfile(subfile.relative_to(HOME_DIR)):
-                        LOGGER.error(
-                            "install_dotfile: failed install_dotfile %s",
-                            subfile.relative_to(HOME_DIR),
-                        )
-            else:
-                if global_options.do_backup:
-                    move_to_backup_dir(dst.relative_to(HOME_DIR))
-                else:
-                    LOGGER.debug(f"install_dotfile: removing {dst.absolute()}")
-                    if not global_options.dry_run:
-                        os.remove(dst.absolute())
-                # in dry run nothing was moved, so dst still exists
-                assert global_options.dry_run or not dst.exists(
-                    follow_symlinks=False
-                ), f"{dst=} needs be not exists anymore."
-        else:
-            LOGGER.debug(
-                f"install_dotfile: found a symlink at {dst.absolute()} unlinking it."
-            )
-            if not global_options.dry_run:
-                os.unlink(dst.absolute())
-            assert global_options.dry_run or not dst.exists(
-                follow_symlinks=False
-            ), f"{dst=} needs be not exists anymore."
-    if src.is_dir():
-        LOGGER.info(
-            f"install_dotfile: {src=} is directory creating dir at destination."
-        )
-        if not global_options.dry_run:
-            dst.mkdir(parents=True, exist_ok=True)
-            assert dst.is_dir(), "directory must be created"
-        for subfile in src.iterdir():
-            if not install_dotfile(subfile.relative_to(DOTFILES_DIR)):
-                LOGGER.error(
-                    "install_dotfile: failed install_dotfile %s",
-                    subfile.relative_to(HOME_DIR),
-                )
-        return True
-
-    # -- checks_end
-    LOGGER.info(f"install_dotfile: linkink files {src.absolute()}  {dst.absolute()} ")
-    if not global_options.dry_run:
-        os.symlink(src, dst)
-        assert dst.is_symlink(), "dst must be symlink"
-    return True
-
-
-def cli_install_dotfiles() -> None:
-    """
-    Install dotfiles
-    """
-    for dfile in global_options.dotfiles:
-        if not install_dotfile(dfile):
-            LOGGER.debug(f"cli_uninstall_dotfiles: can't install {dfile.absolute()}")
-
-    dir_to_archive = Path(BACKUP_TMP_DIR.name)
-    assert dir_to_archive.is_dir(), "dir_to_archive must be dir"
-    assert dir_to_archive.is_absolute(), "dir_to_archive must be absolute"
-    if global_options.do_backup:
-        archive_file = create_archive(dir_to_archive)
-        LOGGER.debug(f"cli_install_dotfiles: create_archive returned {archive_file=}")
-        assert global_options.dry_run or archive_file.exists(follow_symlinks=False), (
-            "backup: can't created backup tar file"
-        )
-    BACKUP_TMP_DIR.cleanup()
-
-
-def cli_check_exists() -> None:
-    """
-    give state about non-existed dotfiles and already existed files
-    """
-    for dfile in global_options.dotfiles:
-        if not DOTFILES_DIR.joinpath(dfile).exists(follow_symlinks=False):
-            LOGGER.error(f"cli_check_exists: {dfile} not exists")
-            continue
-        LOGGER.info(f"cli_check_exists: {dfile} exists")
-
-
-def get_actions() -> list[dict[str, str | (Callable[..., None]) | dict[str, bool]]]:
-    return [
-        {
-            "name": "install",
-            "help": "Install dotfiles and scripts.",
-            "func": cli_install_dotfiles,
-            "args": {},
-        },
-        {
-            "name": "check_exists",
-            "help": "give state about non-existed dotfiles and already existed files",
-            "func": cli_check_exists,
-            "args": {},
-        },
-    ]
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Install dotfiles.")
-    _ = parser.add_argument(
-        "action",
-        choices=[action["name"] for action in get_actions()],
-        help="Action to perform.",
-    )
-    _ = parser.add_argument(
-        "--x11",
-        action="store_true",
-        help="include X11 related dotfiles to dotfiles_list",
+    return not any(
+        (HOME_DIR / p).is_symlink() and in_repo(link_target(HOME_DIR / p))
+        for p in dst.relative_to(HOME_DIR).parents
     )
 
-    _ = parser.add_argument(
-        "--wayland",
-        action="store_true",
-        help="include Wayland related dotfiles to dotfiles_list",
-    )
-    _ = parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Do not perform desctructive (delete,move) action .Just print what would be done.CAN BE FAIL",
-    )
-    _ = parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Print more information.",
+
+def link_file(dst: Path, src: Path, backup: Backup, dry_run: bool) -> str:
+    """Returns what was done: linked, relinked, unchanged or 'backed up'."""
+    if is_linked(dst, src):
+        return "unchanged"
+    replaced = prepare_parents(dst, dry_run)
+
+    result, kept = "linked", None
+    if replaced:
+        pass  # dst can't exist in a new directory
+    elif dst.is_symlink() and in_repo(link_target(dst)):
+        result = "relinked"
+        if not dry_run:
+            dst.unlink()
+    elif dst.is_dir() and not dst.is_symlink():
+        raise InstallError(f"{dst} is a directory, {src} is a file")
+    elif os.path.lexists(dst):
+        result = "backed up"
+        if not dry_run:
+            kept = backup.add(dst)
+
+    LOGGER.info("%s %s -> %s", result, dst, src)
+    if not dry_run:
+        try:
+            dst.symlink_to(src)
+        except OSError:
+            if kept is not None:
+                shutil.move(kept, dst)
+            raise
+    return result
+
+
+def do_install(args: argparse.Namespace) -> int:
+    machine = get_machine(ask=True, dry_run=args.dry_run)
+    profiles = get_profiles(args)
+    if profiles and not args.dry_run:
+        PROFILE_FILE.write_text(" ".join(profiles) + "\n")
+    LOGGER.info("machine: %s, profiles: %s", machine, " ".join(profiles) or "none")
+
+    done: Counter[str] = Counter()
+    backup = Backup()
+    try:
+        for rel, src in wanted_links(machine, profiles).items():
+            try:
+                done[link_file(HOME_DIR / rel, src, backup, args.dry_run)] += 1
+            except (OSError, InstallError) as err:
+                LOGGER.error("failed %s: %s", rel, err)
+                done["failed"] += 1
+    finally:
+        archive = backup.archive()
+
+    print(f"{machine}, profiles: {' '.join(profiles) or 'none'}")
+    summary = ("linked", "relinked", "unchanged", "backed up", "failed")
+    print(", ".join(f"{done[name]} {name}" for name in summary))
+    if archive:
+        print(f"replaced files are in {archive}")
+    if args.prune:
+        do_prune(args)
+    if args.reload:
+        reload_hyprland(args.dry_run)
+    return 1 if done["failed"] else 0
+
+
+def dead_links() -> list[Path]:
+    """Dead symlinks that point into this repo."""
+    candidates = [p for p in HOME_DIR.iterdir() if p.is_symlink()]
+    for root in LINK_ROOTS:
+        for dirpath, dirnames, filenames in os.walk(HOME_DIR / root):
+            if in_repo(Path(dirpath)):
+                dirnames.clear()
+                continue
+            candidates += [
+                path
+                for name in dirnames + filenames
+                if (path := Path(dirpath, name)).is_symlink()
+            ]
+    return sorted(
+        p for p in set(candidates) if in_repo(link_target(p)) and not p.exists()
     )
 
-    args = parser.parse_args()
 
-    if not args.dry_run:  # pyright: ignore[reportAny]
-        global_options.dry_run = False
-    if args.verbose:  # pyright: ignore[reportAny]
-        global_options.verbose = True
-        LOGGER.setLevel(logging.DEBUG)
-        LOGGER.addHandler(logging.StreamHandler(sys.stderr))  # sys.stderr
+def do_prune(args: argparse.Namespace) -> int:
+    links = dead_links()
+    for link in links:
+        LOGGER.info("remove dead link %s -> %s", link, link_target(link))
+        if not args.dry_run:
+            link.unlink()
+    print(f"{len(links)} dead links {'found' if args.dry_run else 'removed'}")
+    return 0
 
-    if args.x11:  # pyright: ignore[reportAny]
-        global_options.dotfiles += OTHER_DOTFILES["x11"]
-    if args.wayland:  # pyright: ignore[reportAny]
-        global_options.dotfiles += OTHER_DOTFILES["wayland"]
 
-    action = next(
-        (action for action in get_actions() if action["name"] == args.action),  # pyright: ignore[reportAny]
-        None,
+def git(*cmd: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", "-C", str(DOTFILES_DIR), *cmd], capture_output=True, text=True
     )
-    if action:
-        action["func"](**action["args"])  # type: ignore
+
+
+def git_out(*cmd: str) -> str:
+    result = git(*cmd)
+    if result.returncode != 0:
+        raise InstallError(f"git {' '.join(cmd)}: {result.stderr.strip()}")
+    return result.stdout.strip()
+
+
+def reload_hyprland(dry_run: bool) -> None:
+    if not os.environ.get("HYPRLAND_INSTANCE_SIGNATURE"):
+        return
+    if not shutil.which("hyprctl"):
+        return
+    LOGGER.info("reload hyprland")
+    if not dry_run:
+        subprocess.run(["hyprctl", "reload"], check=False)
+
+
+def do_update(args: argparse.Namespace) -> int:
+    marked_machine()  # both markers: stop before pulling
+    changes = git_out("status", "--porcelain", "--untracked-files=no")
+    if changes:
+        raise InstallError(f"commit or stash these first:\n{changes}")
+    if args.dry_run:
+        git_out("fetch")
+        print(git_out("log", "--oneline", "HEAD..@{upstream}") or "up to date")
+        return 0
+    old = git_out("rev-parse", "--short", "HEAD")
+    git_out("pull", "--ff-only")
+    new = git_out("rev-parse", "--short", "HEAD")
+    print(f"{old} -> {new}" if old != new else f"{old} up to date")
+    if old != new:
+        print(git_out("log", "--oneline", f"{old}..{new}"))
+
+    # run the install.py that was just pulled
+    cmd = [sys.executable, str(DOTFILES_DIR / "install.py"), "install"]
+    cmd += ["--prune", "--reload"]
+    cmd += [f"--{p}" for p in PROFILES if getattr(args, p)]
+    cmd += ["--verbose"] if args.verbose else []
+    sys.stdout.flush()
+    return subprocess.run(cmd, check=False).returncode
+
+
+def do_status(args: argparse.Namespace) -> int:
+    marked = marked_machine()
+    machine = marked or hostname_machine()
+    profiles = get_profiles(args)
+    print(f"repo:     {DOTFILES_DIR}")
+    print(f"machine:  {machine} ({'marker' if marked else 'guessed from hostname'})")
+    print(f"profiles: {' '.join(profiles) or 'none'}")
+
+    branch = git("branch", "--show-current").stdout.strip() or "detached"
+    counts = git("rev-list", "--left-right", "--count", "HEAD...@{upstream}")
+    if counts.returncode == 0:
+        ahead, behind = counts.stdout.split()
+        print(f"branch:   {branch}, {ahead} ahead, {behind} behind (last fetch)")
     else:
-        LOGGER.error(f"main: Action {args.action} not found.")  # pyright: ignore[reportAny]
+        print(f"branch:   {branch}, no upstream")
 
-    sys.exit(0)
+    problems = 0
+    for rel, src in wanted_links(machine, profiles).items():
+        dst = HOME_DIR / rel
+        if is_linked(dst, src):
+            continue
+        problems += 1
+        if not os.path.lexists(dst):
+            print(f"missing  ~/{rel}")
+        elif dst.is_symlink():
+            print(f"wrong    ~/{rel} -> {os.readlink(dst)}")
+        else:
+            print(f"not a link ~/{rel}")
+    for link in dead_links():
+        problems += 1
+        print(f"dead     ~/{link.relative_to(HOME_DIR)}")
+    print(f"{problems} problems" if problems else "all links are fine")
+    return 1 if problems else 0
+
+
+def do_check_exists(args: argparse.Namespace) -> int:
+    machine = marked_machine() or hostname_machine()
+    missing = 0
+    for entry in selected_entries(machine, get_profiles(args)):
+        roots = (DOTFILES_DIR, DOTFILES_DIR / "machines" / machine)
+        exists = any(os.path.lexists(root / entry) for root in roots)
+        missing += not exists
+        print(f"{'exists ' if exists else 'missing'} {entry}")
+    return 1 if missing else 0
+
+
+def do_machine(args: argparse.Namespace) -> int:
+    if args.value:
+        set_machine(args.value, args.dry_run)
+        print(args.value)
+        return 0
+    marked = marked_machine()
+    print(marked or f"{hostname_machine()} (guessed from hostname)")
+    return 0
+
+
+def do_packages(args: argparse.Namespace) -> int:
+    script = DOTFILES_DIR / "dotfiles_installers" / "archlinux_and_aur_install.sh"
+    cmd = [str(script), "list" if args.dry_run else "install"]
+    return subprocess.run(cmd, check=False).returncode
+
+
+ACTIONS = {
+    "install": (do_install, "link the dotfiles"),
+    "update": (do_update, "git pull, then install, prune and reload hyprland"),
+    "status": (do_status, "machine, branch and wrong/missing/dead links"),
+    "prune": (do_prune, "remove dead links that point into this repo"),
+    "machine": (do_machine, "show or set the machine: machine [desktop|laptop]"),
+    "packages": (do_packages, "install the package list (arch, aur)"),
+    "check_exists": (do_check_exists, "do the configured dotfiles exist in this repo"),
+}
+
+
+def setup_logging(args: argparse.Namespace) -> None:
+    LOGGER.setLevel(logging.INFO)
+    if args.verbose or args.dry_run:
+        LOGGER.addHandler(logging.StreamHandler(sys.stdout))
+    else:
+        errors = logging.StreamHandler(sys.stderr)
+        errors.setLevel(logging.ERROR)
+        LOGGER.addHandler(errors)
+    if args.action in ("install", "prune") and not args.dry_run:
+        handler = logging.FileHandler(LOGFILE, "w", "utf-8")
+        handler.setFormatter(
+            logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+        )
+        LOGGER.addHandler(handler)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Link the dotfiles of this repo into $HOME.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="actions:\n"
+        + "\n".join(f"  {name:<13} {text}" for name, (_, text) in ACTIONS.items()),
+    )
+    _ = parser.add_argument("action", choices=list(ACTIONS), metavar="action")
+    _ = parser.add_argument("value", nargs="?", help="only for the machine action")
+    for profile in PROFILES:
+        _ = parser.add_argument(
+            f"--{profile}",
+            action="store_true",
+            help=f"include {profile} dotfiles (remembered for the next runs)",
+        )
+    _ = parser.add_argument(
+        "--dry-run", action="store_true", help="only print what would be done"
+    )
+    _ = parser.add_argument("--verbose", action="store_true", help="print every change")
+    _ = parser.add_argument("--prune", action="store_true", help="install: also prune")
+    _ = parser.add_argument(
+        "--reload", action="store_true", help="install: also reload hyprland"
+    )
+    args = parser.parse_intermixed_args()
+
+    if args.value and args.action != "machine":
+        parser.error(f"{args.action} takes no value")
+    if args.value and args.value not in MACHINES:
+        parser.error(f"machine must be one of: {', '.join(MACHINES)}")
+
+    setup_logging(args)
+    try:
+        return ACTIONS[args.action][0](args)
+    except InstallError as err:
+        print(f"error: {err}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -1,0 +1,39 @@
+#!/bin/sh
+# Programs every compositor except hyprland starts (hyprland: autostart.lua).
+# Bars are in the config of the compositor.
+
+machine=$("$HOME/.local/bin/machine_type" 2>/dev/null) || machine=desktop
+
+run() {
+	command -v "$1" >/dev/null && "$@" &
+}
+
+if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+	# no --systemd without systemd --user, not fatal
+	dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+	run awww-daemon
+	run "$HOME/.config/hypr/scripts/start_idle_tool"
+fi
+
+run nm-applet
+run kdeconnect-indicator
+run keepassxc
+run /usr/lib/polkit-kde-authentication-agent-1
+run "$HOME/.local/bin/notifs" watch
+
+if [ -n "${DISPLAY:-}" ] && [ -e "$HOME/.Xresources" ]; then
+	xrdb -merge "$HOME/.Xresources"
+fi
+
+if [ "$machine" = desktop ]; then
+	# these don't end with the display, so they can be left from the last session
+	pgrep -u "$(id -u)" -f udiskie >/dev/null || run udiskie -At
+	pgrep -u "$(id -u)" -f change_wallpaper_after_n.sh >/dev/null ||
+		"$HOME/.config/hypr/scripts/change_wallpaper_after_n.sh" >"$HOME/.cache/ch_wallpaper.log" &
+	# blue light filter, hyprland has its own (bluelight.lua)
+	if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+		run "$HOME/.local/bin/start_wlsunset.sh"
+	fi
+fi
+
+exit 0

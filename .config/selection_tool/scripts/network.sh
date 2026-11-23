@@ -59,7 +59,7 @@ if command -v nmcli >/dev/null; then
     show_notification "Network" "Manager"
     ;;
   *)
-    echo "unkown argument"
+    echo "unknown argument"
     ;;
   esac
 else

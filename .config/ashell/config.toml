@@ -7,7 +7,7 @@ target = "stdout"
 
 
 [modules]
-left = ["appLauncher", ["WindowTitle"]]
+left = ["appLauncher", "palette", ["WindowTitle"]]
 center = ["Workspaces"]
 right = [["MediaPlayer"], ["Tray", "Privacy"], ["Settings", "Tempo"]]
 
@@ -24,13 +24,20 @@ truncate_title_after_length = 50
 enable_workspace_filling = true
 visibility_mode = "All"
 group_by_monitor = true
-enable_virtual_desktops = true
+# Only for the hyprland-virtual-desktops plugin; when true ashell sends
+# `vdesk N` on click, which fails on the Hyprland Lua config.
+enable_virtual_desktops = false
 indicator_format = "Name"
 
 [[CustomModule]]
 name = "appLauncher"
 icon = "󱗼"
 command = "fuzzel"
+
+[[CustomModule]]
+name = "palette"
+icon = "󰌌"
+command = "sh -c '~/.local/bin/select_tool_json.py hyprland'"
 
 [tempo]
 clock_format = "%R"

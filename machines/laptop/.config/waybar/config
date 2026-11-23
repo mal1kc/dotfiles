@@ -1,0 +1,263 @@
+{
+  "layer": "top", // Waybar at top layer
+  // "height": 24, // Waybar height (to be removed for auto height)
+  "spacing": 2, // Gaps between modules (4px)
+  "modules-left": [
+    "cpu",
+    "memory",
+    "disk#root",
+    // "disk#home", // desktop
+    "hyprland/window"
+  ],
+  "modules-center": [
+    "hyprland/workspaces",
+    "tray"
+  ],
+  "modules-right": [
+    "systemd-failed-units",
+    "mpris",
+    "backlight/slider", // laptop
+    "battery", // laptop
+    "network", // laptop
+    "wireplumber",
+    "clock"
+    // ,
+    // "custom/notification", // desktop
+    // "gamemode" // desktop
+  ],
+  // Modules configuration
+  "hyprland/workspaces": {
+    "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
+    "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+    "on-click": "activate",
+    "all-outputs": true,
+    "format": "{name}: {icon}",
+    "show-special": true,
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "special": "¿",
+      "urgent": "",
+      "focused": "",
+      "default": ""
+    }
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-connected": " {device_alias}",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+  },
+  "mpd": {
+    "format": "{filename} ({elapsedTime:%M:%S}/{totalTime:%M:%S})  {volume}% ",
+    "format-disconnected": "Disconnected ",
+    "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+    "unknown-tag": "N/A",
+    "interval": 2,
+    "consume-icons": {
+      "on": " "
+    },
+    "random-icons": {
+      "off": "<span color=\"#f53c3c\"></span> ",
+      "on": " "
+    },
+    "repeat-icons": {
+      "on": " "
+    },
+    "single-icons": {
+      "on": "1 "
+    },
+    "state-icons": {
+      "paused": "",
+      "playing": ""
+    },
+    "tooltip-format": "MPD (connected)",
+    "tooltip-format-disconnected": "MPD (disconnected)"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  },
+  "tray": {
+    // "icon-size": 16, // desktop
+    // "spacing": 5 // desktop
+    "icon-size": 12, // laptop
+    "spacing": 2 // laptop
+  },
+  "clock": {
+    "timezone": "Europe/Istanbul",
+    "format": "{:%H:%M}",
+    "format-alt": "{:%Y-%m-%d}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "left",
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+  "cpu": {
+    "format": "{usage}% ",
+    "tooltip": false
+  },
+  "memory": {
+    "format": "{}% "
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "{temperatureC}°C {icon}",
+    "format-icons": [
+      "",
+      "",
+      ""
+    ]
+  },
+  // Desktop
+  // "disk#root": {
+  //   "interval": 30,
+  //   "format": "{percentage_used}% {used} > /",
+  //   "path": "/",
+  // },
+  // "disk#home": {
+  //   "interval": 30,
+  //   "format": "{percentage_used}% {used} > home",
+  //   "path": "/home",
+  // },
+  // desktop
+  // "network": {
+  //   "format-wifi": "{essid} ({signalStrength}%) ",
+  //   "format-ethernet": "{ipaddr}/{cidr} ",
+  //   "tooltip-format": "{ifname} via {gwaddr} ",
+  //   "format-linked": "{ifname} (No IP) ",
+  //   "format-disconnected": "Disconnected ⚠",
+  //   "format-alt": "{ifname}: {ipaddr}/{cidr}"
+  // },
+  // laptop
+  "network": {
+    "format-wifi": "{essid} ({signalStrength}%)  ",
+    "format-ethernet": "{bandwidthUpBytes}↑ | {bandwidthDownBytes}↓ at {ipaddr} 󰱔 ",
+    "format-disconnected": "Disconnected 󰌙 "
+  },
+  "disk#root": {
+    "interval": 120,
+    "format": "{percentage_used}% {used} > /",
+    "path": "/",
+  },
+  "wireplumber": {
+    "format": "{volume}% {icon} {node_name}",
+    "format-muted": " {node_name}",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click": "$HOME/.local/bin/select_tool_json.py audio"
+  },
+  "mpris": {
+    "player": "playerctld",
+    "format": "{player_icon} {dynamic}",
+    "format-paused": "{status_icon} <i>{dynamic}</i>",
+    "dynamic-len": 40,
+    "ignored-players": [],
+    "player-icons": {
+      "default": "󰐊",
+      "MPV": "󰐌",
+      "firefox": "",
+    },
+    "status-icons": {
+      "paused": "󰏤",
+      "playing": "󰐊",
+      "stopped": "󰓛",
+    },
+    "interval": 1,
+  },
+  "hyprland/window": {
+    "format": "👉 {}",
+    "separate-outputs": true
+  },
+  // DEsktop - not used
+  // "custom/media": {
+  //   "format": "{icon} {}",
+  //   "return-type": "json",
+  //   "max-length": 40,
+  //   "on-click": "playerctl play-pause",
+  //   "on-click-right": "playerctl stop",
+  //   "format-icons": {
+  //     "spotify": "",
+  //     "default": "🎜"
+  //   },
+  //   "escape": true,
+  //   "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
+  //   "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+  // },
+  "systemd-failed-units": {
+    "hide-on-ok": true, // Do not hide if there is zero failed units.
+    "format": "✗ {nr_failed}",
+    "format-ok": "✓",
+    "system": true, // Monitor failed systemwide units.
+    "user": true
+  },
+  // desktop
+  // "custom/notification": {
+  //   "tooltip": false,
+  //   "format": " {icon}",
+  //   "format-icons": {
+  //     "notification": "  <span foreground='red'><sup> </sup></span>",
+  //     "none": " ",
+  //     "dnd-notification": "  <span foreground='red'><sup> </sup></span>",
+  //     "dnd-none": "  ",
+  //     "inhibited-notification": " <span foreground='red'><sup> </sup></span>",
+  //     "inhibited-none": " ",
+  //     "dnd-inhibited-notification": "  <span foreground='red'><sup> </sup></span>",
+  //     "dnd-inhibited-none": "  "
+  //   },
+  //   "return-type": "json",
+  //   "exec-if": "which swaync-client",
+  //   "exec": "swaync-client -swb",
+  //   "on-click": "swaync-client -t -sw",
+  //   "on-click-right": "swaync-client -d -sw",
+  //   "escape": true
+  // },
+  // laptop
+  "battery": {
+    "bat": "BAT0",
+    "interval": 60,
+    "states": {
+      "warning": 30,
+      "critical": 15,
+    },
+    "format": "{capacity}% {icon} ",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "max-length": 25
+  },
+  "backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal",
+  }
+}

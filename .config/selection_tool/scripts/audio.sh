@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # author:mal1kc github.com/mal1kc
-# dependecies
+# dependencies
 # fdfind  - fd -> https://github.com/sharkdp/fd (find alternative)
 # ripgrep - rg -> https://github.com/BurntSushi/ripgrep
 # awk, wireplumber (wpctl)
