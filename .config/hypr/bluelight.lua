@@ -2,16 +2,12 @@
 ---- BLUE LIGHT FILTER ----
 ---------------------------
 
--- Screen shader between sunset and sunrise, only on desktop.
+-- Screen shader between sunset and sunrise, started by machine.lua of
+-- the machines that want it: require("bluelight")(latitude, longitude)
 -- Every config load resets screen_shader and the timers, so all of this has to
 -- run at load and not in hl.on("hyprland.start").
 
-if Util.machine ~= "desktop" then
-	return
-end
-
-local LATITUDE = 40.92
-local LONGITUDE = 29.92
+local LATITUDE, LONGITUDE -- degrees, from machine.lua
 local SHADER = (os.getenv("HOME") or "") .. "/.config/hypr/shaders/blueLightFilter.frag"
 local CHECK_EVERY = 60 * 1000 -- ms
 
@@ -50,16 +46,20 @@ local function update()
 	return true
 end
 
--- silent here: it would show up at every reload
-update()
+return function(latitude, longitude)
+	LATITUDE, LONGITUDE = latitude, longitude
 
-hl.timer(function()
-	if update() then
-		hl.notification.create({
-			text = "Blue light filter " .. (enabled and "enabled" or "disabled"),
-			icon = "info",
-			timeout = 3000,
-			font_size = 16,
-		})
-	end
-end, { timeout = CHECK_EVERY, type = "repeat" })
+	-- silent here: it would show up at every reload
+	update()
+
+	hl.timer(function()
+		if update() then
+			hl.notification.create({
+				text = "Blue light filter " .. (enabled and "enabled" or "disabled"),
+				icon = "info",
+				timeout = 3000,
+				font_size = 16,
+			})
+		end
+	end, { timeout = CHECK_EVERY, type = "repeat" })
+end

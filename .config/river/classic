@@ -118,7 +118,7 @@ riverctl rule-add -app-id 'org.godotengine.ProjectManager' float
 riverctl rule-add -app-id 'org.kde.kdeconnect.daemon' float
 
 # autostart
-riverctl spawn "$bin/wm_autostart"
+riverctl spawn "$bin/wm_autostart river"
 
 riverctl default-layout rivertile
 rivertile -view-padding 3 -outer-padding 7 -main-ratio 0.6 &

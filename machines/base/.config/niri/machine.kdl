@@ -1,0 +1,9 @@
+// Settings of this machine, included at the end of config.kdl
+// Outputs are not set in base, niri picks mode and scale
+
+// names: niri msg outputs
+// output "DP-1" {
+//     mode "1920x1080"
+//     scale 1
+//     position x=0 y=0
+// }

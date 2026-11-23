@@ -1,32 +1,3 @@
-Util.MachineSpecificCfg(hl.config, {
-	misc = {
-		focus_on_activate = true,
-	},
-	decoration = {
-		shadow = {
-			enabled = true,
-		},
-	},
-	general = {
-		gaps_out = 8,
-	},
-}, "desktop")
-
-Util.MachineSpecificCfg(hl.config, {
-	decoration = {
-		shadow = {
-			enabled = false,
-		},
-	},
-	general = {
-		gaps_out = 7,
-	},
-	misc = {
-		animate_mouse_windowdragging = false,
-		focus_on_activate = false,
-	},
-}, "laptop")
-
 hl.config({
 	debug = {
 		disable_logs = false,
@@ -34,6 +5,7 @@ hl.config({
 	},
 	general = {
 		gaps_in = 3,
+		gaps_out = 7,
 		border_size = 2,
 		col = {
 			active_border = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
@@ -63,7 +35,7 @@ hl.config({
 		swallow_regex = "^(St)$",
 		swallow_exception_regex = "^(wev)$",
 		on_focus_under_fullscreen = 2, -- unfullscreen/unmaximize
-		-- focus_on_activate: machine specific (see above)
+		-- focus_on_activate: machine.lua
 		animate_manual_resizes = true,
 	},
 })

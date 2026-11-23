@@ -1,20 +1,3 @@
-hl.device({
-	name = "steelseries-steelseries-rival-3",
-	sensitivity = -0.9,
-})
-
-Util.MachineSpecificCfg(hl.config, {
-	input = {
-		scroll_factor = 1,
-	},
-}, "desktop")
-
-Util.MachineSpecificCfg(hl.config, {
-	input = {
-		scroll_factor = 2.0,
-	},
-}, "laptop")
-
 hl.config({
 	-- For all categories, see https://wiki.hypr.land/Configuring/Basics/Variables/
 	input = {

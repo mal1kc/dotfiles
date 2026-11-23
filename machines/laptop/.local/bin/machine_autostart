@@ -1,0 +1,13 @@
+#!/bin/sh
+# Programs only this machine starts. $1: hyprland, niri, river or i3.
+
+run() {
+	command -v "$1" >/dev/null && "$@" &
+}
+
+# bar
+case $1 in
+hyprland | niri) run ashell ;;
+esac
+
+exit 0

@@ -1,0 +1,23 @@
+#!/bin/sh
+# Programs only this machine starts. $1: hyprland, niri, river or i3.
+
+run() {
+	command -v "$1" >/dev/null && "$@" &
+}
+
+# bar
+case $1 in
+hyprland | niri) run qs -c noctalia-shell ;;
+esac
+
+# these don't end with the display, so they can be left from the last session
+pgrep -u "$(id -u)" -f udiskie >/dev/null || run udiskie -At
+pgrep -u "$(id -u)" -f change_wallpaper_after_n.sh >/dev/null ||
+	"$HOME/.config/hypr/scripts/change_wallpaper_after_n.sh" >"$HOME/.cache/ch_wallpaper.log" &
+
+# blue light filter, hyprland has its own (machine.lua)
+if [ "$1" != hyprland ] && [ -n "${WAYLAND_DISPLAY:-}" ]; then
+	run "$HOME/.local/bin/start_wlsunset.sh" 40.92 29.92
+fi
+
+exit 0

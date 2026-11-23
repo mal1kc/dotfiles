@@ -34,14 +34,17 @@
 #
 # - files of DOTFILES + the remembered --wayland / --x11 groups are symlinked
 #   one by one, directories are real directories
-# - machines/<desktop|laptop>/ mirrors $HOME and wins over the shared file
-# - the machine comes from .this_is_desktop / .this_is_laptop in this repo
+# - machines/<name>/ mirrors $HOME and wins over the core file
+# - machines/base/ is for any hardware, a start for new machines
+# - the machine comes from .this_is_<name> in this repo
+# - `new <name> --from <machine>` copies a machine to a new one
 # - replaced files go to .dotfiles_backups/, the last 3 archives are kept
 # - log of the last change: dotfiles_installer.log
 #
 import argparse
 import logging
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -59,7 +62,11 @@ BACKUPS_DIR: Path = DOTFILES_DIR / ".dotfiles_backups"
 BACKUP_BASE_NAME = "dotfiles_bckp"
 BACKUP_MAX_LMT = 3
 
-MACHINES = ("desktop", "laptop")
+MACHINES_DIR: Path = DOTFILES_DIR / "machines"
+BASE = "base"
+MACHINE_NAME = re.compile(r"[a-z0-9][a-z0-9_-]*")
+MARKER_PREFIX = ".this_is_"
+
 PROFILES = ("wayland", "x11")
 SKIP_NAMES = {"__pycache__", ".git"}
 
@@ -103,20 +110,18 @@ PROFILE_DOTFILES: dict[str, list[str]] = {
         # ".config/rofi",
     ],
     "wayland": [
+        ".config/ashell",
+        ".config/fnott",
         ".config/foot",
         ".config/fuzzel",
         ".config/hypr",
         ".config/niri",
+        ".config/noctalia",
         ".config/river",
+        ".config/swaync",
         ".config/waybar",
         # ".config/wofi",
     ],
-}
-
-# only on that machine, together with that profile
-MACHINE_DOTFILES: dict[str, dict[str, list[str]]] = {
-    "desktop": {"wayland": [".config/noctalia", ".config/swaync"]},
-    "laptop": {"wayland": [".config/ashell", ".config/fnott"]},
 }
 
 # where links into this repo can be, for prune and status
@@ -132,33 +137,85 @@ class InstallError(Exception):
 # -- machine and profile
 
 
-def marker(machine: str) -> Path:
-    return DOTFILES_DIR / f".this_is_{machine}"
+def machines() -> list[str]:
+    if not MACHINES_DIR.is_dir():
+        return []
+    found = {p.name for p in MACHINES_DIR.iterdir() if p.is_dir()}
+    return sorted(found, key=lambda m: (m != BASE, m))  # base first
+
+
+def check_machine(machine: str) -> str:
+    if machine not in machines():
+        raise InstallError(
+            f"unknown machine '{machine}', there are: {', '.join(machines())}. "
+            "make a new one with: install.py new <name> --from <machine>"
+        )
+    return machine
+
+
+def markers() -> list[Path]:
+    return sorted(
+        path
+        for path in DOTFILES_DIR.glob(MARKER_PREFIX + "*")
+        if MACHINE_NAME.fullmatch(path.name.removeprefix(MARKER_PREFIX))
+    )
 
 
 def marked_machine() -> str | None:
-    found = [m for m in MACHINES if marker(m).exists()]
+    found = markers()
     if len(found) > 1:
         raise InstallError(
-            "both .this_is_desktop and .this_is_laptop exist, "
-            "keep one with: install.py machine <desktop|laptop>"
+            f"{' and '.join(p.name for p in found)} exist, "
+            "keep one with: install.py machine <name>"
         )
-    return found[0] if found else None
+    if not found:
+        return None
+    return check_machine(found[0].name.removeprefix(MARKER_PREFIX))
 
 
 def hostname_machine() -> str:
-    # same rule as .local/bin/machine_type
-    return "laptop" if "laptop" in socket.gethostname().lower() else "desktop"
+    host = socket.gethostname().lower()
+    found = [m for m in machines() if m != BASE and m in host]
+    return max(found, key=len, default=BASE)
 
 
 def set_machine(machine: str, dry_run: bool) -> None:
     LOGGER.info("machine: %s", machine)
     if dry_run:
         return
-    for other in MACHINES:
-        if other != machine:
-            marker(other).unlink(missing_ok=True)
-    marker(machine).touch()
+    wanted = DOTFILES_DIR / (MARKER_PREFIX + machine)
+    for path in markers():
+        if path != wanted:
+            path.unlink()
+    wanted.touch()
+
+
+def create_machine(name: str, source: str, dry_run: bool) -> None:
+    """Copy a machine to machines/<name>/."""
+    if not MACHINE_NAME.fullmatch(name):
+        raise InstallError(f"'{name}': only a-z, 0-9, _ and - in machine names")
+    target = MACHINES_DIR / name
+    if name in machines() or os.path.lexists(target):
+        raise InstallError(f"machine '{name}' already exists")
+    check_machine(source)
+
+    # what the source doesn't have comes from base
+    files: dict[Path, Path] = {}
+    for root in (MACHINES_DIR / BASE, MACHINES_DIR / source):
+        files.update({rel: root / rel for rel in files_under(root, ".")})
+    # complete or not at all; a name machines() and git would ignore
+    staging = MACHINES_DIR.parent / f".new_machine_{name}.ignore"
+    try:
+        for rel, src in sorted(files.items()):
+            LOGGER.info("copy %s -> machines/%s/%s", src, name, rel)
+            if dry_run:
+                continue
+            (staging / rel).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, staging / rel, follow_symlinks=False)
+        if not dry_run:
+            staging.rename(target)
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
 
 
 def get_machine(ask: bool, dry_run: bool) -> str:
@@ -168,10 +225,14 @@ def get_machine(ask: bool, dry_run: bool) -> str:
     guess = hostname_machine()
     if not ask or not sys.stdin.isatty():
         return guess
-    answer = input(f"which machine is this, desktop or laptop? [{guess}] ").strip()
-    machine = answer or guess
-    if machine not in MACHINES:
-        raise InstallError(f"unknown machine '{machine}'")
+    known = ", ".join(machines())
+    question = f"which machine is this: {known} or a new name? [{guess}] "
+    machine = input(question).strip() or guess
+    if machine not in machines():
+        source = input(f"create '{machine}' from which one: {known}? [{guess}] ")
+        create_machine(machine, source.strip() or guess, dry_run)
+        if dry_run:  # there is nothing to link from yet
+            return source.strip() or guess
     set_machine(machine, dry_run)
     return machine
 
@@ -187,11 +248,10 @@ def get_profiles(args: argparse.Namespace) -> list[str]:
 # -- what to link
 
 
-def selected_entries(machine: str, profiles: list[str]) -> list[str]:
+def selected_entries(profiles: list[str]) -> list[str]:
     entries = list(DOTFILES)
     for profile in profiles:
         entries += PROFILE_DOTFILES[profile]
-        entries += MACHINE_DOTFILES[machine].get(profile, [])
     return entries
 
 
@@ -216,13 +276,33 @@ def files_under(root: Path, entry: str) -> list[Path]:
 
 def wanted_links(machine: str, profiles: list[str]) -> dict[Path, Path]:
     """{path relative to $HOME: file in this repo}"""
-    links: dict[Path, Path] = {}
-    overlay = DOTFILES_DIR / "machines" / machine
-    for entry in selected_entries(machine, profiles):
-        for root in (DOTFILES_DIR, overlay):  # the overlay wins
-            for rel in files_under(root, entry):
-                links[rel] = root / rel
+    entries = selected_entries(profiles)
+    links = {
+        rel: DOTFILES_DIR / rel
+        for entry in entries
+        for rel in files_under(DOTFILES_DIR, entry)
+    }
+    # the machine wins. Only files of a profile that isn't selected are left out,
+    # so a machine can have files that are in no list
+    overlay = MACHINES_DIR / machine
+    others = [e for entries_ in PROFILE_DOTFILES.values() for e in entries_]
+    for rel in files_under(overlay, "."):
+        if any(rel.is_relative_to(e) for e in entries) or not any(
+            rel.is_relative_to(e) for e in others
+        ):
+            links[rel] = overlay / rel
     return links
+
+
+def missing_files(machine: str) -> list[Path]:
+    """What base has and the machine doesn't (e.g. base got it later)."""
+    own = set(files_under(MACHINES_DIR / machine, "."))
+    return [f for f in files_under(MACHINES_DIR / BASE, ".") if f not in own]
+
+
+def print_missing_files(machine: str) -> None:
+    for rel in missing_files(machine):
+        print(f"note: machines/{machine} has no {rel}, copy it from machines/{BASE}")
 
 
 def link_target(link: Path) -> Path:
@@ -364,6 +444,7 @@ def do_install(args: argparse.Namespace) -> int:
     print(", ".join(f"{done[name]} {name}" for name in summary))
     if archive:
         print(f"replaced files are in {archive}")
+    print_missing_files(machine)
     if args.prune:
         do_prune(args)
     if args.reload:
@@ -371,8 +452,8 @@ def do_install(args: argparse.Namespace) -> int:
     return 1 if done["failed"] else 0
 
 
-def dead_links() -> list[Path]:
-    """Dead symlinks that point into this repo."""
+def repo_links() -> list[Path]:
+    """Symlinks that point into this repo."""
     candidates = [p for p in HOME_DIR.iterdir() if p.is_symlink()]
     for root in LINK_ROOTS:
         for dirpath, dirnames, filenames in os.walk(HOME_DIR / root):
@@ -384,18 +465,34 @@ def dead_links() -> list[Path]:
                 for name in dirnames + filenames
                 if (path := Path(dirpath, name)).is_symlink()
             ]
-    return sorted(
-        p for p in set(candidates) if in_repo(link_target(p)) and not p.exists()
-    )
+    return sorted(p for p in set(candidates) if in_repo(link_target(p)))
+
+
+def useless_links(args: argparse.Namespace) -> list[tuple[str, Path]]:
+    """Dead links, and links to another machine that this one doesn't replace."""
+    links = repo_links()
+    useless = [("dead", p) for p in links if not p.exists()]
+    machine = marked_machine()
+    if machine:  # not for a guess
+        wanted = wanted_links(machine, get_profiles(args))
+        useless += [
+            ("other machine", p)
+            for p in links
+            if p.exists()
+            and link_target(p).is_relative_to(MACHINES_DIR)
+            and not link_target(p).is_relative_to(MACHINES_DIR / machine)
+            and p.relative_to(HOME_DIR) not in wanted
+        ]
+    return useless
 
 
 def do_prune(args: argparse.Namespace) -> int:
-    links = dead_links()
-    for link in links:
-        LOGGER.info("remove dead link %s -> %s", link, link_target(link))
+    links = useless_links(args)
+    for kind, link in links:
+        LOGGER.info("remove link (%s) %s -> %s", kind, link, link_target(link))
         if not args.dry_run:
             link.unlink()
-    print(f"{len(links)} dead links {'found' if args.dry_run else 'removed'}")
+    print(f"{len(links)} useless links {'found' if args.dry_run else 'removed'}")
     return 0
 
 
@@ -423,7 +520,7 @@ def reload_hyprland(dry_run: bool) -> None:
 
 
 def do_update(args: argparse.Namespace) -> int:
-    marked_machine()  # both markers: stop before pulling
+    marked_machine()  # two markers: stop before pulling
     changes = git_out("status", "--porcelain", "--untracked-files=no")
     if changes:
         raise InstallError(f"commit or stash these first:\n{changes}")
@@ -475,18 +572,18 @@ def do_status(args: argparse.Namespace) -> int:
             print(f"wrong    ~/{rel} -> {os.readlink(dst)}")
         else:
             print(f"not a link ~/{rel}")
-    for link in dead_links():
+    for kind, link in useless_links(args):
         problems += 1
-        print(f"dead     ~/{link.relative_to(HOME_DIR)}")
+        print(f"{kind:<8} ~/{link.relative_to(HOME_DIR)}")
+    print_missing_files(machine)
     print(f"{problems} problems" if problems else "all links are fine")
     return 1 if problems else 0
 
 
 def do_check_exists(args: argparse.Namespace) -> int:
-    machine = marked_machine() or hostname_machine()
     missing = 0
-    for entry in selected_entries(machine, get_profiles(args)):
-        roots = (DOTFILES_DIR, DOTFILES_DIR / "machines" / machine)
+    for entry in selected_entries(get_profiles(args)):
+        roots = [DOTFILES_DIR] + [MACHINES_DIR / m for m in machines()]
         exists = any(os.path.lexists(root / entry) for root in roots)
         missing += not exists
         print(f"{'exists ' if exists else 'missing'} {entry}")
@@ -495,11 +592,25 @@ def do_check_exists(args: argparse.Namespace) -> int:
 
 def do_machine(args: argparse.Namespace) -> int:
     if args.value:
-        set_machine(args.value, args.dry_run)
-        print(args.value)
+        set_machine(check_machine(args.value), args.dry_run)
+        print(f"{args.value}, now run: install.py install --prune --reload")
         return 0
     marked = marked_machine()
     print(marked or f"{hostname_machine()} (guessed from hostname)")
+    print(f"there are: {', '.join(machines())}")
+    return 0
+
+
+def do_new(args: argparse.Namespace) -> int:
+    source = args.source or marked_machine() or hostname_machine()
+    create_machine(args.value, source, args.dry_run)
+    set_machine(args.value, args.dry_run)
+    if args.dry_run:
+        return 0
+    print(f"machine '{args.value}' created from {source}, edit these:")
+    for rel in files_under(MACHINES_DIR / args.value, "."):
+        print(f"  machines/{args.value}/{rel}")
+    print("then: install.py install --prune --reload, and commit the new directory")
     return 0
 
 
@@ -514,7 +625,8 @@ ACTIONS = {
     "update": (do_update, "git pull, then install, prune and reload hyprland"),
     "status": (do_status, "machine, branch and wrong/missing/dead links"),
     "prune": (do_prune, "remove dead links that point into this repo"),
-    "machine": (do_machine, "show or set the machine: machine [desktop|laptop]"),
+    "machine": (do_machine, "show or set the machine: machine [name]"),
+    "new": (do_new, "create a machine and use it: new <name> [--from <machine>]"),
     "packages": (do_packages, "install the package list (arch, aur)"),
     "check_exists": (do_check_exists, "do the configured dotfiles exist in this repo"),
 }
@@ -544,7 +656,7 @@ def main() -> int:
         + "\n".join(f"  {name:<13} {text}" for name, (_, text) in ACTIONS.items()),
     )
     _ = parser.add_argument("action", choices=list(ACTIONS), metavar="action")
-    _ = parser.add_argument("value", nargs="?", help="only for the machine action")
+    _ = parser.add_argument("value", nargs="?", help="name, for machine and new")
     for profile in PROFILES:
         _ = parser.add_argument(
             f"--{profile}",
@@ -559,12 +671,20 @@ def main() -> int:
     _ = parser.add_argument(
         "--reload", action="store_true", help="install: also reload hyprland"
     )
+    _ = parser.add_argument(
+        "--from",
+        dest="source",
+        metavar="machine",
+        help="new: machine to copy, default is the current one",
+    )
     args = parser.parse_intermixed_args()
 
-    if args.value and args.action != "machine":
+    if args.value and args.action not in ("machine", "new"):
         parser.error(f"{args.action} takes no value")
-    if args.value and args.value not in MACHINES:
-        parser.error(f"machine must be one of: {', '.join(MACHINES)}")
+    if args.action == "new" and not args.value:
+        parser.error("new needs a name")
+    if args.source and args.action != "new":
+        parser.error("--from is only for new")
 
     setup_logging(args)
     try:
