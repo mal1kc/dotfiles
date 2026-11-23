@@ -1,0 +1,117 @@
+{
+  "options": [
+    {
+      "name": "Show keybinds",
+      "command": "kitty --class show_binds nvim -R $HOME/.config/i3/config"
+    },
+    {
+      "name": "Window >",
+      "submenu": [
+        {
+          "name": "float / tile",
+          "command": "i3-msg floating toggle"
+        },
+        {
+          "name": "sticky",
+          "command": "i3-msg sticky toggle"
+        },
+        {
+          "name": "fullscreen",
+          "command": "i3-msg fullscreen toggle"
+        },
+        {
+          "name": "close",
+          "command": "i3-msg kill"
+        },
+        {
+          "name": "to left monitor",
+          "command": "i3-msg move container to output left"
+        },
+        {
+          "name": "to right monitor",
+          "command": "i3-msg move container to output right"
+        },
+        {
+          "name": "to scratchpad",
+          "command": "i3-msg move scratchpad"
+        }
+      ]
+    },
+    {
+      "name": "Layout >",
+      "submenu": [
+        {
+          "name": "tabbed / split",
+          "command": "i3-msg layout toggle tabbed split"
+        },
+        {
+          "name": "stacking",
+          "command": "i3-msg layout stacking"
+        },
+        {
+          "name": "toggle split",
+          "command": "i3-msg layout toggle split"
+        },
+        {
+          "name": "width >",
+          "submenu": [
+            {
+              "name": "33%",
+              "command": "i3-msg resize set width 33 ppt"
+            },
+            {
+              "name": "40%",
+              "command": "i3-msg resize set width 40 ppt"
+            },
+            {
+              "name": "50%",
+              "command": "i3-msg resize set width 50 ppt"
+            },
+            {
+              "name": "60%",
+              "command": "i3-msg resize set width 60 ppt"
+            },
+            {
+              "name": "75%",
+              "command": "i3-msg resize set width 75 ppt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Screenshot >",
+      "submenu": [
+        {
+          "name": "region",
+          "command": "$HOME/.local/bin/screenshot --notify"
+        },
+        {
+          "name": "fullscreen",
+          "command": "$HOME/.local/bin/screenshot_fullscreen --notify"
+        }
+      ]
+    },
+    {
+      "name": "Next wallpaper",
+      "command": "$HOME/.local/bin/ch_wallpaper.sh"
+    },
+    {
+      "name": "Session >",
+      "submenu": [
+        {
+          "name": "reload config",
+          "command": "i3-msg reload"
+        },
+        {
+          "name": "restart i3",
+          "command": "i3-msg restart"
+        }
+      ]
+    },
+    {
+      "name": "Power >",
+      "command": "$HOME/.local/bin/select_tool_json.py powermenu"
+    }
+  ]
+}

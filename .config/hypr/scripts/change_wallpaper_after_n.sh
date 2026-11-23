@@ -1,9 +1,9 @@
 #!/bin/dash
 
-WALLPAPPER_CHANGE_SCRPT="$HOME/.local/bin/ch_wallpaper.sh"
+CH_WP_SCRIPT="$HOME/.local/bin/ch_wallpaper.sh"
 sleep 5 # delay before start
 while :; do
   # was also called once before the loop, so it changed twice at startup
-  "$WALLPAPPER_CHANGE_SCRPT"
+  "$CH_WP_SCRIPT"
   sleep 1800
 done

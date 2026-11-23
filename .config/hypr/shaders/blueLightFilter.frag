@@ -1,15 +1,17 @@
-// https://github.com/hyprwm/Hyprland/blob/7b020ffa84e64d0734709b2489e1da5463689e61/example/screenShader.frag
+#version 300 es
+// https://github.com/hyprwm/Hyprland/blob/v0.57.2/example/screenShader.frag
 // Example blue light filter shader.
 
 precision mediump float;
-varying vec2 v_texcoord;
+in vec2 v_texcoord;
+layout(location = 0) out vec4 fragColor;
 uniform sampler2D tex;
 
 void main() {
 
-    vec4 pixColor = texture2D(tex, v_texcoord);
+    vec4 pixColor = texture(tex, v_texcoord);
 
     pixColor[2] *= 0.8;
 
-    gl_FragColor = pixColor;
+    fragColor = pixColor;
 }

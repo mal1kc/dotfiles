@@ -12,6 +12,9 @@
 
   git = !exec git
 
+	# Essentially GitHub's compare view: show all 'ahead' changes (incl working tree) vs the merge-base
+	diffbranch = !"git diff $(git diffbase)"
+
 	# Squash a branch to one commit against a branch with many non-main commits.
 	# This can't be an alias, but here's the hack.
 	#    # be on the new feature branch, be okay with rewriting it's history.
@@ -19,7 +22,12 @@
 
 
 	# What's the ancestor commit this branch shares with main?
+	# (diffbranch depends on this; it was commented out)
 	mainormaster = !"git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1"
+	diffbase = !"git merge-base origin/$(git mainormaster) HEAD"
+
+	# fyi to change a git checkout from master to main.. (gh's suggested commands:)
+	#    git branch -m master main; git fetch origin; git branch -u origin/main main; git remote set-head origin -a
 
 	# commit (past) WIP changes with a message stating when they happened.
 	# todo: maybe use `git commit --date=X` to set a past date. would need to pick one, tho.
@@ -30,7 +38,7 @@
 	pager = riff
 	autocrlf = false
 	eol = lf
-  compression = 5
+  compression = 2
 
 [filter "lfs"]
 	required = true

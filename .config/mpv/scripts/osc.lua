@@ -23,6 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]]
 
+-- uosc is a full UI of its own: with both loaded mpv shows two OSCs
+for _, dir in ipairs({ "scripts/uosc", "scripts/uosc.lua" }) do
+	if mp.find_config_file(dir) then
+		return
+	end
+end
+for _, script in ipairs(mp.get_property_native("scripts", {})) do
+	if script:find("uosc") then
+		return
+	end
+end
+
 mp.set_property("osc", "no")
 if mp.get_script_name() ~= "osc" then
 	-- reclaim osc script name after the builtin osc unloads

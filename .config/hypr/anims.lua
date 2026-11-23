@@ -1,3 +1,10 @@
+hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
+hl.curve("md_3_decel", { type = "bezier", points = { { 0.05, 0.7 }, { 0.1, 1 } } })
+hl.curve("md_3_accel", { type = "bezier", points = { { 0.3, 0 }, { 0.8, 0.15 } } })
+hl.curve("popin", { type = "bezier", points = { { 0.1, 1.5 }, { 0.76, 0.92 } } })
+hl.curve("menu_decel", { type = "bezier", points = { { 0.1, 1 }, { 0, 1 } } })
+hl.curve("menu_accel", { type = "bezier", points = { { 0.38, 0.04 }, { 1, 0.07 } } })
+
 hl.animation({
 	leaf = "windows",
 	enabled = true,
@@ -31,6 +38,13 @@ hl.animation({
 	speed = 3,
 	bezier = "md_3_decel",
 })
+-- flash of hover.lua
+hl.animation({
+	leaf = "fadeSwitch",
+	enabled = true,
+	speed = 1.5,
+	bezier = "md_3_decel",
+})
 hl.animation({
 	leaf = "layersIn",
 	enabled = true,
@@ -61,7 +75,8 @@ hl.animation({
 	enabled = true,
 	speed = 7,
 	bezier = "menu_decel",
-	style = "slide",
+	-- workspaces up/down, columns left/right (like niri)
+	style = "slidevert",
 })
 hl.animation({
 	leaf = "specialWorkspace",
