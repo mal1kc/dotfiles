@@ -79,6 +79,31 @@
       "name": "Layout >",
       "submenu": [
         {
+          "name": "layout of this workspace >",
+          "submenu": [
+            {
+              "name": "scrolling",
+              "command": "hyprctl eval 'Util.set_layout(\"scrolling\")'"
+            },
+            {
+              "name": "masterscroll",
+              "command": "hyprctl eval 'Util.set_layout(\"masterscroll\")'"
+            },
+            {
+              "name": "master",
+              "command": "hyprctl eval 'Util.set_layout(\"master\")'"
+            },
+            {
+              "name": "dwindle",
+              "command": "hyprctl eval 'Util.set_layout(\"dwindle\")'"
+            },
+            {
+              "name": "monocle",
+              "command": "hyprctl eval 'Util.set_layout(\"monocle\")'"
+            }
+          ]
+        },
+        {
           "name": "column width >",
           "submenu": [
             {
