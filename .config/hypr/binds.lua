@@ -224,6 +224,8 @@ hl.bind(
 	mainMod .. " + M",
 	layout_msg({ scrolling = "colresize 0.6", ["lua:masterscroll"] = "colresize 0.6", master = "mfact exact 0.6" })
 )
+-- current workspace: masterscroll <-> scrolling (until a reload)
+hl.bind(mainMod .. " + SHIFT + M", Util.toggle_masterscroll)
 -- visible columns share the screen
 hl.bind(mainMod .. " + G", layout_msg({ scrolling = "fit visible" }))
 -- stack into the previous column / take out again
